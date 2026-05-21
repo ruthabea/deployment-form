@@ -762,6 +762,25 @@
     .saved-table td.cell-actions {
       white-space: nowrap;
     }
+    .archive-filter-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      font-size: 0.85rem;
+    }
+    .archive-filter-wrap label {
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .archive-filter-wrap select {
+      padding: 0.35rem 0.5rem;
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--input-bg);
+      color: var(--text);
+    }
     .saved-table .cell-clip {
       max-width: 140px;
       overflow: hidden;
@@ -1794,6 +1813,12 @@
         Completed requests you tag here stay in this browser until you restore or delete them.
       </p>
       <p id="archiveEmpty" class="saved-empty">Nothing archived yet. Rows appear here when <strong>PPT</strong> and <strong>PROD</strong> are each <strong>Deployed</strong> with <strong>RFC and date</strong>, or when one is <strong>N/A</strong> and the other is <strong>Deployed</strong> with RFC and date.</p>
+      <div id="archiveFilterWrap" class="archive-filter-wrap" hidden>
+        <label for="archiveFilterMonth">Filter by PROD deployment month:</label>
+        <select id="archiveFilterMonth">
+          <option value="">All months</option>
+        </select>
+      </div>
       <div id="archiveTableWrap" class="saved-table-wrap" hidden>
         <table class="saved-table">
           <thead>
@@ -1838,6 +1863,12 @@
       <p id="summaryEmpty" class="saved-empty">
         Nothing to summarize yet. Completed requests appear here after they are fully deployed in Archive (PPT and PROD with RFC and date for each).
       </p>
+      <div id="summaryFilterWrap" class="archive-filter-wrap" hidden>
+        <label for="summaryFilterMonth">Filter by PROD deployment month:</label>
+        <select id="summaryFilterMonth">
+          <option value="">All months</option>
+        </select>
+      </div>
       <div id="summaryTableWrap" class="saved-table-wrap" hidden>
         <table class="saved-table">
           <thead>
@@ -3106,10 +3137,14 @@
       var archiveEmpty = document.getElementById("archiveEmpty");
       var archiveHint = document.getElementById("archiveHint");
       var archiveCount = document.getElementById("archiveCount");
+      var archiveFilterWrap = document.getElementById("archiveFilterWrap");
+      var archiveFilterMonth = document.getElementById("archiveFilterMonth");
       var summaryTableWrap = document.getElementById("summaryTableWrap");
       var summaryEntriesBody = document.getElementById("summaryEntriesBody");
       var summaryEmpty = document.getElementById("summaryEmpty");
       var summaryCount = document.getElementById("summaryCount");
+      var summaryFilterWrap = document.getElementById("summaryFilterWrap");
+      var summaryFilterMonth = document.getElementById("summaryFilterMonth");
 
       function uniqueId() {
         if (typeof crypto !== "undefined" && crypto.randomUUID) {
@@ -3589,27 +3624,72 @@
         renderArchiveList();
       }
 
+      function getMonthsFromEntries(entries) {
+        var months = {};
+        entries.forEach(function (e) {
+          var prodDate = String(e.prodDeploymentDate || "").trim();
+          if (prodDate) {
+            var parts = prodDate.split("-");
+            if (parts.length >= 2) {
+              var key = parts[0] + "-" + parts[1];
+              var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+              var label = monthNames[parseInt(parts[1], 10) - 1] + " " + parts[0];
+              months[key] = label;
+            }
+          }
+        });
+        return Object.keys(months).sort().reverse().map(function (k) { return { value: k, label: months[k] }; });
+      }
+
+      function populateMonthFilter(selectEl, entries) {
+        if (!selectEl) return;
+        var currentVal = selectEl.value;
+        var months = getMonthsFromEntries(entries);
+        selectEl.innerHTML = '<option value="">All months</option>';
+        months.forEach(function (m) {
+          var opt = document.createElement("option");
+          opt.value = m.value;
+          opt.textContent = m.label;
+          selectEl.appendChild(opt);
+        });
+        selectEl.value = currentVal;
+      }
+
+      function filterByMonth(entries, monthKey) {
+        if (!monthKey) return entries;
+        return entries.filter(function (e) {
+          var prodDate = String(e.prodDeploymentDate || "").trim();
+          return prodDate.startsWith(monthKey);
+        });
+      }
+
       function renderArchiveList() {
         var list = readSavedEntries();
         var archived = list.filter(function (e) {
           return e && isEntryArchived(e);
         });
-        if (archiveCount) {
-          archiveCount.textContent = "(" + archived.length + ")";
-        }
         if (!archiveEntriesBody || !archiveTableWrap || !archiveEmpty) return;
         if (!archived.length) {
           archiveEntriesBody.innerHTML = "";
           archiveTableWrap.hidden = true;
           archiveEmpty.hidden = false;
           if (archiveHint) archiveHint.hidden = true;
+          if (archiveFilterWrap) archiveFilterWrap.hidden = true;
+          if (archiveCount) archiveCount.textContent = "(0)";
           return;
         }
         archiveEmpty.hidden = true;
         if (archiveHint) archiveHint.hidden = true;
+        if (archiveFilterWrap) archiveFilterWrap.hidden = false;
+        populateMonthFilter(archiveFilterMonth, archived);
+        var selectedMonth = archiveFilterMonth ? archiveFilterMonth.value : "";
+        var filtered = filterByMonth(archived, selectedMonth);
+        if (archiveCount) {
+          archiveCount.textContent = selectedMonth ? "(" + filtered.length + " of " + archived.length + ")" : "(" + archived.length + ")";
+        }
         archiveTableWrap.hidden = false;
         archiveEntriesBody.innerHTML = "";
-        archived.forEach(function (entry) {
+        filtered.forEach(function (entry) {
           var tr = document.createElement("tr");
           var archWhen = entry.archivedAt
             ? new Date(entry.archivedAt).toLocaleString()
@@ -3712,20 +3792,26 @@
           var tb = b.archivedAt ? new Date(b.archivedAt).getTime() : 0;
           return tb - ta;
         });
-        if (summaryCount) {
-          summaryCount.textContent = "(" + archived.length + ")";
-        }
         if (!summaryEntriesBody || !summaryTableWrap || !summaryEmpty) return;
         if (!archived.length) {
           summaryEntriesBody.innerHTML = "";
           summaryTableWrap.hidden = true;
           summaryEmpty.hidden = false;
+          if (summaryFilterWrap) summaryFilterWrap.hidden = true;
+          if (summaryCount) summaryCount.textContent = "(0)";
           return;
         }
         summaryEmpty.hidden = true;
+        if (summaryFilterWrap) summaryFilterWrap.hidden = false;
+        populateMonthFilter(summaryFilterMonth, archived);
+        var selectedMonth = summaryFilterMonth ? summaryFilterMonth.value : "";
+        var filtered = filterByMonth(archived, selectedMonth);
+        if (summaryCount) {
+          summaryCount.textContent = selectedMonth ? "(" + filtered.length + " of " + archived.length + ")" : "(" + archived.length + ")";
+        }
         summaryTableWrap.hidden = false;
         summaryEntriesBody.innerHTML = "";
-        archived.forEach(function (entry) {
+        filtered.forEach(function (entry) {
           var desc = String(entry.description == null ? "" : entry.description).trim();
           var pptDateRaw = String(entry.pptDeploymentDate || "").trim();
           var pptDateDisp = pptDateRaw
@@ -3981,6 +4067,12 @@
       }
       if (savedFilterProd) {
         savedFilterProd.addEventListener("change", renderSavedList);
+      }
+      if (archiveFilterMonth) {
+        archiveFilterMonth.addEventListener("change", renderArchiveList);
+      }
+      if (summaryFilterMonth) {
+        summaryFilterMonth.addEventListener("change", renderSummaryList);
       }
 
       if (savedEntriesBody) {
@@ -4498,16 +4590,20 @@
 
       function doExportAllSummary(hasXlsx) {
         var allSaved = readSavedEntries();
-        var list = allSaved.filter(function (e) {
+        var archived = allSaved.filter(function (e) {
           return e && isEntryArchived(e);
         });
-        list.sort(function (a, b) {
+        archived.sort(function (a, b) {
           var ta = a.archivedAt ? new Date(a.archivedAt).getTime() : 0;
           var tb = b.archivedAt ? new Date(b.archivedAt).getTime() : 0;
           return tb - ta;
         });
+        var selectedMonth = summaryFilterMonth ? summaryFilterMonth.value : "";
+        var list = filterByMonth(archived, selectedMonth);
         if (!list.length) {
-          if (allSaved.length) {
+          if (archived.length && selectedMonth) {
+            alert("No entries for the selected month filter.");
+          } else if (allSaved.length) {
             alert(
               "No summary entries to export. Summary includes only archived (fully deployed) entries."
             );
