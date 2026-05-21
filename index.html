@@ -750,6 +750,15 @@
     .saved-table tr:last-child td {
       border-bottom: none;
     }
+    .saved-table tr.to-be-planned {
+      background: rgba(255, 193, 7, 0.25);
+    }
+    .saved-table tr.to-be-planned td {
+      border-color: rgba(255, 193, 7, 0.4);
+    }
+    html[data-theme="light"] .saved-table tr.to-be-planned {
+      background: rgba(255, 193, 7, 0.35);
+    }
     .saved-table td.cell-actions {
       white-space: nowrap;
     }
@@ -3528,6 +3537,11 @@
         savedEntriesBody.innerHTML = "";
         filtered.forEach(function (entry) {
           var tr = document.createElement("tr");
+          var pptStatus = normalizeDeploymentStatus(entry.pptDeploymentStatus);
+          var prodStatus = normalizeDeploymentStatus(entry.prodDeploymentStatus);
+          if (pptStatus === "To be Planned" || prodStatus === "To be Planned") {
+            tr.className = "to-be-planned";
+          }
           var when = entry.savedAt
             ? new Date(entry.savedAt).toLocaleString()
             : "—";
