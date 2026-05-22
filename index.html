@@ -2089,8 +2089,9 @@
       var calendarNavLink = document.querySelector('.header-saved-link a[href="#calendar"]');
       var hideCalendarBtn = document.getElementById("hideCalendarBtn");
       var THEME_STORAGE_KEY = "deploymentFormTheme_v1";
-      /** Change this password to protect Delete and Clear all saved. */
-      var DESTRUCTIVE_ACTION_PASSWORD = "Abby@0529";
+      /** Password is encoded to hide from casual inspection */
+      var _k = [57,50,53,48,64,121,98,98,65];
+      var DESTRUCTIVE_ACTION_PASSWORD = _k.map(function(c){return String.fromCharCode(c)}).reverse().join("");
 
       function showPasswordPrompt(onResult) {
         var overlay = document.getElementById("passwordPromptOverlay");
