@@ -4031,8 +4031,10 @@
             '<td class="cell-clip">' +
             escapeHtml(entry.application || "—") +
             "</td>" +
-            '<td class="cell-clip">' +
-            escapeHtml(entry.requesterName || "—") +
+            '<td class="cell-clip" title="' +
+            escapeAttr(entry.requester) +
+            '">' +
+            escapeHtml(entry.requester || "—") +
             "</td>" +
             '<td class="cell-clip">' +
             escapeHtml(entry.incidentId || "—") +
