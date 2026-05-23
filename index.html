@@ -240,8 +240,8 @@
       padding: 0;
     }
     legend {
-      font-size: 0.75rem;
-      font-weight: 600;
+      font-size: 0.95rem;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
       color: var(--muted);
@@ -250,6 +250,7 @@
       width: 100%;
       padding-bottom: 0.35rem;
       border-bottom: 1px solid var(--border);
+      text-decoration: underline;
     }
     .row {
       display: grid;
@@ -500,8 +501,8 @@
       box-sizing: border-box;
       min-height: 10rem;
       resize: vertical;
-      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
-      font-size: 0.62rem;
+      font-family: inherit;
+      font-size: 0.88rem;
       line-height: 1.42;
       color: var(--text);
       background: rgba(10, 14, 20, 0.88);
@@ -775,6 +776,261 @@
     .saved-table td.cell-actions {
       white-space: nowrap;
     }
+    #weeklyTrendTableWrap {
+      max-width: 680px;
+      margin-left: 0;
+      margin-right: auto;
+    }
+    .weekly-trend-table {
+      border: 2px solid var(--border);
+    }
+    .weekly-trend-table th,
+    .weekly-trend-table td {
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .weekly-trend-table th:first-child,
+    .weekly-trend-table td:first-child {
+      text-align: left;
+    }
+    .weekly-trend-content {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .weekly-trend-left {
+      flex: 0 0 auto;
+    }
+    .weekly-trend-right {
+      flex: 1 1 400px;
+      min-width: 350px;
+      max-width: 650px;
+    }
+    .weekly-trend-chart-wrap {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    .weekly-trend-chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .weekly-trend-chart-header h3 {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .chart-filters {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: flex-end;
+    }
+    .chart-month-filter,
+    .table-month-filter {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+    }
+    .table-month-filter {
+      margin-bottom: 0.5rem;
+    }
+    .chart-month-filter label,
+    .table-month-filter label {
+      color: var(--muted);
+    }
+    .chart-month-filter select,
+    .table-month-filter select {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--fg);
+      width: 80px;
+    }
+    #appTrendMonthFilter,
+    #tableMonthFilter,
+    #chartMonthFilter {
+      min-width: 80px;
+      width: 100px;
+    }
+    .chart-month-filter select option,
+    .table-month-filter select option {
+      background: var(--card-bg);
+      color: var(--fg);
+    }
+    html[data-theme="dark"] .chart-month-filter select option,
+    html[data-theme="dark"] .table-month-filter select option {
+      background: #2d2d2d;
+      color: #e5e5e5;
+    }
+    .monthly-trend-content {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .monthly-trend-left {
+      flex: 0 0 auto;
+    }
+    .monthly-trend-right {
+      flex: 1 1 500px;
+      min-width: 400px;
+      max-width: 800px;
+    }
+    .monthly-trend-table-wrap {
+      max-width: 550px;
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .monthly-trend-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      border: 2px solid var(--border);
+    }
+    .monthly-trend-table th,
+    .monthly-trend-table td {
+      padding: 0.45rem 0.6rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .monthly-trend-table th {
+      background: var(--table-head-bg);
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .monthly-trend-table th:first-child,
+    .monthly-trend-table td:first-child {
+      text-align: left;
+    }
+    .monthly-trend-chart-wrap {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+    .monthly-trend-chart-title {
+      margin: 0 0 0.75rem 0;
+      font-size: 0.95rem;
+      color: var(--fg);
+      text-align: center;
+    }
+    #monthlyTrendChart {
+      width: 100% !important;
+      max-height: 350px;
+    }
+    .week-selector {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .week-selector label {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .week-selector input[type="checkbox"] {
+      cursor: pointer;
+    }
+    #weeklyTrendChart {
+      width: 100% !important;
+      max-height: 320px;
+    }
+    .app-trend-section {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .app-trend-tables-row {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .app-trend-left-panel,
+    .app-trend-right-panel {
+      flex: 0 0 auto;
+    }
+    .app-trend-title {
+      font-size: 1rem;
+      margin: 0 0 0.75rem 0;
+      color: var(--fg);
+    }
+    .app-trend-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: inline-block;
+    }
+    .app-trend-table {
+      width: auto;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      border: 2px solid var(--border);
+    }
+    .monthly-app-table {
+      border: 2px solid var(--border);
+    }
+    .monthly-app-table th,
+    .monthly-app-table td {
+      border: 1px solid var(--border);
+    }
+    .monthly-app-table tfoot td {
+      font-weight: 700;
+      background: var(--table-head-bg);
+    }
+    .app-trend-table th,
+    .app-trend-table td {
+      padding: 0.4rem 0.5rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .app-trend-week-col {
+      text-align: left !important;
+      background: var(--table-head-bg);
+    }
+    .app-trend-table td:first-child {
+      text-align: left;
+      white-space: nowrap;
+      background: var(--card-bg);
+    }
+    .app-group-fe { background: #fff3cd; color: #856404; }
+    .app-group-be { background: #d4edda; color: #155724; }
+    .app-group-ods { background: #cce5ff; color: #004085; }
+    .app-group-infra { background: #f8d7da; color: #721c24; }
+    .app-group-sd { background: #d1ecf1; color: #0c5460; }
+    html[data-theme="dark"] .app-group-fe { background: #5c4d1e; color: #ffeeba; }
+    html[data-theme="dark"] .app-group-be { background: #1e4d2b; color: #c3e6cb; }
+    html[data-theme="dark"] .app-group-ods { background: #1e3a5f; color: #b8daff; }
+    html[data-theme="dark"] .app-group-infra { background: #5c1e24; color: #f5c6cb; }
+    html[data-theme="dark"] .app-group-sd { background: #1e4d5c; color: #bee5eb; }
+    .app-trend-table input.planned-input {
+      width: 45px;
+      padding: 0.2rem 0.3rem;
+      font-size: 0.78rem;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: var(--input-bg);
+      color: var(--fg);
+    }
+    .app-trend-table .deployed-cell {
+      font-weight: 600;
+    }
     .archive-filter-wrap {
       display: flex;
       align-items: center;
@@ -959,6 +1215,32 @@
     }
     .calendar-day-note .rfc-link:hover {
       color: #2563eb;
+    }
+    .calendar-legend {
+      margin-top: 1.25rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--card-bg);
+      font-size: 0.85rem;
+    }
+    .calendar-legend-title {
+      margin: 0 0 0.5rem 0;
+      font-weight: 700;
+      text-decoration: underline;
+      color: var(--fg);
+    }
+    .calendar-legend-list {
+      margin: 0;
+      padding-left: 1.25rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+    .calendar-legend-list li {
+      margin-bottom: 0.25rem;
+    }
+    .calendar-legend-list li:last-child {
+      margin-bottom: 0;
     }
     .calendar-note-editor {
       margin-top: 1rem;
@@ -1176,6 +1458,15 @@
         #f8fafc 100%
       ) !important;
     }
+    html[data-theme="light"] .mandatory-inline {
+      color: #92400e;
+      background: rgba(251, 191, 36, 0.35);
+      border-color: rgba(180, 83, 9, 0.5);
+    }
+    html[data-theme="light"] .mandatory-pill {
+      color: #1c1917;
+      border-color: rgba(180, 83, 9, 0.6);
+    }
     html[data-theme="light"] .btn-danger {
       color: #b91c1c;
       border-color: rgba(220, 38, 38, 0.45);
@@ -1279,12 +1570,14 @@
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 </head>
 <body>
   <div class="wrap">
     <header>
       <div class="header-top">
-        <h1>DEPLOYMENT / HOTFIX REQUEST</h1>
+        <h1 id="mainHeading">DEPLOYMENT / HOTFIX REQUEST</h1>
         <button
           type="button"
           class="theme-toggle-btn"
@@ -1314,6 +1607,10 @@
         <a href="#deleted">Deleted Hotfixes</a>
         <span class="header-nav-sep" aria-hidden="true">·</span>
         <a href="#summary">Summary / Deployed Hotfixes</a>
+        <span class="header-nav-sep" aria-hidden="true">·</span>
+        <a href="#weekly-trend">Weekly Trend</a>
+        <span class="header-nav-sep" aria-hidden="true">·</span>
+        <a href="#monthly-trend">Monthly Trend</a>
         <span class="header-nav-sep" aria-hidden="true">·</span>
         <a href="#calendar">Deployment Calendar</a>
       </p>
@@ -1764,7 +2061,7 @@
         <input
           type="search"
           id="savedSearchInput"
-          placeholder="Incident ID, hotfix #, application, requester, or entry id…"
+          placeholder="Incident ID, hotfix #, RFC, application, requester, or entry id…"
           autocomplete="off"
           spellcheck="false"
         />
@@ -1830,12 +2127,23 @@
         Completed requests you tag here stay in this browser until you restore or delete them.
       </p>
       <p id="archiveEmpty" class="saved-empty">Nothing archived yet. Rows appear here when <strong>PPT</strong> and <strong>PROD</strong> are each <strong>Deployed</strong> with <strong>RFC and date</strong>, or when one is <strong>N/A</strong> and the other is <strong>Deployed</strong> with RFC and date.</p>
-      <div id="archiveFilterWrap" class="archive-filter-wrap" hidden>
-        <label for="archiveFilterMonth">Filter by PROD deployment month:</label>
-        <select id="archiveFilterMonth">
-          <option value="">All months</option>
-        </select>
+      <div id="archiveSearchWrap" class="saved-search-wrap" hidden>
+        <label for="archiveSearchInput">Search archive</label>
+        <input
+          type="search"
+          id="archiveSearchInput"
+          placeholder="Incident ID, hotfix #, RFC, application, requester…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <div class="archive-filter-wrap" style="margin-top: 0.5rem;">
+          <label for="archiveFilterMonth">Filter by PROD deployment month:</label>
+          <select id="archiveFilterMonth">
+            <option value="">All months</option>
+          </select>
+        </div>
       </div>
+      <p id="archiveSearchNoMatch" class="saved-search-no-match" hidden>No archived entries match your search.</p>
       <div id="archiveTableWrap" class="saved-table-wrap" hidden>
         <table class="saved-table">
           <thead>
@@ -1947,6 +2255,165 @@
       </div>
     </section>
 
+    <section class="saved-panel" id="weekly-trend-screen" hidden aria-labelledby="weeklyTrendHeading">
+      <div class="saved-panel-head">
+        <h2 id="weeklyTrendHeading">Weekly Trend</h2>
+        <div class="saved-actions">
+          <button
+            type="button"
+            id="hideWeeklyTrendBtn"
+            class="btn-secondary btn-tiny saved-panel-hide"
+            title="Hide weekly trend"
+            aria-controls="weekly-trend-screen"
+          >
+            <span class="saved-panel-hide-arrow" aria-hidden="true">▲</span>
+            Hide details
+          </button>
+          <button type="button" class="btn-export btn-tiny" id="exportWeeklyTrendBtn" title="Export weekly trend to Excel">Export to Excel</button>
+        </div>
+      </div>
+      <p id="weeklyTrendEmpty" class="saved-empty">No deployment data available. Weekly trends will appear here based on archived entries with deployment dates.</p>
+      <div id="weeklyTrendContent" class="weekly-trend-content" hidden>
+        <div class="weekly-trend-left">
+          <div class="table-month-filter">
+            <label for="tableMonthFilter">Month:</label>
+            <select id="tableMonthFilter"><option value="">All</option></select>
+          </div>
+          <div id="weeklyTrendTableWrap" class="saved-table-wrap">
+            <table class="saved-table weekly-trend-table">
+              <thead>
+                <tr>
+                  <th>Week</th>
+                  <th>Total HF - PPT</th>
+                  <th>PROD RFC</th>
+                  <th>Total HF - PROD</th>
+                  <th>Defects/Incident Deployed</th>
+                </tr>
+              </thead>
+              <tbody id="weeklyTrendBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="weekly-trend-right">
+          <div class="weekly-trend-chart-wrap">
+            <div class="weekly-trend-chart-header">
+              <h3>Chart View</h3>
+              <div class="chart-filters">
+                <div class="chart-month-filter">
+                  <label for="chartMonthFilter">Month:</label>
+                  <select id="chartMonthFilter"><option value="">All</option></select>
+                </div>
+                <div id="weekSelectorWrap" class="week-selector"></div>
+              </div>
+            </div>
+            <canvas id="weeklyTrendChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div id="appTrendSection" class="app-trend-section" hidden>
+        <div class="app-trend-tables-row">
+          <div class="app-trend-left-panel">
+            <h3 class="app-trend-title">Application Trend (Planned vs Deployed)</h3>
+            <div class="table-month-filter">
+              <label for="appTrendMonthFilter">Month:</label>
+              <select id="appTrendMonthFilter"><option value="">All</option></select>
+            </div>
+            <div class="app-trend-table-wrap">
+              <table class="saved-table app-trend-table">
+                <thead>
+                  <tr>
+                    <th rowspan="2" class="app-trend-week-col">Week</th>
+                    <th colspan="2" class="app-group-fe">FE</th>
+                    <th colspan="2" class="app-group-be">BE</th>
+                    <th colspan="2" class="app-group-ods">ODS</th>
+                    <th colspan="2" class="app-group-infra">Infra</th>
+                    <th colspan="2" class="app-group-sd">SD</th>
+                  </tr>
+                  <tr>
+                    <th class="app-group-fe">Planned</th>
+                    <th class="app-group-fe">Deployed</th>
+                    <th class="app-group-be">Planned</th>
+                    <th class="app-group-be">Deployed</th>
+                    <th class="app-group-ods">Planned</th>
+                    <th class="app-group-ods">Deployed</th>
+                    <th class="app-group-infra">Planned</th>
+                    <th class="app-group-infra">Deployed</th>
+                    <th class="app-group-sd">Planned</th>
+                    <th class="app-group-sd">Deployed</th>
+                  </tr>
+                </thead>
+                <tbody id="appTrendBody"></tbody>
+              </table>
+            </div>
+            <button type="button" class="btn-secondary btn-tiny" id="saveAppTrendBtn" style="margin-top:0.5rem;">Save Planned Values</button>
+          </div>
+          <div class="app-trend-right-panel">
+            <h3 class="app-trend-title">Monthly Deployed Hotfixes by Application</h3>
+            <div class="app-trend-table-wrap">
+              <table class="saved-table app-trend-table monthly-app-table">
+                <thead>
+                  <tr>
+                    <th class="app-trend-week-col">Month</th>
+                    <th class="app-group-fe">FE</th>
+                    <th class="app-group-be">BE</th>
+                    <th class="app-group-ods">ODS</th>
+                    <th class="app-group-infra">Infra</th>
+                    <th class="app-group-sd">SD</th>
+                  </tr>
+                </thead>
+                <tbody id="monthlyAppTrendBody"></tbody>
+                <tfoot id="monthlyAppTrendFoot"></tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="saved-panel" id="monthly-trend-screen" hidden aria-labelledby="monthlyTrendHeading">
+      <div class="saved-panel-head">
+        <h2 id="monthlyTrendHeading">Monthly Trend</h2>
+        <div class="saved-actions">
+          <button
+            type="button"
+            id="hideMonthlyTrendBtn"
+            class="btn-secondary btn-tiny saved-panel-hide"
+            title="Hide monthly trend"
+            aria-controls="monthly-trend-screen"
+          >
+            <span class="saved-panel-hide-arrow" aria-hidden="true">▲</span>
+            Hide details
+          </button>
+          <button type="button" class="btn-export btn-tiny" id="exportMonthlyTrendBtn" title="Export monthly trend to Excel">Export to Excel</button>
+        </div>
+      </div>
+      <p id="monthlyTrendEmpty" class="saved-empty">No deployment data available. Monthly trends will appear here based on archived entries with deployment dates.</p>
+      <div id="monthlyTrendContent" class="monthly-trend-content" hidden>
+        <div class="monthly-trend-left">
+          <div class="monthly-trend-table-wrap">
+            <table class="saved-table monthly-trend-table">
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <th>PPT Release</th>
+                  <th>PROD RFC</th>
+                  <th>HF Deployed</th>
+                  <th>Defects Deployed</th>
+                </tr>
+              </thead>
+              <tbody id="monthlyTrendBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="monthly-trend-right">
+          <div class="monthly-trend-chart-wrap">
+            <h3 class="monthly-trend-chart-title">Change Management Trend</h3>
+            <canvas id="monthlyTrendChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="saved-panel" id="calendar-screen" hidden aria-labelledby="calendarHeading">
       <div class="saved-panel-head">
         <h2 id="calendarHeading">Deployment Calendar</h2>
@@ -1982,6 +2449,14 @@
           </div>
           <div id="calendarDays" class="calendar-days"></div>
         </div>
+      </div>
+      <div class="calendar-legend">
+        <p class="calendar-legend-title">LEGEND:</p>
+        <ul class="calendar-legend-list">
+          <li>Weekly SmartOps Release and Weekly Bounce is every <strong>TUESDAY</strong>.</li>
+          <li>PPT Release is every <strong>THURSDAY</strong>.</li>
+          <li>Major Delivery Release is every <strong>WEEKEND</strong>.</li>
+        </ul>
       </div>
       <div id="calendarNoteEditor" class="calendar-note-editor" hidden>
         <div class="calendar-note-header">
@@ -2085,6 +2560,12 @@
       var summaryScreen = document.getElementById("summary-screen");
       var summaryNavLink = document.querySelector('.header-saved-link a[href="#summary"]');
       var hideSummaryBtn = document.getElementById("hideSummaryBtn");
+      var weeklyTrendScreen = document.getElementById("weekly-trend-screen");
+      var weeklyTrendNavLink = document.querySelector('.header-saved-link a[href="#weekly-trend"]');
+      var hideWeeklyTrendBtn = document.getElementById("hideWeeklyTrendBtn");
+      var monthlyTrendScreen = document.getElementById("monthly-trend-screen");
+      var monthlyTrendNavLink = document.querySelector('.header-saved-link a[href="#monthly-trend"]');
+      var hideMonthlyTrendBtn = document.getElementById("hideMonthlyTrendBtn");
       var calendarScreen = document.getElementById("calendar-screen");
       var calendarNavLink = document.querySelector('.header-saved-link a[href="#calendar"]');
       var hideCalendarBtn = document.getElementById("hideCalendarBtn");
@@ -2240,6 +2721,8 @@
         concealArchivePanel();
         concealDeletedPanel();
         concealSummaryPanel();
+        concealWeeklyTrendPanel();
+        concealMonthlyTrendPanel();
         concealCalendarPanel();
         savedEntriesPanel.removeAttribute("hidden");
       }
@@ -2255,6 +2738,8 @@
         concealSavedEntriesPanel();
         concealDeletedPanel();
         concealSummaryPanel();
+        concealWeeklyTrendPanel();
+        concealMonthlyTrendPanel();
         concealCalendarPanel();
         archiveScreen.removeAttribute("hidden");
       }
@@ -2270,6 +2755,8 @@
         concealSavedEntriesPanel();
         concealArchivePanel();
         concealSummaryPanel();
+        concealWeeklyTrendPanel();
+        concealMonthlyTrendPanel();
         concealCalendarPanel();
         deletedScreen.removeAttribute("hidden");
       }
@@ -2293,8 +2780,60 @@
         concealSavedEntriesPanel();
         concealArchivePanel();
         concealDeletedPanel();
+        concealWeeklyTrendPanel();
+        concealMonthlyTrendPanel();
         concealCalendarPanel();
         summaryScreen.removeAttribute("hidden");
+      }
+
+      function stripWeeklyTrendHash() {
+        if (location.hash === "#weekly-trend") {
+          try {
+            history.replaceState(null, "", location.pathname + location.search);
+          } catch (e) {}
+        }
+      }
+
+      function concealWeeklyTrendPanel() {
+        if (!weeklyTrendScreen) return;
+        weeklyTrendScreen.setAttribute("hidden", "");
+        stripWeeklyTrendHash();
+      }
+
+      function revealWeeklyTrendPanel() {
+        if (!weeklyTrendScreen) return;
+        concealSavedEntriesPanel();
+        concealArchivePanel();
+        concealDeletedPanel();
+        concealSummaryPanel();
+        concealCalendarPanel();
+        concealMonthlyTrendPanel();
+        weeklyTrendScreen.removeAttribute("hidden");
+      }
+      
+      function stripMonthlyTrendHash() {
+        if (location.hash === "#monthly-trend") {
+          try {
+            history.replaceState(null, "", location.pathname + location.search);
+          } catch (e) {}
+        }
+      }
+      
+      function concealMonthlyTrendPanel() {
+        if (!monthlyTrendScreen) return;
+        monthlyTrendScreen.setAttribute("hidden", "");
+        stripMonthlyTrendHash();
+      }
+      
+      function revealMonthlyTrendPanel() {
+        if (!monthlyTrendScreen) return;
+        concealSavedEntriesPanel();
+        concealArchivePanel();
+        concealDeletedPanel();
+        concealSummaryPanel();
+        concealWeeklyTrendPanel();
+        concealCalendarPanel();
+        monthlyTrendScreen.removeAttribute("hidden");
       }
 
       function stripCalendarHash() {
@@ -2317,6 +2856,8 @@
         concealArchivePanel();
         concealDeletedPanel();
         concealSummaryPanel();
+        concealWeeklyTrendPanel();
+        concealMonthlyTrendPanel();
         calendarScreen.removeAttribute("hidden");
         renderCalendar();
       }
@@ -2324,7 +2865,7 @@
       function initSavedEntryPanels() {
         try {
           var h = window.location.hash;
-          if (h === "#saved-entries" || h === "#archive" || h === "#deleted" || h === "#summary" || h === "#calendar") {
+          if (h === "#saved-entries" || h === "#archive" || h === "#deleted" || h === "#summary" || h === "#weekly-trend" || h === "#monthly-trend" || h === "#calendar") {
             history.replaceState(
               null,
               "",
@@ -2336,6 +2877,7 @@
         if (archiveScreen) archiveScreen.setAttribute("hidden", "");
         if (deletedScreen) deletedScreen.setAttribute("hidden", "");
         if (summaryScreen) summaryScreen.setAttribute("hidden", "");
+        if (weeklyTrendScreen) weeklyTrendScreen.setAttribute("hidden", "");
         if (calendarScreen) calendarScreen.setAttribute("hidden", "");
       }
 
@@ -2410,6 +2952,32 @@
           concealSummaryPanel();
         });
       }
+      if (weeklyTrendNavLink) {
+        weeklyTrendNavLink.addEventListener("click", function (e) {
+          e.preventDefault();
+          loadCalendarNotes().then(function () {
+            renderWeeklyTrend();
+            revealWeeklyTrendPanel();
+            try {
+              history.replaceState(null, "", "#weekly-trend");
+            } catch (eWt) {}
+            if (weeklyTrendScreen) {
+              weeklyTrendScreen.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }
+          }).catch(function () {
+            renderWeeklyTrend();
+            revealWeeklyTrendPanel();
+            if (weeklyTrendScreen) {
+              weeklyTrendScreen.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }
+          });
+        });
+      }
+      if (hideWeeklyTrendBtn) {
+        hideWeeklyTrendBtn.addEventListener("click", function () {
+          concealWeeklyTrendPanel();
+        });
+      }
       if (calendarNavLink) {
         calendarNavLink.addEventListener("click", function (e) {
           e.preventDefault();
@@ -2425,6 +2993,32 @@
       if (hideCalendarBtn) {
         hideCalendarBtn.addEventListener("click", function () {
           concealCalendarPanel();
+        });
+      }
+      if (monthlyTrendNavLink) {
+        monthlyTrendNavLink.addEventListener("click", function (e) {
+          e.preventDefault();
+          loadCalendarNotes().then(function () {
+            renderMonthlyTrend();
+            revealMonthlyTrendPanel();
+            try {
+              history.replaceState(null, "", "#monthly-trend");
+            } catch (eMt) {}
+            if (monthlyTrendScreen) {
+              monthlyTrendScreen.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }
+          }).catch(function () {
+            renderMonthlyTrend();
+            revealMonthlyTrendPanel();
+            if (monthlyTrendScreen) {
+              monthlyTrendScreen.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }
+          });
+        });
+      }
+      if (hideMonthlyTrendBtn) {
+        hideMonthlyTrendBtn.addEventListener("click", function () {
+          concealMonthlyTrendPanel();
         });
       }
       window.addEventListener("hashchange", function () {
@@ -2444,6 +3038,12 @@
         }
         if (summaryScreen && h !== "#summary" && !summaryScreen.hasAttribute("hidden")) {
           concealSummaryPanel();
+        }
+        if (weeklyTrendScreen && h !== "#weekly-trend" && !weeklyTrendScreen.hasAttribute("hidden")) {
+          concealWeeklyTrendPanel();
+        }
+        if (monthlyTrendScreen && h !== "#monthly-trend" && !monthlyTrendScreen.hasAttribute("hidden")) {
+          concealMonthlyTrendPanel();
         }
         if (calendarScreen && h !== "#calendar" && !calendarScreen.hasAttribute("hidden")) {
           concealCalendarPanel();
@@ -3141,8 +3741,6 @@
         "deploymentType",
         "rollbackHf",
         "rollbackString",
-        "unixRollbackScriptPpt",
-        "unixRollbackScriptProd",
         "description",
         "files",
         "dependency",
@@ -3154,6 +3752,8 @@
         "hfConcatenatedStringProd",
         "hfConcatenatedStringRollbackPpt",
         "hfConcatenatedStringRollbackProd",
+        "unixRollbackScriptPpt",
+        "unixRollbackScriptProd",
         "bounceNeeded",
         "applicationBounce",
         "impact",
@@ -3245,7 +3845,9 @@
       var archiveEmpty = document.getElementById("archiveEmpty");
       var archiveHint = document.getElementById("archiveHint");
       var archiveCount = document.getElementById("archiveCount");
-      var archiveFilterWrap = document.getElementById("archiveFilterWrap");
+      var archiveSearchWrap = document.getElementById("archiveSearchWrap");
+      var archiveSearchInput = document.getElementById("archiveSearchInput");
+      var archiveSearchNoMatch = document.getElementById("archiveSearchNoMatch");
       var archiveFilterMonth = document.getElementById("archiveFilterMonth");
       var summaryTableWrap = document.getElementById("summaryTableWrap");
       var summaryEntriesBody = document.getElementById("summaryEntriesBody");
@@ -3258,6 +3860,10 @@
       var deletedEmpty = document.getElementById("deletedEmpty");
       var deletedCount = document.getElementById("deletedCount");
       var clearAllDeletedBtn = document.getElementById("clearAllDeletedBtn");
+      var weeklyTrendTableWrap = document.getElementById("weeklyTrendTableWrap");
+      var weeklyTrendBody = document.getElementById("weeklyTrendBody");
+      var weeklyTrendEmpty = document.getElementById("weeklyTrendEmpty");
+      var exportWeeklyTrendBtn = document.getElementById("exportWeeklyTrendBtn");
 
       function uniqueId() {
         if (typeof crypto !== "undefined" && crypto.randomUUID) {
@@ -3629,7 +4235,9 @@
           entry.hotfixNumber,
           entry.application,
           entry.requester,
-          entry.version
+          entry.version,
+          entry.pptRfc,
+          entry.prodRfc
         ]
           .map(function (v) {
             return v == null ? "" : String(v).trim().toLowerCase();
@@ -3733,7 +4341,10 @@
             '<td class="cell-actions">' +
             '<button type="button" class="btn-secondary btn-tiny" data-load="' +
             escapeAttr(entry.id) +
-            '">Load</button> ' +
+            '" title="Copy data to form">Copy Data</button> ' +
+            '<button type="button" class="btn-secondary btn-tiny" data-show-steps="' +
+            escapeAttr(entry.id) +
+            '" title="Show deployment details">Show Details</button> ' +
             '<button type="button" class="btn-danger btn-tiny" data-del="' +
             escapeAttr(entry.id) +
             '">Delete</button>' +
@@ -3793,19 +4404,37 @@
           archiveTableWrap.hidden = true;
           archiveEmpty.hidden = false;
           if (archiveHint) archiveHint.hidden = true;
-          if (archiveFilterWrap) archiveFilterWrap.hidden = true;
+          if (archiveSearchWrap) archiveSearchWrap.hidden = true;
+          if (archiveSearchNoMatch) archiveSearchNoMatch.hidden = true;
           if (archiveCount) archiveCount.textContent = "(0)";
           return;
         }
         archiveEmpty.hidden = true;
         if (archiveHint) archiveHint.hidden = true;
-        if (archiveFilterWrap) archiveFilterWrap.hidden = false;
+        if (archiveSearchWrap) archiveSearchWrap.hidden = false;
         populateMonthFilter(archiveFilterMonth, archived);
         var selectedMonth = archiveFilterMonth ? archiveFilterMonth.value : "";
-        var filtered = filterByMonth(archived, selectedMonth);
+        var archiveSearchQ = archiveSearchInput ? archiveSearchInput.value.trim() : "";
+        var filtered = archived.filter(function (e) {
+          if (!entryMatchesSavedSearch(e, archiveSearchQ)) return false;
+          return true;
+        });
+        filtered = filterByMonth(filtered, selectedMonth);
         if (archiveCount) {
-          archiveCount.textContent = selectedMonth ? "(" + filtered.length + " of " + archived.length + ")" : "(" + archived.length + ")";
+          var countText = "(" + filtered.length;
+          if (archiveSearchQ || selectedMonth) {
+            countText += " of " + archived.length;
+          }
+          countText += ")";
+          archiveCount.textContent = countText;
         }
+        if (!filtered.length && (archiveSearchQ || selectedMonth)) {
+          if (archiveSearchNoMatch) archiveSearchNoMatch.hidden = false;
+          archiveTableWrap.hidden = true;
+          archiveEntriesBody.innerHTML = "";
+          return;
+        }
+        if (archiveSearchNoMatch) archiveSearchNoMatch.hidden = true;
         archiveTableWrap.hidden = false;
         archiveEntriesBody.innerHTML = "";
         filtered.forEach(function (entry) {
@@ -3886,12 +4515,9 @@
             escapeHtml(archWhen) +
             "</td>" +
             '<td class="cell-actions">' +
-            '<button type="button" class="btn-secondary btn-tiny" data-arch-restore="' +
-            escapeAttr(entry.id) +
-            '" title="Return to active saved entries">Restore</button> ' +
             '<button type="button" class="btn-secondary btn-tiny" data-arch-load="' +
             escapeAttr(entry.id) +
-            '">Load</button> ' +
+            '" title="Copy data to form">Copy data</button> ' +
             '<button type="button" class="btn-danger btn-tiny" data-arch-del="' +
             escapeAttr(entry.id) +
             '">Delete</button>' +
@@ -4064,6 +4690,1029 @@
             '" title="Permanently delete">Delete</button>' +
             "</td>";
           deletedEntriesBody.appendChild(tr);
+        });
+      }
+
+      function getWeekRange(dateStr) {
+        if (!dateStr) return null;
+        var d = new Date(dateStr + "T12:00:00");
+        if (isNaN(d.getTime())) return null;
+        var day = d.getDay();
+        var diffToMon = (day === 0 ? -6 : 1) - day;
+        var monday = new Date(d);
+        monday.setDate(d.getDate() + diffToMon);
+        var friday = new Date(monday);
+        friday.setDate(monday.getDate() + 4);
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var startLabel = months[monday.getMonth()] + " " + String(monday.getDate()).padStart(2, "0");
+        var endLabel = months[friday.getMonth()] + " " + String(friday.getDate()).padStart(2, "0");
+        var key = monday.toISOString().slice(0, 10);
+        return { key: key, label: startLabel + " - " + endLabel, monday: monday };
+      }
+
+      function extractRfcsFromNote(text) {
+        if (!text) return [];
+        var matches = text.match(/CHG\d{6,}/gi) || [];
+        return matches.map(function(m) { return m.toUpperCase(); });
+      }
+
+      function renderWeeklyTrend() {
+        var list = readSavedEntries();
+        var allEntries = list.filter(function (e) {
+          return e && !e.deletedAt;
+        });
+        var weekData = {};
+        allEntries.forEach(function (entry) {
+          var pptDate = String(entry.pptDeploymentDate || "").trim();
+          var prodDate = String(entry.prodDeploymentDate || "").trim();
+          var pptStatus = normalizeDeploymentStatus(entry.pptDeploymentStatus);
+          var prodStatus = normalizeDeploymentStatus(entry.prodDeploymentStatus);
+          var hotfixNum = String(entry.hotfixNumber || "").trim();
+          var incidentId = String(entry.incidentId || "").trim().toUpperCase();
+          var prodRfc = String(entry.prodRfc || "").trim();
+          var isArchived = isEntryArchived(entry);
+          if (pptDate && pptStatus === "Deployed" && hotfixNum) {
+            var weekPpt = getWeekRange(pptDate);
+            if (weekPpt) {
+              if (!weekData[weekPpt.key]) {
+                weekData[weekPpt.key] = { label: weekPpt.label, monday: weekPpt.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
+              }
+              weekData[weekPpt.key].pptHfSet[hotfixNum] = true;
+            }
+          }
+          if (isArchived && prodDate && prodStatus === "Deployed") {
+            var weekProd = getWeekRange(prodDate);
+            if (weekProd) {
+              if (!weekData[weekProd.key]) {
+                weekData[weekProd.key] = { label: weekProd.label, monday: weekProd.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
+              }
+              if (hotfixNum) {
+                weekData[weekProd.key].prodHfSet[hotfixNum] = true;
+              }
+              if (prodRfc) {
+                weekData[weekProd.key].prodRfcSet[prodRfc] = true;
+              }
+              if (incidentId && (incidentId.startsWith("INC") || incidentId.startsWith("DEF"))) {
+                weekData[weekProd.key].defectsSet[incidentId] = true;
+              }
+            }
+          }
+        });
+        Object.keys(calendarNotes).forEach(function (dateKey) {
+          var noteData = calendarNotes[dateKey];
+          if (!noteData) return;
+          if (typeof noteData === "string") {
+            try { noteData = JSON.parse(noteData); } catch (e) { return; }
+          }
+          var weekInfo = getWeekRange(dateKey);
+          if (!weekInfo) return;
+          if (!weekData[weekInfo.key]) {
+            weekData[weekInfo.key] = { label: weekInfo.label, monday: weekInfo.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
+          }
+          var parts = dateKey.split("-");
+          var dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+          var dayOfWeek = dateObj.getDay();
+          if (dayOfWeek === 2) {
+            var rfcs1 = extractRfcsFromNote(noteData.note1);
+            var rfcs2 = extractRfcsFromNote(noteData.note2);
+            var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
+            var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
+            var isCancelled2 = noteData.cancelled2 === true || noteData.cancelled2 === "true";
+            if (noteData.note1 && !isCancelled1 && rfcs1.length > 0) {
+              rfcs1.forEach(function (rfc) {
+                weekData[weekInfo.key].prodRfcSet[rfc] = true;
+              });
+            }
+            if (noteData.note2 && !isCancelled2 && rfcs2.length > 0) {
+              rfcs2.forEach(function (rfc) {
+                weekData[weekInfo.key].prodRfcSet[rfc] = true;
+              });
+            }
+          } else {
+            var isCancelled = noteData.cancelled === true || noteData.cancelled === "true";
+            if (noteData.note && !isCancelled) {
+              var noteText = noteData.note.toLowerCase();
+              if (noteText.indexOf("ppt deployment") === -1 && noteText.indexOf("ppt deploy") === -1) {
+                extractRfcsFromNote(noteData.note).forEach(function (rfc) {
+                  weekData[weekInfo.key].prodRfcSet[rfc] = true;
+                });
+              }
+            }
+          }
+        });
+        var allWeeks = Object.keys(weekData).sort();
+        var today = new Date();
+        var currentMonth = today.getMonth();
+        var currentYear = today.getFullYear();
+        var weeks = allWeeks.filter(function (key) {
+          var mondayParts = key.split("-");
+          var monday = new Date(parseInt(mondayParts[0]), parseInt(mondayParts[1]) - 1, parseInt(mondayParts[2]));
+          var friday = new Date(monday);
+          friday.setDate(monday.getDate() + 4);
+          if (monday > today) return false;
+          var mondayInMonth = (monday.getMonth() === currentMonth && monday.getFullYear() === currentYear);
+          var fridayInMonth = (friday.getMonth() === currentMonth && friday.getFullYear() === currentYear);
+          return mondayInMonth || fridayInMonth;
+        });
+        var weeklyTrendContent = document.getElementById("weeklyTrendContent");
+        if (!weeklyTrendBody || !weeklyTrendContent || !weeklyTrendEmpty) return;
+        if (!weeks.length) {
+          weeklyTrendBody.innerHTML = "";
+          weeklyTrendContent.hidden = true;
+          weeklyTrendEmpty.hidden = false;
+          return;
+        }
+        weeklyTrendEmpty.hidden = true;
+        weeklyTrendContent.hidden = false;
+        weeklyTrendBody.innerHTML = "";
+        
+        var chartData = [];
+        weeks.forEach(function (key) {
+          var w = weekData[key];
+          var pptHfCount = Object.keys(w.pptHfSet).length;
+          var prodRfcCount = Object.keys(w.prodRfcSet).length;
+          var prodHfCount = Object.keys(w.prodHfSet).length;
+          var defectsCount = Object.keys(w.defectsSet).length;
+          chartData.push({
+            key: key,
+            label: w.label,
+            pptHf: pptHfCount,
+            prodRfc: prodRfcCount,
+            prodHf: prodHfCount,
+            defects: defectsCount
+          });
+          var tr = document.createElement("tr");
+          tr.innerHTML =
+            "<td>" + escapeHtml(w.label) + "</td>" +
+            "<td style='text-align:center'>" + pptHfCount + "</td>" +
+            "<td style='text-align:center'>" + prodRfcCount + "</td>" +
+            "<td style='text-align:center'>" + prodHfCount + "</td>" +
+            "<td style='text-align:center'>" + defectsCount + "</td>";
+          weeklyTrendBody.appendChild(tr);
+        });
+        
+        window.weeklyTrendChartData = chartData;
+        window.weeklyTrendAllWeeks = weeks;
+        window.weeklyTrendWeekData = weekData;
+        populateTableMonthFilter(chartData);
+        populateChartMonthFilter(chartData);
+        renderWeekSelector(getFilteredWeeksByMonth());
+        renderWeeklyTrendChart(getFilteredWeeksByMonth());
+        
+        loadAppTrendPlanned().then(function () {
+          populateAppTrendMonthFilter(chartData);
+          renderAppTrendTable();
+          renderMonthlyAppTrendTable();
+        });
+      }
+      
+      function getMonthFromWeekKey(key) {
+        var parts = key.split("-");
+        var monday = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+        var friday = new Date(monday);
+        friday.setDate(monday.getDate() + 4);
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        return {
+          mondayMonth: months[monday.getMonth()] + " " + monday.getFullYear(),
+          fridayMonth: months[friday.getMonth()] + " " + friday.getFullYear(),
+          mondayKey: monday.getFullYear() + "-" + String(monday.getMonth() + 1).padStart(2, "0"),
+          fridayKey: friday.getFullYear() + "-" + String(friday.getMonth() + 1).padStart(2, "0")
+        };
+      }
+      
+      function getMonthOptionsFromChartData(chartData) {
+        var monthsSet = {};
+        chartData.forEach(function (w) {
+          var m = getMonthFromWeekKey(w.key);
+          monthsSet[m.mondayKey] = m.mondayMonth;
+          monthsSet[m.fridayKey] = m.fridayMonth;
+        });
+        return { monthsSet: monthsSet, monthKeys: Object.keys(monthsSet).sort().reverse() };
+      }
+      
+      function populateTableMonthFilter(chartData) {
+        var select = document.getElementById("tableMonthFilter");
+        if (!select) return;
+        var opts = getMonthOptionsFromChartData(chartData);
+        select.innerHTML = '<option value="">All Months</option>';
+        opts.monthKeys.forEach(function (key) {
+          var opt = document.createElement("option");
+          opt.value = key;
+          opt.textContent = opts.monthsSet[key];
+          select.appendChild(opt);
+        });
+        select.removeEventListener("change", onTableMonthFilterChange);
+        select.addEventListener("change", onTableMonthFilterChange);
+      }
+      
+      function onTableMonthFilterChange() {
+        renderWeeklyTrendTable();
+      }
+      
+      function renderWeeklyTrendTable() {
+        var weeklyTrendBody = document.getElementById("weeklyTrendBody");
+        if (!weeklyTrendBody || !window.weeklyTrendChartData) return;
+        
+        var tableSelect = document.getElementById("tableMonthFilter");
+        var selectedMonth = tableSelect ? tableSelect.value : "";
+        
+        var filtered = window.weeklyTrendChartData;
+        if (selectedMonth) {
+          filtered = filtered.filter(function (w) {
+            var m = getMonthFromWeekKey(w.key);
+            return m.mondayKey === selectedMonth || m.fridayKey === selectedMonth;
+          });
+        }
+        
+        weeklyTrendBody.innerHTML = "";
+        filtered.forEach(function (w) {
+          var tr = document.createElement("tr");
+          tr.innerHTML =
+            "<td>" + escapeHtml(w.label) + "</td>" +
+            "<td style='text-align:center'>" + w.pptHf + "</td>" +
+            "<td style='text-align:center'>" + w.prodRfc + "</td>" +
+            "<td style='text-align:center'>" + w.prodHf + "</td>" +
+            "<td style='text-align:center'>" + w.defects + "</td>";
+          weeklyTrendBody.appendChild(tr);
+        });
+      }
+      
+      var APP_GROUPS = {
+        FE: ["OMS", "CRM", "ASOM", "MCO", "SDP", "WSF", "BA - COGNOS"],
+        BE: ["ABP - CM", "ABP - TC", "ABP - INV", "BOING"],
+        ODS: ["ODS"],
+        Infra: ["ABP - Infra"],
+        SD: ["AMSS", "OMNI"]
+      };
+      var APP_GROUP_ORDER = ["FE", "BE", "ODS", "Infra", "SD"];
+      var appTrendPlannedData = {};
+      
+      function loadAppTrendPlanned() {
+        var local = localStorage.getItem("appTrendPlanned");
+        var localData = local ? JSON.parse(local) : {};
+        appTrendPlannedData = localData;
+        
+        return supabase
+          .from("app_trend_planned")
+          .select("week_key, data")
+          .then(function (result) {
+            if (result.error || !result.data || !result.data.length) {
+              return;
+            }
+            var data = {};
+            result.data.forEach(function (row) {
+              data[row.week_key] = row.data;
+            });
+            Object.keys(data).forEach(function (key) {
+              appTrendPlannedData[key] = data[key];
+            });
+            localStorage.setItem("appTrendPlanned", JSON.stringify(appTrendPlannedData));
+          })
+          .catch(function () {
+            console.log("Supabase unavailable for app trend, using localStorage");
+          });
+      }
+      
+      function saveAppTrendPlanned(weekKey, groupData) {
+        return new Promise(function (resolve) {
+          localStorage.setItem("appTrendPlanned", JSON.stringify(appTrendPlannedData));
+          
+          supabase
+            .from("app_trend_planned")
+            .upsert({ week_key: weekKey, data: groupData }, { onConflict: "week_key" })
+            .then(function (result) {
+              if (result.error) {
+                console.log("Supabase table may not exist, using localStorage only");
+              }
+              resolve();
+            })
+            .catch(function () {
+              console.log("Supabase unavailable, using localStorage only");
+              resolve();
+            });
+        });
+      }
+      
+      function getAppGroupForApplication(appName) {
+        if (!appName) return null;
+        var appUpper = appName.toUpperCase().trim();
+        for (var group in APP_GROUPS) {
+          for (var i = 0; i < APP_GROUPS[group].length; i++) {
+            if (APP_GROUPS[group][i].toUpperCase() === appUpper) {
+              return group;
+            }
+          }
+        }
+        return null;
+      }
+      
+      function calculateAppTrendDeployed(weeks, entries) {
+        var result = {};
+        weeks.forEach(function (weekKey) {
+          result[weekKey] = { FE: {}, BE: {}, ODS: {}, Infra: {}, SD: {} };
+        });
+        
+        entries.forEach(function (entry) {
+          if (!entry || entry.deletedAt) return;
+          var prodDate = String(entry.prodDeploymentDate || "").trim();
+          var prodStatus = normalizeDeploymentStatus(entry.prodDeploymentStatus);
+          var hotfixNum = String(entry.hotfixNumber || "").trim();
+          var appName = String(entry.application || "").trim();
+          
+          if (!prodDate || prodStatus !== "Deployed" || !hotfixNum) return;
+          
+          var weekInfo = getWeekRange(prodDate);
+          if (!weekInfo || !result[weekInfo.key]) return;
+          
+          var group = getAppGroupForApplication(appName);
+          if (group && result[weekInfo.key][group]) {
+            result[weekInfo.key][group][hotfixNum] = true;
+          }
+        });
+        
+        return result;
+      }
+      
+      function populateAppTrendMonthFilter(chartData) {
+        var select = document.getElementById("appTrendMonthFilter");
+        if (!select) return;
+        var opts = getMonthOptionsFromChartData(chartData);
+        select.innerHTML = '<option value="">All Months</option>';
+        opts.monthKeys.forEach(function (key) {
+          var opt = document.createElement("option");
+          opt.value = key;
+          opt.textContent = opts.monthsSet[key];
+          select.appendChild(opt);
+        });
+        select.removeEventListener("change", onAppTrendMonthFilterChange);
+        select.addEventListener("change", onAppTrendMonthFilterChange);
+      }
+      
+      function onAppTrendMonthFilterChange() {
+        renderAppTrendTable();
+      }
+      
+      function renderAppTrendTable() {
+        var appTrendBody = document.getElementById("appTrendBody");
+        var appTrendSection = document.getElementById("appTrendSection");
+        if (!appTrendBody || !appTrendSection) return;
+        
+        var chartData = window.weeklyTrendChartData;
+        if (!chartData || !chartData.length) {
+          appTrendSection.hidden = true;
+          return;
+        }
+        
+        appTrendSection.hidden = false;
+        
+        var appTrendSelect = document.getElementById("appTrendMonthFilter");
+        var selectedMonth = appTrendSelect ? appTrendSelect.value : "";
+        
+        var filtered = chartData;
+        if (selectedMonth) {
+          filtered = chartData.filter(function (w) {
+            var m = getMonthFromWeekKey(w.key);
+            return m.mondayKey === selectedMonth || m.fridayKey === selectedMonth;
+          });
+        }
+        
+        var weeks = filtered.map(function (w) { return w.key; });
+        var entries = readSavedEntries();
+        var deployed = calculateAppTrendDeployed(weeks, entries);
+        
+        appTrendBody.innerHTML = "";
+        filtered.forEach(function (w) {
+          var tr = document.createElement("tr");
+          var weekPlanned = appTrendPlannedData[w.key] || {};
+          var weekDeployed = deployed[w.key] || {};
+          
+          var cells = '<td>' + escapeHtml(w.label) + '</td>';
+          APP_GROUP_ORDER.forEach(function (group) {
+            var plannedVal = weekPlanned[group] !== undefined ? weekPlanned[group] : "";
+            var deployedCount = weekDeployed[group] ? Object.keys(weekDeployed[group]).length : 0;
+            cells += '<td><input type="number" min="0" class="planned-input" data-week="' + w.key + '" data-group="' + group + '" value="' + plannedVal + '"></td>';
+            cells += '<td class="deployed-cell">' + deployedCount + '</td>';
+          });
+          tr.innerHTML = cells;
+          appTrendBody.appendChild(tr);
+        });
+      }
+      
+      var saveAppTrendBtn = document.getElementById("saveAppTrendBtn");
+      if (saveAppTrendBtn) {
+        saveAppTrendBtn.addEventListener("click", function () {
+          var inputs = document.querySelectorAll(".planned-input");
+          var weekGroups = {};
+          inputs.forEach(function (inp) {
+            var week = inp.getAttribute("data-week");
+            var group = inp.getAttribute("data-group");
+            var val = inp.value.trim();
+            if (!weekGroups[week]) weekGroups[week] = {};
+            weekGroups[week][group] = val === "" ? "" : parseInt(val, 10) || 0;
+          });
+          
+          var promises = Object.keys(weekGroups).map(function (weekKey) {
+            appTrendPlannedData[weekKey] = weekGroups[weekKey];
+            return saveAppTrendPlanned(weekKey, weekGroups[weekKey]);
+          });
+          
+          Promise.all(promises).then(function () {
+            alert("Planned values saved successfully!");
+          }).catch(function () {
+            alert("Failed to save some planned values.");
+          });
+        });
+      }
+      
+      function calculateMonthlyAppDeployed(entries) {
+        var result = {};
+        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        
+        entries.forEach(function (entry) {
+          if (!entry || entry.deletedAt) return;
+          var prodDate = String(entry.prodDeploymentDate || "").trim();
+          var prodStatus = normalizeDeploymentStatus(entry.prodDeploymentStatus);
+          var hotfixNum = String(entry.hotfixNumber || "").trim();
+          var appName = String(entry.application || "").trim();
+          
+          if (!prodDate || prodStatus !== "Deployed" || !hotfixNum) return;
+          
+          var dateParts = prodDate.split("-");
+          if (dateParts.length < 2) return;
+          var year = dateParts[0];
+          var month = parseInt(dateParts[1], 10);
+          var monthKey = year + "-" + String(month).padStart(2, "0");
+          var monthLabel = monthNames[month - 1] + "-" + year.slice(2);
+          
+          if (!result[monthKey]) {
+            result[monthKey] = { 
+              label: monthLabel, 
+              FE: {}, BE: {}, ODS: {}, Infra: {}, SD: {} 
+            };
+          }
+          
+          var group = getAppGroupForApplication(appName);
+          if (group && result[monthKey][group]) {
+            result[monthKey][group][hotfixNum] = true;
+          }
+        });
+        
+        return result;
+      }
+      
+      function renderMonthlyAppTrendTable() {
+        var monthlyBody = document.getElementById("monthlyAppTrendBody");
+        var monthlyFoot = document.getElementById("monthlyAppTrendFoot");
+        if (!monthlyBody || !monthlyFoot) return;
+        
+        var entries = readSavedEntries();
+        var monthlyData = calculateMonthlyAppDeployed(entries);
+        var monthKeys = Object.keys(monthlyData).sort();
+        
+        var totals = { FE: 0, BE: 0, ODS: 0, Infra: 0, SD: 0 };
+        
+        monthlyBody.innerHTML = "";
+        monthKeys.forEach(function (monthKey) {
+          var m = monthlyData[monthKey];
+          var tr = document.createElement("tr");
+          var cells = '<td>' + escapeHtml(m.label) + '</td>';
+          APP_GROUP_ORDER.forEach(function (group) {
+            var count = Object.keys(m[group] || {}).length;
+            totals[group] += count;
+            cells += '<td class="deployed-cell">' + count + '</td>';
+          });
+          tr.innerHTML = cells;
+          monthlyBody.appendChild(tr);
+        });
+        
+        monthlyFoot.innerHTML = "";
+        var footTr = document.createElement("tr");
+        var footCells = '<td><strong>TOTAL</strong></td>';
+        APP_GROUP_ORDER.forEach(function (group) {
+          footCells += '<td class="deployed-cell">' + totals[group] + '</td>';
+        });
+        footTr.innerHTML = footCells;
+        monthlyFoot.appendChild(footTr);
+      }
+      
+      function calculateMonthlyTrendData(entries) {
+        var result = {};
+        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        
+        entries.forEach(function (entry) {
+          if (!entry || entry.deletedAt) return;
+          
+          var pptDate = String(entry.pptDeploymentDate || "").trim();
+          var prodDate = String(entry.prodDeploymentDate || "").trim();
+          var pptStatus = normalizeDeploymentStatus(entry.pptDeploymentStatus);
+          var prodStatus = normalizeDeploymentStatus(entry.prodDeploymentStatus);
+          var hotfixNum = String(entry.hotfixNumber || "").trim();
+          var incidentId = String(entry.incidentId || "").trim().toUpperCase();
+          var prodRfc = String(entry.prodRfc || "").trim();
+          var isArchived = isEntryArchived(entry);
+          
+          if (pptDate && pptStatus === "Deployed" && hotfixNum) {
+            var pptParts = pptDate.split("-");
+            if (pptParts.length >= 2) {
+              var pptMonthKey = pptParts[0] + "-" + pptParts[1];
+              var pptLabel = monthNames[parseInt(pptParts[1], 10) - 1] + "-" + pptParts[0].slice(2);
+              if (!result[pptMonthKey]) {
+                result[pptMonthKey] = { label: pptLabel, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
+              }
+              result[pptMonthKey].pptHfSet[hotfixNum] = true;
+            }
+          }
+          
+          if (isArchived && prodDate && prodStatus === "Deployed") {
+            var prodParts = prodDate.split("-");
+            if (prodParts.length >= 2) {
+              var prodMonthKey = prodParts[0] + "-" + prodParts[1];
+              var prodLabel = monthNames[parseInt(prodParts[1], 10) - 1] + "-" + prodParts[0].slice(2);
+              if (!result[prodMonthKey]) {
+                result[prodMonthKey] = { label: prodLabel, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
+              }
+              if (hotfixNum) {
+                result[prodMonthKey].prodHfSet[hotfixNum] = true;
+              }
+              if (prodRfc) {
+                result[prodMonthKey].prodRfcSet[prodRfc] = true;
+              }
+              if (incidentId && (incidentId.startsWith("INC") || incidentId.startsWith("DEF"))) {
+                result[prodMonthKey].defectsSet[incidentId] = true;
+              }
+            }
+          }
+        });
+        
+        Object.keys(calendarNotes).forEach(function (dateKey) {
+          var noteData = calendarNotes[dateKey];
+          if (!noteData) return;
+          if (typeof noteData === "string") {
+            try { noteData = JSON.parse(noteData); } catch (e) { return; }
+          }
+          
+          var dateParts = dateKey.split("-");
+          if (dateParts.length < 2) return;
+          var monthKey = dateParts[0] + "-" + dateParts[1];
+          var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+          var monthLabel = monthNames[parseInt(dateParts[1], 10) - 1] + "-" + dateParts[0].slice(2);
+          
+          if (!result[monthKey]) {
+            result[monthKey] = { label: monthLabel, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
+          }
+          
+          var dateObj = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]));
+          var dayOfWeek = dateObj.getDay();
+          
+          if (dayOfWeek === 2) {
+            var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
+            var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
+            var isCancelled2 = noteData.cancelled2 === true || noteData.cancelled2 === "true";
+            if (noteData.note1 && !isCancelled1) {
+              extractRfcsFromNote(noteData.note1).forEach(function (rfc) {
+                result[monthKey].prodRfcSet[rfc] = true;
+              });
+            }
+            if (noteData.note2 && !isCancelled2) {
+              extractRfcsFromNote(noteData.note2).forEach(function (rfc) {
+                result[monthKey].prodRfcSet[rfc] = true;
+              });
+            }
+          } else {
+            var isCancelled = noteData.cancelled === true || noteData.cancelled === "true";
+            if (noteData.note && !isCancelled) {
+              var noteText = noteData.note.toLowerCase();
+              if (noteText.indexOf("ppt deployment") === -1 && noteText.indexOf("ppt deploy") === -1) {
+                extractRfcsFromNote(noteData.note).forEach(function (rfc) {
+                  result[monthKey].prodRfcSet[rfc] = true;
+                });
+              }
+            }
+          }
+        });
+        
+        return result;
+      }
+      
+      function renderMonthlyTrend() {
+        var monthlyTrendBody = document.getElementById("monthlyTrendBody");
+        var monthlyTrendContent = document.getElementById("monthlyTrendContent");
+        var monthlyTrendEmpty = document.getElementById("monthlyTrendEmpty");
+        if (!monthlyTrendBody || !monthlyTrendContent || !monthlyTrendEmpty) return;
+        
+        var entries = readSavedEntries();
+        var monthlyData = calculateMonthlyTrendData(entries);
+        var allMonthKeys = Object.keys(monthlyData).sort();
+        
+        var today = new Date();
+        var currentYear = today.getFullYear();
+        var currentMonth = today.getMonth();
+        var currentMonthKey = currentYear + "-" + String(currentMonth + 1).padStart(2, "0");
+        var prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+        var prevYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+        var prevMonthKey = prevYear + "-" + String(prevMonth + 1).padStart(2, "0");
+        
+        var monthKeys = allMonthKeys.filter(function (key) {
+          return key === currentMonthKey || key === prevMonthKey;
+        });
+        
+        if (!monthKeys.length) {
+          monthlyTrendBody.innerHTML = "";
+          monthlyTrendContent.hidden = true;
+          monthlyTrendEmpty.hidden = false;
+          return;
+        }
+        
+        monthlyTrendEmpty.hidden = true;
+        monthlyTrendContent.hidden = false;
+        monthlyTrendBody.innerHTML = "";
+        
+        window.monthlyTrendData = [];
+        
+        monthKeys.forEach(function (monthKey) {
+          var m = monthlyData[monthKey];
+          var pptCount = Object.keys(m.pptHfSet).length;
+          var prodRfcCount = Object.keys(m.prodRfcSet).length;
+          var prodHfCount = Object.keys(m.prodHfSet).length;
+          var defectsCount = Object.keys(m.defectsSet).length;
+          
+          window.monthlyTrendData.push({
+            key: monthKey,
+            label: m.label,
+            pptRelease: pptCount,
+            prodRfc: prodRfcCount,
+            hfDeployed: prodHfCount,
+            defectsDeployed: defectsCount
+          });
+          
+          var tr = document.createElement("tr");
+          tr.innerHTML =
+            "<td>" + escapeHtml(m.label) + "</td>" +
+            "<td>" + pptCount + "</td>" +
+            "<td>" + prodRfcCount + "</td>" +
+            "<td>" + prodHfCount + "</td>" +
+            "<td>" + defectsCount + "</td>";
+          monthlyTrendBody.appendChild(tr);
+        });
+        
+        renderMonthlyTrendChart(window.monthlyTrendData);
+      }
+      
+      var monthlyTrendChartInstance = null;
+      
+      function renderMonthlyTrendChart(data) {
+        var canvas = document.getElementById("monthlyTrendChart");
+        if (!canvas || typeof Chart === "undefined") return;
+        
+        if (monthlyTrendChartInstance) {
+          monthlyTrendChartInstance.destroy();
+          monthlyTrendChartInstance = null;
+        }
+        
+        if (!data || !data.length) return;
+        
+        var labels = data.map(function (m) { return m.label; });
+        var isDark = document.documentElement.getAttribute("data-theme") === "dark";
+        var gridColor = isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.1)";
+        var textColor = isDark ? "#ffffff" : "#333333";
+        
+        monthlyTrendChartInstance = new Chart(canvas, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "PPT Release",
+                data: data.map(function (m) { return m.pptRelease; }),
+                borderColor: "#3b82f6",
+                backgroundColor: "#3b82f6",
+                tension: 0.3,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                borderWidth: 2
+              },
+              {
+                label: "Prod RFC",
+                data: data.map(function (m) { return m.prodRfc; }),
+                borderColor: "#ef4444",
+                backgroundColor: "#ef4444",
+                tension: 0.3,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                borderWidth: 2
+              },
+              {
+                label: "HF Deployed",
+                data: data.map(function (m) { return m.hfDeployed; }),
+                borderColor: isDark ? "#e5e5e5" : "#6b7280",
+                backgroundColor: isDark ? "#e5e5e5" : "#6b7280",
+                tension: 0.3,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                borderWidth: 2
+              },
+              {
+                label: "Defects Deployed",
+                data: data.map(function (m) { return m.defectsDeployed; }),
+                borderColor: "#f59e0b",
+                backgroundColor: "#f59e0b",
+                tension: 0.3,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                borderWidth: 2
+              }
+            ]
+          },
+          plugins: [ChartDataLabels],
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+              intersect: false,
+              mode: "index"
+            },
+            plugins: {
+              legend: {
+                position: "top",
+                labels: { 
+                  color: textColor, 
+                  font: { size: 11 },
+                  usePointStyle: true,
+                  pointStyle: "line"
+                }
+              },
+              datalabels: {
+                color: textColor,
+                font: {
+                  size: 10,
+                  weight: "bold"
+                },
+                anchor: "end",
+                align: "top",
+                offset: 2,
+                formatter: function (value) {
+                  return value > 0 ? value : "";
+                }
+              }
+            },
+            scales: {
+              x: {
+                grid: { color: gridColor },
+                ticks: { 
+                  color: textColor, 
+                  font: { size: 10 },
+                  maxRotation: 45,
+                  minRotation: 45
+                }
+              },
+              y: {
+                beginAtZero: true,
+                grid: { color: gridColor },
+                ticks: { 
+                  color: textColor, 
+                  font: { size: 11 },
+                  stepSize: 10
+                }
+              }
+            }
+          }
+        });
+      }
+      
+      var exportMonthlyTrendBtn = document.getElementById("exportMonthlyTrendBtn");
+      if (exportMonthlyTrendBtn) {
+        exportMonthlyTrendBtn.addEventListener("click", function () {
+          if (!window.monthlyTrendData || !window.monthlyTrendData.length) {
+            alert("No monthly trend data to export.");
+            return;
+          }
+          exportMonthlyTrendBtn.disabled = true;
+          loadXlsx()
+            .then(function (hasXlsx) {
+              doExportMonthlyTrend(hasXlsx);
+            })
+            .catch(function () {})
+            .then(function () {
+              exportMonthlyTrendBtn.disabled = false;
+            });
+        });
+      }
+      
+      function doExportMonthlyTrend(hasXlsx) {
+        var data = window.monthlyTrendData;
+        if (!data || !data.length) {
+          alert("No monthly trend data to export.");
+          return;
+        }
+        
+        var stamp = exportFilenameStem();
+        var header = ["Month", "PPT Release", "PROD RFC", "HF Deployed", "Defects Deployed"];
+        var aoa = [header];
+        data.forEach(function (m) {
+          aoa.push([m.label, m.pptRelease, m.prodRfc, m.hfDeployed, m.defectsDeployed]);
+        });
+        
+        if (hasXlsx && typeof XLSX !== "undefined" && XLSX.utils && XLSX.writeFile) {
+          try {
+            var ws = XLSX.utils.aoa_to_sheet(aoa);
+            ws["!cols"] = [{ wch: 12 }, { wch: 12 }, { wch: 12 }, { wch: 14 }, { wch: 18 }];
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Monthly Trend");
+            XLSX.writeFile(wb, "deployment-monthly-trend_" + stamp + ".xlsx");
+            return;
+          } catch (err) {}
+        }
+        
+        var csvLines = aoa.map(function (row) {
+          return row.map(function (c) {
+            var s = String(c == null ? "" : c);
+            if (/[",\r\n]/.test(s)) {
+              return '"' + s.replace(/"/g, '""') + '"';
+            }
+            return s;
+          }).join(",");
+        });
+        var bom = "\ufeff";
+        var blob = new Blob([bom + csvLines.join("\r\n")], { type: "text/csv;charset=utf-8;" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "deployment-monthly-trend_" + stamp + ".csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+      
+      function populateChartMonthFilter(chartData) {
+        var select = document.getElementById("chartMonthFilter");
+        if (!select) return;
+        var opts = getMonthOptionsFromChartData(chartData);
+        select.innerHTML = '<option value="">All Months</option>';
+        opts.monthKeys.forEach(function (key) {
+          var opt = document.createElement("option");
+          opt.value = key;
+          opt.textContent = opts.monthsSet[key];
+          select.appendChild(opt);
+        });
+        select.removeEventListener("change", onChartMonthFilterChange);
+        select.addEventListener("change", onChartMonthFilterChange);
+      }
+      
+      function onChartMonthFilterChange() {
+        var filtered = getFilteredWeeksByMonth();
+        renderWeekSelector(filtered);
+        renderWeeklyTrendChart(filtered);
+      }
+      
+      function getFilteredWeeksByMonth() {
+        var select = document.getElementById("chartMonthFilter");
+        var selectedMonth = select ? select.value : "";
+        if (!selectedMonth || !window.weeklyTrendChartData) {
+          return window.weeklyTrendChartData || [];
+        }
+        return window.weeklyTrendChartData.filter(function (w) {
+          var m = getMonthFromWeekKey(w.key);
+          return m.mondayKey === selectedMonth || m.fridayKey === selectedMonth;
+        });
+      }
+      
+      function renderWeekSelector(chartData) {
+        var wrap = document.getElementById("weekSelectorWrap");
+        if (!wrap) return;
+        wrap.innerHTML = "";
+        if (!chartData || !chartData.length) {
+          wrap.innerHTML = '<span style="font-size:0.8rem;color:var(--muted)">No weeks available</span>';
+          return;
+        }
+        chartData.forEach(function (w, idx) {
+          var label = document.createElement("label");
+          var checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.checked = true;
+          checkbox.value = w.key;
+          checkbox.addEventListener("change", updateWeeklyTrendChart);
+          label.appendChild(checkbox);
+          label.appendChild(document.createTextNode(" " + w.label));
+          wrap.appendChild(label);
+        });
+      }
+      
+      var weeklyTrendChartInstance = null;
+      
+      function updateWeeklyTrendChart() {
+        var wrap = document.getElementById("weekSelectorWrap");
+        var filteredByMonth = getFilteredWeeksByMonth();
+        if (!wrap || !filteredByMonth) return;
+        var checkboxes = wrap.querySelectorAll('input[type="checkbox"]');
+        var selectedKeys = [];
+        checkboxes.forEach(function (cb) {
+          if (cb.checked) selectedKeys.push(cb.value);
+        });
+        var filtered = filteredByMonth.filter(function (w) {
+          return selectedKeys.indexOf(w.key) !== -1;
+        });
+        renderWeeklyTrendChart(filtered);
+      }
+      
+      function renderWeeklyTrendChart(data) {
+        var canvas = document.getElementById("weeklyTrendChart");
+        if (!canvas || typeof Chart === "undefined") return;
+        
+        if (weeklyTrendChartInstance) {
+          weeklyTrendChartInstance.destroy();
+          weeklyTrendChartInstance = null;
+        }
+        
+        if (!data.length) {
+          return;
+        }
+        
+        var labels = data.map(function (w) { return w.label; });
+        var isDark = document.documentElement.getAttribute("data-theme") === "dark";
+        var gridColor = isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.1)";
+        var textColor = isDark ? "#ffffff" : "#333333";
+        var titleColor = isDark ? "#ffffff" : "#1f2937";
+        
+        weeklyTrendChartInstance = new Chart(canvas, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Total HF - PPT",
+                data: data.map(function (w) { return w.pptHf; }),
+                backgroundColor: "#3b82f6"
+              },
+              {
+                label: "PROD RFC",
+                data: data.map(function (w) { return w.prodRfc; }),
+                backgroundColor: isDark ? "#d1d5db" : "#9ca3af"
+              },
+              {
+                label: "Total HF - PROD",
+                data: data.map(function (w) { return w.prodHf; }),
+                backgroundColor: "#f59e0b"
+              },
+              {
+                label: "Defects/Incident Deployed",
+                data: data.map(function (w) { return w.defects; }),
+                backgroundColor: "#ef4444"
+              }
+            ]
+          },
+          plugins: [ChartDataLabels],
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: { 
+                  color: textColor, 
+                  font: { size: 11, weight: "500" },
+                  padding: 15
+                }
+              },
+              title: {
+                display: true,
+                text: "Weekly Trend",
+                color: titleColor,
+                font: { size: 14, weight: "bold" }
+              },
+              datalabels: {
+                color: textColor,
+                font: {
+                  size: 10,
+                  weight: "bold"
+                },
+                anchor: "end",
+                align: "top",
+                offset: -2,
+                formatter: function (value) {
+                  return value > 0 ? value : "";
+                }
+              }
+            },
+            scales: {
+              x: {
+                grid: { color: gridColor },
+                ticks: { 
+                  color: textColor, 
+                  font: { size: 11, weight: "500" }
+                }
+              },
+              y: {
+                beginAtZero: true,
+                grid: { color: gridColor },
+                ticks: { 
+                  color: textColor, 
+                  font: { size: 11 },
+                  stepSize: 1 
+                }
+              }
+            }
+          }
         });
       }
 
@@ -4254,6 +5903,9 @@
       if (savedFilterProd) {
         savedFilterProd.addEventListener("change", renderSavedList);
       }
+      if (archiveSearchInput) {
+        archiveSearchInput.addEventListener("input", renderArchiveList);
+      }
       if (archiveFilterMonth) {
         archiveFilterMonth.addEventListener("change", renderArchiveList);
       }
@@ -4318,6 +5970,7 @@
           if (!(t && t.getAttribute)) return;
           var loadId = t.getAttribute("data-load");
           var delId = t.getAttribute("data-del");
+          var showStepsId = t.getAttribute("data-show-steps");
           if (loadId) {
             var found = readSavedEntries().filter(function (e) {
               return e.id === loadId;
@@ -4328,6 +5981,84 @@
               if (updateEntryBtn) updateEntryBtn.disabled = false;
               showSaveStatus("Loaded into form. You can now edit and click Update.");
               form.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+            return;
+          }
+          if (showStepsId) {
+            var entryForSteps = readSavedEntries().filter(function (e) {
+              return e.id === showStepsId;
+            })[0];
+            if (entryForSteps) {
+              var hotfix = entryForSteps.hotfixNumber || "N/A";
+              var app = entryForSteps.application || "N/A";
+              var deployType = entryForSteps.deploymentType || "";
+              var areaPpt = entryForSteps.areaServerDbSchemaPpt || "(Not specified)";
+              var areaProd = entryForSteps.areaServerDbSchemaProd || "(Not specified)";
+              var stepsPpt = entryForSteps.deploymentStepsPpt || "(No PPT deployment steps provided)";
+              var stepsProd = entryForSteps.deploymentStepsProd || "(No PROD deployment steps provided)";
+              
+              var isDark = document.documentElement.getAttribute("data-theme") === "dark";
+              var bgColor = isDark ? "#1e1e1e" : "#ffffff";
+              var textColor = isDark ? "#e5e5e5" : "#333333";
+              var headerBg = isDark ? "#2d2d2d" : "#f3f4f6";
+              var borderColor = isDark ? "#444" : "#ddd";
+              var dbHeaderBg = isDark ? "#3d2d1e" : "#fef3c7";
+              var unixHeaderBg = isDark ? "#1e3d3d" : "#ccfbf1";
+              
+              var htmlContent = '<!DOCTYPE html><html><head><title>Deployment Steps - ' + escapeHtml(hotfix) + '</title>';
+              htmlContent += '<style>';
+              htmlContent += 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; background: ' + bgColor + '; color: ' + textColor + '; }';
+              htmlContent += 'h1 { font-size: 1.2rem; margin: 0 0 15px 0; padding-bottom: 10px; border-bottom: 2px solid ' + borderColor + '; }';
+              htmlContent += 'h2 { font-size: 1rem; margin: 25px 0 10px 0; padding-bottom: 5px; border-bottom: 1px solid ' + borderColor + '; }';
+              htmlContent += '.info-row { display: flex; gap: 10px; margin-bottom: 8px; }';
+              htmlContent += '.info-label { font-weight: 600; min-width: 120px; }';
+              htmlContent += '.section { margin: 15px 0; }';
+              htmlContent += '.section-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 8px; padding: 8px 12px; background: ' + headerBg + '; border-radius: 4px; }';
+              htmlContent += '.section-title-db { background: ' + dbHeaderBg + '; }';
+              htmlContent += '.section-title-unix { background: ' + unixHeaderBg + '; }';
+              htmlContent += '.section-content { padding: 10px 12px; border: 1px solid ' + borderColor + '; border-radius: 4px; white-space: pre-wrap; font-family: inherit; font-size: 0.85rem; line-height: 1.5; max-height: 200px; overflow-y: auto; }';
+              htmlContent += '.close-btn { position: fixed; top: 10px; right: 15px; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }';
+              htmlContent += '.close-btn:hover { background: #2563eb; }';
+              htmlContent += '</style></head><body>';
+              htmlContent += '<button class="close-btn" onclick="window.close()">Close</button>';
+              htmlContent += '<h1>DEPLOYMENT STEPS / IMPLEMENTATION</h1>';
+              htmlContent += '<div class="info-row"><span class="info-label">Hotfix #:</span><span>' + escapeHtml(hotfix) + '</span></div>';
+              htmlContent += '<div class="info-row"><span class="info-label">Application:</span><span>' + escapeHtml(app) + '</span></div>';
+              htmlContent += '<div class="info-row"><span class="info-label">Deployment Type:</span><span>' + escapeHtml(deployType || "N/A") + '</span></div>';
+              htmlContent += '<div class="section"><div class="section-title">Area/Server/DB Instance/Schema (PPT)</div><div class="section-content">' + escapeHtml(areaPpt) + '</div></div>';
+              htmlContent += '<div class="section"><div class="section-title">Area/Server/DB Instance/Schema (PROD)</div><div class="section-content">' + escapeHtml(areaProd) + '</div></div>';
+              htmlContent += '<div class="section"><div class="section-title">DEPLOYMENT STEPS (PPT)</div><div class="section-content">' + escapeHtml(stepsPpt) + '</div></div>';
+              htmlContent += '<div class="section"><div class="section-title">DEPLOYMENT STEPS (PROD)</div><div class="section-content">' + escapeHtml(stepsProd) + '</div></div>';
+              
+              if (deployType === "Manual-DB") {
+                var hfConcatPpt = entryForSteps.hfConcatenatedStringPpt || "(Not specified)";
+                var hfConcatProd = entryForSteps.hfConcatenatedStringProd || "(Not specified)";
+                var hfConcatRollbackPpt = entryForSteps.hfConcatenatedStringRollbackPpt || "(Not specified)";
+                var hfConcatRollbackProd = entryForSteps.hfConcatenatedStringRollbackProd || "(Not specified)";
+                htmlContent += '<h2>Manual-DB Additional Details</h2>';
+                htmlContent += '<div class="section"><div class="section-title section-title-db">HF CONCATENATED STRING (PPT)</div><div class="section-content">' + escapeHtml(hfConcatPpt) + '</div></div>';
+                htmlContent += '<div class="section"><div class="section-title section-title-db">HF CONCATENATED STRING (PROD)</div><div class="section-content">' + escapeHtml(hfConcatProd) + '</div></div>';
+                htmlContent += '<div class="section"><div class="section-title section-title-db">HF CONCATENATED STRING ROLLBACK (PPT)</div><div class="section-content">' + escapeHtml(hfConcatRollbackPpt) + '</div></div>';
+                htmlContent += '<div class="section"><div class="section-title section-title-db">HF CONCATENATED STRING ROLLBACK (PROD)</div><div class="section-content">' + escapeHtml(hfConcatRollbackProd) + '</div></div>';
+              }
+              
+              if (deployType === "Manual-Unix") {
+                var unixRollbackPpt = entryForSteps.unixRollbackScriptPpt || "(Not specified)";
+                var unixRollbackProd = entryForSteps.unixRollbackScriptProd || "(Not specified)";
+                htmlContent += '<h2>Manual-Unix Additional Details</h2>';
+                htmlContent += '<div class="section"><div class="section-title section-title-unix">Unix Rollback Script (PPT)</div><div class="section-content">' + escapeHtml(unixRollbackPpt) + '</div></div>';
+                htmlContent += '<div class="section"><div class="section-title section-title-unix">Unix Rollback Script (PROD)</div><div class="section-content">' + escapeHtml(unixRollbackProd) + '</div></div>';
+              }
+              
+              htmlContent += '</body></html>';
+              
+              var popup = window.open("", "DeploymentSteps", "width=750,height=700,scrollbars=yes,resizable=yes");
+              if (popup) {
+                popup.document.write(htmlContent);
+                popup.document.close();
+              } else {
+                alert("Popup blocked. Please allow popups for this site.");
+              }
             }
             return;
           }
@@ -4363,26 +6094,8 @@
         archiveEntriesBody.addEventListener("click", function (ev) {
           var t = ev.target;
           if (!(t && t.getAttribute)) return;
-          var restoreId = t.getAttribute("data-arch-restore");
           var archLoadId = t.getAttribute("data-arch-load");
           var archDelId = t.getAttribute("data-arch-del");
-          if (restoreId) {
-            var listR = readSavedEntries();
-            var er = listR.filter(function (e) {
-              return e.id === restoreId;
-            })[0];
-            if (er) {
-              er.pptDeploymentStatus = "Pending";
-              er.prodDeploymentStatus = "Pending";
-              er.pptRfc = "";
-              er.pptDeploymentDate = "";
-              er.prodRfc = "";
-              er.prodDeploymentDate = "";
-              er.archivedAt = null;
-              persistEntries(listR, { message: "Restored to active saved entries." });
-            }
-            return;
-          }
           if (archLoadId) {
             var foundA = readSavedEntries().filter(function (e) {
               return e.id === archLoadId;
@@ -4431,15 +6144,17 @@
           var restoreId = t.getAttribute("data-del-restore");
           var permDelId = t.getAttribute("data-del-perm");
           if (restoreId) {
-            var listR = readSavedEntries();
-            var er = listR.filter(function (e) {
-              return e.id === restoreId;
-            })[0];
-            if (er) {
-              delete er.deletedAt;
-              persistEntries(listR, { message: "Entry restored." });
-              renderDeletedList();
-            }
+            withDestructivePassword(function () {
+              var listR = readSavedEntries();
+              var er = listR.filter(function (e) {
+                return e.id === restoreId;
+              })[0];
+              if (er) {
+                delete er.deletedAt;
+                persistEntries(listR, { message: "Entry restored." });
+                renderDeletedList();
+              }
+            });
             return;
           }
           if (permDelId) {
@@ -4877,45 +6592,12 @@
         URL.revokeObjectURL(url2);
       }
 
-      var SUMMARY_EXPORT_KEYS = [
-        "application",
-        "requester",
-        "incidentId",
-        "hotfixNumber",
-        "deploymentType",
-        "description",
-        "pptRfc",
-        "pptDeploymentDate",
-        "pptDeploymentStatus",
-        "prodRfc",
-        "prodDeploymentDate",
-        "prodDeploymentStatus"
-      ];
-
       function summaryExportHeaders() {
-        return SUMMARY_EXPORT_KEYS.map(function (k) {
-          return labels[k] || k;
-        });
+        return multiExportHeaders();
       }
 
       function summaryEntryToExportRow(entry) {
-        return SUMMARY_EXPORT_KEYS.map(function (k) {
-          if (k === "pptDeploymentStatus" || k === "prodDeploymentStatus") {
-            return normalizeDeploymentStatus(entry[k]);
-          }
-          if (k === "pptDeploymentDate" || k === "prodDeploymentDate") {
-            var dr = entry[k];
-            if (dr == null || String(dr).trim() === "") return "—";
-            try {
-              return new Date(String(dr).trim() + "T12:00:00").toLocaleDateString();
-            } catch (e) {
-              return String(dr);
-            }
-          }
-          var v = entry[k];
-          if (v == null || String(v).trim() === "") return "—";
-          return String(v);
-        });
+        return entryToExportRow(entry);
       }
 
       function doExportAllSummary(hasXlsx) {
@@ -4950,7 +6632,7 @@
           try {
             var ws3 = XLSX.utils.aoa_to_sheet(aoa);
             ws3["!cols"] = header.map(function (_, i) {
-              return { wch: i === 5 ? 48 : i >= 6 ? 22 : 18 };
+              return { wch: i === 0 ? 22 : i >= 10 ? 40 : 16 };
             });
             var wb3 = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb3, ws3, "Summary");
@@ -5006,6 +6688,167 @@
         });
       }
 
+      if (exportWeeklyTrendBtn) {
+        exportWeeklyTrendBtn.addEventListener("click", function () {
+          exportWeeklyTrendBtn.disabled = true;
+          loadCalendarNotes()
+            .then(function () {
+              return loadXlsx();
+            })
+            .then(function (hasXlsx) {
+              doExportWeeklyTrend(hasXlsx);
+            })
+            .catch(function () {})
+            .then(function () {
+              exportWeeklyTrendBtn.disabled = false;
+            });
+        });
+      }
+
+      function doExportWeeklyTrend(hasXlsx) {
+        var list = readSavedEntries();
+        var allEntries = list.filter(function (e) {
+          return e && !e.deletedAt;
+        });
+        var weekData = {};
+        allEntries.forEach(function (entry) {
+          var pptDate = String(entry.pptDeploymentDate || "").trim();
+          var prodDate = String(entry.prodDeploymentDate || "").trim();
+          var pptStatus = normalizeDeploymentStatus(entry.pptDeploymentStatus);
+          var prodStatus = normalizeDeploymentStatus(entry.prodDeploymentStatus);
+          var hotfixNum = String(entry.hotfixNumber || "").trim();
+          var incidentId = String(entry.incidentId || "").trim().toUpperCase();
+          var prodRfc = String(entry.prodRfc || "").trim();
+          var isArchived = isEntryArchived(entry);
+          if (pptDate && pptStatus === "Deployed" && hotfixNum) {
+            var weekPpt = getWeekRange(pptDate);
+            if (weekPpt) {
+              if (!weekData[weekPpt.key]) {
+                weekData[weekPpt.key] = { label: weekPpt.label, monday: weekPpt.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
+              }
+              weekData[weekPpt.key].pptHfSet[hotfixNum] = true;
+            }
+          }
+          if (isArchived && prodDate && prodStatus === "Deployed") {
+            var weekProd = getWeekRange(prodDate);
+            if (weekProd) {
+              if (!weekData[weekProd.key]) {
+                weekData[weekProd.key] = { label: weekProd.label, monday: weekProd.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
+              }
+              if (hotfixNum) {
+                weekData[weekProd.key].prodHfSet[hotfixNum] = true;
+              }
+              if (prodRfc) {
+                weekData[weekProd.key].prodRfcSet[prodRfc] = true;
+              }
+              if (incidentId && (incidentId.startsWith("INC") || incidentId.startsWith("DEF"))) {
+                weekData[weekProd.key].defectsSet[incidentId] = true;
+              }
+            }
+          }
+        });
+        Object.keys(calendarNotes).forEach(function (dateKey) {
+          var noteData = calendarNotes[dateKey];
+          if (!noteData) return;
+          if (typeof noteData === "string") {
+            try { noteData = JSON.parse(noteData); } catch (e) { return; }
+          }
+          var weekInfo = getWeekRange(dateKey);
+          if (!weekInfo) return;
+          if (!weekData[weekInfo.key]) {
+            weekData[weekInfo.key] = { label: weekInfo.label, monday: weekInfo.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
+          }
+          var parts = dateKey.split("-");
+          var dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+          var dayOfWeek = dateObj.getDay();
+          if (dayOfWeek === 2) {
+            var rfcs1 = extractRfcsFromNote(noteData.note1);
+            var rfcs2 = extractRfcsFromNote(noteData.note2);
+            var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
+            var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
+            var isCancelled2 = noteData.cancelled2 === true || noteData.cancelled2 === "true";
+            if (noteData.note1 && !isCancelled1 && rfcs1.length > 0) {
+              rfcs1.forEach(function (rfc) {
+                weekData[weekInfo.key].prodRfcSet[rfc] = true;
+              });
+            }
+            if (noteData.note2 && !isCancelled2 && rfcs2.length > 0) {
+              rfcs2.forEach(function (rfc) {
+                weekData[weekInfo.key].prodRfcSet[rfc] = true;
+              });
+            }
+          } else {
+            var isCancelled = noteData.cancelled === true || noteData.cancelled === "true";
+            if (noteData.note && !isCancelled) {
+              var noteText = noteData.note.toLowerCase();
+              if (noteText.indexOf("ppt deployment") === -1 && noteText.indexOf("ppt deploy") === -1) {
+                extractRfcsFromNote(noteData.note).forEach(function (rfc) {
+                  weekData[weekInfo.key].prodRfcSet[rfc] = true;
+                });
+              }
+            }
+          }
+        });
+        var allWeeks = Object.keys(weekData).sort();
+        var today = new Date();
+        var currentMonth = today.getMonth();
+        var currentYear = today.getFullYear();
+        var weeks = allWeeks.filter(function (key) {
+          var mondayParts = key.split("-");
+          var monday = new Date(parseInt(mondayParts[0]), parseInt(mondayParts[1]) - 1, parseInt(mondayParts[2]));
+          var friday = new Date(monday);
+          friday.setDate(monday.getDate() + 4);
+          if (monday > today) return false;
+          var mondayInMonth = (monday.getMonth() === currentMonth && monday.getFullYear() === currentYear);
+          var fridayInMonth = (friday.getMonth() === currentMonth && friday.getFullYear() === currentYear);
+          return mondayInMonth || fridayInMonth;
+        });
+        if (!weeks.length) {
+          alert("No weekly trend data to export for the current month.");
+          return;
+        }
+        var stamp = exportFilenameStem();
+        var header = ["Week", "Total HF - PPT", "PROD RFC", "Total HF - PROD", "Defects/Incident Deployed"];
+        var aoa = [header];
+        weeks.forEach(function (key) {
+          var w = weekData[key];
+          var pptHfCount = Object.keys(w.pptHfSet).length;
+          var prodRfcCount = Object.keys(w.prodRfcSet).length;
+          var prodHfCount = Object.keys(w.prodHfSet).length;
+          var defectsCount = Object.keys(w.defectsSet).length;
+          aoa.push([w.label, pptHfCount, prodRfcCount, prodHfCount, defectsCount]);
+        });
+        if (hasXlsx && typeof XLSX !== "undefined" && XLSX.utils && XLSX.writeFile) {
+          try {
+            var ws = XLSX.utils.aoa_to_sheet(aoa);
+            ws["!cols"] = [{ wch: 18 }, { wch: 14 }, { wch: 12 }, { wch: 16 }, { wch: 22 }];
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Weekly Trend");
+            XLSX.writeFile(wb, "deployment-weekly-trend_" + stamp + ".xlsx");
+            return;
+          } catch (err) {}
+        }
+        var csvLines = aoa.map(function (row) {
+          return row.map(function (c) {
+            var s = String(c == null ? "" : c);
+            if (/[",\r\n]/.test(s)) {
+              return '"' + s.replace(/"/g, '""') + '"';
+            }
+            return s;
+          }).join(",");
+        });
+        var bom = "\ufeff";
+        var blob = new Blob([bom + csvLines.join("\r\n")], { type: "text/csv;charset=utf-8;" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "deployment-weekly-trend_" + stamp + ".csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
       function showNetworkShareBanner() {
         var banner = document.getElementById("networkShareBanner");
         if (!banner) return;
@@ -5028,9 +6871,11 @@
         window.addEventListener("scroll", updateBackToTopVisibility, { passive: true });
         updateBackToTopVisibility();
         backToTopBtn.addEventListener("click", function () {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          if (form) {
-            form.scrollIntoView({ behavior: "smooth", block: "start" });
+          var mainHeading = document.getElementById("mainHeading");
+          if (mainHeading) {
+            mainHeading.scrollIntoView({ behavior: "smooth", block: "start" });
+          } else {
+            window.scrollTo({ top: 0, behavior: "smooth" });
           }
         });
       }
@@ -5180,28 +7025,19 @@
         var rfcUpper = rfcNumber.toUpperCase();
         
         var savedMatches = savedEntriesCache.filter(function (entry) {
-          if (isEntryArchived(entry)) return false;
+          if (!entry || entry.deletedAt || isEntryArchived(entry)) return false;
           return (entry.pptRfc && entry.pptRfc.toUpperCase().includes(rfcUpper)) ||
                  (entry.prodRfc && entry.prodRfc.toUpperCase().includes(rfcUpper));
         });
         
         var archivedMatches = savedEntriesCache.filter(function (entry) {
-          if (!isEntryArchived(entry)) return false;
+          if (!entry || entry.deletedAt || !isEntryArchived(entry)) return false;
           return (entry.pptRfc && entry.pptRfc.toUpperCase().includes(rfcUpper)) ||
                  (entry.prodRfc && entry.prodRfc.toUpperCase().includes(rfcUpper));
         });
         
-        if (archivedMatches.length > 0) {
-          revealSummaryPanel();
-          var summaryScreenEl = document.getElementById("summary-screen");
-          if (summaryScreenEl) {
-            summaryScreenEl.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
-          setTimeout(function() {
-            highlightRfcInTable(rfcUpper, "summaryEntriesBody");
-          }, 300);
-          alert("Found " + archivedMatches.length + " archived/deployed entry(ies) with RFC: " + rfcNumber + " in Summary tab.");
-        } else if (savedMatches.length > 0) {
+        if (savedMatches.length > 0 && archivedMatches.length > 0) {
+          alert("Found " + savedMatches.length + " entry(ies) in Saved Entries and " + archivedMatches.length + " entry(ies) in Summary/Archive with RFC: " + rfcNumber + ". Navigating to Saved Entries.");
           var searchInput = document.getElementById("savedSearchInput");
           if (searchInput) {
             searchInput.value = rfcNumber;
@@ -5212,6 +7048,28 @@
           if (savedPanel) {
             savedPanel.scrollIntoView({ behavior: "smooth", block: "start" });
           }
+        } else if (savedMatches.length > 0) {
+          alert("Found " + savedMatches.length + " entry(ies) in Saved Entries with RFC: " + rfcNumber);
+          var searchInput = document.getElementById("savedSearchInput");
+          if (searchInput) {
+            searchInput.value = rfcNumber;
+            searchInput.dispatchEvent(new Event("input", { bubbles: true }));
+          }
+          revealSavedEntriesPanel();
+          var savedPanel = document.getElementById("savedEntriesPanel");
+          if (savedPanel) {
+            savedPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        } else if (archivedMatches.length > 0) {
+          alert("Found " + archivedMatches.length + " archived/deployed entry(ies) in Summary with RFC: " + rfcNumber);
+          revealSummaryPanel();
+          var summaryScreenEl = document.getElementById("summary-screen");
+          if (summaryScreenEl) {
+            summaryScreenEl.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+          setTimeout(function() {
+            highlightRfcInTable(rfcUpper, "summaryEntriesBody");
+          }, 300);
         } else {
           alert("No entries found with RFC: " + rfcNumber);
         }
