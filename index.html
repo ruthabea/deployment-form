@@ -2762,7 +2762,7 @@
               <button type="button" class="note-format-btn" data-format="italic" data-target="calendarNoteTuesday1" title="Italic"><i>I</i></button>
               <button type="button" class="note-format-btn" data-format="underline" data-target="calendarNoteTuesday1" title="Underline"><u>U</u></button>
             </div>
-            <textarea id="calendarNoteTuesday1" rows="3" placeholder="First detail for Tuesday..."></textarea>
+            <textarea id="calendarNoteTuesday1" rows="3" placeholder="First note for this day..."></textarea>
           </div>
           <div class="calendar-tuesday-field">
             <div class="calendar-tuesday-field-header">
@@ -2777,7 +2777,7 @@
               <button type="button" class="note-format-btn" data-format="italic" data-target="calendarNoteTuesday2" title="Italic"><i>I</i></button>
               <button type="button" class="note-format-btn" data-format="underline" data-target="calendarNoteTuesday2" title="Underline"><u>U</u></button>
             </div>
-            <textarea id="calendarNoteTuesday2" rows="3" placeholder="Second detail for Tuesday..."></textarea>
+            <textarea id="calendarNoteTuesday2" rows="3" placeholder="Second note for this day..."></textarea>
           </div>
         </div>
         <div class="calendar-note-actions">
@@ -5189,35 +5189,25 @@
           if (!weekData[weekInfo.key]) {
             weekData[weekInfo.key] = { label: weekInfo.label, monday: weekInfo.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
           }
-          var parts = dateKey.split("-");
-          var dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-          var dayOfWeek = dateObj.getDay();
-          if (dayOfWeek === 2) {
-            var rfcs1 = extractRfcsFromNote(noteData.note1);
-            var rfcs2 = extractRfcsFromNote(noteData.note2);
-            var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
-            var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
-            var isCancelled2 = noteData.cancelled2 === true || noteData.cancelled2 === "true";
-            if (noteData.note1 && !isCancelled1 && rfcs1.length > 0) {
-              rfcs1.forEach(function (rfc) {
-                weekData[weekInfo.key].prodRfcSet[rfc] = true;
-              });
-            }
-            if (noteData.note2 && !isCancelled2 && rfcs2.length > 0) {
-              rfcs2.forEach(function (rfc) {
-                weekData[weekInfo.key].prodRfcSet[rfc] = true;
-              });
-            }
-          } else {
-            var isCancelled = noteData.cancelled === true || noteData.cancelled === "true";
-            if (noteData.note && !isCancelled) {
-              var noteText = noteData.note.toLowerCase();
-              if (noteText.indexOf("ppt deployment") === -1 && noteText.indexOf("ppt deploy") === -1) {
-                extractRfcsFromNote(noteData.note).forEach(function (rfc) {
-                  weekData[weekInfo.key].prodRfcSet[rfc] = true;
-                });
-              }
-            }
+          var rfcs1 = extractRfcsFromNote(noteData.note1);
+          var rfcs2 = extractRfcsFromNote(noteData.note2);
+          var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
+          var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
+          var isCancelled2 = noteData.cancelled2 === true || noteData.cancelled2 === "true";
+          if (noteData.note1 && !isCancelled1 && rfcs1.length > 0) {
+            rfcs1.forEach(function (rfc) {
+              weekData[weekInfo.key].prodRfcSet[rfc] = true;
+            });
+          }
+          if (noteData.note2 && !isCancelled2 && rfcs2.length > 0) {
+            rfcs2.forEach(function (rfc) {
+              weekData[weekInfo.key].prodRfcSet[rfc] = true;
+            });
+          }
+          if (noteData.note && !genericCancelled) {
+            extractRfcsFromNote(noteData.note).forEach(function (rfc) {
+              weekData[weekInfo.key].prodRfcSet[rfc] = true;
+            });
           }
         });
         var allWeeks = Object.keys(weekData).sort();
@@ -5683,33 +5673,23 @@
             result[monthKey] = { label: monthLabel, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
           }
           
-          var dateObj = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]));
-          var dayOfWeek = dateObj.getDay();
-          
-          if (dayOfWeek === 2) {
-            var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
-            var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
-            var isCancelled2 = noteData.cancelled2 === true || noteData.cancelled2 === "true";
-            if (noteData.note1 && !isCancelled1) {
-              extractRfcsFromNote(noteData.note1).forEach(function (rfc) {
-                result[monthKey].prodRfcSet[rfc] = true;
-              });
-            }
-            if (noteData.note2 && !isCancelled2) {
-              extractRfcsFromNote(noteData.note2).forEach(function (rfc) {
-                result[monthKey].prodRfcSet[rfc] = true;
-              });
-            }
-          } else {
-            var isCancelled = noteData.cancelled === true || noteData.cancelled === "true";
-            if (noteData.note && !isCancelled) {
-              var noteText = noteData.note.toLowerCase();
-              if (noteText.indexOf("ppt deployment") === -1 && noteText.indexOf("ppt deploy") === -1) {
-                extractRfcsFromNote(noteData.note).forEach(function (rfc) {
-                  result[monthKey].prodRfcSet[rfc] = true;
-                });
-              }
-            }
+          var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
+          var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
+          var isCancelled2 = noteData.cancelled2 === true || noteData.cancelled2 === "true";
+          if (noteData.note1 && !isCancelled1) {
+            extractRfcsFromNote(noteData.note1).forEach(function (rfc) {
+              result[monthKey].prodRfcSet[rfc] = true;
+            });
+          }
+          if (noteData.note2 && !isCancelled2) {
+            extractRfcsFromNote(noteData.note2).forEach(function (rfc) {
+              result[monthKey].prodRfcSet[rfc] = true;
+            });
+          }
+          if (noteData.note && !genericCancelled) {
+            extractRfcsFromNote(noteData.note).forEach(function (rfc) {
+              result[monthKey].prodRfcSet[rfc] = true;
+            });
           }
         });
         
@@ -7683,35 +7663,25 @@
           if (!weekData[weekInfo.key]) {
             weekData[weekInfo.key] = { label: weekInfo.label, monday: weekInfo.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
           }
-          var parts = dateKey.split("-");
-          var dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-          var dayOfWeek = dateObj.getDay();
-          if (dayOfWeek === 2) {
-            var rfcs1 = extractRfcsFromNote(noteData.note1);
-            var rfcs2 = extractRfcsFromNote(noteData.note2);
-            var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
-            var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
-            var isCancelled2 = noteData.cancelled2 === true || noteData.cancelled2 === "true";
-            if (noteData.note1 && !isCancelled1 && rfcs1.length > 0) {
-              rfcs1.forEach(function (rfc) {
-                weekData[weekInfo.key].prodRfcSet[rfc] = true;
-              });
-            }
-            if (noteData.note2 && !isCancelled2 && rfcs2.length > 0) {
-              rfcs2.forEach(function (rfc) {
-                weekData[weekInfo.key].prodRfcSet[rfc] = true;
-              });
-            }
-          } else {
-            var isCancelled = noteData.cancelled === true || noteData.cancelled === "true";
-            if (noteData.note && !isCancelled) {
-              var noteText = noteData.note.toLowerCase();
-              if (noteText.indexOf("ppt deployment") === -1 && noteText.indexOf("ppt deploy") === -1) {
-                extractRfcsFromNote(noteData.note).forEach(function (rfc) {
-                  weekData[weekInfo.key].prodRfcSet[rfc] = true;
-                });
-              }
-            }
+          var rfcs1 = extractRfcsFromNote(noteData.note1);
+          var rfcs2 = extractRfcsFromNote(noteData.note2);
+          var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
+          var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
+          var isCancelled2 = noteData.cancelled2 === true || noteData.cancelled2 === "true";
+          if (noteData.note1 && !isCancelled1 && rfcs1.length > 0) {
+            rfcs1.forEach(function (rfc) {
+              weekData[weekInfo.key].prodRfcSet[rfc] = true;
+            });
+          }
+          if (noteData.note2 && !isCancelled2 && rfcs2.length > 0) {
+            rfcs2.forEach(function (rfc) {
+              weekData[weekInfo.key].prodRfcSet[rfc] = true;
+            });
+          }
+          if (noteData.note && !genericCancelled) {
+            extractRfcsFromNote(noteData.note).forEach(function (rfc) {
+              weekData[weekInfo.key].prodRfcSet[rfc] = true;
+            });
           }
         });
         var allWeeks = Object.keys(weekData).sort();
@@ -7996,9 +7966,7 @@
       }
 
       function isTuesday(dateKey) {
-        var parts = dateKey.split("-");
-        var d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-        return d.getDay() === 2;
+        return true;
       }
 
       function getNoteDisplayText(dateKey) {
