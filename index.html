@@ -1168,6 +1168,17 @@
       width: 100% !important;
       max-height: 350px;
     }
+    .monthly-trend-area-chart-wrap {
+      background: #1a1a2e;
+      border: 2px solid #333;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-top: 1.5rem;
+    }
+    #monthlyTrendAreaChart {
+      width: 100% !important;
+      max-height: 320px;
+    }
     .week-selector {
       display: flex;
       gap: 0.75rem;
@@ -2672,6 +2683,9 @@
           <div class="monthly-trend-chart-wrap">
             <h3 class="monthly-trend-chart-title">Change Management Trend</h3>
             <canvas id="monthlyTrendChart"></canvas>
+          </div>
+          <div class="monthly-trend-area-chart-wrap">
+            <canvas id="monthlyTrendAreaChart"></canvas>
           </div>
         </div>
       </div>
@@ -5101,6 +5115,26 @@
         return matches.map(function(m) { return m.toUpperCase(); });
       }
 
+      function extractDefectIds(text) {
+        if (!text) return [];
+        var ids = [];
+        var defectPattern = /DEFECT#?\d+|DEF\d+|INC\d+/gi;
+        var matches = text.match(defectPattern) || [];
+        matches.forEach(function(m) {
+          var normalized = m.toUpperCase().replace(/DEFECT#?/i, "DEF");
+          if (ids.indexOf(normalized) === -1) {
+            ids.push(normalized);
+          }
+        });
+        return ids;
+      }
+
+      function isValidHotfixNumber(hfNum) {
+        if (!hfNum) return false;
+        var upper = hfNum.toUpperCase().trim();
+        return upper !== "NA" && upper !== "N/A" && upper !== "";
+      }
+
       function renderWeeklyTrend() {
         var list = readSavedEntries();
         var allEntries = list.filter(function (e) {
@@ -5116,7 +5150,7 @@
           var incidentId = String(entry.incidentId || "").trim().toUpperCase();
           var prodRfc = String(entry.prodRfc || "").trim();
           var isArchived = isEntryArchived(entry);
-          if (pptDate && pptStatus === "Deployed" && hotfixNum) {
+          if (pptDate && pptStatus === "Deployed" && isValidHotfixNumber(hotfixNum)) {
             var weekPpt = getWeekRange(pptDate);
             if (weekPpt) {
               if (!weekData[weekPpt.key]) {
@@ -5131,15 +5165,16 @@
               if (!weekData[weekProd.key]) {
                 weekData[weekProd.key] = { label: weekProd.label, monday: weekProd.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
               }
-              if (hotfixNum) {
+              if (isValidHotfixNumber(hotfixNum)) {
                 weekData[weekProd.key].prodHfSet[hotfixNum] = true;
               }
               if (prodRfc) {
                 weekData[weekProd.key].prodRfcSet[prodRfc] = true;
               }
-              if (incidentId && (incidentId.startsWith("INC") || incidentId.startsWith("DEF"))) {
-                weekData[weekProd.key].defectsSet[incidentId] = true;
-              }
+              var defectIds = extractDefectIds(incidentId);
+              defectIds.forEach(function(defId) {
+                weekData[weekProd.key].defectsSet[defId] = true;
+              });
             }
           }
         });
@@ -5597,7 +5632,7 @@
           var prodRfc = String(entry.prodRfc || "").trim();
           var isArchived = isEntryArchived(entry);
           
-          if (pptDate && pptStatus === "Deployed" && hotfixNum) {
+          if (pptDate && pptStatus === "Deployed" && isValidHotfixNumber(hotfixNum)) {
             var pptParts = pptDate.split("-");
             if (pptParts.length >= 2) {
               var pptMonthKey = pptParts[0] + "-" + pptParts[1];
@@ -5617,15 +5652,16 @@
               if (!result[prodMonthKey]) {
                 result[prodMonthKey] = { label: prodLabel, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
               }
-              if (hotfixNum) {
+              if (isValidHotfixNumber(hotfixNum)) {
                 result[prodMonthKey].prodHfSet[hotfixNum] = true;
               }
               if (prodRfc) {
                 result[prodMonthKey].prodRfcSet[prodRfc] = true;
               }
-              if (incidentId && (incidentId.startsWith("INC") || incidentId.startsWith("DEF"))) {
-                result[prodMonthKey].defectsSet[incidentId] = true;
-              }
+              var defectIds = extractDefectIds(incidentId);
+              defectIds.forEach(function(defId) {
+                result[prodMonthKey].defectsSet[defId] = true;
+              });
             }
           }
         });
@@ -5739,6 +5775,7 @@
         });
         
         renderMonthlyTrendChart(window.monthlyTrendData);
+        renderMonthlyTrendAreaChart(window.monthlyTrendData);
       }
       
       var monthlyTrendChartInstance = null;
@@ -5853,6 +5890,129 @@
                 grid: { color: gridColor },
                 ticks: { 
                   color: textColor, 
+                  font: { size: 11 },
+                  stepSize: 10
+                }
+              }
+            }
+          }
+        });
+      }
+      
+      var monthlyTrendAreaChartInstance = null;
+      
+      function renderMonthlyTrendAreaChart(data) {
+        var canvas = document.getElementById("monthlyTrendAreaChart");
+        if (!canvas || typeof Chart === "undefined") return;
+        
+        if (monthlyTrendAreaChartInstance) {
+          monthlyTrendAreaChartInstance.destroy();
+          monthlyTrendAreaChartInstance = null;
+        }
+        
+        if (!data || !data.length) return;
+        
+        var labels = data.map(function (m) { return m.label.toUpperCase(); });
+        
+        monthlyTrendAreaChartInstance = new Chart(canvas, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Defects Deployed",
+                data: data.map(function (m) { return m.defectsDeployed; }),
+                borderColor: "#ea580c",
+                backgroundColor: "#ea580c",
+                fill: "origin",
+                tension: 0.4,
+                pointRadius: 0,
+                borderWidth: 0
+              },
+              {
+                label: "HF Deployed",
+                data: data.map(function (m) { return m.hfDeployed; }),
+                borderColor: "#ca8a04",
+                backgroundColor: "#ca8a04",
+                fill: "origin",
+                tension: 0.4,
+                pointRadius: 0,
+                borderWidth: 0
+              },
+              {
+                label: "Prod RFC",
+                data: data.map(function (m) { return m.prodRfc; }),
+                borderColor: "#6b7280",
+                backgroundColor: "#6b7280",
+                fill: "origin",
+                tension: 0.4,
+                pointRadius: 0,
+                borderWidth: 0
+              },
+              {
+                label: "PPT Release",
+                data: data.map(function (m) { return m.pptRelease; }),
+                borderColor: "#2563eb",
+                backgroundColor: "#2563eb",
+                fill: "origin",
+                tension: 0.4,
+                pointRadius: 0,
+                borderWidth: 0
+              }
+            ]
+          },
+          plugins: [ChartDataLabels],
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+              intersect: false,
+              mode: "index"
+            },
+            plugins: {
+              legend: {
+                position: "top",
+                labels: { 
+                  color: "#ffffff", 
+                  font: { size: 11 },
+                  usePointStyle: true,
+                  pointStyle: "rect",
+                  boxWidth: 12,
+                  padding: 15
+                }
+              },
+              datalabels: {
+                color: "#ffeb3b",
+                font: {
+                  size: 11,
+                  weight: "bold"
+                },
+                anchor: "center",
+                align: "center",
+                formatter: function (value) {
+                  return value > 0 ? value : "";
+                }
+              }
+            },
+            scales: {
+              x: {
+                stacked: true,
+                grid: { 
+                  display: false
+                },
+                ticks: { 
+                  color: "#ffffff", 
+                  font: { size: 11, weight: "bold" }
+                }
+              },
+              y: {
+                stacked: true,
+                beginAtZero: true,
+                grid: { 
+                  color: "rgba(255,255,255,0.1)"
+                },
+                ticks: { 
+                  color: "#ffffff", 
                   font: { size: 11 },
                   stepSize: 10
                 }
@@ -7484,7 +7644,7 @@
           var incidentId = String(entry.incidentId || "").trim().toUpperCase();
           var prodRfc = String(entry.prodRfc || "").trim();
           var isArchived = isEntryArchived(entry);
-          if (pptDate && pptStatus === "Deployed" && hotfixNum) {
+          if (pptDate && pptStatus === "Deployed" && isValidHotfixNumber(hotfixNum)) {
             var weekPpt = getWeekRange(pptDate);
             if (weekPpt) {
               if (!weekData[weekPpt.key]) {
@@ -7499,15 +7659,16 @@
               if (!weekData[weekProd.key]) {
                 weekData[weekProd.key] = { label: weekProd.label, monday: weekProd.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
               }
-              if (hotfixNum) {
+              if (isValidHotfixNumber(hotfixNum)) {
                 weekData[weekProd.key].prodHfSet[hotfixNum] = true;
               }
               if (prodRfc) {
                 weekData[weekProd.key].prodRfcSet[prodRfc] = true;
               }
-              if (incidentId && (incidentId.startsWith("INC") || incidentId.startsWith("DEF"))) {
-                weekData[weekProd.key].defectsSet[incidentId] = true;
-              }
+              var defectIds = extractDefectIds(incidentId);
+              defectIds.forEach(function(defId) {
+                weekData[weekProd.key].defectsSet[defId] = true;
+              });
             }
           }
         });
@@ -7660,7 +7821,7 @@
       var syncIndicator = document.getElementById("syncIndicator");
       var syncStatusText = document.getElementById("syncStatusText");
       var syncRefreshBtn = document.getElementById("syncRefreshBtn");
-      var AUTO_SYNC_INTERVAL = 10000;
+      var AUTO_SYNC_INTERVAL = 30000;
       var syncIntervalId = null;
       var lastSyncTime = null;
       var isOnline = true;
@@ -7689,7 +7850,7 @@
           .then(function () {
             lastSyncTime = new Date();
             isOnline = true;
-            updateSyncStatus("ok", "Last synced: " + formatSyncTime(lastSyncTime) + " (auto-refresh every 10s)");
+            updateSyncStatus("ok", "Last synced: " + formatSyncTime(lastSyncTime) + " (auto-refresh every 30s)");
             renderSavedList();
             renderWeeklyTrend();
             loadCalendarNotes().then(function () {
