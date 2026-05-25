@@ -159,6 +159,16 @@
     .header-saved-link {
       margin: 0.65rem 0 0;
       font-size: 0.9rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .header-nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
     }
     .header-saved-link a {
       color: var(--accent);
@@ -176,18 +186,23 @@
     }
     .network-share-banner {
       position: fixed;
-      top: 1rem;
-      right: 4rem;
-      max-width: 320px;
-      padding: 0.65rem 0.75rem;
-      font-size: 0.78rem;
-      line-height: 1.4;
+      bottom: 1rem;
+      left: 1rem;
+      max-width: 280px;
+      padding: 0.6rem 0.75rem;
+      font-size: 0.72rem;
+      line-height: 1.35;
       color: #c7d2fe;
       background: rgba(99, 102, 241, 0.95);
       border: 1px solid rgba(129, 140, 248, 0.6);
       border-radius: 8px;
       z-index: 1000;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      animation: fadeInUp 0.3s ease-out;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .network-share-banner strong {
       color: #e0e7ff;
@@ -198,6 +213,69 @@
     }
     .network-share-banner[hidden] {
       display: none !important;
+    }
+    .network-share-banner .banner-close {
+      position: absolute;
+      top: 4px;
+      right: 6px;
+      background: none;
+      border: none;
+      color: #a5b4fc;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 2px 6px;
+      line-height: 1;
+    }
+    .network-share-banner .banner-close:hover {
+      color: #fff;
+    }
+    .sync-status-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.5rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    .sync-status-bar[hidden] {
+      display: none !important;
+    }
+    .sync-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+    }
+    .sync-indicator.syncing {
+      background: #f59e0b;
+      animation: pulse 1s infinite;
+    }
+    .sync-indicator.error {
+      background: #ef4444;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .sync-refresh-btn {
+      padding: 0.2rem 0.5rem;
+      font-size: 0.7rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: auto;
+    }
+    .sync-refresh-btn:hover {
+      background: var(--accent-hover);
+    }
+    .sync-refresh-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
     #saved-entries {
       scroll-margin-top: 1rem;
@@ -348,6 +426,167 @@
     .btn-export:disabled {
       opacity: 0.65;
       cursor: wait;
+    }
+    .btn-import {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+    }
+    .btn-import:hover {
+      background: #3b82f6;
+    }
+    .import-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 1rem;
+    }
+    .import-modal-overlay.show {
+      display: flex;
+    }
+    .import-modal {
+      background: var(--card);
+      border-radius: 12px;
+      max-width: 700px;
+      width: 100%;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .import-modal-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .import-modal-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    .import-modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--muted);
+      line-height: 1;
+    }
+    .import-modal-close:hover {
+      color: var(--fg);
+    }
+    .import-modal-body {
+      padding: 1.25rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .import-drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .import-drop-zone:hover,
+    .import-drop-zone.drag-over {
+      border-color: #3b82f6;
+      background: rgba(59, 130, 246, 0.1);
+    }
+    .import-drop-zone input[type="file"] {
+      display: none;
+    }
+    .import-drop-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .import-preview {
+      margin-top: 1rem;
+    }
+    .import-preview-info {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+    }
+    .import-preview-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    .import-preview-table th,
+    .import-preview-table td {
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.6rem;
+      text-align: left;
+    }
+    .import-preview-table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .import-preview-scroll {
+      max-height: 250px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .import-modal-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+    .import-status {
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      margin-top: 1rem;
+    }
+    .import-status.success {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #10b981;
+    }
+    .import-status.error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #ef4444;
+    }
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      padding: 0.5rem;
+    }
+    .pagination-controls button {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--fg);
+      cursor: pointer;
+    }
+    .pagination-controls button:hover:not(:disabled) {
+      background: var(--accent);
+      color: #fff;
+    }
+    .pagination-controls button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .pagination-info {
+      font-size: 0.8rem;
+      color: var(--muted);
     }
     .hint {
       font-size: 0.75rem;
@@ -1393,6 +1632,12 @@
     html[data-theme="light"] .network-share-banner strong {
       color: #312e81;
     }
+    html[data-theme="light"] .network-share-banner .banner-close {
+      color: #6366f1;
+    }
+    html[data-theme="light"] .network-share-banner .banner-close:hover {
+      color: #312e81;
+    }
     html[data-theme="light"] .rollback-callout {
       border-color: #fbbf24;
       background: #fffbeb;
@@ -1599,21 +1844,28 @@
       </div>
       <p class="subtitle">Capture environment, tracking IDs, artifacts, and dependencies before deployment.</p>
       <p id="networkShareBanner" class="network-share-banner" hidden></p>
-      <p class="header-saved-link">
-        <a href="#saved-entries">All saved entries</a>
-        <span class="header-nav-sep" aria-hidden="true">·</span>
-        <a href="#archive">Archive</a>
-        <span class="header-nav-sep" aria-hidden="true">·</span>
-        <a href="#deleted">Deleted Hotfixes</a>
-        <span class="header-nav-sep" aria-hidden="true">·</span>
-        <a href="#summary">Summary / Deployed Hotfixes</a>
-        <span class="header-nav-sep" aria-hidden="true">·</span>
-        <a href="#weekly-trend">Weekly Trend</a>
-        <span class="header-nav-sep" aria-hidden="true">·</span>
-        <a href="#monthly-trend">Monthly Trend</a>
-        <span class="header-nav-sep" aria-hidden="true">·</span>
-        <a href="#calendar">Deployment Calendar</a>
-      </p>
+      <div class="header-saved-link">
+        <div class="header-nav-links">
+          <a href="#saved-entries">All saved entries</a>
+          <span class="header-nav-sep" aria-hidden="true">·</span>
+          <a href="#archive">Archive</a>
+          <span class="header-nav-sep" aria-hidden="true">·</span>
+          <a href="#deleted">Deleted Hotfixes</a>
+          <span class="header-nav-sep" aria-hidden="true">·</span>
+          <a href="#summary">Summary / Deployed Hotfixes</a>
+          <span class="header-nav-sep" aria-hidden="true">·</span>
+          <a href="#weekly-trend">Weekly Trend</a>
+          <span class="header-nav-sep" aria-hidden="true">·</span>
+          <a href="#monthly-trend">Monthly Trend</a>
+          <span class="header-nav-sep" aria-hidden="true">·</span>
+          <a href="#calendar">Deployment Calendar</a>
+        </div>
+        <div id="syncStatusBar" class="sync-status-bar" hidden>
+          <span id="syncIndicator" class="sync-indicator"></span>
+          <span id="syncStatusText">Last synced: --</span>
+          <button type="button" id="syncRefreshBtn" class="sync-refresh-btn">Refresh Now</button>
+        </div>
+      </div>
     </header>
 
     <form id="deployForm" novalidate>
@@ -2051,6 +2303,7 @@
             Hide details
           </button>
           <button type="button" class="btn-export btn-tiny" id="exportAllSavedBtn" title="One row per active saved entry; archived rows are not included">Export all to Excel</button>
+          <button type="button" class="btn-import btn-tiny" id="importFromExcelBtn" title="Import entries from Excel file">Import from Excel</button>
           <button type="button" class="btn-danger btn-tiny" id="clearAllSavedBtn">Clear all saved</button>
         </div>
       </div>
@@ -2166,6 +2419,11 @@
           <tbody id="archiveEntriesBody"></tbody>
         </table>
       </div>
+      <div id="archivePagination" class="pagination-controls" hidden>
+        <button type="button" id="archivePrevBtn">← Previous</button>
+        <span id="archivePageInfo" class="pagination-info">Page 1 of 1</span>
+        <button type="button" id="archiveNextBtn">Next →</button>
+      </div>
     </section>
 
     <section class="saved-panel deleted-panel" id="deleted-screen" hidden aria-labelledby="deletedHeading">
@@ -2252,6 +2510,11 @@
           </thead>
           <tbody id="summaryEntriesBody"></tbody>
         </table>
+      </div>
+      <div id="summaryPagination" class="pagination-controls" hidden>
+        <button type="button" id="summaryPrevBtn">← Previous</button>
+        <span id="summaryPageInfo" class="pagination-info">Page 1 of 1</span>
+        <button type="button" id="summaryNextBtn">Next →</button>
       </div>
     </section>
 
@@ -2539,6 +2802,41 @@
       <div class="password-prompt-actions">
         <button type="button" class="btn-secondary" id="passwordPromptCancel">Cancel</button>
         <button type="button" class="btn-save" id="passwordPromptConfirm">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="importModalOverlay" class="import-modal-overlay" hidden>
+    <div class="import-modal">
+      <div class="import-modal-header">
+        <h3>Import from Excel</h3>
+        <button type="button" class="import-modal-close" id="importModalClose" onclick="document.getElementById('importModalOverlay').classList.remove('show');">&times;</button>
+      </div>
+      <div class="import-modal-body">
+        <div id="importDropZone" class="import-drop-zone">
+          <div class="import-drop-icon">📁</div>
+          <p><strong>Drop Excel file here</strong></p>
+          <p style="font-size: 0.85rem; color: var(--muted);">or click to browse (.xlsx, .xlsm)</p>
+          <input type="file" id="importFileInput" accept=".xlsx,.xlsm,.xls" />
+        </div>
+        <div id="importPreview" class="import-preview" hidden>
+          <div class="import-preview-info">
+            <strong id="importFileName"></strong><br/>
+            <span id="importRowCount"></span>
+          </div>
+          <p style="font-size: 0.85rem; margin-bottom: 0.5rem;"><strong>Preview (first 5 rows):</strong></p>
+          <div class="import-preview-scroll">
+            <table class="import-preview-table">
+              <thead id="importPreviewHead"></thead>
+              <tbody id="importPreviewBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="importStatus" class="import-status" hidden></div>
+      </div>
+      <div class="import-modal-footer">
+        <button type="button" class="btn-secondary" id="importCancelBtn" onclick="document.getElementById('importModalOverlay').classList.remove('show');">Cancel</button>
+        <button type="button" class="btn-save" id="importConfirmBtn" disabled>Import All</button>
       </div>
     </div>
   </div>
@@ -3827,6 +4125,7 @@
 
       var saveEntryBtn = document.getElementById("saveEntryBtn");
       var exportAllSavedBtn = document.getElementById("exportAllSavedBtn");
+      var importFromExcelBtn = document.getElementById("importFromExcelBtn");
       var exportAllSummaryBtn = document.getElementById("exportAllSummaryBtn");
       var clearAllSavedBtn = document.getElementById("clearAllSavedBtn");
       var savedEntriesBody = document.getElementById("savedEntriesBody");
@@ -3855,6 +4154,21 @@
       var summaryCount = document.getElementById("summaryCount");
       var summaryFilterWrap = document.getElementById("summaryFilterWrap");
       var summaryFilterMonth = document.getElementById("summaryFilterMonth");
+      
+      var archivePagination = document.getElementById("archivePagination");
+      var archivePrevBtn = document.getElementById("archivePrevBtn");
+      var archiveNextBtn = document.getElementById("archiveNextBtn");
+      var archivePageInfo = document.getElementById("archivePageInfo");
+      var archiveCurrentPage = 1;
+      var ARCHIVE_PAGE_SIZE = 20;
+      
+      var summaryPagination = document.getElementById("summaryPagination");
+      var summaryPrevBtn = document.getElementById("summaryPrevBtn");
+      var summaryNextBtn = document.getElementById("summaryNextBtn");
+      var summaryPageInfo = document.getElementById("summaryPageInfo");
+      var summaryCurrentPage = 1;
+      var SUMMARY_PAGE_SIZE = 20;
+      
       var deletedTableWrap = document.getElementById("deletedTableWrap");
       var deletedEntriesBody = document.getElementById("deletedEntriesBody");
       var deletedEmpty = document.getElementById("deletedEmpty");
@@ -3864,6 +4178,20 @@
       var weeklyTrendBody = document.getElementById("weeklyTrendBody");
       var weeklyTrendEmpty = document.getElementById("weeklyTrendEmpty");
       var exportWeeklyTrendBtn = document.getElementById("exportWeeklyTrendBtn");
+
+      var importModalOverlay = document.getElementById("importModalOverlay");
+      var importModalClose = document.getElementById("importModalClose");
+      var importDropZone = document.getElementById("importDropZone");
+      var importFileInput = document.getElementById("importFileInput");
+      var importPreview = document.getElementById("importPreview");
+      var importFileName = document.getElementById("importFileName");
+      var importRowCount = document.getElementById("importRowCount");
+      var importPreviewHead = document.getElementById("importPreviewHead");
+      var importPreviewBody = document.getElementById("importPreviewBody");
+      var importStatus = document.getElementById("importStatus");
+      var importCancelBtn = document.getElementById("importCancelBtn");
+      var importConfirmBtn = document.getElementById("importConfirmBtn");
+      var importParsedData = [];
 
       function uniqueId() {
         if (typeof crypto !== "undefined" && crypto.randomUUID) {
@@ -3881,7 +4209,22 @@
       // Supabase configuration
       var SUPABASE_URL = "https://dsvapirucwycsptbwtdy.supabase.co";
       var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzdmFwaXJ1Y3d5Y3NwdGJ3dGR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyNTEyMjMsImV4cCI6MjA5NDgyNzIyM30.CUThwaMoUcR-TDVqs3fKoMVShaG4b1Oxn_anJWjacrk";
-      var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      var supabaseClient = null;
+      
+      try {
+        if (window.supabase && typeof window.supabase.createClient === 'function') {
+          supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+          window.supabaseClient = supabaseClient;
+          console.log("Supabase client initialized successfully");
+        } else {
+          console.warn("Supabase library not available");
+        }
+      } catch (e) {
+        console.error("Failed to initialize Supabase:", e);
+      }
+      
+      window.getCache = function() { return savedEntriesCache; };
+      window.getCacheSize = function() { return savedEntriesCache.length; };
 
       function normalizeSingleEntry(entry) {
         if (!entry || typeof entry !== "object") return entry;
@@ -3967,7 +4310,11 @@
         });
         
         // Delete all and insert fresh (upsert approach)
-        return supabase
+        if (!supabaseClient || typeof supabaseClient.from !== 'function') {
+          writeSavedEntriesToLocalStorage(normalized);
+          return Promise.resolve(normalized);
+        }
+        return supabaseClient
           .from("saved_entries")
           .delete()
           .neq("id", "")
@@ -3976,7 +4323,7 @@
               entriesDbReady = true;
               return normalized;
             }
-            return supabase
+            return supabaseClient
               .from("saved_entries")
               .upsert(rows, { onConflict: "id" })
               .then(function (result) {
@@ -3990,7 +4337,13 @@
       }
 
       function loadEntriesFromDatabase() {
-        return supabase
+        if (!supabaseClient || typeof supabaseClient.from !== 'function') {
+          console.warn("Supabase not available, using local storage");
+          var local = readSavedEntriesFromLocalStorage();
+          savedEntriesCache = local;
+          return Promise.resolve(local);
+        }
+        return supabaseClient
           .from("saved_entries")
           .select("data")
           .order("saved_at", { ascending: false })
@@ -4341,7 +4694,7 @@
             '<td class="cell-actions">' +
             '<button type="button" class="btn-secondary btn-tiny" data-load="' +
             escapeAttr(entry.id) +
-            '" title="Copy data to form">Copy Data</button> ' +
+            '" title="Copy/Load data to form">Copy/Load Data</button> ' +
             '<button type="button" class="btn-secondary btn-tiny" data-show-steps="' +
             escapeAttr(entry.id) +
             '" title="Show deployment details">Show Details</button> ' +
@@ -4407,6 +4760,7 @@
           if (archiveSearchWrap) archiveSearchWrap.hidden = true;
           if (archiveSearchNoMatch) archiveSearchNoMatch.hidden = true;
           if (archiveCount) archiveCount.textContent = "(0)";
+          if (archivePagination) archivePagination.hidden = true;
           return;
         }
         archiveEmpty.hidden = true;
@@ -4436,8 +4790,23 @@
         }
         if (archiveSearchNoMatch) archiveSearchNoMatch.hidden = true;
         archiveTableWrap.hidden = false;
+        
+        var totalPages = Math.ceil(filtered.length / ARCHIVE_PAGE_SIZE);
+        if (archiveCurrentPage > totalPages) archiveCurrentPage = totalPages;
+        if (archiveCurrentPage < 1) archiveCurrentPage = 1;
+        var startIdx = (archiveCurrentPage - 1) * ARCHIVE_PAGE_SIZE;
+        var endIdx = startIdx + ARCHIVE_PAGE_SIZE;
+        var pageEntries = filtered.slice(startIdx, endIdx);
+        
+        if (archivePagination) {
+          archivePagination.hidden = totalPages <= 1;
+          if (archivePageInfo) archivePageInfo.textContent = "Page " + archiveCurrentPage + " of " + totalPages;
+          if (archivePrevBtn) archivePrevBtn.disabled = archiveCurrentPage <= 1;
+          if (archiveNextBtn) archiveNextBtn.disabled = archiveCurrentPage >= totalPages;
+        }
+        
         archiveEntriesBody.innerHTML = "";
-        filtered.forEach(function (entry) {
+        pageEntries.forEach(function (entry) {
           var tr = document.createElement("tr");
           var archWhen = entry.archivedAt
             ? new Date(entry.archivedAt).toLocaleString()
@@ -4517,7 +4886,7 @@
             '<td class="cell-actions">' +
             '<button type="button" class="btn-secondary btn-tiny" data-arch-load="' +
             escapeAttr(entry.id) +
-            '" title="Copy data to form">Copy data</button> ' +
+            '" title="Copy/Load data to form">Copy/Load Data</button> ' +
             '<button type="button" class="btn-danger btn-tiny" data-arch-del="' +
             escapeAttr(entry.id) +
             '">Delete</button>' +
@@ -4544,6 +4913,7 @@
           summaryEmpty.hidden = false;
           if (summaryFilterWrap) summaryFilterWrap.hidden = true;
           if (summaryCount) summaryCount.textContent = "(0)";
+          if (summaryPagination) summaryPagination.hidden = true;
           return;
         }
         summaryEmpty.hidden = true;
@@ -4555,8 +4925,23 @@
           summaryCount.textContent = selectedMonth ? "(" + filtered.length + " of " + archived.length + ")" : "(" + archived.length + ")";
         }
         summaryTableWrap.hidden = false;
+        
+        var totalPages = Math.ceil(filtered.length / SUMMARY_PAGE_SIZE);
+        if (summaryCurrentPage > totalPages) summaryCurrentPage = totalPages;
+        if (summaryCurrentPage < 1) summaryCurrentPage = 1;
+        var startIdx = (summaryCurrentPage - 1) * SUMMARY_PAGE_SIZE;
+        var endIdx = startIdx + SUMMARY_PAGE_SIZE;
+        var pageEntries = filtered.slice(startIdx, endIdx);
+        
+        if (summaryPagination) {
+          summaryPagination.hidden = totalPages <= 1;
+          if (summaryPageInfo) summaryPageInfo.textContent = "Page " + summaryCurrentPage + " of " + totalPages;
+          if (summaryPrevBtn) summaryPrevBtn.disabled = summaryCurrentPage <= 1;
+          if (summaryNextBtn) summaryNextBtn.disabled = summaryCurrentPage >= totalPages;
+        }
+        
         summaryEntriesBody.innerHTML = "";
-        filtered.forEach(function (entry) {
+        pageEntries.forEach(function (entry) {
           var desc = String(entry.description == null ? "" : entry.description).trim();
           var pptDateRaw = String(entry.pptDeploymentDate || "").trim();
           var pptDateDisp = pptDateRaw
@@ -4802,17 +5187,11 @@
         });
         var allWeeks = Object.keys(weekData).sort();
         var today = new Date();
-        var currentMonth = today.getMonth();
-        var currentYear = today.getFullYear();
         var weeks = allWeeks.filter(function (key) {
           var mondayParts = key.split("-");
           var monday = new Date(parseInt(mondayParts[0]), parseInt(mondayParts[1]) - 1, parseInt(mondayParts[2]));
-          var friday = new Date(monday);
-          friday.setDate(monday.getDate() + 4);
           if (monday > today) return false;
-          var mondayInMonth = (monday.getMonth() === currentMonth && monday.getFullYear() === currentYear);
-          var fridayInMonth = (friday.getMonth() === currentMonth && friday.getFullYear() === currentYear);
-          return mondayInMonth || fridayInMonth;
+          return true;
         });
         var weeklyTrendContent = document.getElementById("weeklyTrendContent");
         if (!weeklyTrendBody || !weeklyTrendContent || !weeklyTrendEmpty) return;
@@ -4952,7 +5331,10 @@
         var localData = local ? JSON.parse(local) : {};
         appTrendPlannedData = localData;
         
-        return supabase
+        if (!supabaseClient || typeof supabaseClient.from !== 'function') {
+          return Promise.resolve();
+        }
+        return supabaseClient
           .from("app_trend_planned")
           .select("week_key, data")
           .then(function (result) {
@@ -4977,7 +5359,11 @@
         return new Promise(function (resolve) {
           localStorage.setItem("appTrendPlanned", JSON.stringify(appTrendPlannedData));
           
-          supabase
+          if (!supabaseClient || typeof supabaseClient.from !== 'function') {
+            resolve();
+            return;
+          }
+          supabaseClient
             .from("app_trend_planned")
             .upsert({ week_key: weekKey, data: groupData }, { onConflict: "week_key" })
             .then(function (result) {
@@ -5308,12 +5694,9 @@
         var currentYear = today.getFullYear();
         var currentMonth = today.getMonth();
         var currentMonthKey = currentYear + "-" + String(currentMonth + 1).padStart(2, "0");
-        var prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-        var prevYear = currentMonth === 0 ? currentYear - 1 : currentYear;
-        var prevMonthKey = prevYear + "-" + String(prevMonth + 1).padStart(2, "0");
         
         var monthKeys = allMonthKeys.filter(function (key) {
-          return key === currentMonthKey || key === prevMonthKey;
+          return key <= currentMonthKey;
         });
         
         if (!monthKeys.length) {
@@ -5904,13 +6287,51 @@
         savedFilterProd.addEventListener("change", renderSavedList);
       }
       if (archiveSearchInput) {
-        archiveSearchInput.addEventListener("input", renderArchiveList);
+        archiveSearchInput.addEventListener("input", function () {
+          archiveCurrentPage = 1;
+          renderArchiveList();
+        });
       }
       if (archiveFilterMonth) {
-        archiveFilterMonth.addEventListener("change", renderArchiveList);
+        archiveFilterMonth.addEventListener("change", function () {
+          archiveCurrentPage = 1;
+          renderArchiveList();
+        });
       }
       if (summaryFilterMonth) {
-        summaryFilterMonth.addEventListener("change", renderSummaryList);
+        summaryFilterMonth.addEventListener("change", function () {
+          summaryCurrentPage = 1;
+          renderSummaryList();
+        });
+      }
+
+      if (archivePrevBtn) {
+        archivePrevBtn.addEventListener("click", function () {
+          if (archiveCurrentPage > 1) {
+            archiveCurrentPage--;
+            renderArchiveList();
+          }
+        });
+      }
+      if (archiveNextBtn) {
+        archiveNextBtn.addEventListener("click", function () {
+          archiveCurrentPage++;
+          renderArchiveList();
+        });
+      }
+      if (summaryPrevBtn) {
+        summaryPrevBtn.addEventListener("click", function () {
+          if (summaryCurrentPage > 1) {
+            summaryCurrentPage--;
+            renderSummaryList();
+          }
+        });
+      }
+      if (summaryNextBtn) {
+        summaryNextBtn.addEventListener("click", function () {
+          summaryCurrentPage++;
+          renderSummaryList();
+        });
       }
 
       if (savedEntriesBody) {
@@ -5992,6 +6413,7 @@
               var hotfix = entryForSteps.hotfixNumber || "N/A";
               var app = entryForSteps.application || "N/A";
               var deployType = entryForSteps.deploymentType || "";
+              var description = entryForSteps.description || "(No description provided)";
               var areaPpt = entryForSteps.areaServerDbSchemaPpt || "(Not specified)";
               var areaProd = entryForSteps.areaServerDbSchemaProd || "(Not specified)";
               var stepsPpt = entryForSteps.deploymentStepsPpt || "(No PPT deployment steps provided)";
@@ -6025,17 +6447,22 @@
               htmlContent += '<div class="info-row"><span class="info-label">Hotfix #:</span><span>' + escapeHtml(hotfix) + '</span></div>';
               htmlContent += '<div class="info-row"><span class="info-label">Application:</span><span>' + escapeHtml(app) + '</span></div>';
               htmlContent += '<div class="info-row"><span class="info-label">Deployment Type:</span><span>' + escapeHtml(deployType || "N/A") + '</span></div>';
+              htmlContent += '<div class="section"><div class="section-title">DESCRIPTION</div><div class="section-content">' + escapeHtml(description) + '</div></div>';
               htmlContent += '<div class="section"><div class="section-title">Area/Server/DB Instance/Schema (PPT)</div><div class="section-content">' + escapeHtml(areaPpt) + '</div></div>';
               htmlContent += '<div class="section"><div class="section-title">Area/Server/DB Instance/Schema (PROD)</div><div class="section-content">' + escapeHtml(areaProd) + '</div></div>';
               htmlContent += '<div class="section"><div class="section-title">DEPLOYMENT STEPS (PPT)</div><div class="section-content">' + escapeHtml(stepsPpt) + '</div></div>';
               htmlContent += '<div class="section"><div class="section-title">DEPLOYMENT STEPS (PROD)</div><div class="section-content">' + escapeHtml(stepsProd) + '</div></div>';
               
               if (deployType === "Manual-DB") {
+                var rollbackHf = entryForSteps.rollbackHf || "(Not specified)";
+                var rollbackString = entryForSteps.rollbackString || "(Not specified)";
                 var hfConcatPpt = entryForSteps.hfConcatenatedStringPpt || "(Not specified)";
                 var hfConcatProd = entryForSteps.hfConcatenatedStringProd || "(Not specified)";
                 var hfConcatRollbackPpt = entryForSteps.hfConcatenatedStringRollbackPpt || "(Not specified)";
                 var hfConcatRollbackProd = entryForSteps.hfConcatenatedStringRollbackProd || "(Not specified)";
                 htmlContent += '<h2>Manual-DB Additional Details</h2>';
+                htmlContent += '<div class="info-row"><span class="info-label">Rollback HF:</span><span>' + escapeHtml(rollbackHf) + '</span></div>';
+                htmlContent += '<div class="info-row"><span class="info-label">Rollback String:</span><span>' + escapeHtml(rollbackString) + '</span></div>';
                 htmlContent += '<div class="section"><div class="section-title section-title-db">HF CONCATENATED STRING (PPT)</div><div class="section-content">' + escapeHtml(hfConcatPpt) + '</div></div>';
                 htmlContent += '<div class="section"><div class="section-title section-title-db">HF CONCATENATED STRING (PROD)</div><div class="section-content">' + escapeHtml(hfConcatProd) + '</div></div>';
                 htmlContent += '<div class="section"><div class="section-title section-title-db">HF CONCATENATED STRING ROLLBACK (PPT)</div><div class="section-content">' + escapeHtml(hfConcatRollbackPpt) + '</div></div>';
@@ -6688,6 +7115,343 @@
         });
       }
 
+      var IMPORT_COLUMN_MAP = {
+        "Application": "application",
+        "Version": "version",
+        "PPT Environment": "pptEnv",
+        "PROD Environment": "prodEnv",
+        "Requester": "requester",
+        "Incident/Defect ID": "incidentId",
+        "HotFix Number": "hotfixNumber",
+        "Deployment Type": "deploymentType",
+        "Roll Back HF": "rollbackHf",
+        "Description": "description",
+        "Files (Name of code/config/sql/jar)": "files",
+        "Files (Name of code/config/sql/jar": "files",
+        "Files": "files",
+        "Rollback String": "rollbackString",
+        "Area/Server/DB Instance /Schema (PPT)": "areaServerDbSchemaPpt",
+        "DEPLOYMENT STEPS (PPT)": "deploymentStepsPpt",
+        "Area/Server/DB Instance /Schema (PROD)": "areaServerDbSchemaProd",
+        "DEPLOYMENT STEPS (PROD)": "deploymentStepsProd",
+        "HF CONCATENATED STRING (PPT)": "hfConcatenatedStringPpt",
+        "HF CONCATENATED STRING (PROD)": "hfConcatenatedStringProd",
+        "HF CONCATENATED STRING ROLLBACK (PPT)": "hfConcatenatedStringRollbackPpt",
+        "HF CONCATENATED STRING ROLLBACK (PROD)": "hfConcatenatedStringRollbackProd",
+        "Unix RollBack Script (PPT)": "unixRollbackScriptPpt",
+        "Unix Rollback Script (PPT)": "unixRollbackScriptPpt",
+        "Unix RollBack Script (PROD)": "unixRollbackScriptProd",
+        "Unix Rollback Script (PROD)": "unixRollbackScriptProd",
+        "Bounce Needed": "bounceNeeded",
+        "Impact": "impact",
+        "Fix Type": "fixType",
+        "Problem – \nResolution details – \nRisk / Mitigation plan –": "_combinedProblemField",
+        "Problem – Resolution details – Risk / Mitigation plan –": "_combinedProblemField",
+        "Problem –\nResolution details –\nRisk / Mitigation plan –": "_combinedProblemField",
+        "PPT RFC": "pptRfc",
+        "Date of PPT deployment": "pptDeploymentDate",
+        "PPT deployment status": "pptDeploymentStatus",
+        "PPT Status": "pptDeploymentStatus",
+        "PROD RFC": "prodRfc",
+        "Date of PROD deployment": "prodDeploymentDate",
+        "PROD Deployment status": "prodDeploymentStatus",
+        "PROD Status": "prodDeploymentStatus"
+      };
+
+      function openImportModal() {
+        importParsedData = [];
+        importPreview.hidden = true;
+        importStatus.hidden = true;
+        importConfirmBtn.disabled = true;
+        importConfirmBtn.textContent = "Import All";
+        importCancelBtn.textContent = "Cancel";
+        importFileInput.value = "";
+        importModalOverlay.classList.add("show");
+      }
+
+      function closeImportModal() {
+        importModalOverlay.classList.remove("show");
+        importParsedData = [];
+      }
+
+      function showImportStatus(message, isError) {
+        importStatus.hidden = false;
+        importStatus.textContent = message;
+        importStatus.className = "import-status " + (isError ? "error" : "success");
+      }
+
+      function parseExcelDate(value) {
+        if (!value) return "";
+        if (typeof value === "number") {
+          var date = new Date((value - 25569) * 86400 * 1000);
+          if (!isNaN(date.getTime())) {
+            var y = date.getFullYear();
+            var m = String(date.getMonth() + 1).padStart(2, "0");
+            var d = String(date.getDate()).padStart(2, "0");
+            return y + "-" + m + "-" + d;
+          }
+        }
+        var str = String(value).trim();
+        var isoMatch = str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        if (isoMatch) return isoMatch[0];
+        var slashMatch = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+        if (slashMatch) {
+          return slashMatch[3] + "-" + slashMatch[1].padStart(2, "0") + "-" + slashMatch[2].padStart(2, "0");
+        }
+        var slashMatch2 = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2})/);
+        if (slashMatch2) {
+          var yr = parseInt(slashMatch2[3], 10);
+          yr = yr < 50 ? 2000 + yr : 1900 + yr;
+          return yr + "-" + slashMatch2[1].padStart(2, "0") + "-" + slashMatch2[2].padStart(2, "0");
+        }
+        return str;
+      }
+
+      function parseCombinedProblemField(value) {
+        var result = { problem: "", resolutionDetails: "", riskMitigationPlan: "" };
+        if (!value) return result;
+        var text = String(value);
+        var problemMatch = text.match(/Problem\s*[-–:]\s*([\s\S]*?)(?=Resolution\s*details\s*[-–:]|$)/i);
+        var resolutionMatch = text.match(/Resolution\s*details\s*[-–:]\s*([\s\S]*?)(?=Risk\s*[\/]?\s*Mitigation\s*plan\s*[-–:]|$)/i);
+        var riskMatch = text.match(/Risk\s*[\/]?\s*Mitigation\s*plan\s*[-–:]\s*([\s\S]*?)$/i);
+        if (problemMatch && problemMatch[1]) {
+          result.problem = problemMatch[1].trim();
+        }
+        if (resolutionMatch && resolutionMatch[1]) {
+          result.resolutionDetails = resolutionMatch[1].trim();
+        }
+        if (riskMatch && riskMatch[1]) {
+          result.riskMitigationPlan = riskMatch[1].trim();
+        }
+        if (!result.problem && !result.resolutionDetails && !result.riskMitigationPlan) {
+          result.problem = text.trim();
+        }
+        return result;
+      }
+
+      function mapExcelRowToEntry(row, headers) {
+        var entry = {
+          id: uniqueId(),
+          savedAt: new Date().toISOString(),
+          pptDeploymentStatus: "Pending",
+          prodDeploymentStatus: "Pending",
+          pptRfc: "",
+          pptDeploymentDate: "",
+          prodRfc: "",
+          prodDeploymentDate: "",
+          archivedAt: null
+        };
+        ENTRY_KEYS.forEach(function (k) {
+          entry[k] = "";
+        });
+        var combinedProblemValue = "";
+        headers.forEach(function (header, idx) {
+          var cleanHeader = String(header || "").trim();
+          var fieldKey = IMPORT_COLUMN_MAP[cleanHeader];
+          if (!fieldKey) {
+            var lowerHeader = cleanHeader.toLowerCase();
+            for (var mapKey in IMPORT_COLUMN_MAP) {
+              if (mapKey.toLowerCase() === lowerHeader) {
+                fieldKey = IMPORT_COLUMN_MAP[mapKey];
+                break;
+              }
+            }
+          }
+          if (fieldKey && row[idx] !== undefined && row[idx] !== null) {
+            var value = String(row[idx]).trim();
+            if (fieldKey === "_combinedProblemField") {
+              combinedProblemValue = value;
+              return;
+            }
+            if (fieldKey === "pptDeploymentDate" || fieldKey === "prodDeploymentDate") {
+              entry[fieldKey] = parseExcelDate(row[idx]);
+              return;
+            }
+            if (fieldKey === "pptDeploymentStatus" || fieldKey === "prodDeploymentStatus") {
+              var normalizedStatus = value.toLowerCase().trim();
+              if (normalizedStatus === "deployed" || normalizedStatus === "done" || normalizedStatus === "completed") {
+                value = "Deployed";
+              } else if (normalizedStatus === "n/a" || normalizedStatus === "na" || normalizedStatus === "not applicable") {
+                value = "N/A";
+              } else if (normalizedStatus === "in progress" || normalizedStatus === "in-progress" || normalizedStatus === "inprogress") {
+                value = "In progress";
+              } else if (normalizedStatus === "to be planned" || normalizedStatus === "tbp" || normalizedStatus === "planned") {
+                value = "To be Planned";
+              } else if (normalizedStatus === "pending" || normalizedStatus === "" || normalizedStatus === "not yet") {
+                value = "Pending";
+              } else {
+                value = "Pending";
+              }
+            }
+            entry[fieldKey] = value;
+          }
+        });
+        if (combinedProblemValue) {
+          var parsed = parseCombinedProblemField(combinedProblemValue);
+          if (parsed.problem) entry.problem = parsed.problem;
+          if (parsed.resolutionDetails) entry.resolutionDetails = parsed.resolutionDetails;
+          if (parsed.riskMitigationPlan) entry.riskMitigationPlan = parsed.riskMitigationPlan;
+        }
+        if (entry.pptDeploymentStatus === "Deployed" && entry.prodDeploymentStatus === "Deployed" && !entry.archivedAt) {
+          entry.archivedAt = new Date().toISOString();
+        }
+        return entry;
+      }
+
+      function handleImportFile(file) {
+        if (!file) return;
+        var validTypes = [
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "application/vnd.ms-excel.sheet.macroEnabled.12",
+          "application/vnd.ms-excel"
+        ];
+        var ext = file.name.split(".").pop().toLowerCase();
+        if (!validTypes.includes(file.type) && !["xlsx", "xlsm", "xls"].includes(ext)) {
+          showImportStatus("Please select a valid Excel file (.xlsx, .xlsm)", true);
+          return;
+        }
+        loadXlsx().then(function (hasXlsx) {
+          if (!hasXlsx) {
+            showImportStatus("Excel library failed to load. Please try again.", true);
+            return;
+          }
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            try {
+              var data = new Uint8Array(e.target.result);
+              var workbook = XLSX.read(data, { type: "array" });
+              var sheetName = workbook.SheetNames[0];
+              var worksheet = workbook.Sheets[sheetName];
+              var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+              if (jsonData.length < 2) {
+                showImportStatus("Excel file appears to be empty or has no data rows.", true);
+                return;
+              }
+              var headers = jsonData[0];
+              var dataRows = jsonData.slice(1).filter(function (row) {
+                return row.some(function (cell) {
+                  return cell !== null && cell !== undefined && String(cell).trim() !== "";
+                });
+              });
+              if (dataRows.length === 0) {
+                showImportStatus("No data rows found in the Excel file.", true);
+                return;
+              }
+              importParsedData = dataRows.map(function (row) {
+                return mapExcelRowToEntry(row, headers);
+              });
+              importFileName.textContent = file.name;
+              importRowCount.textContent = importParsedData.length + " entries found";
+              var previewHeaders = ["HotFix #", "PPT Status", "PPT RFC", "PPT Date", "PROD Status", "PROD RFC", "PROD Date"];
+              var headerRow = "<tr>";
+              previewHeaders.forEach(function (h) {
+                headerRow += "<th style='font-size:0.7rem;'>" + h + "</th>";
+              });
+              headerRow += "</tr>";
+              importPreviewHead.innerHTML = headerRow;
+              var bodyHtml = "";
+              var previewCount = Math.min(5, importParsedData.length);
+              for (var i = 0; i < previewCount; i++) {
+                var entry = importParsedData[i];
+                bodyHtml += "<tr style='font-size:0.75rem;'>";
+                bodyHtml += "<td>" + (entry.hotfixNumber || "-") + "</td>";
+                bodyHtml += "<td>" + (entry.pptDeploymentStatus || "-") + "</td>";
+                bodyHtml += "<td>" + (entry.pptRfc || "-") + "</td>";
+                bodyHtml += "<td>" + (entry.pptDeploymentDate || "-") + "</td>";
+                bodyHtml += "<td>" + (entry.prodDeploymentStatus || "-") + "</td>";
+                bodyHtml += "<td>" + (entry.prodRfc || "-") + "</td>";
+                bodyHtml += "<td>" + (entry.prodDeploymentDate || "-") + "</td>";
+                bodyHtml += "</tr>";
+              }
+              if (importParsedData.length > 5) {
+                bodyHtml += "<tr><td colspan='7' style='text-align:center;color:var(--muted);'>... and " + (importParsedData.length - 5) + " more entries</td></tr>";
+              }
+              importPreviewBody.innerHTML = bodyHtml;
+              importPreview.hidden = false;
+              importStatus.hidden = true;
+              importConfirmBtn.disabled = false;
+            } catch (err) {
+              showImportStatus("Error reading Excel file: " + err.message, true);
+            }
+          };
+          reader.onerror = function () {
+            showImportStatus("Error reading the file. Please try again.", true);
+          };
+          reader.readAsArrayBuffer(file);
+        });
+      }
+
+      function doImportEntries() {
+        if (importParsedData.length === 0) {
+          showImportStatus("No data to import.", true);
+          return;
+        }
+        importConfirmBtn.disabled = true;
+        importConfirmBtn.textContent = "Importing...";
+        var existing = readSavedEntries();
+        var newEntries = existing.concat(importParsedData);
+        persistEntries(newEntries, { render: false }).then(function () {
+          showImportStatus("Successfully imported " + importParsedData.length + " entries!", false);
+          importParsedData = [];
+          renderSavedList();
+          renderArchiveList();
+          renderSummaryList();
+          renderDeletedList();
+          importConfirmBtn.disabled = false;
+          importConfirmBtn.textContent = "Import All";
+          importCancelBtn.textContent = "Close";
+        }).catch(function (err) {
+          showImportStatus("Error saving entries: " + err.message, true);
+          importConfirmBtn.disabled = false;
+          importConfirmBtn.textContent = "Import All";
+        });
+      }
+
+      if (importFromExcelBtn) {
+        importFromExcelBtn.addEventListener("click", openImportModal);
+      }
+      if (importModalClose) {
+        importModalClose.addEventListener("click", closeImportModal);
+      }
+      if (importCancelBtn) {
+        importCancelBtn.addEventListener("click", closeImportModal);
+      }
+      if (importModalOverlay) {
+        importModalOverlay.addEventListener("click", function (e) {
+          if (e.target === importModalOverlay) closeImportModal();
+        });
+      }
+      if (importDropZone) {
+        importDropZone.addEventListener("click", function () {
+          importFileInput.click();
+        });
+        importDropZone.addEventListener("dragover", function (e) {
+          e.preventDefault();
+          importDropZone.classList.add("drag-over");
+        });
+        importDropZone.addEventListener("dragleave", function () {
+          importDropZone.classList.remove("drag-over");
+        });
+        importDropZone.addEventListener("drop", function (e) {
+          e.preventDefault();
+          importDropZone.classList.remove("drag-over");
+          var files = e.dataTransfer.files;
+          if (files.length > 0) {
+            handleImportFile(files[0]);
+          }
+        });
+      }
+      if (importFileInput) {
+        importFileInput.addEventListener("change", function () {
+          if (importFileInput.files.length > 0) {
+            handleImportFile(importFileInput.files[0]);
+          }
+        });
+      }
+      if (importConfirmBtn) {
+        importConfirmBtn.addEventListener("click", doImportEntries);
+      }
+
       if (exportWeeklyTrendBtn) {
         exportWeeklyTrendBtn.addEventListener("click", function () {
           exportWeeklyTrendBtn.disabled = true;
@@ -6853,10 +7617,22 @@
         var banner = document.getElementById("networkShareBanner");
         if (!banner) return;
         banner.innerHTML =
+          '<button type="button" class="banner-close" title="Dismiss">&times;</button>' +
           "<strong>Cloud Sync Active</strong><br />" +
           "Data is stored in Supabase cloud database.<br />" +
           "Share this HTML file with anyone — all data syncs automatically.";
         banner.hidden = false;
+        
+        var closeBtn = banner.querySelector(".banner-close");
+        if (closeBtn) {
+          closeBtn.addEventListener("click", function () {
+            banner.hidden = true;
+          });
+        }
+        
+        setTimeout(function () {
+          banner.hidden = true;
+        }, 5000);
       }
 
       var backToTopBtn = document.getElementById("backToTopBtn");
@@ -6880,18 +7656,79 @@
         });
       }
 
-      loadEntriesFromDatabase()
+      var syncStatusBar = document.getElementById("syncStatusBar");
+      var syncIndicator = document.getElementById("syncIndicator");
+      var syncStatusText = document.getElementById("syncStatusText");
+      var syncRefreshBtn = document.getElementById("syncRefreshBtn");
+      var AUTO_SYNC_INTERVAL = 10000;
+      var syncIntervalId = null;
+      var lastSyncTime = null;
+      var isOnline = true;
+
+      function updateSyncStatus(status, message) {
+        if (!syncStatusBar || !syncIndicator || !syncStatusText) return;
+        syncStatusBar.hidden = false;
+        syncIndicator.className = "sync-indicator";
+        if (status === "syncing") {
+          syncIndicator.classList.add("syncing");
+        } else if (status === "error") {
+          syncIndicator.classList.add("error");
+        }
+        syncStatusText.textContent = message;
+      }
+
+      function formatSyncTime(date) {
+        return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      }
+
+      function performSync(isManual) {
+        if (syncRefreshBtn) syncRefreshBtn.disabled = true;
+        updateSyncStatus("syncing", "Syncing...");
+        
+        return loadEntriesFromDatabase()
+          .then(function () {
+            lastSyncTime = new Date();
+            isOnline = true;
+            updateSyncStatus("ok", "Last synced: " + formatSyncTime(lastSyncTime) + " (auto-refresh every 10s)");
+            renderSavedList();
+            renderWeeklyTrend();
+            loadCalendarNotes().then(function () {
+              renderCalendar();
+            });
+            if (isManual) {
+              showSaveStatus("Data refreshed successfully.");
+            }
+          })
+          .catch(function () {
+            isOnline = false;
+            updateSyncStatus("error", "Offline — using local data. Will retry...");
+            if (!savedEntriesCache || !savedEntriesCache.length) {
+              savedEntriesCache = readSavedEntriesFromLocalStorage();
+              renderSavedList();
+            }
+          })
+          .then(function () {
+            if (syncRefreshBtn) syncRefreshBtn.disabled = false;
+          });
+      }
+
+      function startAutoSync() {
+        if (syncIntervalId) clearInterval(syncIntervalId);
+        syncIntervalId = setInterval(function () {
+          performSync(false);
+        }, AUTO_SYNC_INTERVAL);
+      }
+
+      if (syncRefreshBtn) {
+        syncRefreshBtn.addEventListener("click", function () {
+          performSync(true);
+        });
+      }
+
+      performSync(false)
         .then(function () {
-          renderSavedList();
           showNetworkShareBanner();
-        })
-        .catch(function () {
-          savedEntriesCache = readSavedEntriesFromLocalStorage();
-          renderSavedList();
-          showSaveStatus(
-            "Cloud database unavailable — using browser storage. Check your internet connection.",
-            true
-          );
+          startAutoSync();
         });
 
       var calendarCurrentDate = new Date();
@@ -6921,7 +7758,11 @@
 
       function loadCalendarNotes() {
         if (calendarNotesLoaded) return Promise.resolve(calendarNotes);
-        return supabase
+        if (!supabaseClient || typeof supabaseClient.from !== 'function') {
+          calendarNotes = {};
+          return Promise.resolve(calendarNotes);
+        }
+        return supabaseClient
           .from("calendar_notes")
           .select("date_key, data")
           .then(function (result) {
@@ -6944,8 +7785,11 @@
       }
 
       function saveCalendarNote(dateKey, noteData) {
+        if (!supabaseClient || typeof supabaseClient.from !== 'function') {
+          return Promise.resolve();
+        }
         if (noteData === null || noteData === undefined) {
-          return supabase
+          return supabaseClient
             .from("calendar_notes")
             .delete()
             .eq("date_key", dateKey)
@@ -6961,7 +7805,7 @@
               alert("Failed to delete note. Check console for details.");
             });
         }
-        return supabase
+        return supabaseClient
           .from("calendar_notes")
           .upsert({
             date_key: dateKey,
