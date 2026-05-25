@@ -1593,6 +1593,12 @@
       color: var(--text);
       margin: 0;
     }
+    .note-checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
     .cancel-checkbox-label {
       display: flex;
       align-items: center;
@@ -1607,6 +1613,35 @@
     }
     .cancel-checkbox-label span {
       font-weight: 500;
+    }
+    .cancel-checkbox-label.holiday-checkbox {
+      color: #059669;
+    }
+    .cancel-checkbox-label.holiday-checkbox input[type="checkbox"] {
+      accent-color: #059669;
+    }
+    .cancel-checkbox-label.embargo-checkbox {
+      color: #d97706;
+    }
+    .cancel-checkbox-label.embargo-checkbox input[type="checkbox"] {
+      accent-color: #d97706;
+    }
+    .note-badge {
+      display: inline-block;
+      padding: 0.1rem 0.35rem;
+      border-radius: 3px;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      vertical-align: middle;
+    }
+    .note-badge-holiday {
+      background: #059669;
+      color: #ffffff;
+    }
+    .note-badge-embargo {
+      background: #d97706;
+      color: #ffffff;
     }
     .calendar-tuesday-field.note-cancelled {
       background: rgba(239, 68, 68, 0.2) !important;
@@ -2495,6 +2530,16 @@
       <p id="summaryEmpty" class="saved-empty">
         Nothing to summarize yet. Completed requests appear here after they are fully deployed in Archive (PPT and PROD with RFC and date for each).
       </p>
+      <div id="summarySearchWrap" class="saved-search-wrap" hidden>
+        <label for="summarySearchInput">Search summary</label>
+        <input
+          type="search"
+          id="summarySearchInput"
+          placeholder="Incident ID, hotfix #, RFC, application, requester…"
+          autocomplete="off"
+          spellcheck="false"
+        />
+      </div>
       <div id="summaryFilterWrap" class="archive-filter-wrap" hidden>
         <label for="summaryFilterMonth">Filter by PROD deployment month:</label>
         <select id="summaryFilterMonth">
@@ -2752,10 +2797,20 @@
           <div class="calendar-tuesday-field">
             <div class="calendar-tuesday-field-header">
               <label for="calendarNoteTuesday1">Note 1</label>
-              <label class="cancel-checkbox-label">
-                <input type="checkbox" id="calendarNoteTuesday1Cancel" />
-                <span>Cancelled</span>
-              </label>
+              <div class="note-checkbox-group">
+                <label class="cancel-checkbox-label">
+                  <input type="checkbox" id="calendarNoteTuesday1Cancel" />
+                  <span>Cancelled</span>
+                </label>
+                <label class="cancel-checkbox-label holiday-checkbox">
+                  <input type="checkbox" id="calendarNoteTuesday1Holiday" />
+                  <span>Holiday</span>
+                </label>
+                <label class="cancel-checkbox-label embargo-checkbox">
+                  <input type="checkbox" id="calendarNoteTuesday1Embargo" />
+                  <span>Embargo</span>
+                </label>
+              </div>
             </div>
             <div class="note-format-toolbar">
               <button type="button" class="note-format-btn" data-format="bold" data-target="calendarNoteTuesday1" title="Bold"><b>B</b></button>
@@ -2767,10 +2822,20 @@
           <div class="calendar-tuesday-field">
             <div class="calendar-tuesday-field-header">
               <label for="calendarNoteTuesday2">Note 2</label>
-              <label class="cancel-checkbox-label">
-                <input type="checkbox" id="calendarNoteTuesday2Cancel" />
-                <span>Cancelled</span>
-              </label>
+              <div class="note-checkbox-group">
+                <label class="cancel-checkbox-label">
+                  <input type="checkbox" id="calendarNoteTuesday2Cancel" />
+                  <span>Cancelled</span>
+                </label>
+                <label class="cancel-checkbox-label holiday-checkbox">
+                  <input type="checkbox" id="calendarNoteTuesday2Holiday" />
+                  <span>Holiday</span>
+                </label>
+                <label class="cancel-checkbox-label embargo-checkbox">
+                  <input type="checkbox" id="calendarNoteTuesday2Embargo" />
+                  <span>Embargo</span>
+                </label>
+              </div>
             </div>
             <div class="note-format-toolbar">
               <button type="button" class="note-format-btn" data-format="bold" data-target="calendarNoteTuesday2" title="Bold"><b>B</b></button>
@@ -4166,6 +4231,8 @@
       var summaryEntriesBody = document.getElementById("summaryEntriesBody");
       var summaryEmpty = document.getElementById("summaryEmpty");
       var summaryCount = document.getElementById("summaryCount");
+      var summarySearchWrap = document.getElementById("summarySearchWrap");
+      var summarySearchInput = document.getElementById("summarySearchInput");
       var summaryFilterWrap = document.getElementById("summaryFilterWrap");
       var summaryFilterMonth = document.getElementById("summaryFilterMonth");
       
@@ -4926,15 +4993,22 @@
           summaryTableWrap.hidden = true;
           summaryEmpty.hidden = false;
           if (summaryFilterWrap) summaryFilterWrap.hidden = true;
+          if (summarySearchWrap) summarySearchWrap.hidden = true;
           if (summaryCount) summaryCount.textContent = "(0)";
           if (summaryPagination) summaryPagination.hidden = true;
           return;
         }
         summaryEmpty.hidden = true;
         if (summaryFilterWrap) summaryFilterWrap.hidden = false;
+        if (summarySearchWrap) summarySearchWrap.hidden = false;
         populateMonthFilter(summaryFilterMonth, archived);
         var selectedMonth = summaryFilterMonth ? summaryFilterMonth.value : "";
-        var filtered = filterByMonth(archived, selectedMonth);
+        var summarySearchQ = summarySearchInput ? summarySearchInput.value.trim() : "";
+        var filtered = archived.filter(function (e) {
+          if (!entryMatchesSavedSearch(e, summarySearchQ)) return false;
+          return true;
+        });
+        filtered = filterByMonth(filtered, selectedMonth);
         if (summaryCount) {
           summaryCount.textContent = selectedMonth ? "(" + filtered.length + " of " + archived.length + ")" : "(" + archived.length + ")";
         }
@@ -5118,10 +5192,10 @@
       function extractDefectIds(text) {
         if (!text) return [];
         var ids = [];
-        var defectPattern = /DEFECT#?\d+|DEF\d+|INC\d+/gi;
+        var defectPattern = /DEFECT\s*#?\s*\d+|DEF\s*#?\s*\d+|INC\s*\d+/gi;
         var matches = text.match(defectPattern) || [];
         matches.forEach(function(m) {
-          var normalized = m.toUpperCase().replace(/DEFECT#?/i, "DEF");
+          var normalized = m.toUpperCase().replace(/\s+/g, "").replace(/DEFECT#?/i, "DEF").replace(/DEF#/i, "DEF");
           if (ids.indexOf(normalized) === -1) {
             ids.push(normalized);
           }
@@ -5189,25 +5263,32 @@
           if (!weekData[weekInfo.key]) {
             weekData[weekInfo.key] = { label: weekInfo.label, monday: weekInfo.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
           }
-          var rfcs1 = extractRfcsFromNote(noteData.note1);
-          var rfcs2 = extractRfcsFromNote(noteData.note2);
           var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
           var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
           var isCancelled2 = noteData.cancelled2 === true || noteData.cancelled2 === "true";
-          if (noteData.note1 && !isCancelled1 && rfcs1.length > 0) {
-            rfcs1.forEach(function (rfc) {
-              weekData[weekInfo.key].prodRfcSet[rfc] = true;
-            });
+          if (noteData.note1 && !isCancelled1) {
+            var note1Lower = noteData.note1.toLowerCase();
+            if (note1Lower.indexOf("ppt deployment") === -1 && note1Lower.indexOf("ppt") === -1) {
+              extractRfcsFromNote(noteData.note1).forEach(function (rfc) {
+                weekData[weekInfo.key].prodRfcSet[rfc] = true;
+              });
+            }
           }
-          if (noteData.note2 && !isCancelled2 && rfcs2.length > 0) {
-            rfcs2.forEach(function (rfc) {
-              weekData[weekInfo.key].prodRfcSet[rfc] = true;
-            });
+          if (noteData.note2 && !isCancelled2) {
+            var note2Lower = noteData.note2.toLowerCase();
+            if (note2Lower.indexOf("ppt deployment") === -1 && note2Lower.indexOf("ppt") === -1) {
+              extractRfcsFromNote(noteData.note2).forEach(function (rfc) {
+                weekData[weekInfo.key].prodRfcSet[rfc] = true;
+              });
+            }
           }
           if (noteData.note && !genericCancelled) {
-            extractRfcsFromNote(noteData.note).forEach(function (rfc) {
-              weekData[weekInfo.key].prodRfcSet[rfc] = true;
-            });
+            var noteLower = noteData.note.toLowerCase();
+            if (noteLower.indexOf("ppt deployment") === -1 && noteLower.indexOf("ppt") === -1) {
+              extractRfcsFromNote(noteData.note).forEach(function (rfc) {
+                weekData[weekInfo.key].prodRfcSet[rfc] = true;
+              });
+            }
           }
         });
         var allWeeks = Object.keys(weekData).sort();
@@ -5676,20 +5757,33 @@
           var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
           var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
           var isCancelled2 = noteData.cancelled2 === true || noteData.cancelled2 === "true";
-          if (noteData.note1 && !isCancelled1) {
-            extractRfcsFromNote(noteData.note1).forEach(function (rfc) {
-              result[monthKey].prodRfcSet[rfc] = true;
-            });
+          if (noteData.note1) {
+            var note1Lower = noteData.note1.toLowerCase();
+            var hasPPT1 = note1Lower.indexOf("ppt deployment") !== -1 || note1Lower.indexOf("ppt") !== -1;
+            var rfcs1 = extractRfcsFromNote(noteData.note1);
+            if (!isCancelled1 && !hasPPT1) {
+              rfcs1.forEach(function (rfc) {
+                result[monthKey].prodRfcSet[rfc] = true;
+              });
+            }
           }
-          if (noteData.note2 && !isCancelled2) {
-            extractRfcsFromNote(noteData.note2).forEach(function (rfc) {
-              result[monthKey].prodRfcSet[rfc] = true;
-            });
+          if (noteData.note2) {
+            var note2Lower = noteData.note2.toLowerCase();
+            var hasPPT2 = note2Lower.indexOf("ppt deployment") !== -1 || note2Lower.indexOf("ppt") !== -1;
+            var rfcs2 = extractRfcsFromNote(noteData.note2);
+            if (!isCancelled2 && !hasPPT2) {
+              rfcs2.forEach(function (rfc) {
+                result[monthKey].prodRfcSet[rfc] = true;
+              });
+            }
           }
           if (noteData.note && !genericCancelled) {
-            extractRfcsFromNote(noteData.note).forEach(function (rfc) {
-              result[monthKey].prodRfcSet[rfc] = true;
-            });
+            var noteLower = noteData.note.toLowerCase();
+            if (noteLower.indexOf("ppt deployment") === -1 && noteLower.indexOf("ppt") === -1) {
+              extractRfcsFromNote(noteData.note).forEach(function (rfc) {
+                result[monthKey].prodRfcSet[rfc] = true;
+              });
+            }
           }
         });
         
@@ -6436,6 +6530,12 @@
         archiveFilterMonth.addEventListener("change", function () {
           archiveCurrentPage = 1;
           renderArchiveList();
+        });
+      }
+      if (summarySearchInput) {
+        summarySearchInput.addEventListener("input", function () {
+          summaryCurrentPage = 1;
+          renderSummaryList();
         });
       }
       if (summaryFilterMonth) {
@@ -7663,25 +7763,32 @@
           if (!weekData[weekInfo.key]) {
             weekData[weekInfo.key] = { label: weekInfo.label, monday: weekInfo.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
           }
-          var rfcs1 = extractRfcsFromNote(noteData.note1);
-          var rfcs2 = extractRfcsFromNote(noteData.note2);
           var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
           var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
           var isCancelled2 = noteData.cancelled2 === true || noteData.cancelled2 === "true";
-          if (noteData.note1 && !isCancelled1 && rfcs1.length > 0) {
-            rfcs1.forEach(function (rfc) {
-              weekData[weekInfo.key].prodRfcSet[rfc] = true;
-            });
+          if (noteData.note1 && !isCancelled1) {
+            var note1Lower = noteData.note1.toLowerCase();
+            if (note1Lower.indexOf("ppt deployment") === -1 && note1Lower.indexOf("ppt") === -1) {
+              extractRfcsFromNote(noteData.note1).forEach(function (rfc) {
+                weekData[weekInfo.key].prodRfcSet[rfc] = true;
+              });
+            }
           }
-          if (noteData.note2 && !isCancelled2 && rfcs2.length > 0) {
-            rfcs2.forEach(function (rfc) {
-              weekData[weekInfo.key].prodRfcSet[rfc] = true;
-            });
+          if (noteData.note2 && !isCancelled2) {
+            var note2Lower = noteData.note2.toLowerCase();
+            if (note2Lower.indexOf("ppt deployment") === -1 && note2Lower.indexOf("ppt") === -1) {
+              extractRfcsFromNote(noteData.note2).forEach(function (rfc) {
+                weekData[weekInfo.key].prodRfcSet[rfc] = true;
+              });
+            }
           }
           if (noteData.note && !genericCancelled) {
-            extractRfcsFromNote(noteData.note).forEach(function (rfc) {
-              weekData[weekInfo.key].prodRfcSet[rfc] = true;
-            });
+            var noteLower = noteData.note.toLowerCase();
+            if (noteLower.indexOf("ppt deployment") === -1 && noteLower.indexOf("ppt") === -1) {
+              extractRfcsFromNote(noteData.note).forEach(function (rfc) {
+                weekData[weekInfo.key].prodRfcSet[rfc] = true;
+              });
+            }
           }
         });
         var allWeeks = Object.keys(weekData).sort();
@@ -7881,6 +7988,10 @@
       var calendarNoteTuesday2 = document.getElementById("calendarNoteTuesday2");
       var calendarNoteTuesday1Cancel = document.getElementById("calendarNoteTuesday1Cancel");
       var calendarNoteTuesday2Cancel = document.getElementById("calendarNoteTuesday2Cancel");
+      var calendarNoteTuesday1Holiday = document.getElementById("calendarNoteTuesday1Holiday");
+      var calendarNoteTuesday2Holiday = document.getElementById("calendarNoteTuesday2Holiday");
+      var calendarNoteTuesday1Embargo = document.getElementById("calendarNoteTuesday1Embargo");
+      var calendarNoteTuesday2Embargo = document.getElementById("calendarNoteTuesday2Embargo");
       var calendarNoteSaveBtn = document.getElementById("calendarNoteSave");
       var calendarNoteClearBtn = document.getElementById("calendarNoteClear");
       var calendarNoteCloseBtn = document.getElementById("calendarNoteClose");
@@ -8035,6 +8146,11 @@
           }
         } else if (archivedMatches.length > 0) {
           alert("Found " + archivedMatches.length + " archived/deployed entry(ies) in Summary with RFC: " + rfcNumber);
+          var summarySearchEl = document.getElementById("summarySearchInput");
+          if (summarySearchEl) {
+            summarySearchEl.value = rfcNumber;
+            summarySearchEl.dispatchEvent(new Event("input", { bubbles: true }));
+          }
           revealSummaryPanel();
           var summaryScreenEl = document.getElementById("summary-screen");
           if (summaryScreenEl) {
@@ -8077,18 +8193,26 @@
         if (typeof noteData === "object") {
           if (noteData.note1 !== undefined || noteData.note2 !== undefined) {
             var parts = [];
-            if (noteData.note1) {
+            if (noteData.note1 || noteData.holiday1 || noteData.embargo1) {
+              var badges1 = [];
+              if (noteData.holiday1) badges1.push('<span class="note-badge note-badge-holiday">HOLIDAY</span>');
+              if (noteData.embargo1) badges1.push('<span class="note-badge note-badge-embargo">EMBARGO</span>');
+              var badgeHtml1 = badges1.length ? badges1.join(' ') + ' ' : '';
               if (noteData.cancelled1) {
-                parts.push('<span class="note-line-cancelled">' + formatNoteText(noteData.note1) + '</span>');
+                parts.push('<span class="note-line-cancelled">' + badgeHtml1 + formatNoteText(noteData.note1 || '') + '</span>');
               } else {
-                parts.push('<span>' + formatNoteText(noteData.note1) + '</span>');
+                parts.push('<span>' + badgeHtml1 + formatNoteText(noteData.note1 || '') + '</span>');
               }
             }
-            if (noteData.note2) {
+            if (noteData.note2 || noteData.holiday2 || noteData.embargo2) {
+              var badges2 = [];
+              if (noteData.holiday2) badges2.push('<span class="note-badge note-badge-holiday">HOLIDAY</span>');
+              if (noteData.embargo2) badges2.push('<span class="note-badge note-badge-embargo">EMBARGO</span>');
+              var badgeHtml2 = badges2.length ? badges2.join(' ') + ' ' : '';
               if (noteData.cancelled2) {
-                parts.push('<span class="note-line-cancelled">' + formatNoteText(noteData.note2) + '</span>');
+                parts.push('<span class="note-line-cancelled">' + badgeHtml2 + formatNoteText(noteData.note2 || '') + '</span>');
               } else {
-                parts.push('<span>' + formatNoteText(noteData.note2) + '</span>');
+                parts.push('<span>' + badgeHtml2 + formatNoteText(noteData.note2 || '') + '</span>');
               }
             }
             return parts.join('<br>');
@@ -8106,6 +8230,8 @@
           if (noteData.note1 && noteData.note1.trim()) return true;
           if (noteData.note2 && noteData.note2.trim()) return true;
           if (noteData.note && noteData.note.trim()) return true;
+          if (noteData.holiday1 || noteData.holiday2) return true;
+          if (noteData.embargo1 || noteData.embargo2) return true;
           return false;
         }
         return false;
@@ -8254,6 +8380,10 @@
           }
           var cancelled1 = noteData && typeof noteData === "object" && noteData.cancelled1;
           var cancelled2 = noteData && typeof noteData === "object" && noteData.cancelled2;
+          var holiday1 = noteData && typeof noteData === "object" && noteData.holiday1;
+          var holiday2 = noteData && typeof noteData === "object" && noteData.holiday2;
+          var embargo1 = noteData && typeof noteData === "object" && noteData.embargo1;
+          var embargo2 = noteData && typeof noteData === "object" && noteData.embargo2;
           if (calendarNoteTuesday1Cancel) {
             calendarNoteTuesday1Cancel.checked = cancelled1;
             updateTuesdayFieldCancelledState(1, cancelled1);
@@ -8261,6 +8391,18 @@
           if (calendarNoteTuesday2Cancel) {
             calendarNoteTuesday2Cancel.checked = cancelled2;
             updateTuesdayFieldCancelledState(2, cancelled2);
+          }
+          if (calendarNoteTuesday1Holiday) {
+            calendarNoteTuesday1Holiday.checked = holiday1;
+          }
+          if (calendarNoteTuesday2Holiday) {
+            calendarNoteTuesday2Holiday.checked = holiday2;
+          }
+          if (calendarNoteTuesday1Embargo) {
+            calendarNoteTuesday1Embargo.checked = embargo1;
+          }
+          if (calendarNoteTuesday2Embargo) {
+            calendarNoteTuesday2Embargo.checked = embargo2;
           }
           calendarNoteEditor.hidden = false;
           if (calendarNoteTuesday1) calendarNoteTuesday1.focus();
@@ -8323,12 +8465,20 @@
             var note2 = calendarNoteTuesday2 ? calendarNoteTuesday2.value.trim() : "";
             var cancelled1 = calendarNoteTuesday1Cancel ? calendarNoteTuesday1Cancel.checked : false;
             var cancelled2 = calendarNoteTuesday2Cancel ? calendarNoteTuesday2Cancel.checked : false;
-            if (note1 || note2 || cancelled1 || cancelled2) {
+            var holiday1 = calendarNoteTuesday1Holiday ? calendarNoteTuesday1Holiday.checked : false;
+            var holiday2 = calendarNoteTuesday2Holiday ? calendarNoteTuesday2Holiday.checked : false;
+            var embargo1 = calendarNoteTuesday1Embargo ? calendarNoteTuesday1Embargo.checked : false;
+            var embargo2 = calendarNoteTuesday2Embargo ? calendarNoteTuesday2Embargo.checked : false;
+            if (note1 || note2 || cancelled1 || cancelled2 || holiday1 || holiday2 || embargo1 || embargo2) {
               noteData = { 
                 note1: note1, 
                 note2: note2, 
                 cancelled1: cancelled1, 
-                cancelled2: cancelled2 
+                cancelled2: cancelled2,
+                holiday1: holiday1,
+                holiday2: holiday2,
+                embargo1: embargo1,
+                embargo2: embargo2
               };
               calendarNotes[calendarSelectedDate] = noteData;
             } else {
@@ -8385,6 +8535,12 @@
           if (calendarSelectedIsTuesday) {
             if (calendarNoteTuesday1) calendarNoteTuesday1.value = "";
             if (calendarNoteTuesday2) calendarNoteTuesday2.value = "";
+            if (calendarNoteTuesday1Cancel) calendarNoteTuesday1Cancel.checked = false;
+            if (calendarNoteTuesday2Cancel) calendarNoteTuesday2Cancel.checked = false;
+            if (calendarNoteTuesday1Holiday) calendarNoteTuesday1Holiday.checked = false;
+            if (calendarNoteTuesday2Holiday) calendarNoteTuesday2Holiday.checked = false;
+            if (calendarNoteTuesday1Embargo) calendarNoteTuesday1Embargo.checked = false;
+            if (calendarNoteTuesday2Embargo) calendarNoteTuesday2Embargo.checked = false;
           } else {
             if (calendarNoteTextEl) calendarNoteTextEl.value = "";
           }
