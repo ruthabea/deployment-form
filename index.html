@@ -1824,8 +1824,8 @@
     .back-to-top {
       position: fixed;
       right: 1.25rem;
-      bottom: 1.25rem;
-      z-index: 1000;
+      bottom: 3.5rem;
+      z-index: 10000;
       padding: 0.6rem 1.1rem;
       font: inherit;
       font-size: 0.78rem;
@@ -1909,10 +1909,119 @@
     @media (max-width: 560px) {
       .back-to-top {
         right: 0.75rem;
-        bottom: 0.75rem;
+        bottom: 3.25rem;
         padding: 0.55rem 0.9rem;
         font-size: 0.72rem;
       }
+    }
+    
+    /* ===== SNAPSHOT REFRESH CSS ===== */
+    .snapshot-refresh-checkbox-wrap {
+      margin-top: 0.75rem;
+      padding: 0.5rem 0.75rem;
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: 4px;
+    }
+    .snapshot-refresh-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      color: #92400e;
+    }
+    .snapshot-refresh-label input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+    .snapshot-tables-wrap {
+      margin-top: 0.75rem;
+      padding: 0.75rem;
+      background: #fef9c3;
+      border: 1px dashed #eab308;
+      border-radius: 4px;
+    }
+    .snapshot-tables-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #854d0e;
+      margin-bottom: 0.5rem;
+    }
+    .snapshot-tables-field {
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0.5rem 0.65rem;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      border-radius: 6px;
+      border: 1px solid rgba(129, 140, 248, 0.45);
+      background: rgba(10, 14, 20, 0.92);
+      color: var(--text);
+      resize: vertical;
+      min-height: 2.5rem;
+    }
+    .snapshot-tables-field:focus {
+      border-color: #818cf8;
+      box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.28);
+      outline: none;
+    }
+    html[data-theme="light"] .snapshot-tables-field {
+      background: var(--input-bg);
+      border-color: var(--border);
+      color: var(--text);
+    }
+    html[data-theme="light"] .snapshot-tables-field:focus {
+      border-color: #f59e0b;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+    }
+    
+    /* ===== SCHEMA VALIDATION WARNING CSS ===== */
+    .schema-warning {
+      border-color: #ef4444 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3) !important;
+      background-color: #fef2f2 !important;
+    }
+    [data-theme="dark"] .schema-warning {
+      background-color: #450a0a !important;
+    }
+    .schema-warning-message {
+      display: none;
+      margin-top: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-left: 4px solid #ef4444;
+      border-radius: 4px;
+      color: #b91c1c;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    .schema-warning-message.visible {
+      display: block;
+    }
+    [data-theme="dark"] .schema-warning-message {
+      background: #450a0a;
+      border-color: #7f1d1d;
+      color: #fca5a5;
+    }
+    
+    [data-theme="dark"] .snapshot-refresh-checkbox-wrap {
+      background: #422006;
+      border-color: #b45309;
+    }
+    [data-theme="dark"] .snapshot-refresh-label {
+      color: #fcd34d;
+    }
+    [data-theme="dark"] .snapshot-tables-wrap {
+      background: #3d2d1e;
+      border-color: #b45309;
+    }
+    [data-theme="dark"] .snapshot-tables-label {
+      color: #fde68a;
     }
     
     /* ===== MONITORING FEATURES CSS ===== */
@@ -2297,6 +2406,12 @@
               <span class="rollback-req req" id="rollbackStringReqIndicator" hidden>*</span>
             </label>
             <input id="rollbackString" name="rollbackString" type="text" placeholder="Required when Deployment Type is Manual-DB; otherwise optional" />
+            <div id="snapshotRefreshCheckboxWrap" class="snapshot-refresh-checkbox-wrap" hidden>
+              <label class="snapshot-refresh-label">
+                <input type="checkbox" id="snapshotRefreshRequired" name="snapshotRefreshRequired" />
+                <span>Is Snapshot Refresh required?</span>
+              </label>
+            </div>
           </div>
         </div>
       </fieldset>
@@ -2353,6 +2468,22 @@
                     rows="3"
                     placeholder="PPT: areas, servers, DB instances, schemas (one per line or comma-separated)."
                   ></textarea>
+                  <div id="schemaPptWarning" class="schema-warning-message">
+                    ⚠️ Please double check the Schema name for PPT. Valid PPT schemas should end with "2S" (e.g., ACM2S, AEP2S, CRM2S, OMS2S, ODS2S, SOM2S, USG2S, RDS2S, MCS2S, OMN2S, SDP2S). You entered a schema ending with "1S" or "1P" which is typically for PROD.
+                  </div>
+                  <div id="snapshotTablesPptWrap" class="snapshot-tables-wrap" hidden>
+                    <label for="snapshotTablesPpt" class="snapshot-tables-label">
+                      List of tables for Snapshot Refresh (Comma Separated) - For DB HF's ONLY
+                      <span class="req">*</span>
+                    </label>
+                    <textarea
+                      id="snapshotTablesPpt"
+                      name="snapshotTablesPpt"
+                      class="snapshot-tables-field"
+                      rows="2"
+                      placeholder="MANDATORY - Enter table names separated by commas (e.g., TABLE1, TABLE2, TABLE3)"
+                    ></textarea>
+                  </div>
                 </div>
                 <div>
                   <label for="areaServerDbSchemaProd" class="auto-field-label deployment-steps-field-title">
@@ -2368,6 +2499,19 @@
                     rows="3"
                     placeholder="PROD: areas, servers, DB instances, schemas (one per line or comma-separated)."
                   ></textarea>
+                  <div id="snapshotTablesProdWrap" class="snapshot-tables-wrap" hidden>
+                    <label for="snapshotTablesProd" class="snapshot-tables-label">
+                      List of tables for Snapshot Refresh (Comma Separated) - For DB HF's ONLY
+                      <span class="req">*</span>
+                    </label>
+                    <textarea
+                      id="snapshotTablesProd"
+                      name="snapshotTablesProd"
+                      class="snapshot-tables-field"
+                      rows="2"
+                      placeholder="MANDATORY - Enter table names separated by commas (e.g., TABLE1, TABLE2, TABLE3)"
+                    ></textarea>
+                  </div>
                 </div>
               </div>
               <div class="row two deployment-steps-schema-row">
@@ -3689,6 +3833,9 @@
         deploymentStepsProd: "DEPLOYMENT STEPS (PROD)",
         areaServerDbSchemaPpt: "Area/Server/DB Instance /Schema (PPT)",
         areaServerDbSchemaProd: "Area/Server/DB Instance /Schema (PROD)",
+        snapshotRefreshRequired: "Snapshot Refresh Required",
+        snapshotTablesPpt: "Snapshot Refresh Tables (PPT)",
+        snapshotTablesProd: "Snapshot Refresh Tables (PROD)",
         hfConcatenatedStringPpt: "HF CONCATENATED STRING (PPT)",
         hfConcatenatedStringProd: "HF CONCATENATED STRING (PROD)",
         hfConcatenatedStringRollbackPpt: "HF CONCATENATED STRING ROLLBACK (PPT)",
@@ -3773,13 +3920,19 @@
         return norm === "N/A";
       }
 
-      function buildManualDbDeploymentSteps(areaRaw) {
+      function buildManualDbDeploymentSteps(areaRaw, snapshotTables) {
         var tail = String(areaRaw == null ? "" : areaRaw).trim();
+        var snapshotTablesStr = String(snapshotTables == null ? "" : snapshotTables).trim();
+        var steps = "Step 1 - Get SQL File/Files from path specified\n";
         var line2 = "Step 2 - Run the SQL file on DB";
         if (tail) {
           line2 += " " + tail;
         }
-        return "Step 1 - Get SQL File/Files from path specified\n" + line2;
+        steps += line2;
+        if (snapshotTablesStr) {
+          steps += "\nStep 3 - Perform Snapshot Refresh on tables: " + snapshotTablesStr;
+        }
+        return steps;
       }
 
       var HF_CONCAT_PPT_PATH_PREFIX = "cesgnpinfla002:~tooladm/hotfix/HOTFIX/";
@@ -3935,6 +4088,98 @@
             rollbackStringEl.setCustomValidity("");
           }
         }
+        
+        // Snapshot Refresh checkbox visibility
+        var snapshotRefreshCheckboxWrap = document.getElementById("snapshotRefreshCheckboxWrap");
+        var snapshotRefreshCheckbox = document.getElementById("snapshotRefreshRequired");
+        if (snapshotRefreshCheckboxWrap) {
+          snapshotRefreshCheckboxWrap.hidden = !isDb;
+          if (!isDb && snapshotRefreshCheckbox) {
+            snapshotRefreshCheckbox.checked = false;
+            syncSnapshotTablesVisibility();
+          }
+        }
+      }
+      
+      // Valid PPT schemas (should end with 2S)
+      var VALID_PPT_SCHEMAS = ["ACM2S", "AEP2S", "CRM2S", "OMS2S", "ODS2S", "SOM2S", "USG2S", "RDS2S", "MCS2S", "OMN2S", "SDP2S"];
+      
+      function validatePptSchemaForManualDb() {
+        var isDb = deploymentTypeEl && deploymentTypeEl.value === "Manual-DB";
+        var pptSchemaEl = document.getElementById("areaServerDbSchemaPpt");
+        var warningEl = document.getElementById("schemaPptWarning");
+        
+        if (!pptSchemaEl || !warningEl) return;
+        
+        // Only validate for Manual-DB
+        if (!isDb) {
+          pptSchemaEl.classList.remove("schema-warning");
+          warningEl.classList.remove("visible");
+          return;
+        }
+        
+        var schemaValue = pptSchemaEl.value.toUpperCase();
+        // Check if any schema ending with 1S or 1P is present (which is wrong for PPT)
+        var hasInvalidSchema = /\b[A-Z]{2,4}1[SP]\b/i.test(schemaValue);
+        
+        if (hasInvalidSchema) {
+          pptSchemaEl.classList.add("schema-warning");
+          warningEl.classList.add("visible");
+        } else {
+          pptSchemaEl.classList.remove("schema-warning");
+          warningEl.classList.remove("visible");
+        }
+      }
+      
+      function syncSnapshotTablesVisibility() {
+        var snapshotRefreshCheckbox = document.getElementById("snapshotRefreshRequired");
+        var snapshotTablesPptWrap = document.getElementById("snapshotTablesPptWrap");
+        var snapshotTablesProdWrap = document.getElementById("snapshotTablesProdWrap");
+        var pptField = document.getElementById("snapshotTablesPpt");
+        var prodField = document.getElementById("snapshotTablesProd");
+        var isChecked = snapshotRefreshCheckbox && snapshotRefreshCheckbox.checked;
+        
+        if (snapshotTablesPptWrap) {
+          snapshotTablesPptWrap.hidden = !isChecked;
+        }
+        if (snapshotTablesProdWrap) {
+          snapshotTablesProdWrap.hidden = !isChecked;
+        }
+        
+        // Set mandatory validation when checked
+        if (isChecked) {
+          if (pptField) {
+            pptField.setAttribute("required", "required");
+            if (!pptField.value.trim()) {
+              pptField.setCustomValidity("List of tables for Snapshot Refresh (PPT) is required when Snapshot Refresh is enabled.");
+            } else {
+              pptField.setCustomValidity("");
+            }
+          }
+          if (prodField) {
+            prodField.setAttribute("required", "required");
+            if (!prodField.value.trim()) {
+              prodField.setCustomValidity("List of tables for Snapshot Refresh (PROD) is required when Snapshot Refresh is enabled.");
+            } else {
+              prodField.setCustomValidity("");
+            }
+          }
+        } else {
+          // Clear values and validation if unchecked
+          if (pptField) {
+            pptField.value = "";
+            pptField.removeAttribute("required");
+            pptField.setCustomValidity("");
+          }
+          if (prodField) {
+            prodField.value = "";
+            prodField.removeAttribute("required");
+            prodField.setCustomValidity("");
+          }
+        }
+        
+        // Update deployment steps to include/exclude snapshot tables
+        syncAutoDeploymentStepsConstraint();
       }
 
       function syncHfConcatenatedStringsConstraint() {
@@ -4141,8 +4386,10 @@
             deploymentStepsPptEl.removeAttribute("required");
             deploymentStepsPptEl.setCustomValidity("");
           } else if (isManualDb) {
+            var snapshotPpt = val("snapshotRefreshRequired") === "Yes" ? val("snapshotTablesPpt") : "";
             deploymentStepsPptEl.value = buildManualDbDeploymentSteps(
-              val("areaServerDbSchemaPpt")
+              val("areaServerDbSchemaPpt"),
+              snapshotPpt
             );
             deploymentStepsPptEl.readOnly = true;
             deploymentStepsPptEl.removeAttribute("required");
@@ -4176,8 +4423,10 @@
             deploymentStepsProdEl.removeAttribute("required");
             deploymentStepsProdEl.setCustomValidity("");
           } else if (isManualDb) {
+            var snapshotProd = val("snapshotRefreshRequired") === "Yes" ? val("snapshotTablesProd") : "";
             deploymentStepsProdEl.value = buildManualDbDeploymentSteps(
-              val("areaServerDbSchemaProd")
+              val("areaServerDbSchemaProd"),
+              snapshotProd
             );
             deploymentStepsProdEl.readOnly = true;
             deploymentStepsProdEl.removeAttribute("required");
@@ -4240,7 +4489,10 @@
       }
 
       if (deploymentTypeEl) {
-        deploymentTypeEl.addEventListener("change", syncConditionalConstraints);
+        deploymentTypeEl.addEventListener("change", function() {
+          syncConditionalConstraints();
+          validatePptSchemaForManualDb();
+        });
       }
       var pptEnvEl = document.getElementById("pptEnv");
       if (pptEnvEl) {
@@ -4256,6 +4508,18 @@
       if (rollbackStringEl) {
         rollbackStringEl.addEventListener("input", syncConditionalConstraints);
       }
+      var snapshotRefreshCheckbox = document.getElementById("snapshotRefreshRequired");
+      if (snapshotRefreshCheckbox) {
+        snapshotRefreshCheckbox.addEventListener("change", syncSnapshotTablesVisibility);
+      }
+      var snapshotTablesPptEl = document.getElementById("snapshotTablesPpt");
+      if (snapshotTablesPptEl) {
+        snapshotTablesPptEl.addEventListener("input", syncSnapshotTablesVisibility);
+      }
+      var snapshotTablesProdEl = document.getElementById("snapshotTablesProd");
+      if (snapshotTablesProdEl) {
+        snapshotTablesProdEl.addEventListener("input", syncSnapshotTablesVisibility);
+      }
       if (unixPptEl) {
         unixPptEl.addEventListener("input", syncConditionalConstraints);
       }
@@ -4270,7 +4534,10 @@
       }
       var areaServerDbSchemaPptEl = document.getElementById("areaServerDbSchemaPpt");
       if (areaServerDbSchemaPptEl) {
-        areaServerDbSchemaPptEl.addEventListener("input", syncConditionalConstraints);
+        areaServerDbSchemaPptEl.addEventListener("input", function() {
+          syncConditionalConstraints();
+          validatePptSchemaForManualDb();
+        });
       }
       var areaServerDbSchemaProdEl = document.getElementById("areaServerDbSchemaProd");
       if (areaServerDbSchemaProdEl) {
@@ -4318,13 +4585,20 @@
       function val(id) {
         var el = document.getElementById(id);
         if (!el) return "";
+        if (el.type === "checkbox") {
+          return el.checked ? "Yes" : "";
+        }
         return (el.value || "").trim();
       }
 
       syncConditionalConstraints();
 
       form.addEventListener("reset", function () {
-        setTimeout(syncConditionalConstraints, 0);
+        setTimeout(function() {
+          syncConditionalConstraints();
+          syncSnapshotTablesVisibility();
+          validatePptSchemaForManualDb();
+        }, 0);
       });
 
       var LEGACY_DEPLOYMENT_STORAGE_KEY = "deploymentRequestSavedEntries_v1";
@@ -4357,6 +4631,9 @@
         "dependency",
         "areaServerDbSchemaPpt",
         "areaServerDbSchemaProd",
+        "snapshotRefreshRequired",
+        "snapshotTablesPpt",
+        "snapshotTablesProd",
         "deploymentStepsPpt",
         "deploymentStepsProd",
         "hfConcatenatedStringPpt",
@@ -4796,43 +5073,90 @@
       
       // ===== MONITORING FEATURES =====
       
-      // Activity Log
-      var ACTIVITY_LOG_KEY = "deploymentActivityLog";
-      var MAX_ACTIVITY_LOG_SIZE = 200;
+      // User Name Management
+      var USER_NAME_KEY = "deploymentUserName";
       
-      function getActivityLog() {
+      function getCurrentUserName() {
+        return localStorage.getItem(USER_NAME_KEY) || "";
+      }
+      
+      function setCurrentUserName(name) {
+        localStorage.setItem(USER_NAME_KEY, name);
+        updateStatusBar();
+      }
+      
+      function promptForUserName() {
+        var currentName = getCurrentUserName();
+        var name = prompt("Please enter your name (for activity tracking):", currentName);
+        if (name && name.trim()) {
+          setCurrentUserName(name.trim());
+          showToast("Welcome, " + name.trim() + "!", "success");
+          return name.trim();
+        }
+        return currentName;
+      }
+      
+      window.getCurrentUserName = getCurrentUserName;
+      window.setCurrentUserName = setCurrentUserName;
+      window.promptForUserName = promptForUserName;
+      
+      // Activity Log (Supabase-based)
+      var activityLogCache = [];
+      
+      async function loadActivityLogFromSupabase() {
+        if (!window.supabaseClient) return [];
         try {
-          var log = localStorage.getItem(ACTIVITY_LOG_KEY);
-          return log ? JSON.parse(log) : [];
+          var { data, error } = await window.supabaseClient
+            .from("activity_log")
+            .select("*")
+            .order("created_at", { ascending: false })
+            .limit(200);
+          if (error) {
+            console.warn("Failed to load activity log:", error);
+            return [];
+          }
+          activityLogCache = data || [];
+          return activityLogCache;
         } catch (e) {
+          console.warn("Activity log load error:", e);
           return [];
         }
       }
       
-      function saveActivityLog(log) {
-        try {
-          if (log.length > MAX_ACTIVITY_LOG_SIZE) {
-            log = log.slice(0, MAX_ACTIVITY_LOG_SIZE);
-          }
-          localStorage.setItem(ACTIVITY_LOG_KEY, JSON.stringify(log));
-        } catch (e) {
-          console.warn("Failed to save activity log:", e);
-        }
-      }
-      
-      function logActivity(type, title, detail) {
-        var log = getActivityLog();
-        log.unshift({
+      async function logActivity(type, title, detail) {
+        var userName = getCurrentUserName() || "Anonymous";
+        var entry = {
           type: type,
           title: title,
           detail: detail || "",
-          time: new Date().toISOString()
-        });
-        saveActivityLog(log);
+          user_name: userName,
+          created_at: new Date().toISOString()
+        };
+        
+        // Add to cache immediately for UI responsiveness
+        activityLogCache.unshift(entry);
+        if (activityLogCache.length > 200) {
+          activityLogCache = activityLogCache.slice(0, 200);
+        }
+        
+        // Save to Supabase
+        if (window.supabaseClient) {
+          try {
+            await window.supabaseClient.from("activity_log").insert([entry]);
+          } catch (e) {
+            console.warn("Failed to save activity to Supabase:", e);
+          }
+        }
+        
         updateStatusBar();
       }
       
+      function getActivityLog() {
+        return activityLogCache;
+      }
+      
       window.logActivity = logActivity;
+      window.loadActivityLogFromSupabase = loadActivityLogFromSupabase;
       
       // Toast Notifications
       function showToast(message, type, duration) {
@@ -4865,12 +5189,20 @@
         var statusText = document.getElementById("statusText");
         var statusEntryCount = document.getElementById("statusEntryCount");
         var statusBackupTime = document.getElementById("statusBackupTime");
+        var statusUserName = document.getElementById("statusUserName");
         
         if (!statusDot) return;
         
         var cacheCount = window.getCache ? window.getCache().length : 0;
         var backupTime = localStorage.getItem("deploymentEntriesBackupTime");
         var lastFileBackup = localStorage.getItem("deploymentLastFileBackup");
+        var userName = getCurrentUserName();
+        
+        // Update user name
+        if (statusUserName) {
+          statusUserName.textContent = userName ? "👤 " + userName : "👤 Set Name";
+          statusUserName.style.cursor = "pointer";
+        }
         
         // Update entry count
         statusEntryCount.textContent = cacheCount + " entries";
@@ -4953,11 +5285,17 @@
       window.checkAutoBackupTrigger = checkAutoBackupTrigger;
       
       // Render Activity Log
-      function renderActivityLog() {
+      async function renderActivityLog() {
         var body = document.getElementById("activityLogBody");
         if (!body) return;
         
+        // Show loading state
+        body.innerHTML = '<div class="activity-log-empty">Loading activities...</div>';
+        
+        // Load from Supabase
+        await loadActivityLogFromSupabase();
         var log = getActivityLog();
+        
         if (log.length === 0) {
           body.innerHTML = '<div class="activity-log-empty">No activities recorded yet.</div>';
           return;
@@ -4971,14 +5309,18 @@
         var html = "";
         log.forEach(function(item) {
           var icon = iconMap[item.type] || "📌";
-          var timeAgo = getTimeAgo(item.time);
+          var timeAgo = getTimeAgo(item.created_at || item.time);
+          var userName = item.user_name || "Unknown";
           html += '<div class="activity-item">';
           html += '<div class="activity-icon ' + item.type + '">' + icon + '</div>';
           html += '<div class="activity-content">';
           html += '<div class="activity-title">' + escapeHtml(item.title) + '</div>';
+          html += '<div class="activity-detail">';
           if (item.detail) {
-            html += '<div class="activity-detail">' + escapeHtml(item.detail) + '</div>';
+            html += escapeHtml(item.detail) + ' • ';
           }
+          html += '<strong>by ' + escapeHtml(userName) + '</strong>';
+          html += '</div>';
           html += '</div>';
           html += '<div class="activity-time">' + timeAgo + '</div>';
           html += '</div>';
@@ -5033,11 +5375,18 @@
         }
         
         if (logClear) {
-          logClear.addEventListener("click", function() {
-            if (confirm("Clear all activity log entries?")) {
-              localStorage.removeItem(ACTIVITY_LOG_KEY);
-              renderActivityLog();
-              showToast("Activity log cleared", "info");
+          logClear.addEventListener("click", async function() {
+            if (confirm("Clear all activity log entries? This will remove logs for ALL users.")) {
+              if (window.supabaseClient) {
+                try {
+                  await window.supabaseClient.from("activity_log").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+                  activityLogCache = [];
+                  renderActivityLog();
+                  showToast("Activity log cleared", "info");
+                } catch (e) {
+                  showToast("Failed to clear log: " + e.message, "error");
+                }
+              }
             }
           });
         }
@@ -5062,8 +5411,23 @@
           });
         }
         
+        // User name click handler
+        var statusUserName = document.getElementById("statusUserName");
+        if (statusUserName) {
+          statusUserName.addEventListener("click", function() {
+            promptForUserName();
+          });
+        }
+        
+        // Check if user name is set, prompt if not
+        setTimeout(function() {
+          if (!getCurrentUserName()) {
+            promptForUserName();
+          }
+        }, 2000);
+        
         // Initial status bar update
-        setTimeout(updateStatusBar, 2000);
+        setTimeout(updateStatusBar, 1000);
         
         // Periodic sync check
         setInterval(periodicSyncCheck, SYNC_CHECK_INTERVAL);
@@ -5071,8 +5435,11 @@
         // Update status bar periodically
         setInterval(updateStatusBar, 30000);
         
-        // Log app start
-        logActivity("sync", "Application Started", "Page loaded successfully");
+        // Log app start with user name
+        setTimeout(function() {
+          var userName = getCurrentUserName() || "Anonymous";
+          logActivity("sync", "Application Started", "Page loaded by " + userName);
+        }, 3000);
       });
 
       function normalizeSingleEntry(entry) {
@@ -5485,9 +5852,15 @@
           var el = document.getElementById(k);
           if (!el) return;
           var v = entry[k];
-          el.value = v == null ? "" : String(v);
+          if (el.type === "checkbox") {
+            el.checked = v === "Yes" || v === true || v === "true";
+          } else {
+            el.value = v == null ? "" : String(v);
+          }
         });
         syncConditionalConstraints();
+        syncSnapshotTablesVisibility();
+        validatePptSchemaForManualDb();
       }
 
       function clearFormAfterSave() {
@@ -5495,6 +5868,7 @@
         prevDeploymentWasAuto = false;
         prevDeploymentWasManualDb = false;
         syncConditionalConstraints();
+        syncSnapshotTablesVisibility();
       }
 
       function showSaveStatus(msg, isError, skipPopup) {
@@ -7566,6 +7940,14 @@
                 htmlContent += '<h2>Manual-DB Additional Details</h2>';
                 htmlContent += '<div class="info-row"><span class="info-label">Rollback HF:</span><span>' + escapeHtml(rollbackHf) + '</span></div>';
                 htmlContent += '<div class="info-row"><span class="info-label">Rollback String:</span><span>' + escapeHtml(rollbackString) + '</span></div>';
+                var snapshotRequired = entryForSteps.snapshotRefreshRequired === "Yes";
+                htmlContent += '<div class="info-row"><span class="info-label">Snapshot Refresh Required:</span><span>' + (snapshotRequired ? 'Yes' : 'No') + '</span></div>';
+                if (snapshotRequired) {
+                  var snapshotTablesPpt = entryForSteps.snapshotTablesPpt || "(Not specified)";
+                  var snapshotTablesProd = entryForSteps.snapshotTablesProd || "(Not specified)";
+                  htmlContent += '<div class="section" style="background:#fef3c7;border-left:4px solid #f59e0b;"><div class="section-title" style="color:#92400e;">Snapshot Refresh Tables (PPT)</div><div class="section-content">' + escapeHtml(snapshotTablesPpt) + '</div></div>';
+                  htmlContent += '<div class="section" style="background:#fef3c7;border-left:4px solid #f59e0b;"><div class="section-title" style="color:#92400e;">Snapshot Refresh Tables (PROD)</div><div class="section-content">' + escapeHtml(snapshotTablesProd) + '</div></div>';
+                }
                 htmlContent += '<div class="section"><div class="section-title section-title-db">HF CONCATENATED STRING (PPT)</div><div class="section-content">' + escapeHtml(hfConcatPpt) + '</div></div>';
                 htmlContent += '<div class="section"><div class="section-title section-title-db">HF CONCATENATED STRING (PROD)</div><div class="section-content">' + escapeHtml(hfConcatProd) + '</div></div>';
                 htmlContent += '<div class="section"><div class="section-title section-title-db">HF CONCATENATED STRING ROLLBACK (PPT)</div><div class="section-content">' + escapeHtml(hfConcatRollbackPpt) + '</div></div>';
@@ -8245,6 +8627,12 @@
         "Files": "files",
         "Rollback String": "rollbackString",
         "Area/Server/DB Instance /Schema (PPT)": "areaServerDbSchemaPpt",
+        "Snapshot Refresh Required": "snapshotRefreshRequired",
+        "Is Snapshot Refresh Required": "snapshotRefreshRequired",
+        "Snapshot Refresh Tables (PPT)": "snapshotTablesPpt",
+        "List of tables for Snapshot Refresh (PPT)": "snapshotTablesPpt",
+        "Snapshot Refresh Tables (PROD)": "snapshotTablesProd",
+        "List of tables for Snapshot Refresh (PROD)": "snapshotTablesProd",
         "DEPLOYMENT STEPS (PPT)": "deploymentStepsPpt",
         "Area/Server/DB Instance /Schema (PROD)": "areaServerDbSchemaProd",
         "DEPLOYMENT STEPS (PROD)": "deploymentStepsProd",
@@ -9527,6 +9915,7 @@
       <span id="statusBackupTime">Last backup: --</span>
     </div>
     <div class="status-bar-right">
+      <span id="statusUserName" style="cursor: pointer;">👤 Set Name</span>
       <button type="button" id="statusViewLogBtn">📋 Activity Log</button>
       <button type="button" id="statusQuickBackup">💾 Quick Backup</button>
     </div>
