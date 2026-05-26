@@ -435,6 +435,61 @@
     .btn-import:hover {
       background: #3b82f6;
     }
+    .btn-backup {
+      background: #059669;
+      color: #fff;
+      border: none;
+    }
+    .btn-backup:hover {
+      background: #10b981;
+    }
+    .btn-restore {
+      background: #7c3aed;
+      color: #fff;
+      border: none;
+    }
+    .btn-restore:hover {
+      background: #8b5cf6;
+    }
+    .backup-reminder-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10001;
+    }
+    .backup-reminder-overlay.show {
+      display: flex;
+    }
+    .backup-reminder-modal {
+      background: #fff;
+      padding: 24px;
+      border-radius: 8px;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .backup-reminder-modal h3 {
+      margin: 0 0 12px 0;
+      color: #059669;
+    }
+    .backup-reminder-modal p {
+      margin: 0 0 16px 0;
+      color: #666;
+    }
+    .backup-reminder-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .backup-reminder-buttons button {
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
     .import-modal-overlay {
       position: fixed;
       inset: 0;
@@ -2350,6 +2405,8 @@
           </button>
           <button type="button" class="btn-export btn-tiny" id="exportAllSavedBtn" title="One row per active saved entry; archived rows are not included">Export all to Excel</button>
           <button type="button" class="btn-import btn-tiny" id="importFromExcelBtn" title="Import entries from Excel file">Import from Excel</button>
+          <button type="button" class="btn-backup btn-tiny" id="backupToFileBtn" title="Download backup file (JSON)">Backup to File</button>
+          <button type="button" class="btn-restore btn-tiny" id="restoreFromFileBtn" title="Restore from backup file">Restore from File</button>
           <button type="button" class="btn-danger btn-tiny" id="clearAllSavedBtn">Clear all saved</button>
         </div>
       </div>
@@ -4375,6 +4432,188 @@
       
       window.getCache = function() { return savedEntriesCache; };
       window.getCacheSize = function() { return savedEntriesCache.length; };
+      
+      // File backup/restore functions
+      function downloadBackupFile() {
+        var backup = {
+          version: "1.0",
+          exportedAt: new Date().toISOString(),
+          entries: savedEntriesCache || [],
+          calendarNotes: calendarNotes || {}
+        };
+        var blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        var dateStr = new Date().toISOString().slice(0, 10);
+        a.download = "deployment-backup-" + dateStr + ".json";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        // Record backup time
+        localStorage.setItem("deploymentLastFileBackup", new Date().toISOString());
+        console.log("Backup file downloaded: " + a.download);
+        return true;
+      }
+      
+      function restoreFromBackupFile(file) {
+        return new Promise(function(resolve, reject) {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            try {
+              var backup = JSON.parse(e.target.result);
+              if (!backup.entries || !Array.isArray(backup.entries)) {
+                throw new Error("Invalid backup file: no entries found");
+              }
+              resolve(backup);
+            } catch (err) {
+              reject(err);
+            }
+          };
+          reader.onerror = function() {
+            reject(new Error("Failed to read file"));
+          };
+          reader.readAsText(file);
+        });
+      }
+      
+      function shouldShowBackupReminder() {
+        var lastBackup = localStorage.getItem("deploymentLastFileBackup");
+        var skipUntil = localStorage.getItem("deploymentBackupSkipUntil");
+        
+        // Check if skipped today
+        if (skipUntil) {
+          var skipDate = new Date(skipUntil);
+          if (new Date() < skipDate) {
+            return false;
+          }
+        }
+        
+        // Show reminder if never backed up or last backup > 7 days ago
+        if (!lastBackup) {
+          return true;
+        }
+        var lastBackupDate = new Date(lastBackup);
+        var daysSinceBackup = (new Date() - lastBackupDate) / (1000 * 60 * 60 * 24);
+        return daysSinceBackup >= 7;
+      }
+      
+      function showBackupReminder() {
+        var lastBackup = localStorage.getItem("deploymentLastFileBackup");
+        var lastBackupSpan = document.getElementById("lastBackupTime");
+        if (lastBackupSpan) {
+          lastBackupSpan.textContent = lastBackup ? new Date(lastBackup).toLocaleString() : "Never";
+        }
+        var overlay = document.getElementById("backupReminderOverlay");
+        if (overlay) {
+          overlay.classList.add("show");
+        }
+      }
+      
+      function hideBackupReminder() {
+        var overlay = document.getElementById("backupReminderOverlay");
+        if (overlay) {
+          overlay.classList.remove("show");
+        }
+      }
+      
+      // Initialize backup/restore buttons
+      document.addEventListener("DOMContentLoaded", function() {
+        var backupBtn = document.getElementById("backupToFileBtn");
+        var restoreBtn = document.getElementById("restoreFromFileBtn");
+        var restoreInput = document.getElementById("restoreFileInput");
+        var reminderYes = document.getElementById("backupReminderYes");
+        var reminderLater = document.getElementById("backupReminderLater");
+        var reminderSkip = document.getElementById("backupReminderSkip");
+        
+        if (backupBtn) {
+          backupBtn.addEventListener("click", function() {
+            downloadBackupFile();
+            alert("Backup file downloaded! Save it to your OneDrive folder for safekeeping.");
+          });
+        }
+        
+        if (restoreBtn) {
+          restoreBtn.addEventListener("click", function() {
+            if (restoreInput) restoreInput.click();
+          });
+        }
+        
+        if (restoreInput) {
+          restoreInput.addEventListener("change", async function(e) {
+            var file = e.target.files[0];
+            if (!file) return;
+            
+            try {
+              var backup = await restoreFromBackupFile(file);
+              var msg = "Restore from backup file?\n\n";
+              msg += "Entries: " + backup.entries.length + "\n";
+              msg += "Calendar Notes: " + Object.keys(backup.calendarNotes || {}).length + "\n";
+              msg += "Exported: " + (backup.exportedAt || "Unknown") + "\n\n";
+              msg += "This will REPLACE all current data!";
+              
+              if (!confirm(msg)) {
+                restoreInput.value = "";
+                return;
+              }
+              
+              // Restore entries
+              await writeSavedEntriesToDatabase(backup.entries);
+              
+              // Restore calendar notes
+              if (backup.calendarNotes && Object.keys(backup.calendarNotes).length > 0) {
+                await supabaseClient.from("calendar_notes").delete().neq("date_key", "");
+                var rows = Object.keys(backup.calendarNotes).map(function(key) {
+                  return { date_key: key, data: backup.calendarNotes[key], updated_at: new Date().toISOString() };
+                });
+                await supabaseClient.from("calendar_notes").upsert(rows, { onConflict: "date_key" });
+                calendarNotes = backup.calendarNotes;
+              }
+              
+              alert("Restore successful! Page will reload.");
+              location.reload();
+            } catch (err) {
+              alert("Restore failed: " + err.message);
+              console.error("Restore error:", err);
+            }
+            restoreInput.value = "";
+          });
+        }
+        
+        // Backup reminder handlers
+        if (reminderYes) {
+          reminderYes.addEventListener("click", function() {
+            hideBackupReminder();
+            downloadBackupFile();
+            alert("Backup file downloaded! Save it to your OneDrive folder.");
+          });
+        }
+        
+        if (reminderLater) {
+          reminderLater.addEventListener("click", function() {
+            hideBackupReminder();
+          });
+        }
+        
+        if (reminderSkip) {
+          reminderSkip.addEventListener("click", function() {
+            // Skip for 24 hours
+            var skipUntil = new Date();
+            skipUntil.setHours(skipUntil.getHours() + 24);
+            localStorage.setItem("deploymentBackupSkipUntil", skipUntil.toISOString());
+            hideBackupReminder();
+          });
+        }
+        
+        // Check if should show backup reminder (after a short delay)
+        setTimeout(function() {
+          if (shouldShowBackupReminder()) {
+            showBackupReminder();
+          }
+        }, 3000);
+      });
 
       function normalizeSingleEntry(entry) {
         if (!entry || typeof entry !== "object") return entry;
@@ -8739,5 +8978,22 @@
 
     })();
   </script>
+  
+  <!-- Backup Reminder Modal -->
+  <div class="backup-reminder-overlay" id="backupReminderOverlay">
+    <div class="backup-reminder-modal">
+      <h3>📦 Backup Reminder</h3>
+      <p>It's been a while since your last backup. Would you like to download a backup file now?</p>
+      <p style="font-size: 12px; color: #888;">Last backup: <span id="lastBackupTime">Never</span></p>
+      <div class="backup-reminder-buttons">
+        <button type="button" class="btn-backup" id="backupReminderYes">Backup Now</button>
+        <button type="button" style="background: #e5e7eb; color: #333; border: none;" id="backupReminderLater">Remind Me Later</button>
+        <button type="button" style="background: #fee2e2; color: #991b1b; border: none;" id="backupReminderSkip">Skip Today</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Hidden file input for restore -->
+  <input type="file" id="restoreFileInput" accept=".json" style="display: none;">
 </body>
 </html>
