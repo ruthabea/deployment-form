@@ -4683,8 +4683,17 @@
         return savedEntriesCache.slice();
       }
 
-      function backupEntriesToLocalStorage(entries) {
+      function backupEntriesToLocalStorage(entries, force) {
         try {
+          // SAFEGUARD: Don't overwrite backup with significantly fewer entries
+          var existingBackup = localStorage.getItem("deploymentEntriesBackup");
+          if (existingBackup && !force) {
+            var existingCount = JSON.parse(existingBackup).length;
+            if (existingCount > 10 && entries.length < existingCount * 0.5) {
+              console.warn("BACKUP SAFEGUARD: Not overwriting " + existingCount + " entries with only " + entries.length);
+              return;
+            }
+          }
           localStorage.setItem("deploymentEntriesBackup", JSON.stringify(entries));
           localStorage.setItem("deploymentEntriesBackupTime", new Date().toISOString());
           console.log("Backup: " + entries.length + " entries saved to localStorage");
@@ -4727,7 +4736,7 @@
         }
       }
       
-      function writeSavedEntriesToDatabase(arr) {
+      function writeSavedEntriesToDatabase(arr, forceOverwrite) {
         var normalized = normalizeEntriesList(arr);
         savedEntriesCache = normalized;
         
@@ -4742,16 +4751,36 @@
           };
         });
         
-        // Delete all and insert fresh (upsert approach)
         if (!supabaseClient || typeof supabaseClient.from !== 'function') {
           writeSavedEntriesToLocalStorage(normalized);
           return Promise.resolve(normalized);
         }
+        
+        // SAFETY CHECK: Get current count from Supabase first
         return supabaseClient
           .from("saved_entries")
-          .delete()
-          .neq("id", "")
-          .then(function () {
+          .select("id", { count: "exact" })
+          .then(function (countResult) {
+            var currentCount = countResult.data ? countResult.data.length : 0;
+            var newCount = rows.length;
+            
+            // SAFEGUARD: Prevent accidental data loss
+            // If new data has significantly fewer entries (>50% loss) and not forced, abort
+            if (!forceOverwrite && currentCount > 10 && newCount < currentCount * 0.5) {
+              console.error("SAFEGUARD: Prevented potential data loss!");
+              console.error("Current Supabase entries: " + currentCount);
+              console.error("Attempting to save: " + newCount + " entries");
+              console.error("Use writeSavedEntriesToDatabase(arr, true) to force overwrite");
+              return Promise.reject(new Error("Data loss prevention: refusing to overwrite " + currentCount + " entries with only " + newCount));
+            }
+            
+            if (rows.length === 0 && currentCount === 0) {
+              entriesDbReady = true;
+              backupEntriesToLocalStorage(normalized);
+              return normalized;
+            }
+            
+            // Use UPSERT instead of DELETE ALL + INSERT
             if (rows.length === 0) {
               entriesDbReady = true;
               backupEntriesToLocalStorage(normalized);
@@ -4789,15 +4818,32 @@
             var arr = (result.data || []).map(function (row) {
               return row.data;
             });
+            var normalized = normalizeEntriesList(arr);
+            
+            // SAFEGUARD: Check if Supabase has significantly fewer entries than backup
+            var backupInfo = getEntriesBackupInfo();
+            if (backupInfo && backupInfo.count > 10 && normalized.length < backupInfo.count * 0.5) {
+              console.warn("DATA LOSS DETECTED!");
+              console.warn("Supabase has " + normalized.length + " entries, but backup has " + backupInfo.count);
+              console.warn("Loading from backup instead. Run restoreEntriesFromBackup() to restore to Supabase.");
+              savedEntriesCache = backupInfo.entries;
+              entriesDbReady = true;
+              // Show alert to user
+              setTimeout(function() {
+                alert("WARNING: Supabase data loss detected!\n\nSupabase: " + normalized.length + " entries\nBackup: " + backupInfo.count + " entries\n\nLoading from local backup. Please run restoreEntriesFromBackup() in console to restore to Supabase.");
+              }, 1000);
+              return savedEntriesCache;
+            }
+            
             if (arr.length > 0) {
               backupEntriesToLocalStorage(arr);
             }
-            var normalized = normalizeEntriesList(arr);
+            
             if (!normalized.length) {
               var local = readSavedEntriesFromLocalStorage();
               if (local.length) {
                 savedEntriesCache = local;
-                return writeSavedEntriesToDatabase(local);
+                return writeSavedEntriesToDatabase(local, true);
               }
             }
             savedEntriesCache = normalized;
