@@ -4300,6 +4300,75 @@
         } else {
           console.warn("Supabase library not available");
         }
+        
+        // Global backup recovery functions (accessible from console)
+        window.checkBackup = function() {
+          var entriesBackup = getEntriesBackupInfo();
+          var notesBackup = getNotesBackupInfo();
+          console.log("=== Backup Status ===");
+          if (entriesBackup) {
+            console.log("Entries backup: " + entriesBackup.count + " entries (saved: " + entriesBackup.time + ")");
+          } else {
+            console.log("Entries backup: NOT FOUND");
+          }
+          if (notesBackup) {
+            console.log("Notes backup: " + notesBackup.count + " notes (saved: " + notesBackup.time + ")");
+          } else {
+            console.log("Notes backup: NOT FOUND");
+          }
+          return { entries: entriesBackup, notes: notesBackup };
+        };
+        
+        window.restoreEntriesFromBackup = async function() {
+          var backup = getEntriesBackupInfo();
+          if (!backup) {
+            console.error("No entries backup found!");
+            return false;
+          }
+          if (!confirm("Restore " + backup.count + " entries from backup (" + backup.time + ")?\nThis will REPLACE all current Supabase entries!")) {
+            console.log("Restore cancelled");
+            return false;
+          }
+          try {
+            await writeSavedEntriesToDatabase(backup.entries);
+            console.log("SUCCESS: Restored " + backup.count + " entries from backup");
+            location.reload();
+            return true;
+          } catch (e) {
+            console.error("Restore failed:", e);
+            return false;
+          }
+        };
+        
+        window.restoreNotesFromBackup = async function() {
+          var backup = getNotesBackupInfo();
+          if (!backup) {
+            console.error("No notes backup found!");
+            return false;
+          }
+          if (!confirm("Restore " + backup.count + " calendar notes from backup (" + backup.time + ")?\nThis will REPLACE all current notes!")) {
+            console.log("Restore cancelled");
+            return false;
+          }
+          try {
+            // Delete all existing notes first
+            await supabaseClient.from("calendar_notes").delete().neq("date_key", "");
+            // Insert backup notes
+            var rows = Object.keys(backup.notes).map(function(key) {
+              return { date_key: key, data: backup.notes[key], updated_at: new Date().toISOString() };
+            });
+            if (rows.length > 0) {
+              await supabaseClient.from("calendar_notes").upsert(rows, { onConflict: "date_key" });
+            }
+            calendarNotes = backup.notes;
+            console.log("SUCCESS: Restored " + backup.count + " notes from backup");
+            location.reload();
+            return true;
+          } catch (e) {
+            console.error("Restore failed:", e);
+            return false;
+          }
+        };
       } catch (e) {
         console.error("Failed to initialize Supabase:", e);
       }
@@ -4375,6 +4444,50 @@
         return savedEntriesCache.slice();
       }
 
+      function backupEntriesToLocalStorage(entries) {
+        try {
+          localStorage.setItem("deploymentEntriesBackup", JSON.stringify(entries));
+          localStorage.setItem("deploymentEntriesBackupTime", new Date().toISOString());
+          console.log("Backup: " + entries.length + " entries saved to localStorage");
+        } catch (e) {
+          console.warn("localStorage backup failed:", e);
+        }
+      }
+      
+      function backupCalendarNotesToLocalStorage(notes) {
+        try {
+          localStorage.setItem("deploymentNotesBackup", JSON.stringify(notes));
+          localStorage.setItem("deploymentNotesBackupTime", new Date().toISOString());
+          console.log("Backup: " + Object.keys(notes).length + " calendar notes saved to localStorage");
+        } catch (e) {
+          console.warn("localStorage notes backup failed:", e);
+        }
+      }
+      
+      function getEntriesBackupInfo() {
+        var backup = localStorage.getItem("deploymentEntriesBackup");
+        var time = localStorage.getItem("deploymentEntriesBackupTime");
+        if (!backup) return null;
+        try {
+          var entries = JSON.parse(backup);
+          return { entries: entries, time: time, count: entries.length };
+        } catch (e) {
+          return null;
+        }
+      }
+      
+      function getNotesBackupInfo() {
+        var backup = localStorage.getItem("deploymentNotesBackup");
+        var time = localStorage.getItem("deploymentNotesBackupTime");
+        if (!backup) return null;
+        try {
+          var notes = JSON.parse(backup);
+          return { notes: notes, time: time, count: Object.keys(notes).length };
+        } catch (e) {
+          return null;
+        }
+      }
+      
       function writeSavedEntriesToDatabase(arr) {
         var normalized = normalizeEntriesList(arr);
         savedEntriesCache = normalized;
@@ -4402,6 +4515,7 @@
           .then(function () {
             if (rows.length === 0) {
               entriesDbReady = true;
+              backupEntriesToLocalStorage(normalized);
               return normalized;
             }
             return supabaseClient
@@ -4412,6 +4526,7 @@
                   throw new Error(result.error.message || "Database save failed");
                 }
                 entriesDbReady = true;
+                backupEntriesToLocalStorage(normalized);
                 return normalized;
               });
           });
@@ -4435,6 +4550,9 @@
             var arr = (result.data || []).map(function (row) {
               return row.data;
             });
+            if (arr.length > 0) {
+              backupEntriesToLocalStorage(arr);
+            }
             var normalized = normalizeEntriesList(arr);
             if (!normalized.length) {
               var local = readSavedEntriesFromLocalStorage();
@@ -8018,6 +8136,9 @@
             });
             calendarNotes = notes;
             calendarNotesLoaded = true;
+            if (Object.keys(notes).length > 0) {
+              backupCalendarNotesToLocalStorage(notes);
+            }
             return calendarNotes;
           })
           .catch(function () {
@@ -8058,6 +8179,8 @@
             if (result.error) {
               console.error("Failed to save calendar note:", result.error);
               alert("Failed to save note: " + result.error.message);
+            } else {
+              backupCalendarNotesToLocalStorage(calendarNotes);
             }
             return result;
           })
