@@ -4566,6 +4566,7 @@
           try {
             await writeSavedEntriesToDatabase(backup.entries);
             console.log("SUCCESS: Restored " + backup.count + " entries from backup");
+            if (window.logActivity) logActivity("restore", "Restored from localStorage Backup", backup.count + " entries restored");
             location.reload();
             return true;
           } catch (e) {
@@ -4749,6 +4750,7 @@
                 calendarNotes = backup.calendarNotes;
               }
               
+              if (window.logActivity) logActivity("restore", "Restored from File Backup", backup.entries.length + " entries restored from file");
               alert("Restore successful! Page will reload.");
               location.reload();
             } catch (err) {
@@ -7613,6 +7615,7 @@
               }
               toRemove.deletedAt = new Date().toISOString();
               persistEntries(currentList, { message: "Entry moved to Deleted Hotfixes." });
+              if (window.logActivity) logActivity("delete", "Entry Deleted", "HF: " + (toRemove.hotfixNumber || "Unknown"));
             });
           }
         });
@@ -7660,6 +7663,7 @@
               }
               toRemoveA.deletedAt = new Date().toISOString();
               persistEntries(currentArch, { message: "Entry moved to Deleted Hotfixes." });
+              if (window.logActivity) logActivity("delete", "Archived Entry Deleted", "HF: " + (toRemoveA.hotfixNumber || "Unknown"));
             });
           }
         });
@@ -7680,6 +7684,7 @@
               if (er) {
                 delete er.deletedAt;
                 persistEntries(listR, { message: "Entry restored." });
+                if (window.logActivity) logActivity("restore", "Entry Restored", "HF: " + (er.hotfixNumber || "Unknown"));
                 renderDeletedList();
               }
             });
@@ -7706,10 +7711,12 @@
               ) {
                 return;
               }
+              var permDelEntry = currentDel.filter(function (e) { return e.id === permDelId; })[0];
               var nextD = currentDel.filter(function (e) {
                 return e.id !== permDelId;
               });
               persistEntries(nextD, { message: "Entry permanently deleted." });
+              if (window.logActivity) logActivity("delete", "Entry Permanently Deleted", "HF: " + (permDelEntry ? permDelEntry.hotfixNumber : "Unknown"));
               renderDeletedList();
             });
           }
@@ -7736,10 +7743,12 @@
             ) {
               return;
             }
+            var deletedCount = list.filter(function (e) { return e.deletedAt; }).length;
             var remaining = list.filter(function (e) {
               return !e.deletedAt;
             });
             persistEntries(remaining, { message: "All deleted entries permanently removed." });
+            if (window.logActivity) logActivity("delete", "Bulk Permanent Delete", deletedCount + " entries permanently removed");
             renderDeletedList();
           });
         });
@@ -7768,6 +7777,7 @@
                 return e && !isEntryArchived(e);
               }).length;
               clearFormAfterSave();
+              if (window.logActivity) logActivity("add", "New Entry Added", "HF: " + (entry.hotfixNumber || "Unknown") + " - " + (entry.applicationName || ""));
               showSaveStatus(
                 "Saved to shared database (" +
                   activeN +
@@ -7821,6 +7831,7 @@
           persistEntries(list, { revealSavedPanel: false })
             .then(function () {
               showSaveStatus("Entry updated successfully.");
+              if (window.logActivity) logActivity("edit", "Entry Updated", "HF: " + (updatedData.hotfixNumber || "Unknown"));
               loadedEntryId = null;
               clearFormAfterSave();
             })
@@ -7864,7 +7875,9 @@
             ) {
               return;
             }
+            var clearedCount = readSavedEntries().length;
             persistEntries([], { message: "All saved entries cleared." });
+            if (window.logActivity) logActivity("delete", "All Entries Cleared", clearedCount + " entries cleared");
           });
         });
       }
@@ -8490,9 +8503,12 @@
         importConfirmBtn.disabled = true;
         importConfirmBtn.textContent = "Importing...";
         var existing = readSavedEntries();
+        var importCount = importParsedData.length;
         var newEntries = existing.concat(importParsedData);
         persistEntries(newEntries, { render: false }).then(function () {
-          showImportStatus("Successfully imported " + importParsedData.length + " entries!", false);
+          showImportStatus("Successfully imported " + importCount + " entries!", false);
+          if (window.logActivity) logActivity("import", "Excel Import", importCount + " entries imported");
+          if (window.checkAutoBackupTrigger) checkAutoBackupTrigger(importCount, "imports");
           importParsedData = [];
           renderSavedList();
           renderArchiveList();
