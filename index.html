@@ -8454,7 +8454,7 @@
       function doExportAllSaved(hasXlsx) {
         var allSaved = readSavedEntries();
         var active = allSaved.filter(function (e) {
-          return e && !isEntryArchived(e);
+          return e && !isEntryArchived(e) && !e.deletedAt;
         });
         var searchQ = savedSearchInput ? savedSearchInput.value.trim() : "";
         var pptFilter = savedFilterPpt ? savedFilterPpt.value : "";
