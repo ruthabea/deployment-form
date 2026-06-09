@@ -1055,6 +1055,136 @@
       font-weight: 600;
       white-space: nowrap;
     }
+    .saved-table th.ppt-highlight,
+    .saved-table td.ppt-highlight {
+      background: #fef9c3;
+    }
+    [data-theme="dark"] .saved-table th.ppt-highlight,
+    [data-theme="dark"] .saved-table td.ppt-highlight {
+      background: rgba(234, 179, 8, 0.2);
+    }
+    .saved-table th.prod-highlight,
+    .saved-table td.prod-highlight {
+      background: #ffedd5;
+    }
+    [data-theme="dark"] .saved-table th.prod-highlight,
+    [data-theme="dark"] .saved-table td.prod-highlight {
+      background: rgba(249, 115, 22, 0.2);
+    }
+    
+    /* Bulk Update Styles */
+    .bulk-checkbox {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+    .saved-table th.col-checkbox,
+    .saved-table td.col-checkbox {
+      width: 40px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .bulk-actions-panel {
+      display: none;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.75rem;
+      background: #eff6ff;
+      border: 1px solid #3b82f6;
+      border-radius: 6px;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .bulk-actions-panel.visible {
+      display: flex;
+    }
+    [data-theme="dark"] .bulk-actions-panel {
+      background: #1e3a5f;
+      border-color: #3b82f6;
+    }
+    .bulk-actions-panel .bulk-selected-count {
+      font-weight: 600;
+      color: #1d4ed8;
+    }
+    [data-theme="dark"] .bulk-actions-panel .bulk-selected-count {
+      color: #93c5fd;
+    }
+    .bulk-actions-panel select {
+      padding: 0.35rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: var(--input-bg);
+      color: var(--text);
+      font-size: 0.85rem;
+    }
+    .bulk-actions-panel .btn-bulk-apply {
+      padding: 0.4rem 0.75rem;
+      background: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .bulk-actions-panel .btn-bulk-apply:hover {
+      background: #2563eb;
+    }
+    .bulk-actions-panel .btn-bulk-clear {
+      padding: 0.4rem 0.75rem;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .bulk-actions-panel .btn-bulk-clear:hover {
+      background: var(--surface);
+    }
+    .saved-table tr.bulk-selected {
+      background: rgba(59, 130, 246, 0.1);
+    }
+    [data-theme="dark"] .saved-table tr.bulk-selected {
+      background: rgba(59, 130, 246, 0.15);
+    }
+    .bulk-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .bulk-extras {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+      padding: 0.5rem;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 4px;
+      border: 1px dashed #93c5fd;
+    }
+    [data-theme="dark"] .bulk-extras {
+      background: rgba(0, 0, 0, 0.2);
+      border-color: #3b82f6;
+    }
+    .bulk-extras label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      font-size: 0.8rem;
+    }
+    .bulk-input {
+      padding: 0.3rem 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.85rem;
+      background: var(--input-bg);
+      color: var(--text);
+      width: 120px;
+    }
+    .bulk-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
     .saved-table tr:last-child td {
       border-bottom: none;
     }
@@ -1233,6 +1363,107 @@
     #monthlyTrendAreaChart {
       width: 100% !important;
       max-height: 320px;
+    }
+    .weekly-deployment-status-wrap {
+      flex: 1 1 100%;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .weekly-deployment-status-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--fg);
+      margin: 0 0 0.5rem 0;
+    }
+    .weekly-deployment-status-filter {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.5rem;
+    }
+    .weekly-deployment-status-filter label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .weekly-deployment-status-filter select {
+      font-size: 0.8rem;
+      padding: 0.3rem 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--input-bg);
+      color: var(--text);
+      width: auto;
+      min-width: 0;
+    }
+    .weekly-deployment-status-table-wrap {
+      overflow-x: auto;
+    }
+    .weekly-deployment-status-table {
+      width: auto;
+      border-collapse: collapse;
+      border: 2px solid #666;
+      font-size: 0.75rem;
+    }
+    .weekly-deployment-status-table th {
+      padding: 0.35rem 0.5rem;
+      border: 1px solid #666;
+      text-align: center;
+      font-size: 0.75rem;
+      background: #d9e1f2;
+      color: #000;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .weekly-deployment-status-table td {
+      padding: 0.3rem 0.5rem;
+      border: 1px solid #999;
+      text-align: left;
+      font-size: 0.75rem;
+      vertical-align: top;
+      background: #fff;
+      color: #000;
+    }
+    .weekly-deployment-status-table td:first-child {
+      text-align: center;
+      white-space: nowrap;
+    }
+    .weekly-deployment-status-table td:nth-child(2) {
+      text-align: center;
+      white-space: nowrap;
+    }
+    [data-theme="dark"] .weekly-deployment-status-table th {
+      background: #2d3748;
+      color: #fff;
+    }
+    [data-theme="dark"] .weekly-deployment-status-table td {
+      background: #1a202c;
+      color: #e2e8f0;
+    }
+    .weekly-deployment-status-table .status-successful {
+      color: #16a34a;
+      font-weight: 600;
+    }
+    .weekly-deployment-status-table .status-cancelled {
+      color: #dc2626;
+      font-weight: 700;
+    }
+    .weekly-deployment-status-table .remarks-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .weekly-deployment-status-table .remarks-item {
+      margin-bottom: 0.1rem;
+      font-size: 0.7rem;
+    }
+    .weekly-deployment-status-table .remarks-item:last-child {
+      margin-bottom: 0;
+    }
+    .weekly-deployment-status-table .remark-cancelled {
+      color: #dc2626;
+      font-weight: 700;
     }
     .week-selector {
       display: flex;
@@ -1702,10 +1933,52 @@
       background: rgba(239, 68, 68, 0.2) !important;
       border-color: #f87171 !important;
     }
-    .calendar-tuesday-field.note-cancelled textarea {
+    .calendar-tuesday-field.note-cancelled textarea:not(.cancel-reason-field) {
       text-decoration: line-through !important;
       color: #9ca3af !important;
       background: rgba(239, 68, 68, 0.05) !important;
+    }
+    .cancel-reason-wrap {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 4px;
+    }
+    [data-theme="dark"] .cancel-reason-wrap {
+      background: #450a0a;
+      border-color: #7f1d1d;
+    }
+    .cancel-reason-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #b91c1c;
+      margin-bottom: 0.35rem;
+    }
+    [data-theme="dark"] .cancel-reason-label {
+      color: #fca5a5;
+    }
+    .cancel-reason-field {
+      width: 100%;
+      font: inherit;
+      font-size: 0.85rem;
+      padding: 0.5rem;
+      border: 1px solid #fecaca;
+      border-radius: 4px;
+      background: #fff;
+      color: var(--text);
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    [data-theme="dark"] .cancel-reason-field {
+      background: #1e1e1e;
+      border-color: #7f1d1d;
+    }
+    .cancel-reason-field:focus {
+      outline: none;
+      border-color: #ef4444;
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
     }
     .calendar-tuesday-field textarea {
       width: 100%;
@@ -2764,10 +3037,58 @@
         </div>
       </div>
       <p id="savedSearchNoMatch" class="saved-search-no-match" hidden>No saved entries match your search.</p>
+      <div id="bulkActionsPanel" class="bulk-actions-panel">
+        <span class="bulk-selected-count"><span id="bulkSelectedCount">0</span> selected</span>
+        <div class="bulk-field-group">
+          <label>
+            Update PPT Status:
+            <select id="bulkPptStatus">
+              <option value="">— No change —</option>
+              <option value="Pending">Pending</option>
+              <option value="To be Planned">To be Planned</option>
+              <option value="In progress">In progress</option>
+              <option value="Deployed">Deployed</option>
+              <option value="N/A">N/A</option>
+            </select>
+          </label>
+          <div id="bulkPptExtras" class="bulk-extras" hidden>
+            <label>PPT RFC <span class="req">*</span>
+              <input type="text" id="bulkPptRfc" placeholder="RFC #" class="bulk-input">
+            </label>
+            <label>PPT Date <span class="req">*</span>
+              <input type="date" id="bulkPptDate" class="bulk-input">
+            </label>
+          </div>
+        </div>
+        <div class="bulk-field-group">
+          <label>
+            Update PROD Status:
+            <select id="bulkProdStatus">
+              <option value="">— No change —</option>
+              <option value="Pending">Pending</option>
+              <option value="To be Planned">To be Planned</option>
+              <option value="In progress">In progress</option>
+              <option value="Deployed">Deployed</option>
+              <option value="N/A">N/A</option>
+            </select>
+          </label>
+          <div id="bulkProdExtras" class="bulk-extras" hidden>
+            <label>PROD RFC <span class="req">*</span>
+              <input type="text" id="bulkProdRfc" placeholder="RFC #" class="bulk-input">
+            </label>
+            <label>PROD Date <span class="req">*</span>
+              <input type="date" id="bulkProdDate" class="bulk-input">
+            </label>
+          </div>
+        </div>
+        <button type="button" class="btn-bulk-apply" id="bulkApplyBtn">Apply Changes</button>
+        <button type="button" class="btn-bulk-clear" id="bulkClearBtn">Clear Selection</button>
+      </div>
       <div id="savedTableWrap" class="saved-table-wrap" hidden>
         <table class="saved-table">
           <thead>
             <tr>
+              <th class="col-checkbox"><input type="checkbox" id="bulkSelectAll" class="bulk-checkbox" title="Select all"></th>
               <th>Saved At</th>
               <th>Application</th>
               <th>Requester</th>
@@ -2829,12 +3150,12 @@
               <th>Requester</th>
               <th>Hotfix #</th>
               <th>Deployment</th>
-              <th>PPT deployment status</th>
-              <th>PPT RFC</th>
-              <th>Date of PPT deployment</th>
-              <th>PROD deployment status</th>
-              <th>PROD RFC</th>
-              <th>Date of PROD deployment</th>
+              <th class="ppt-highlight">PPT deployment status</th>
+              <th class="ppt-highlight">PPT RFC</th>
+              <th class="ppt-highlight">Date of PPT deployment</th>
+              <th class="prod-highlight">PROD deployment status</th>
+              <th class="prod-highlight">PROD RFC</th>
+              <th class="prod-highlight">Date of PROD deployment</th>
               <th>Saved at</th>
               <th>Archived at</th>
               <th>Actions</th>
@@ -2934,12 +3255,12 @@
               <th>Hotfix number</th>
               <th>Deployment type</th>
               <th>Description</th>
-              <th>PPT RFC</th>
-              <th>Date of PPT deployment</th>
-              <th>PPT deployment status</th>
-              <th>PROD RFC</th>
-              <th>Date of PROD deployment</th>
-              <th>PROD deployment status</th>
+              <th class="ppt-highlight">PPT RFC</th>
+              <th class="ppt-highlight">Date of PPT deployment</th>
+              <th class="ppt-highlight">PPT deployment status</th>
+              <th class="prod-highlight">PROD RFC</th>
+              <th class="prod-highlight">Date of PROD deployment</th>
+              <th class="prod-highlight">PROD deployment status</th>
             </tr>
           </thead>
           <tbody id="summaryEntriesBody"></tbody>
@@ -3111,6 +3432,27 @@
             <canvas id="monthlyTrendAreaChart"></canvas>
           </div>
         </div>
+        <div id="weeklyDeploymentStatusWrap" class="weekly-deployment-status-wrap">
+          <h3 class="weekly-deployment-status-title">Weekly Deployment Status</h3>
+          <div class="weekly-deployment-status-filter">
+            <label for="weeklyStatusMonthFilter">Month:</label>
+            <select id="weeklyStatusMonthFilter">
+              <option value="all">All Months</option>
+            </select>
+          </div>
+          <div class="weekly-deployment-status-table-wrap">
+            <table class="saved-table weekly-deployment-status-table">
+              <thead>
+                <tr>
+                  <th>Weekly Deployment Date</th>
+                  <th>Status</th>
+                  <th>Remarks</th>
+                </tr>
+              </thead>
+              <tbody id="weeklyDeploymentStatusBody"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -3196,6 +3538,10 @@
               <button type="button" class="note-format-btn" data-format="underline" data-target="calendarNoteTuesday1" title="Underline"><u>U</u></button>
             </div>
             <textarea id="calendarNoteTuesday1" rows="3" placeholder="First note for this day..."></textarea>
+            <div id="cancelReason1Wrap" class="cancel-reason-wrap" hidden>
+              <label for="calendarNoteTuesday1CancelReason" class="cancel-reason-label">Reason for Cancellation <span class="req">*</span></label>
+              <textarea id="calendarNoteTuesday1CancelReason" rows="2" class="cancel-reason-field" placeholder="Please provide the reason for cancellation..."></textarea>
+            </div>
           </div>
           <div class="calendar-tuesday-field">
             <div class="calendar-tuesday-field-header">
@@ -3221,6 +3567,10 @@
               <button type="button" class="note-format-btn" data-format="underline" data-target="calendarNoteTuesday2" title="Underline"><u>U</u></button>
             </div>
             <textarea id="calendarNoteTuesday2" rows="3" placeholder="Second note for this day..."></textarea>
+            <div id="cancelReason2Wrap" class="cancel-reason-wrap" hidden>
+              <label for="calendarNoteTuesday2CancelReason" class="cancel-reason-label">Reason for Cancellation <span class="req">*</span></label>
+              <textarea id="calendarNoteTuesday2CancelReason" rows="2" class="cancel-reason-field" placeholder="Please provide the reason for cancellation..."></textarea>
+            </div>
           </div>
         </div>
         <div class="calendar-note-actions">
@@ -3753,6 +4103,8 @@
       if (monthlyTrendNavLink) {
         monthlyTrendNavLink.addEventListener("click", function (e) {
           e.preventDefault();
+          // Force reload calendar notes to get fresh data
+          calendarNotesLoaded = false;
           loadCalendarNotes().then(function () {
             renderMonthlyTrend();
             revealMonthlyTrendPanel();
@@ -3938,6 +4290,14 @@
       var HF_CONCAT_PPT_PATH_PREFIX = "cesgnpinfla002:~tooladm/hotfix/HOTFIX/";
       var HF_CONCAT_PROD_PATH_PREFIX = "cesprdamcla001:~tooladm/hotfix/HOTFIX/";
 
+      function normalizeAppForHfConcat(appValue) {
+        // If application starts with "ABP", return just "ABP"
+        if (appValue && appValue.toUpperCase().startsWith("ABP")) {
+          return "ABP";
+        }
+        return appValue;
+      }
+
       function transformAreaLinesForHfConcat(areaRaw) {
         return String(areaRaw == null ? "" : areaRaw)
           .split(/\r\n|\n|\r/)
@@ -3952,7 +4312,7 @@
 
       function buildHfConcatenatedStringPpt() {
         var hf = val("hotfixNumber");
-        var app = val("application");
+        var app = normalizeAppForHfConcat(val("application"));
         var ver = val("version");
         var filesEl = document.getElementById("files");
         var filesRaw = filesEl ? String(filesEl.value || "") : "";
@@ -3983,7 +4343,7 @@
 
       function buildHfConcatenatedStringProd() {
         var hf = val("hotfixNumber");
-        var app = val("application");
+        var app = normalizeAppForHfConcat(val("application"));
         var ver = val("version");
         var filesEl = document.getElementById("files");
         var filesRaw = filesEl ? String(filesEl.value || "") : "";
@@ -4014,7 +4374,7 @@
 
       function buildHfConcatenatedStringRollbackPpt() {
         var rb = val("rollbackHf");
-        var app = val("application");
+        var app = normalizeAppForHfConcat(val("application"));
         var ver = val("version");
         var rbStr = val("rollbackString");
         var areaEl = document.getElementById("areaServerDbSchemaPpt");
@@ -4037,7 +4397,7 @@
 
       function buildHfConcatenatedStringRollbackProd() {
         var rb = val("rollbackHf");
-        var app = val("application");
+        var app = normalizeAppForHfConcat(val("application"));
         var ver = val("version");
         var rbStr = val("rollbackString");
         var areaEl = document.getElementById("areaServerDbSchemaProd");
@@ -5970,6 +6330,7 @@
         savedEntriesBody.innerHTML = "";
         filtered.forEach(function (entry) {
           var tr = document.createElement("tr");
+          tr.setAttribute("data-entry-id", entry.id);
           var pptStatus = normalizeDeploymentStatus(entry.pptDeploymentStatus);
           var prodStatus = normalizeDeploymentStatus(entry.prodDeploymentStatus);
           if (pptStatus === "To be Planned" || prodStatus === "To be Planned") {
@@ -5979,6 +6340,9 @@
             ? new Date(entry.savedAt).toLocaleString()
             : "—";
           tr.innerHTML =
+            '<td class="col-checkbox"><input type="checkbox" class="bulk-checkbox bulk-row-checkbox" data-bulk-id="' +
+            escapeAttr(entry.id) +
+            '"></td>' +
             "<td>" +
             escapeHtml(when) +
             "</td>" +
@@ -6022,6 +6386,14 @@
             "</td>";
           savedEntriesBody.appendChild(tr);
         });
+        // Reset bulk selection state
+        var bulkSelectAllEl = document.getElementById("bulkSelectAll");
+        if (bulkSelectAllEl) bulkSelectAllEl.checked = false;
+        var bulkActionsPanelEl = document.getElementById("bulkActionsPanel");
+        if (bulkActionsPanelEl) bulkActionsPanelEl.classList.remove("visible");
+        var bulkSelectedCountEl = document.getElementById("bulkSelectedCount");
+        if (bulkSelectedCountEl) bulkSelectedCountEl.textContent = "0";
+        
         renderArchiveList();
       }
 
@@ -6177,22 +6549,22 @@
             '<td class="cell-clip">' +
             escapeHtml(entry.deploymentType || "—") +
             "</td>" +
-            "<td>" +
+            '<td class="ppt-highlight">' +
             pptS +
             "</td>" +
-            "<td>" +
+            '<td class="ppt-highlight">' +
             rfcDisp +
             "</td>" +
-            "<td>" +
+            '<td class="ppt-highlight">' +
             dateDisp +
             "</td>" +
-            "<td>" +
+            '<td class="prod-highlight">' +
             prodS +
             "</td>" +
-            "<td>" +
+            '<td class="prod-highlight">' +
             prodRfcDisp +
             "</td>" +
-            "<td>" +
+            '<td class="prod-highlight">' +
             prodDateDisp +
             "</td>" +
             "<td>" +
@@ -6314,22 +6686,22 @@
             '">' +
             escapeHtml(desc || "—") +
             "</td>" +
-            '<td class="cell-clip">' +
+            '<td class="cell-clip ppt-highlight">' +
             escapeHtml(String(entry.pptRfc || "").trim() || "—") +
             "</td>" +
-            "<td>" +
+            '<td class="ppt-highlight">' +
             escapeHtml(pptDateDisp) +
             "</td>" +
-            "<td>" +
+            '<td class="ppt-highlight">' +
             escapeHtml(normalizeDeploymentStatus(entry.pptDeploymentStatus)) +
             "</td>" +
-            '<td class="cell-clip">' +
+            '<td class="cell-clip prod-highlight">' +
             escapeHtml(String(entry.prodRfc || "").trim() || "—") +
             "</td>" +
-            "<td>" +
+            '<td class="prod-highlight">' +
             escapeHtml(prodDateDisp) +
             "</td>" +
-            "<td>" +
+            '<td class="prod-highlight">' +
             escapeHtml(normalizeDeploymentStatus(entry.prodDeploymentStatus)) +
             "</td>";
           summaryEntriesBody.appendChild(tr);
@@ -7042,14 +7414,17 @@
         var currentMonth = today.getMonth();
         var currentMonthKey = currentYear + "-" + String(currentMonth + 1).padStart(2, "0");
         
+        // Only show previous months (exclude current month)
         var monthKeys = allMonthKeys.filter(function (key) {
-          return key <= currentMonthKey;
+          return key < currentMonthKey;
         });
         
         if (!monthKeys.length) {
           monthlyTrendBody.innerHTML = "";
           monthlyTrendContent.hidden = true;
           monthlyTrendEmpty.hidden = false;
+          var weeklyStatusWrap = document.getElementById("weeklyDeploymentStatusWrap");
+          if (weeklyStatusWrap) weeklyStatusWrap.hidden = true;
           return;
         }
         
@@ -7087,7 +7462,172 @@
         
         renderMonthlyTrendChart(window.monthlyTrendData);
         renderMonthlyTrendAreaChart(window.monthlyTrendData);
+        renderWeeklyDeploymentStatus(monthKeys);
       }
+      
+      var weeklyDeploymentStatusData = [];
+      var weeklyStatusMonthFilterEl = null;
+      
+      function renderWeeklyDeploymentStatus(monthKeys) {
+        var weeklyStatusBody = document.getElementById("weeklyDeploymentStatusBody");
+        var weeklyStatusWrap = document.getElementById("weeklyDeploymentStatusWrap");
+        weeklyStatusMonthFilterEl = document.getElementById("weeklyStatusMonthFilter");
+        if (!weeklyStatusBody) return;
+        
+        weeklyStatusBody.innerHTML = "";
+        weeklyDeploymentStatusData = [];
+        
+        if (!monthKeys || !monthKeys.length) {
+          if (weeklyStatusWrap) weeklyStatusWrap.hidden = true;
+          return;
+        }
+        if (weeklyStatusWrap) weeklyStatusWrap.hidden = false;
+        
+        // Get all Tuesdays from the months in monthKeys
+        var tuesdays = [];
+        var monthLabels = {};
+        var monthNamesFull = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        
+        monthKeys.forEach(function(monthKey) {
+          var parts = monthKey.split("-");
+          var year = parseInt(parts[0]);
+          var month = parseInt(parts[1]) - 1;
+          
+          // Store month label
+          monthLabels[monthKey] = monthNamesFull[month] + " " + year;
+          
+          // Find all Tuesdays in this month
+          var d = new Date(year, month, 1);
+          while (d.getMonth() === month) {
+            if (d.getDay() === 2) { // Tuesday
+              tuesdays.push({
+                date: new Date(d),
+                dateKey: formatDateKey(year, month, d.getDate()),
+                monthKey: monthKey
+              });
+            }
+            d.setDate(d.getDate() + 1);
+          }
+        });
+        
+        // Sort by date ascending (oldest first)
+        tuesdays.sort(function(a, b) { return a.date - b.date; });
+        
+        // Build data array
+        tuesdays.forEach(function(tuesday) {
+          var noteData = calendarNotes[tuesday.dateKey];
+          
+          // Determine status and remarks
+          var note1 = noteData && noteData.note1 ? noteData.note1.trim() : "";
+          var note2 = noteData && noteData.note2 ? noteData.note2.trim() : "";
+          var cancelled1 = noteData && noteData.cancelled1;
+          var cancelled2 = noteData && noteData.cancelled2;
+          var cancelReason1 = noteData && noteData.cancelReason1 ? noteData.cancelReason1.trim() : "";
+          var cancelReason2 = noteData && noteData.cancelReason2 ? noteData.cancelReason2.trim() : "";
+          
+          // Check if any is cancelled
+          var hasAnyCancelled = cancelled1 || cancelled2;
+          var overallStatus = hasAnyCancelled ? "Cancelled" : "Successful";
+          var statusClass = hasAnyCancelled ? "status-cancelled" : "status-successful";
+          
+          // Build remarks
+          var remarks = [];
+          
+          // Note 1 typically represents Weekly Bounce
+          if (note1 || cancelled1) {
+            var remark1 = "* Weekly Bounce - ";
+            if (cancelled1) {
+              remark1 += '<span class="remark-cancelled">CANCELLED</span>';
+              if (cancelReason1) remark1 += ' ' + escapeHtml(cancelReason1);
+            } else {
+              remark1 += "No issue reported";
+            }
+            remarks.push(remark1);
+          }
+          
+          // Note 2 typically represents BCC PROD Deployment / SmartOps
+          if (note2 || cancelled2) {
+            var remark2 = "* BCC PROD Deployment - ";
+            if (cancelled2) {
+              remark2 += '<span class="remark-cancelled">CANCELLED</span>';
+              if (cancelReason2) remark2 += ' ' + escapeHtml(cancelReason2);
+            } else {
+              remark2 += "No issue reported";
+            }
+            remarks.push(remark2);
+          }
+          
+          // If no notes exist, show defaults
+          if (!note1 && !note2 && !cancelled1 && !cancelled2) {
+            remarks.push("* Weekly Bounce - No issue reported");
+            remarks.push("* BCC PROD Deployment - No issue reported");
+          }
+          
+          // Format date for display (e.g., "5-May-26")
+          var monthNamesShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+          var displayDate = tuesday.date.getDate() + "-" + monthNamesShort[tuesday.date.getMonth()] + "-" + String(tuesday.date.getFullYear()).slice(-2);
+          
+          weeklyDeploymentStatusData.push({
+            displayDate: displayDate,
+            monthKey: tuesday.monthKey,
+            status: overallStatus,
+            statusClass: statusClass,
+            remarks: remarks
+          });
+        });
+        
+        // Populate month filter dropdown
+        if (weeklyStatusMonthFilterEl) {
+          var currentValue = weeklyStatusMonthFilterEl.value;
+          weeklyStatusMonthFilterEl.innerHTML = '<option value="all">All Months</option>';
+          monthKeys.slice().reverse().forEach(function(monthKey) {
+            var opt = document.createElement("option");
+            opt.value = monthKey;
+            opt.textContent = monthLabels[monthKey];
+            weeklyStatusMonthFilterEl.appendChild(opt);
+          });
+          // Restore previous selection if still valid
+          if (currentValue && Array.from(weeklyStatusMonthFilterEl.options).some(function(o) { return o.value === currentValue; })) {
+            weeklyStatusMonthFilterEl.value = currentValue;
+          }
+        }
+        
+        // Render table based on current filter
+        renderWeeklyDeploymentStatusTable();
+      }
+      
+      function renderWeeklyDeploymentStatusTable() {
+        var weeklyStatusBody = document.getElementById("weeklyDeploymentStatusBody");
+        if (!weeklyStatusBody) return;
+        
+        weeklyStatusBody.innerHTML = "";
+        
+        var filterValue = weeklyStatusMonthFilterEl ? weeklyStatusMonthFilterEl.value : "all";
+        
+        var filteredData = weeklyDeploymentStatusData;
+        if (filterValue !== "all") {
+          filteredData = weeklyDeploymentStatusData.filter(function(item) {
+            return item.monthKey === filterValue;
+          });
+        }
+        
+        filteredData.forEach(function(item) {
+          var tr = document.createElement("tr");
+          tr.innerHTML = 
+            '<td>' + escapeHtml(item.displayDate) + '</td>' +
+            '<td class="' + item.statusClass + '">' + item.status + '</td>' +
+            '<td><ul class="remarks-list">' + item.remarks.map(function(r) { return '<li class="remarks-item">' + r + '</li>'; }).join('') + '</ul></td>';
+          weeklyStatusBody.appendChild(tr);
+        });
+      }
+      
+      // Add event listener for month filter
+      document.addEventListener("DOMContentLoaded", function() {
+        var filterEl = document.getElementById("weeklyStatusMonthFilter");
+        if (filterEl) {
+          filterEl.addEventListener("change", renderWeeklyDeploymentStatusTable);
+        }
+      });
       
       var monthlyTrendChartInstance = null;
       
@@ -8264,6 +8804,219 @@
         });
       }
 
+      // ===== BULK UPDATE FUNCTIONALITY =====
+      var bulkActionsPanel = document.getElementById("bulkActionsPanel");
+      var bulkSelectedCount = document.getElementById("bulkSelectedCount");
+      var bulkSelectAll = document.getElementById("bulkSelectAll");
+      var bulkPptStatus = document.getElementById("bulkPptStatus");
+      var bulkProdStatus = document.getElementById("bulkProdStatus");
+      var bulkApplyBtn = document.getElementById("bulkApplyBtn");
+      var bulkClearBtn = document.getElementById("bulkClearBtn");
+      var bulkPptExtras = document.getElementById("bulkPptExtras");
+      var bulkProdExtras = document.getElementById("bulkProdExtras");
+      var bulkPptRfc = document.getElementById("bulkPptRfc");
+      var bulkPptDate = document.getElementById("bulkPptDate");
+      var bulkProdRfc = document.getElementById("bulkProdRfc");
+      var bulkProdDate = document.getElementById("bulkProdDate");
+      
+      function statusRequiresRfcDate(status) {
+        return status === "Deployed" || status === "To be Planned";
+      }
+      
+      function updateBulkExtrasVisibility() {
+        var pptVal = bulkPptStatus ? bulkPptStatus.value : "";
+        var prodVal = bulkProdStatus ? bulkProdStatus.value : "";
+        if (bulkPptExtras) {
+          bulkPptExtras.hidden = !statusRequiresRfcDate(pptVal);
+          if (!statusRequiresRfcDate(pptVal)) {
+            if (bulkPptRfc) bulkPptRfc.value = "";
+            if (bulkPptDate) bulkPptDate.value = "";
+          }
+        }
+        if (bulkProdExtras) {
+          bulkProdExtras.hidden = !statusRequiresRfcDate(prodVal);
+          if (!statusRequiresRfcDate(prodVal)) {
+            if (bulkProdRfc) bulkProdRfc.value = "";
+            if (bulkProdDate) bulkProdDate.value = "";
+          }
+        }
+      }
+      
+      if (bulkPptStatus) {
+        bulkPptStatus.addEventListener("change", updateBulkExtrasVisibility);
+      }
+      if (bulkProdStatus) {
+        bulkProdStatus.addEventListener("change", updateBulkExtrasVisibility);
+      }
+      
+      function getSelectedBulkIds() {
+        var checkboxes = document.querySelectorAll(".bulk-row-checkbox:checked");
+        var ids = [];
+        checkboxes.forEach(function(cb) {
+          ids.push(cb.getAttribute("data-bulk-id"));
+        });
+        return ids;
+      }
+      
+      function updateBulkActionsPanel() {
+        var selectedIds = getSelectedBulkIds();
+        var count = selectedIds.length;
+        if (bulkSelectedCount) bulkSelectedCount.textContent = count;
+        if (bulkActionsPanel) {
+          if (count > 0) {
+            bulkActionsPanel.classList.add("visible");
+          } else {
+            bulkActionsPanel.classList.remove("visible");
+          }
+        }
+        // Update row highlighting
+        var allRows = document.querySelectorAll("#savedEntriesBody tr");
+        allRows.forEach(function(row) {
+          var checkbox = row.querySelector(".bulk-row-checkbox");
+          if (checkbox && checkbox.checked) {
+            row.classList.add("bulk-selected");
+          } else {
+            row.classList.remove("bulk-selected");
+          }
+        });
+        // Update select all checkbox state
+        var allCheckboxes = document.querySelectorAll(".bulk-row-checkbox");
+        var checkedCheckboxes = document.querySelectorAll(".bulk-row-checkbox:checked");
+        if (bulkSelectAll) {
+          bulkSelectAll.checked = allCheckboxes.length > 0 && allCheckboxes.length === checkedCheckboxes.length;
+          bulkSelectAll.indeterminate = checkedCheckboxes.length > 0 && checkedCheckboxes.length < allCheckboxes.length;
+        }
+      }
+      
+      // Event delegation for row checkboxes
+      if (savedEntriesBody) {
+        savedEntriesBody.addEventListener("change", function(e) {
+          if (e.target.classList.contains("bulk-row-checkbox")) {
+            updateBulkActionsPanel();
+          }
+        });
+      }
+      
+      // Select all checkbox
+      if (bulkSelectAll) {
+        bulkSelectAll.addEventListener("change", function() {
+          var checkboxes = document.querySelectorAll(".bulk-row-checkbox");
+          var checked = bulkSelectAll.checked;
+          checkboxes.forEach(function(cb) {
+            cb.checked = checked;
+          });
+          updateBulkActionsPanel();
+        });
+      }
+      
+      // Clear selection button
+      if (bulkClearBtn) {
+        bulkClearBtn.addEventListener("click", function() {
+          var checkboxes = document.querySelectorAll(".bulk-row-checkbox");
+          checkboxes.forEach(function(cb) {
+            cb.checked = false;
+          });
+          if (bulkSelectAll) bulkSelectAll.checked = false;
+          if (bulkPptStatus) bulkPptStatus.value = "";
+          if (bulkProdStatus) bulkProdStatus.value = "";
+          if (bulkPptRfc) bulkPptRfc.value = "";
+          if (bulkPptDate) bulkPptDate.value = "";
+          if (bulkProdRfc) bulkProdRfc.value = "";
+          if (bulkProdDate) bulkProdDate.value = "";
+          updateBulkExtrasVisibility();
+          updateBulkActionsPanel();
+        });
+      }
+      
+      // Apply bulk update
+      if (bulkApplyBtn) {
+        bulkApplyBtn.addEventListener("click", function() {
+          var selectedIds = getSelectedBulkIds();
+          if (!selectedIds.length) {
+            alert("No entries selected.");
+            return;
+          }
+          var newPptStatus = bulkPptStatus ? bulkPptStatus.value : "";
+          var newProdStatus = bulkProdStatus ? bulkProdStatus.value : "";
+          if (!newPptStatus && !newProdStatus) {
+            alert("Please select at least one status to update.");
+            return;
+          }
+          
+          // Validate RFC and Date when required
+          var pptRfcVal = bulkPptRfc ? bulkPptRfc.value.trim() : "";
+          var pptDateVal = bulkPptDate ? bulkPptDate.value.trim() : "";
+          var prodRfcVal = bulkProdRfc ? bulkProdRfc.value.trim() : "";
+          var prodDateVal = bulkProdDate ? bulkProdDate.value.trim() : "";
+          
+          if (statusRequiresRfcDate(newPptStatus)) {
+            if (!pptRfcVal || !pptDateVal) {
+              alert("PPT RFC and Date are required when setting PPT Status to \"" + newPptStatus + "\".");
+              return;
+            }
+          }
+          if (statusRequiresRfcDate(newProdStatus)) {
+            if (!prodRfcVal || !prodDateVal) {
+              alert("PROD RFC and Date are required when setting PROD Status to \"" + newProdStatus + "\".");
+              return;
+            }
+          }
+          
+          var changes = [];
+          if (newPptStatus) {
+            changes.push("PPT Status → " + newPptStatus);
+            if (statusRequiresRfcDate(newPptStatus)) {
+              changes.push("  PPT RFC: " + pptRfcVal);
+              changes.push("  PPT Date: " + pptDateVal);
+            }
+          }
+          if (newProdStatus) {
+            changes.push("PROD Status → " + newProdStatus);
+            if (statusRequiresRfcDate(newProdStatus)) {
+              changes.push("  PROD RFC: " + prodRfcVal);
+              changes.push("  PROD Date: " + prodDateVal);
+            }
+          }
+          var confirmMsg = "Bulk update " + selectedIds.length + " entr" + (selectedIds.length === 1 ? "y" : "ies") + ":\n\n" + changes.join("\n") + "\n\nContinue?";
+          if (!window.confirm(confirmMsg)) return;
+          
+          var list = readSavedEntries();
+          var updated = 0;
+          list.forEach(function(entry) {
+            if (selectedIds.indexOf(entry.id) >= 0) {
+              if (newPptStatus) {
+                entry.pptDeploymentStatus = newPptStatus;
+                if (statusRequiresRfcDate(newPptStatus)) {
+                  entry.pptRfc = pptRfcVal;
+                  entry.pptDeploymentDate = pptDateVal;
+                }
+              }
+              if (newProdStatus) {
+                entry.prodDeploymentStatus = newProdStatus;
+                if (statusRequiresRfcDate(newProdStatus)) {
+                  entry.prodRfc = prodRfcVal;
+                  entry.prodDeploymentDate = prodDateVal;
+                }
+              }
+              updated++;
+            }
+          });
+          persistEntries(list, { message: "Bulk updated " + updated + " entries." });
+          if (window.logActivity) logActivity("edit", "Bulk Status Update", updated + " entries updated" + (newPptStatus ? ", PPT→" + newPptStatus : "") + (newProdStatus ? ", PROD→" + newProdStatus : ""));
+          
+          // Reset bulk update UI
+          if (bulkPptStatus) bulkPptStatus.value = "";
+          if (bulkProdStatus) bulkProdStatus.value = "";
+          if (bulkPptRfc) bulkPptRfc.value = "";
+          if (bulkPptDate) bulkPptDate.value = "";
+          if (bulkProdRfc) bulkProdRfc.value = "";
+          if (bulkProdDate) bulkProdDate.value = "";
+          updateBulkExtrasVisibility();
+          if (bulkSelectAll) bulkSelectAll.checked = false;
+          updateBulkActionsPanel();
+        });
+      }
+
       function buildPairsFromObject(o) {
         return ENTRY_KEYS.map(function (k) {
           var v = o[k];
@@ -9257,11 +10010,39 @@
       var calendarNoteTuesday2Holiday = document.getElementById("calendarNoteTuesday2Holiday");
       var calendarNoteTuesday1Embargo = document.getElementById("calendarNoteTuesday1Embargo");
       var calendarNoteTuesday2Embargo = document.getElementById("calendarNoteTuesday2Embargo");
+      var calendarNoteTuesday1CancelReason = document.getElementById("calendarNoteTuesday1CancelReason");
+      var calendarNoteTuesday2CancelReason = document.getElementById("calendarNoteTuesday2CancelReason");
+      var cancelReason1Wrap = document.getElementById("cancelReason1Wrap");
+      var cancelReason2Wrap = document.getElementById("cancelReason2Wrap");
       var calendarNoteSaveBtn = document.getElementById("calendarNoteSave");
       var calendarNoteClearBtn = document.getElementById("calendarNoteClear");
       var calendarNoteCloseBtn = document.getElementById("calendarNoteClose");
       var calendarNoteCancelBtn = document.getElementById("calendarNoteCancel");
       var calendarSelectedIsTuesday = false;
+      
+      // Toggle cancel reason visibility
+      function toggleCancelReasonVisibility(checkboxEl, wrapEl, reasonEl) {
+        if (checkboxEl && wrapEl) {
+          wrapEl.hidden = !checkboxEl.checked;
+          if (!checkboxEl.checked && reasonEl) {
+            reasonEl.value = "";
+          }
+        }
+      }
+      
+      if (calendarNoteTuesday1Cancel) {
+        calendarNoteTuesday1Cancel.addEventListener("change", function() {
+          toggleCancelReasonVisibility(calendarNoteTuesday1Cancel, cancelReason1Wrap, calendarNoteTuesday1CancelReason);
+          updateTuesdayFieldCancelledState(1, calendarNoteTuesday1Cancel.checked);
+        });
+      }
+      
+      if (calendarNoteTuesday2Cancel) {
+        calendarNoteTuesday2Cancel.addEventListener("change", function() {
+          toggleCancelReasonVisibility(calendarNoteTuesday2Cancel, cancelReason2Wrap, calendarNoteTuesday2CancelReason);
+          updateTuesdayFieldCancelledState(2, calendarNoteTuesday2Cancel.checked);
+        });
+      }
 
       function loadCalendarNotes() {
         if (calendarNotesLoaded) return Promise.resolve(calendarNotes);
@@ -9463,24 +10244,26 @@
         if (typeof noteData === "object") {
           if (noteData.note1 !== undefined || noteData.note2 !== undefined) {
             var parts = [];
-            if (noteData.note1 || noteData.holiday1 || noteData.embargo1) {
+            if (noteData.note1 || noteData.holiday1 || noteData.embargo1 || noteData.cancelled1) {
               var badges1 = [];
               if (noteData.holiday1) badges1.push('<span class="note-badge note-badge-holiday">HOLIDAY</span>');
               if (noteData.embargo1) badges1.push('<span class="note-badge note-badge-embargo">EMBARGO</span>');
               var badgeHtml1 = badges1.length ? badges1.join(' ') + ' ' : '';
               if (noteData.cancelled1) {
-                parts.push('<span class="note-line-cancelled">' + badgeHtml1 + formatNoteText(noteData.note1 || '') + '</span>');
+                var cancelReasonText1 = noteData.cancelReason1 ? ' [' + escapeHtml(noteData.cancelReason1) + ']' : '';
+                parts.push('<span class="note-line-cancelled">' + badgeHtml1 + formatNoteText(noteData.note1 || '') + cancelReasonText1 + '</span>');
               } else {
                 parts.push('<span>' + badgeHtml1 + formatNoteText(noteData.note1 || '') + '</span>');
               }
             }
-            if (noteData.note2 || noteData.holiday2 || noteData.embargo2) {
+            if (noteData.note2 || noteData.holiday2 || noteData.embargo2 || noteData.cancelled2) {
               var badges2 = [];
               if (noteData.holiday2) badges2.push('<span class="note-badge note-badge-holiday">HOLIDAY</span>');
               if (noteData.embargo2) badges2.push('<span class="note-badge note-badge-embargo">EMBARGO</span>');
               var badgeHtml2 = badges2.length ? badges2.join(' ') + ' ' : '';
               if (noteData.cancelled2) {
-                parts.push('<span class="note-line-cancelled">' + badgeHtml2 + formatNoteText(noteData.note2 || '') + '</span>');
+                var cancelReasonText2 = noteData.cancelReason2 ? ' [' + escapeHtml(noteData.cancelReason2) + ']' : '';
+                parts.push('<span class="note-line-cancelled">' + badgeHtml2 + formatNoteText(noteData.note2 || '') + cancelReasonText2 + '</span>');
               } else {
                 parts.push('<span>' + badgeHtml2 + formatNoteText(noteData.note2 || '') + '</span>');
               }
@@ -9650,6 +10433,8 @@
           }
           var cancelled1 = noteData && typeof noteData === "object" && noteData.cancelled1;
           var cancelled2 = noteData && typeof noteData === "object" && noteData.cancelled2;
+          var cancelReason1 = noteData && typeof noteData === "object" && noteData.cancelReason1 ? noteData.cancelReason1 : "";
+          var cancelReason2 = noteData && typeof noteData === "object" && noteData.cancelReason2 ? noteData.cancelReason2 : "";
           var holiday1 = noteData && typeof noteData === "object" && noteData.holiday1;
           var holiday2 = noteData && typeof noteData === "object" && noteData.holiday2;
           var embargo1 = noteData && typeof noteData === "object" && noteData.embargo1;
@@ -9662,6 +10447,16 @@
             calendarNoteTuesday2Cancel.checked = cancelled2;
             updateTuesdayFieldCancelledState(2, cancelled2);
           }
+          // Load cancellation reasons and show/hide wraps
+          if (calendarNoteTuesday1CancelReason) {
+            calendarNoteTuesday1CancelReason.value = cancelReason1;
+          }
+          if (calendarNoteTuesday2CancelReason) {
+            calendarNoteTuesday2CancelReason.value = cancelReason2;
+          }
+          if (cancelReason1Wrap) cancelReason1Wrap.hidden = !cancelled1;
+          if (cancelReason2Wrap) cancelReason2Wrap.hidden = !cancelled2;
+          
           if (calendarNoteTuesday1Holiday) {
             calendarNoteTuesday1Holiday.checked = holiday1;
           }
@@ -9735,16 +10530,33 @@
             var note2 = calendarNoteTuesday2 ? calendarNoteTuesday2.value.trim() : "";
             var cancelled1 = calendarNoteTuesday1Cancel ? calendarNoteTuesday1Cancel.checked : false;
             var cancelled2 = calendarNoteTuesday2Cancel ? calendarNoteTuesday2Cancel.checked : false;
+            var cancelReason1 = calendarNoteTuesday1CancelReason ? calendarNoteTuesday1CancelReason.value.trim() : "";
+            var cancelReason2 = calendarNoteTuesday2CancelReason ? calendarNoteTuesday2CancelReason.value.trim() : "";
             var holiday1 = calendarNoteTuesday1Holiday ? calendarNoteTuesday1Holiday.checked : false;
             var holiday2 = calendarNoteTuesday2Holiday ? calendarNoteTuesday2Holiday.checked : false;
             var embargo1 = calendarNoteTuesday1Embargo ? calendarNoteTuesday1Embargo.checked : false;
             var embargo2 = calendarNoteTuesday2Embargo ? calendarNoteTuesday2Embargo.checked : false;
+            
+            // Validate cancellation reasons are mandatory
+            if (cancelled1 && !cancelReason1) {
+              alert("Please provide a reason for cancellation for Note 1.");
+              if (calendarNoteTuesday1CancelReason) calendarNoteTuesday1CancelReason.focus();
+              return;
+            }
+            if (cancelled2 && !cancelReason2) {
+              alert("Please provide a reason for cancellation for Note 2.");
+              if (calendarNoteTuesday2CancelReason) calendarNoteTuesday2CancelReason.focus();
+              return;
+            }
+            
             if (note1 || note2 || cancelled1 || cancelled2 || holiday1 || holiday2 || embargo1 || embargo2) {
               noteData = { 
                 note1: note1, 
                 note2: note2, 
                 cancelled1: cancelled1, 
                 cancelled2: cancelled2,
+                cancelReason1: cancelReason1,
+                cancelReason2: cancelReason2,
                 holiday1: holiday1,
                 holiday2: holiday2,
                 embargo1: embargo1,
@@ -9772,32 +10584,6 @@
         });
       }
 
-      if (calendarNoteTuesday1Cancel) {
-        calendarNoteTuesday1Cancel.addEventListener("change", function () {
-          var container = this.closest(".calendar-tuesday-field");
-          if (container) {
-            if (this.checked) {
-              container.classList.add("note-cancelled");
-            } else {
-              container.classList.remove("note-cancelled");
-            }
-          }
-        });
-      }
-
-      if (calendarNoteTuesday2Cancel) {
-        calendarNoteTuesday2Cancel.addEventListener("change", function () {
-          var container = this.closest(".calendar-tuesday-field");
-          if (container) {
-            if (this.checked) {
-              container.classList.add("note-cancelled");
-            } else {
-              container.classList.remove("note-cancelled");
-            }
-          }
-        });
-      }
-
       if (calendarNoteClearBtn) {
         calendarNoteClearBtn.addEventListener("click", function () {
           if (!calendarSelectedDate) return;
@@ -9811,6 +10597,13 @@
             if (calendarNoteTuesday2Holiday) calendarNoteTuesday2Holiday.checked = false;
             if (calendarNoteTuesday1Embargo) calendarNoteTuesday1Embargo.checked = false;
             if (calendarNoteTuesday2Embargo) calendarNoteTuesday2Embargo.checked = false;
+            // Clear cancellation reasons
+            if (calendarNoteTuesday1CancelReason) calendarNoteTuesday1CancelReason.value = "";
+            if (calendarNoteTuesday2CancelReason) calendarNoteTuesday2CancelReason.value = "";
+            if (cancelReason1Wrap) cancelReason1Wrap.hidden = true;
+            if (cancelReason2Wrap) cancelReason2Wrap.hidden = true;
+            updateTuesdayFieldCancelledState(1, false);
+            updateTuesdayFieldCancelledState(2, false);
           } else {
             if (calendarNoteTextEl) calendarNoteTextEl.value = "";
           }
