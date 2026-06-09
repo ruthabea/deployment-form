@@ -1188,6 +1188,123 @@
     .saved-table tr:last-child td {
       border-bottom: none;
     }
+    .column-settings-wrap {
+      position: relative;
+      display: inline-block;
+      margin-left: 0.5rem;
+    }
+    .column-settings-btn {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.35rem 0.5rem;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .column-settings-btn:hover {
+      background: var(--hover-bg);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .column-settings-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+    .column-settings-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      z-index: 1000;
+      background: #ffffff;
+      border: 2px solid #3b82f6;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      min-width: 220px;
+      max-height: 350px;
+      overflow-y: auto;
+      display: none;
+    }
+    [data-theme="dark"] .column-settings-dropdown {
+      background: #1e293b;
+      border-color: #3b82f6;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+    .column-settings-dropdown.visible {
+      display: block;
+    }
+    .column-settings-header {
+      padding: 0.6rem 0.85rem;
+      border-bottom: 2px solid #e2e8f0;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #1e293b;
+      background: #f1f5f9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 6px 6px 0 0;
+    }
+    [data-theme="dark"] .column-settings-header {
+      background: #334155;
+      border-color: #475569;
+      color: #f1f5f9;
+    }
+    .column-settings-header button {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.5rem;
+      background: #3b82f6;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .column-settings-header button:hover {
+      background: #2563eb;
+    }
+    .column-settings-list {
+      padding: 0.5rem 0;
+      background: #ffffff;
+    }
+    [data-theme="dark"] .column-settings-list {
+      background: #1e293b;
+    }
+    .column-settings-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: #334155;
+      transition: background 0.15s;
+    }
+    [data-theme="dark"] .column-settings-item {
+      color: #e2e8f0;
+    }
+    .column-settings-item:hover {
+      background: #e0f2fe;
+    }
+    [data-theme="dark"] .column-settings-item:hover {
+      background: #334155;
+    }
+    .column-settings-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      accent-color: #3b82f6;
+    }
+    .column-settings-item label {
+      flex: 1;
+      cursor: pointer;
+      margin: 0;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
     .saved-table tr.to-be-planned {
       background: rgba(255, 193, 7, 0.25);
     }
@@ -3136,9 +3253,24 @@
         />
         <div class="archive-filter-wrap" style="margin-top: 0.5rem;">
           <label for="archiveFilterMonth">Filter by PROD deployment month:</label>
-          <select id="archiveFilterMonth">
-            <option value="">All months</option>
-          </select>
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.25rem;">
+            <select id="archiveFilterMonth">
+              <option value="">All months</option>
+            </select>
+            <div class="column-settings-wrap">
+              <button type="button" class="column-settings-btn" id="archiveColumnSettingsBtn" title="Column Settings">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><circle cx="4" cy="12" r="2"></circle><circle cx="12" cy="10" r="2"></circle><circle cx="20" cy="14" r="2"></circle></svg>
+                Columns
+              </button>
+              <div class="column-settings-dropdown" id="archiveColumnSettingsDropdown">
+                <div class="column-settings-header">
+                  <span>Show/Hide Columns</span>
+                  <button type="button" id="archiveColResetBtn">Reset</button>
+                </div>
+                <div class="column-settings-list" id="archiveColumnSettingsList"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <p id="archiveSearchNoMatch" class="saved-search-no-match" hidden>No archived entries match your search.</p>
@@ -3150,6 +3282,7 @@
               <th>Requester</th>
               <th>Hotfix #</th>
               <th>Incident/Defect ID</th>
+              <th>Description</th>
               <th>Deployment</th>
               <th class="ppt-highlight">PPT deployment status</th>
               <th class="ppt-highlight">PPT RFC</th>
@@ -3242,9 +3375,24 @@
       </div>
       <div id="summaryFilterWrap" class="archive-filter-wrap" hidden>
         <label for="summaryFilterMonth">Filter by PROD deployment month:</label>
-        <select id="summaryFilterMonth">
-          <option value="">All months</option>
-        </select>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.25rem;">
+          <select id="summaryFilterMonth">
+            <option value="">All months</option>
+          </select>
+          <div class="column-settings-wrap">
+            <button type="button" class="column-settings-btn" id="summaryColumnSettingsBtn" title="Column Settings">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><circle cx="4" cy="12" r="2"></circle><circle cx="12" cy="10" r="2"></circle><circle cx="20" cy="14" r="2"></circle></svg>
+              Columns
+            </button>
+            <div class="column-settings-dropdown" id="summaryColumnSettingsDropdown">
+              <div class="column-settings-header">
+                <span>Show/Hide Columns</span>
+                <button type="button" id="summaryColResetBtn">Reset</button>
+              </div>
+              <div class="column-settings-list" id="summaryColumnSettingsList"></div>
+            </div>
+          </div>
+        </div>
       </div>
       <div id="summaryTableWrap" class="saved-table-wrap" hidden>
         <table class="saved-table">
@@ -6292,6 +6440,12 @@
           if (prodFilter && normalizeDeploymentStatus(e.prodDeploymentStatus) !== prodFilter) return false;
           return true;
         });
+        // Sort by savedAt from oldest to latest (ascending)
+        filtered.sort(function (a, b) {
+          var ta = a.savedAt ? new Date(a.savedAt).getTime() : 0;
+          var tb = b.savedAt ? new Date(b.savedAt).getTime() : 0;
+          return ta - tb;
+        });
         var hasFilters = searchQ || pptFilter || prodFilter;
         if (savedCount) {
           if (hasFilters && active.length) {
@@ -6551,6 +6705,11 @@
             escapeAttr(entry.incidentId) +
             '">' +
             escapeHtml(entry.incidentId || "—") +
+            "</td>" +
+            '<td class="cell-clip" title="' +
+            escapeAttr(entry.description) +
+            '">' +
+            escapeHtml(entry.description || "—") +
             "</td>" +
             '<td class="cell-clip">' +
             escapeHtml(entry.deploymentType || "—") +
@@ -8329,6 +8488,202 @@
           renderSummaryList();
         });
       }
+
+      // Column visibility settings for Archive and Summary tables
+      var ARCHIVE_COLUMNS = [
+        { key: "application", label: "Application", index: 0 },
+        { key: "requester", label: "Requester", index: 1 },
+        { key: "hotfixNumber", label: "Hotfix #", index: 2 },
+        { key: "incidentId", label: "Incident/Defect ID", index: 3 },
+        { key: "description", label: "Description", index: 4 },
+        { key: "deploymentType", label: "Deployment", index: 5 },
+        { key: "pptStatus", label: "PPT deployment status", index: 6 },
+        { key: "pptRfc", label: "PPT RFC", index: 7 },
+        { key: "pptDate", label: "Date of PPT deployment", index: 8 },
+        { key: "prodStatus", label: "PROD deployment status", index: 9 },
+        { key: "prodRfc", label: "PROD RFC", index: 10 },
+        { key: "prodDate", label: "Date of PROD deployment", index: 11 },
+        { key: "savedAt", label: "Saved at", index: 12 },
+        { key: "archivedAt", label: "Archived at", index: 13 },
+        { key: "actions", label: "Actions", index: 14 }
+      ];
+      
+      var SUMMARY_COLUMNS = [
+        { key: "application", label: "Application", index: 0 },
+        { key: "requester", label: "Name of requester", index: 1 },
+        { key: "incidentId", label: "Incident/Defect ID", index: 2 },
+        { key: "hotfixNumber", label: "Hotfix number", index: 3 },
+        { key: "deploymentType", label: "Deployment type", index: 4 },
+        { key: "description", label: "Description", index: 5 },
+        { key: "pptRfc", label: "PPT RFC", index: 6 },
+        { key: "pptDate", label: "Date of PPT deployment", index: 7 },
+        { key: "pptStatus", label: "PPT deployment status", index: 8 },
+        { key: "prodRfc", label: "PROD RFC", index: 9 },
+        { key: "prodDate", label: "Date of PROD deployment", index: 10 },
+        { key: "prodStatus", label: "PROD deployment status", index: 11 }
+      ];
+      
+      var ARCHIVE_COL_STORAGE_KEY = "archiveColumnVisibility_v1";
+      var SUMMARY_COL_STORAGE_KEY = "summaryColumnVisibility_v1";
+      
+      function getColumnVisibility(storageKey, columns) {
+        try {
+          var stored = localStorage.getItem(storageKey);
+          if (stored) {
+            return JSON.parse(stored);
+          }
+        } catch (e) {}
+        var defaults = {};
+        columns.forEach(function(col) { defaults[col.key] = true; });
+        return defaults;
+      }
+      
+      function saveColumnVisibility(storageKey, visibility) {
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(visibility));
+        } catch (e) {}
+      }
+      
+      function applyColumnVisibility(tableSelector, columns, visibility) {
+        var table = document.querySelector(tableSelector);
+        if (!table) return;
+        var headerCells = table.querySelectorAll("thead th");
+        var rows = table.querySelectorAll("tbody tr");
+        
+        columns.forEach(function(col) {
+          var isVisible = visibility[col.key] !== false;
+          if (headerCells[col.index]) {
+            headerCells[col.index].style.display = isVisible ? "" : "none";
+          }
+          rows.forEach(function(row) {
+            var cells = row.querySelectorAll("td");
+            if (cells[col.index]) {
+              cells[col.index].style.display = isVisible ? "" : "none";
+            }
+          });
+        });
+      }
+      
+      function buildColumnSettingsList(listEl, columns, visibility, onChange) {
+        if (!listEl) return;
+        listEl.innerHTML = "";
+        columns.forEach(function(col) {
+          var item = document.createElement("div");
+          item.className = "column-settings-item";
+          var checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.id = "col_" + col.key;
+          checkbox.checked = visibility[col.key] !== false;
+          checkbox.addEventListener("change", function() {
+            onChange(col.key, this.checked);
+          });
+          var label = document.createElement("label");
+          label.htmlFor = checkbox.id;
+          label.textContent = col.label;
+          item.appendChild(checkbox);
+          item.appendChild(label);
+          listEl.appendChild(item);
+        });
+      }
+      
+      // Archive column settings
+      var archiveColSettingsBtn = document.getElementById("archiveColumnSettingsBtn");
+      var archiveColSettingsDropdown = document.getElementById("archiveColumnSettingsDropdown");
+      var archiveColSettingsList = document.getElementById("archiveColumnSettingsList");
+      var archiveColResetBtn = document.getElementById("archiveColResetBtn");
+      var archiveColVisibility = getColumnVisibility(ARCHIVE_COL_STORAGE_KEY, ARCHIVE_COLUMNS);
+      
+      function applyArchiveColumnVisibility() {
+        applyColumnVisibility("#archiveTableWrap table", ARCHIVE_COLUMNS, archiveColVisibility);
+      }
+      
+      if (archiveColSettingsBtn && archiveColSettingsDropdown) {
+        archiveColSettingsBtn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          archiveColSettingsDropdown.classList.toggle("visible");
+          if (archiveColSettingsDropdown.classList.contains("visible")) {
+            buildColumnSettingsList(archiveColSettingsList, ARCHIVE_COLUMNS, archiveColVisibility, function(key, checked) {
+              archiveColVisibility[key] = checked;
+              saveColumnVisibility(ARCHIVE_COL_STORAGE_KEY, archiveColVisibility);
+              applyArchiveColumnVisibility();
+            });
+          }
+        });
+      }
+      
+      if (archiveColResetBtn) {
+        archiveColResetBtn.addEventListener("click", function() {
+          ARCHIVE_COLUMNS.forEach(function(col) { archiveColVisibility[col.key] = true; });
+          saveColumnVisibility(ARCHIVE_COL_STORAGE_KEY, archiveColVisibility);
+          applyArchiveColumnVisibility();
+          buildColumnSettingsList(archiveColSettingsList, ARCHIVE_COLUMNS, archiveColVisibility, function(key, checked) {
+            archiveColVisibility[key] = checked;
+            saveColumnVisibility(ARCHIVE_COL_STORAGE_KEY, archiveColVisibility);
+            applyArchiveColumnVisibility();
+          });
+        });
+      }
+      
+      // Summary column settings
+      var summaryColSettingsBtn = document.getElementById("summaryColumnSettingsBtn");
+      var summaryColSettingsDropdown = document.getElementById("summaryColumnSettingsDropdown");
+      var summaryColSettingsList = document.getElementById("summaryColumnSettingsList");
+      var summaryColResetBtn = document.getElementById("summaryColResetBtn");
+      var summaryColVisibility = getColumnVisibility(SUMMARY_COL_STORAGE_KEY, SUMMARY_COLUMNS);
+      
+      function applySummaryColumnVisibility() {
+        applyColumnVisibility("#summaryTableWrap table", SUMMARY_COLUMNS, summaryColVisibility);
+      }
+      
+      if (summaryColSettingsBtn && summaryColSettingsDropdown) {
+        summaryColSettingsBtn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          summaryColSettingsDropdown.classList.toggle("visible");
+          if (summaryColSettingsDropdown.classList.contains("visible")) {
+            buildColumnSettingsList(summaryColSettingsList, SUMMARY_COLUMNS, summaryColVisibility, function(key, checked) {
+              summaryColVisibility[key] = checked;
+              saveColumnVisibility(SUMMARY_COL_STORAGE_KEY, summaryColVisibility);
+              applySummaryColumnVisibility();
+            });
+          }
+        });
+      }
+      
+      if (summaryColResetBtn) {
+        summaryColResetBtn.addEventListener("click", function() {
+          SUMMARY_COLUMNS.forEach(function(col) { summaryColVisibility[col.key] = true; });
+          saveColumnVisibility(SUMMARY_COL_STORAGE_KEY, summaryColVisibility);
+          applySummaryColumnVisibility();
+          buildColumnSettingsList(summaryColSettingsList, SUMMARY_COLUMNS, summaryColVisibility, function(key, checked) {
+            summaryColVisibility[key] = checked;
+            saveColumnVisibility(SUMMARY_COL_STORAGE_KEY, summaryColVisibility);
+            applySummaryColumnVisibility();
+          });
+        });
+      }
+      
+      // Close dropdowns when clicking outside
+      document.addEventListener("click", function(e) {
+        if (archiveColSettingsDropdown && !archiveColSettingsDropdown.contains(e.target) && e.target !== archiveColSettingsBtn) {
+          archiveColSettingsDropdown.classList.remove("visible");
+        }
+        if (summaryColSettingsDropdown && !summaryColSettingsDropdown.contains(e.target) && e.target !== summaryColSettingsBtn) {
+          summaryColSettingsDropdown.classList.remove("visible");
+        }
+      });
+      
+      // Apply saved column visibility after rendering
+      var originalRenderArchiveList = renderArchiveList;
+      renderArchiveList = function() {
+        originalRenderArchiveList();
+        applyArchiveColumnVisibility();
+      };
+      
+      var originalRenderSummaryList = renderSummaryList;
+      renderSummaryList = function() {
+        originalRenderSummaryList();
+        applySummaryColumnVisibility();
+      };
 
       if (archivePrevBtn) {
         archivePrevBtn.addEventListener("click", function () {
