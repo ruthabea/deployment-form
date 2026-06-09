@@ -3149,6 +3149,7 @@
               <th>Application</th>
               <th>Requester</th>
               <th>Hotfix #</th>
+              <th>Incident/Defect ID</th>
               <th>Deployment</th>
               <th class="ppt-highlight">PPT deployment status</th>
               <th class="ppt-highlight">PPT RFC</th>
@@ -6546,6 +6547,11 @@
             '<td class="cell-clip">' +
             escapeHtml(entry.hotfixNumber || "—") +
             "</td>" +
+            '<td class="cell-clip" title="' +
+            escapeAttr(entry.incidentId) +
+            '">' +
+            escapeHtml(entry.incidentId || "—") +
+            "</td>" +
             '<td class="cell-clip">' +
             escapeHtml(entry.deploymentType || "—") +
             "</td>" +
@@ -6672,7 +6678,9 @@
             '">' +
             escapeHtml(entry.requester || "—") +
             "</td>" +
-            '<td class="cell-clip">' +
+            '<td class="cell-clip" title="' +
+            escapeAttr(entry.incidentId) +
+            '">' +
             escapeHtml(entry.incidentId || "—") +
             "</td>" +
             '<td class="cell-clip">' +
