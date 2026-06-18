@@ -29,6 +29,7 @@
     html[data-theme="dark"] {
       --bg: #0f1419;
       --surface: #1a2332;
+      --card-bg: #1a2332;
       --border: #2d3a4d;
       --text: #e8eef5;
       --muted: #8b9cb3;
@@ -50,6 +51,7 @@
     html[data-theme="light"] {
       --bg: #e8e4df;
       --surface: #f9f7f4;
+      --card-bg: #ffffff;
       --border: #c9c5c0;
       --text: #0f172a;
       --muted: #64748b;
@@ -183,23 +185,27 @@
       color: var(--muted);
       text-decoration: none;
       font-weight: 500;
-      font-size: 0.82rem;
-      border-radius: 8px;
+      font-size: 0.78rem;
+      border-radius: 20px;
       transition: all 0.2s ease;
-      border: 1px solid transparent;
+      background: transparent;
+    }
+    html[data-theme="dark"] .header-saved-link a {
       background: transparent;
     }
     .header-saved-link a:hover {
       color: var(--accent);
-      background: rgba(59, 130, 246, 0.08);
-      border-color: rgba(59, 130, 246, 0.2);
+      background: rgba(59, 130, 246, 0.1);
       text-decoration: none;
     }
     .header-saved-link a.nav-active {
-      color: var(--accent);
-      background: rgba(59, 130, 246, 0.12);
-      border-color: rgba(59, 130, 246, 0.3);
+      color: #fff;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
       font-weight: 600;
+      box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+    }
+    html[data-theme="dark"] .header-saved-link a.nav-active {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
     }
     .header-nav-sep {
       display: none;
@@ -446,6 +452,14 @@
     .btn-export:disabled {
       opacity: 0.65;
       cursor: wait;
+    }
+    .btn-email {
+      background: #0284c7;
+      color: #fff;
+      border: none;
+    }
+    .btn-email:hover {
+      background: #0ea5e9;
     }
     .btn-import {
       background: #2563eb;
@@ -947,12 +961,16 @@
       padding: 0.35rem 0.65rem;
     }
     .saved-panel {
-      margin-top: 1.5rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1rem 1.1rem 1.1rem;
+      margin-top: 0;
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--radius) var(--radius);
+      padding: 1.25rem 1.25rem 1.25rem;
       box-shadow: 0 8px 32px var(--shadow-medium);
+    }
+    html[data-theme="dark"] .saved-panel {
+      background: var(--bg);
     }
     .saved-panel h2 {
       margin: 0 0 0.5rem;
@@ -1044,14 +1062,16 @@
       letter-spacing: 0.2px;
     }
     .saved-filters-row select {
-      padding: 0.45rem 0.65rem;
+      padding: 0.35rem 0.5rem;
       font: inherit;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--text);
       background: var(--input-bg);
       border: 1px solid var(--border);
       border-radius: 6px;
-      min-width: 7rem;
+      min-width: auto;
+      width: auto;
+      max-width: 120px;
       transition: all 0.2s;
     }
     .saved-filters-row select:focus {
@@ -1700,7 +1720,7 @@
       border-collapse: separate;
       border-spacing: 0;
       font-size: 0.82rem;
-      border: none;
+      border: 1px solid var(--border);
       background: var(--card-bg);
       border-radius: 12px;
       overflow: hidden;
@@ -1842,7 +1862,7 @@
       border-collapse: separate;
       border-spacing: 0;
       font-size: 0.78rem;
-      border: none;
+      border: 1px solid var(--border);
       background: var(--card-bg);
       border-radius: 12px;
       overflow: hidden;
@@ -1873,12 +1893,20 @@
       border-bottom: 1px solid var(--border);
       text-align: center;
       font-size: 0.75rem;
-      vertical-align: middle;
+      vertical-align: top;
       background: var(--card-bg);
       color: var(--text);
     }
     .weekly-deployment-status-table td:last-child {
       text-align: left;
+      vertical-align: top;
+    }
+    .weekly-deployment-status-table tr {
+      height: 1px;
+    }
+    .weekly-deployment-status-table td:first-child,
+    .weekly-deployment-status-table td:nth-child(2) {
+      vertical-align: middle;
     }
     .weekly-deployment-status-table tbody tr {
       transition: all 0.15s ease;
@@ -1944,6 +1972,115 @@
     .weekly-deployment-status-table .remark-cancelled {
       color: #dc2626;
       font-weight: 700;
+    }
+    .count-of-fixes-description {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 0 0 1rem 0;
+    }
+    .count-of-fixes-table-wrap {
+      max-width: 260px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    .count-of-fixes-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+    }
+    .count-of-fixes-table th {
+      padding: 0.4rem 0.7rem;
+      background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      text-align: left;
+      border: 1px solid #1e40af;
+    }
+    .count-of-fixes-table th:last-child {
+      text-align: center;
+    }
+    .count-of-fixes-table td {
+      padding: 0.35rem 0.7rem;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text);
+      font-size: 0.75rem;
+    }
+    .count-of-fixes-table td:last-child {
+      text-align: center;
+      font-weight: 600;
+    }
+    .count-of-fixes-table tr:hover td {
+      background: rgba(59, 130, 246, 0.06);
+    }
+    .count-of-fixes-table tr.total-row td {
+      background: #fef08a;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .count-of-fixes-table tr.total-row:hover td {
+      background: #fde047;
+    }
+    .count-of-fixes-table tr.expandable-row {
+      cursor: pointer;
+    }
+    .count-of-fixes-table tr.expandable-row td:first-child::before {
+      content: "▶ ";
+      font-size: 0.65rem;
+      color: var(--muted);
+      transition: transform 0.2s ease;
+      display: inline-block;
+      margin-right: 0.3rem;
+    }
+    .count-of-fixes-table tr.expandable-row.expanded td:first-child::before {
+      content: "▼ ";
+    }
+    .count-of-fixes-table tr.details-row {
+      display: none;
+    }
+    .count-of-fixes-table tr.details-row.visible {
+      display: table-row;
+    }
+    .count-of-fixes-table tr.details-row td {
+      padding: 0.5rem 0.75rem;
+      background: var(--bg);
+      border-top: none;
+    }
+    .defect-details-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.7rem;
+      margin: 0;
+    }
+    .defect-details-table th {
+      background: linear-gradient(135deg, #475569 0%, #334155 100%);
+      color: #fff;
+      padding: 0.3rem 0.5rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.65rem;
+      border: 1px solid #475569;
+    }
+    .defect-details-table td {
+      padding: 0.25rem 0.5rem;
+      border: 1px solid var(--border);
+      background: var(--card-bg);
+      font-size: 0.7rem;
+    }
+    .defect-details-table tr:hover td {
+      background: rgba(59, 130, 246, 0.08);
+    }
+    .defect-ids-empty {
+      color: var(--muted);
+      font-style: italic;
+      font-size: 0.8rem;
+      padding: 0.5rem 0;
     }
     .week-selector {
       display: flex;
@@ -2801,6 +2938,234 @@
       gap: 0.5rem;
       flex-wrap: wrap;
     }
+    .info-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.55);
+      animation: fadeIn 0.2s ease;
+    }
+    .info-modal-overlay[hidden] {
+      display: none !important;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .info-modal-dialog {
+      width: 100%;
+      max-width: 24rem;
+      padding: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.25s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .info-modal-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .info-modal-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #fff;
+      font-size: 1.2rem;
+      border-radius: 50%;
+    }
+    .info-modal-icon.error {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    }
+    .info-modal-dialog h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .info-modal-message {
+      margin: 0 0 1.25rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .info-modal-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+    .info-modal-actions .btn-save {
+      min-width: 80px;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.85rem;
+    }
+    .email-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.55);
+      animation: fadeIn 0.2s ease;
+    }
+    .email-modal-overlay[hidden] {
+      display: none !important;
+    }
+    .email-modal-dialog {
+      width: 100%;
+      max-width: 600px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.25s ease;
+      overflow: hidden;
+    }
+    .email-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .email-modal-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .email-modal-title svg {
+      color: #0284c7;
+    }
+    .email-modal-title h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+    .email-modal-close {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      transition: all 0.15s ease;
+    }
+    .email-modal-close:hover {
+      background: var(--border);
+      color: var(--text);
+    }
+    .email-modal-body {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .email-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .email-field label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .email-field label .req {
+      color: #ef4444;
+    }
+    .email-field label .optional {
+      font-weight: 400;
+      color: var(--muted);
+      opacity: 0.7;
+    }
+    .email-field input,
+    .email-field textarea {
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.85rem;
+      font-family: inherit;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .email-field input:focus,
+    .email-field textarea:focus {
+      outline: none;
+      border-color: #0284c7;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+    }
+    .email-field input::placeholder {
+      color: var(--muted);
+      opacity: 0.6;
+    }
+    .email-field textarea {
+      resize: vertical;
+      min-height: 150px;
+      line-height: 1.5;
+    }
+    .email-field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .email-modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+    .btn-email-send,
+    .btn-email-draft {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-email-send {
+      background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+      color: #fff;
+    }
+    .btn-email-send:hover {
+      background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+      transform: translateY(-1px);
+    }
+    .btn-email-draft {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-email-draft:hover {
+      background: var(--bg);
+      border-color: var(--muted);
+    }
     @media (max-width: 560px) {
       .back-to-top {
         right: 0.75rem;
@@ -3128,6 +3493,7 @@
       <p id="networkShareBanner" class="network-share-banner" hidden></p>
       <div class="header-saved-link">
         <div class="header-nav-links">
+          <a href="#new-entry" class="nav-active">New Entry</a>
           <a href="#saved-entries">All Saved Entries</a>
           <a href="#archive">Archive</a>
           <a href="#deleted">Deleted Hotfixes</a>
@@ -3135,6 +3501,7 @@
           <a href="#weekly-trend">Weekly Trend</a>
           <a href="#monthly-trend">Monthly Trend</a>
           <a href="#calendar">Calendar</a>
+          <a href="#count-of-fixes">Count of Fixes</a>
         </div>
         <div id="syncStatusBar" class="sync-status-bar" hidden>
           <span id="syncIndicator" class="sync-indicator"></span>
@@ -3144,6 +3511,8 @@
       </div>
     </header>
 
+    <div class="tab-content-container">
+    <section class="tab-panel" id="new-entry-panel">
     <form id="deployForm" novalidate>
       <fieldset>
         <legend>Application</legend>
@@ -3598,21 +3967,12 @@
         <p id="formSaveStatus" role="status" aria-live="polite"></p>
       </div>
     </form>
+    </section>
 
-    <section class="saved-panel" id="saved-entries" hidden aria-labelledby="savedHeading">
+    <section class="saved-panel tab-panel" id="saved-entries" hidden aria-labelledby="savedHeading">
       <div class="saved-panel-head">
         <h2 id="savedHeading">Saved entries <span id="savedCount" style="color: var(--muted); font-weight: 500">(0)</span></h2>
         <div class="saved-actions">
-          <button
-            type="button"
-            id="hideSavedEntriesBtn"
-            class="btn-secondary btn-tiny saved-panel-hide"
-            title="Hide saved entries"
-            aria-controls="saved-entries"
-          >
-            <span class="saved-panel-hide-arrow" aria-hidden="true">▲</span>
-            Hide details
-          </button>
           <button type="button" class="btn-export btn-tiny" id="exportAllSavedBtn" title="One row per active saved entry; archived rows are not included">Export all to Excel</button>
           <button type="button" class="btn-import btn-tiny" id="importFromExcelBtn" title="Import entries from Excel file">Import from Excel</button>
           <button type="button" class="btn-backup btn-tiny" id="backupToFileBtn" title="Download backup file (JSON)">Backup to File</button>
@@ -3627,7 +3987,7 @@
         <input
           type="search"
           id="savedSearchInput"
-          placeholder="Incident ID, hotfix #, RFC, application, requester, or entry id…"
+          placeholder="Incident ID, hotfix #, RFC, application, requester, rollback HF, files…"
           autocomplete="off"
           spellcheck="false"
         />
@@ -3741,16 +4101,6 @@
       <div class="saved-panel-head">
         <h2 id="archiveHeading">Archive <span id="archiveCount" style="color: var(--muted); font-weight: 500">(0)</span></h2>
         <div class="saved-actions">
-          <button
-            type="button"
-            id="hideArchiveBtn"
-            class="btn-secondary btn-tiny saved-panel-hide"
-            title="Hide archive"
-            aria-controls="archive-screen"
-          >
-            <span class="saved-panel-hide-arrow" aria-hidden="true">▲</span>
-            Hide details
-          </button>
         </div>
       </div>
       <p class="saved-empty" id="archiveHint" hidden>
@@ -3824,16 +4174,6 @@
       <div class="saved-panel-head">
         <h2 id="deletedHeading">Deleted Hotfixes <span id="deletedCount" style="color: var(--muted); font-weight: 500">(0)</span></h2>
         <div class="saved-actions">
-          <button
-            type="button"
-            id="hideDeletedBtn"
-            class="btn-secondary btn-tiny saved-panel-hide"
-            title="Hide deleted"
-            aria-controls="deleted-screen"
-          >
-            <span class="saved-panel-hide-arrow" aria-hidden="true">▲</span>
-            Hide details
-          </button>
           <button type="button" class="btn-danger btn-tiny" id="clearAllDeletedBtn" title="Permanently remove all deleted entries">Clear all</button>
         </div>
       </div>
@@ -3858,20 +4198,10 @@
       </div>
     </section>
 
-    <section class="saved-panel" id="summary-screen" hidden aria-labelledby="summaryHeading">
+    <section class="saved-panel tab-panel" id="summary-screen" hidden aria-labelledby="summaryHeading">
       <div class="saved-panel-head">
         <h2 id="summaryHeading">Summary <span id="summaryCount" style="color: var(--muted); font-weight: 500">(0)</span></h2>
         <div class="saved-actions">
-          <button
-            type="button"
-            id="hideSummaryBtn"
-            class="btn-secondary btn-tiny saved-panel-hide"
-            title="Hide summary"
-            aria-controls="summary-screen"
-          >
-            <span class="saved-panel-hide-arrow" aria-hidden="true">▲</span>
-            Hide details
-          </button>
           <button type="button" class="btn-export btn-tiny" id="exportAllSummaryBtn" title="One row per archived entry shown in Summary">Export all to Excel</button>
         </div>
       </div>
@@ -3937,20 +4267,10 @@
       </div>
     </section>
 
-    <section class="saved-panel" id="weekly-trend-screen" hidden aria-labelledby="weeklyTrendHeading">
+    <section class="saved-panel tab-panel" id="weekly-trend-screen" hidden aria-labelledby="weeklyTrendHeading">
       <div class="saved-panel-head">
         <h2 id="weeklyTrendHeading">Weekly Trend</h2>
         <div class="saved-actions">
-          <button
-            type="button"
-            id="hideWeeklyTrendBtn"
-            class="btn-secondary btn-tiny saved-panel-hide"
-            title="Hide weekly trend"
-            aria-controls="weekly-trend-screen"
-          >
-            <span class="saved-panel-hide-arrow" aria-hidden="true">▲</span>
-            Hide details
-          </button>
           <button type="button" class="btn-export btn-tiny" id="exportWeeklyTrendBtn" title="Export weekly trend to Excel">Export to Excel</button>
         </div>
       </div>
@@ -4056,16 +4376,6 @@
       <div class="saved-panel-head">
         <h2 id="monthlyTrendHeading">Monthly Trend</h2>
         <div class="saved-actions">
-          <button
-            type="button"
-            id="hideMonthlyTrendBtn"
-            class="btn-secondary btn-tiny saved-panel-hide"
-            title="Hide monthly trend"
-            aria-controls="monthly-trend-screen"
-          >
-            <span class="saved-panel-hide-arrow" aria-hidden="true">▲</span>
-            Hide details
-          </button>
           <button type="button" class="btn-export btn-tiny" id="exportMonthlyTrendBtn" title="Export monthly trend to Excel">Export to Excel</button>
         </div>
       </div>
@@ -4124,16 +4434,6 @@
       <div class="saved-panel-head">
         <h2 id="calendarHeading">Deployment Calendar</h2>
         <div class="saved-actions">
-          <button
-            type="button"
-            id="hideCalendarBtn"
-            class="btn-secondary btn-tiny saved-panel-hide"
-            title="Hide calendar"
-            aria-controls="calendar-screen"
-          >
-            <span class="saved-panel-hide-arrow" aria-hidden="true">▲</span>
-            Hide details
-          </button>
         </div>
       </div>
       <div class="calendar-container">
@@ -4265,6 +4565,28 @@
       </div>
     </section>
 
+    <section class="saved-panel" id="count-of-fixes-screen" hidden aria-labelledby="countOfFixesHeading">
+      <div class="saved-panel-head">
+        <h2 id="countOfFixesHeading">Count of Fixes</h2>
+        <div class="saved-actions">
+          <button type="button" class="btn-export btn-tiny" id="exportCountOfFixesBtn" title="Export to Excel">Export to Excel</button>
+          <button type="button" class="btn-email btn-tiny" id="emailCountOfFixesBtn" title="Send via Email">Email</button>
+        </div>
+      </div>
+      <p class="count-of-fixes-description">Count of unique Defect ID/Incident per application group where PROD deployment status is "Pending".</p>
+      <div id="countOfFixesTableWrap" class="count-of-fixes-table-wrap">
+        <table class="count-of-fixes-table">
+          <thead>
+            <tr>
+              <th>Application</th>
+              <th>Count of Fixes</th>
+            </tr>
+          </thead>
+          <tbody id="countOfFixesBody"></tbody>
+        </table>
+      </div>
+    </section>
+
   </div>
 
   <button type="button" id="backToTopBtn" class="back-to-top" hidden aria-label="Back to top">
@@ -4293,6 +4615,65 @@
       <div class="password-prompt-actions">
         <button type="button" class="btn-secondary" id="passwordPromptCancel">Cancel</button>
         <button type="button" class="btn-save" id="passwordPromptConfirm">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="infoModalOverlay" class="info-modal-overlay" hidden>
+    <div class="info-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
+      <div class="info-modal-header">
+        <span class="info-modal-icon">✓</span>
+        <h3 id="infoModalTitle">Information</h3>
+      </div>
+      <p id="infoModalMessage" class="info-modal-message"></p>
+      <div class="info-modal-actions">
+        <button type="button" class="btn-save" id="infoModalOkBtn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="emailModalOverlay" class="email-modal-overlay" hidden>
+    <div class="email-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="emailModalTitle">
+      <div class="email-modal-header">
+        <div class="email-modal-title">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          <h3 id="emailModalTitle">Send Report by Email</h3>
+        </div>
+        <button type="button" class="email-modal-close" id="emailModalCloseBtn" title="Close">× Clear</button>
+      </div>
+      <div class="email-modal-body">
+        <div class="email-field">
+          <label for="emailTo">TO <span class="req">*</span></label>
+          <input type="text" id="emailTo" placeholder="recipient@company.com, another@company.com" />
+        </div>
+        <div class="email-field-row">
+          <div class="email-field">
+            <label for="emailCc">CC <span class="optional">(OPTIONAL)</span></label>
+            <input type="text" id="emailCc" placeholder="cc@company.com" />
+          </div>
+          <div class="email-field">
+            <label for="emailBcc">BCC <span class="optional">(OPTIONAL)</span></label>
+            <input type="text" id="emailBcc" placeholder="bcc@company.com" />
+          </div>
+        </div>
+        <div class="email-field">
+          <label for="emailSubject">SUBJECT <span class="req">*</span></label>
+          <input type="text" id="emailSubject" />
+        </div>
+        <div class="email-field">
+          <label for="emailMessage">MESSAGE <span class="req">*</span></label>
+          <textarea id="emailMessage" rows="12"></textarea>
+        </div>
+      </div>
+      <div class="email-modal-actions">
+        <button type="button" class="btn-email-send" id="emailSendBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          Send from Mailbox
+        </button>
+        <button type="button" class="btn-email-draft" id="emailDraftBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          Save as Outlook Draft
+        </button>
       </div>
     </div>
   </div>
@@ -4339,26 +4720,57 @@
       var savedEntriesNavLink = document.querySelector(
         '.header-saved-link a[href="#saved-entries"]'
       );
-      var hideSavedEntriesBtn = document.getElementById("hideSavedEntriesBtn");
       var archiveScreen = document.getElementById("archive-screen");
       var archiveNavLink = document.querySelector('.header-saved-link a[href="#archive"]');
-      var hideArchiveBtn = document.getElementById("hideArchiveBtn");
       var deletedScreen = document.getElementById("deleted-screen");
       var deletedNavLink = document.querySelector('.header-saved-link a[href="#deleted"]');
-      var hideDeletedBtn = document.getElementById("hideDeletedBtn");
       var summaryScreen = document.getElementById("summary-screen");
       var summaryNavLink = document.querySelector('.header-saved-link a[href="#summary"]');
-      var hideSummaryBtn = document.getElementById("hideSummaryBtn");
       var weeklyTrendScreen = document.getElementById("weekly-trend-screen");
       var weeklyTrendNavLink = document.querySelector('.header-saved-link a[href="#weekly-trend"]');
-      var hideWeeklyTrendBtn = document.getElementById("hideWeeklyTrendBtn");
       var monthlyTrendScreen = document.getElementById("monthly-trend-screen");
       var monthlyTrendNavLink = document.querySelector('.header-saved-link a[href="#monthly-trend"]');
-      var hideMonthlyTrendBtn = document.getElementById("hideMonthlyTrendBtn");
       var calendarScreen = document.getElementById("calendar-screen");
       var calendarNavLink = document.querySelector('.header-saved-link a[href="#calendar"]');
-      var hideCalendarBtn = document.getElementById("hideCalendarBtn");
+      var countOfFixesScreen = document.getElementById("count-of-fixes-screen");
+      var countOfFixesNavLink = document.querySelector('.header-saved-link a[href="#count-of-fixes"]');
+      var countOfFixesBody = document.getElementById("countOfFixesBody");
+      var exportCountOfFixesBtn = document.getElementById("exportCountOfFixesBtn");
+      var emailCountOfFixesBtn = document.getElementById("emailCountOfFixesBtn");
+      var emailModalOverlay = document.getElementById("emailModalOverlay");
+      var emailModalCloseBtn = document.getElementById("emailModalCloseBtn");
+      var emailTo = document.getElementById("emailTo");
+      var emailCc = document.getElementById("emailCc");
+      var emailBcc = document.getElementById("emailBcc");
+      var emailSubject = document.getElementById("emailSubject");
+      var emailMessage = document.getElementById("emailMessage");
+      var emailSendBtn = document.getElementById("emailSendBtn");
+      var emailDraftBtn = document.getElementById("emailDraftBtn");
+      var newEntryPanel = document.getElementById("new-entry-panel");
+      var newEntryNavLink = document.querySelector('.header-saved-link a[href="#new-entry"]');
+      var allNavLinks = document.querySelectorAll('.header-nav-links a');
+      var allPanels = [newEntryPanel, savedEntriesPanel, archiveScreen, deletedScreen, summaryScreen, weeklyTrendScreen, monthlyTrendScreen, calendarScreen, countOfFixesScreen];
       var THEME_STORAGE_KEY = "deploymentFormTheme_v1";
+
+      function updateActiveNavLink(activeLink) {
+        allNavLinks.forEach(function(link) {
+          link.classList.remove('nav-active');
+        });
+        if (activeLink) {
+          activeLink.classList.add('nav-active');
+        }
+      }
+
+      function switchToPanel(targetPanel) {
+        allPanels.forEach(function(panel) {
+          if (panel && panel !== targetPanel) {
+            panel.setAttribute('hidden', '');
+          }
+        });
+        if (targetPanel) {
+          targetPanel.removeAttribute('hidden');
+        }
+      }
       /** Password is encoded to hide from casual inspection */
       var _k = [57,50,53,48,64,121,98,98,65];
       var DESTRUCTIVE_ACTION_PASSWORD = _k.map(function(c){return String.fromCharCode(c)}).reverse().join("");
@@ -4513,6 +4925,7 @@
         concealWeeklyTrendPanel();
         concealMonthlyTrendPanel();
         concealCalendarPanel();
+        concealCountOfFixesPanel();
         savedEntriesPanel.removeAttribute("hidden");
       }
 
@@ -4530,6 +4943,7 @@
         concealWeeklyTrendPanel();
         concealMonthlyTrendPanel();
         concealCalendarPanel();
+        concealCountOfFixesPanel();
         archiveScreen.removeAttribute("hidden");
       }
 
@@ -4547,6 +4961,7 @@
         concealWeeklyTrendPanel();
         concealMonthlyTrendPanel();
         concealCalendarPanel();
+        concealCountOfFixesPanel();
         deletedScreen.removeAttribute("hidden");
       }
 
@@ -4572,6 +4987,7 @@
         concealWeeklyTrendPanel();
         concealMonthlyTrendPanel();
         concealCalendarPanel();
+        concealCountOfFixesPanel();
         summaryScreen.removeAttribute("hidden");
       }
 
@@ -4597,6 +5013,7 @@
         concealSummaryPanel();
         concealCalendarPanel();
         concealMonthlyTrendPanel();
+        concealCountOfFixesPanel();
         weeklyTrendScreen.removeAttribute("hidden");
       }
       
@@ -4622,6 +5039,7 @@
         concealSummaryPanel();
         concealWeeklyTrendPanel();
         concealCalendarPanel();
+        concealCountOfFixesPanel();
         monthlyTrendScreen.removeAttribute("hidden");
       }
 
@@ -4647,14 +5065,42 @@
         concealSummaryPanel();
         concealWeeklyTrendPanel();
         concealMonthlyTrendPanel();
+        concealCountOfFixesPanel();
         calendarScreen.removeAttribute("hidden");
         renderCalendar();
+      }
+
+      function stripCountOfFixesHash() {
+        if (window.location.hash === "#count-of-fixes") {
+          try {
+            history.replaceState(null, "", window.location.pathname + window.location.search);
+          } catch (e) {}
+        }
+      }
+
+      function concealCountOfFixesPanel() {
+        if (!countOfFixesScreen) return;
+        countOfFixesScreen.setAttribute("hidden", "");
+        stripCountOfFixesHash();
+      }
+
+      function revealCountOfFixesPanel() {
+        if (!countOfFixesScreen) return;
+        concealSavedEntriesPanel();
+        concealArchivePanel();
+        concealDeletedPanel();
+        concealSummaryPanel();
+        concealWeeklyTrendPanel();
+        concealMonthlyTrendPanel();
+        concealCalendarPanel();
+        countOfFixesScreen.removeAttribute("hidden");
+        renderCountOfFixes();
       }
 
       function initSavedEntryPanels() {
         try {
           var h = window.location.hash;
-          if (h === "#saved-entries" || h === "#archive" || h === "#deleted" || h === "#summary" || h === "#weekly-trend" || h === "#monthly-trend" || h === "#calendar") {
+          if (h === "#saved-entries" || h === "#archive" || h === "#deleted" || h === "#summary" || h === "#weekly-trend" || h === "#monthly-trend" || h === "#calendar" || h === "#count-of-fixes") {
             history.replaceState(
               null,
               "",
@@ -4668,148 +5114,114 @@
         if (summaryScreen) summaryScreen.setAttribute("hidden", "");
         if (weeklyTrendScreen) weeklyTrendScreen.setAttribute("hidden", "");
         if (calendarScreen) calendarScreen.setAttribute("hidden", "");
+        if (countOfFixesScreen) countOfFixesScreen.setAttribute("hidden", "");
       }
 
+      if (newEntryNavLink) {
+        newEntryNavLink.addEventListener("click", function (e) {
+          e.preventDefault();
+          updateActiveNavLink(newEntryNavLink);
+          switchToPanel(newEntryPanel);
+          try {
+            history.replaceState(null, "", "#new-entry");
+          } catch (eNe) {}
+        });
+      }
       if (savedEntriesNavLink) {
         savedEntriesNavLink.addEventListener("click", function (e) {
           e.preventDefault();
-          revealSavedEntriesPanel();
+          updateActiveNavLink(savedEntriesNavLink);
+          switchToPanel(savedEntriesPanel);
           try {
             history.replaceState(null, "", "#saved-entries");
           } catch (e1) {}
-          if (savedEntriesPanel) {
-            savedEntriesPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
-          }
-        });
-      }
-      if (hideSavedEntriesBtn) {
-        hideSavedEntriesBtn.addEventListener("click", function () {
-          concealSavedEntriesPanel();
         });
       }
       if (archiveNavLink) {
         archiveNavLink.addEventListener("click", function (e) {
           e.preventDefault();
+          updateActiveNavLink(archiveNavLink);
           renderArchiveList();
-          revealArchivePanel();
+          switchToPanel(archiveScreen);
           try {
             history.replaceState(null, "", "#archive");
           } catch (eArch) {}
-          if (archiveScreen) {
-            archiveScreen.scrollIntoView({ behavior: "smooth", block: "nearest" });
-          }
-        });
-      }
-      if (hideArchiveBtn) {
-        hideArchiveBtn.addEventListener("click", function () {
-          concealArchivePanel();
         });
       }
       if (deletedNavLink) {
         deletedNavLink.addEventListener("click", function (e) {
           e.preventDefault();
+          updateActiveNavLink(deletedNavLink);
           renderDeletedList();
-          revealDeletedPanel();
+          switchToPanel(deletedScreen);
           try {
             history.replaceState(null, "", "#deleted");
           } catch (eDel) {}
-          if (deletedScreen) {
-            deletedScreen.scrollIntoView({ behavior: "smooth", block: "nearest" });
-          }
-        });
-      }
-      if (hideDeletedBtn) {
-        hideDeletedBtn.addEventListener("click", function () {
-          concealDeletedPanel();
         });
       }
       if (summaryNavLink) {
         summaryNavLink.addEventListener("click", function (e) {
           e.preventDefault();
+          updateActiveNavLink(summaryNavLink);
           renderSummaryList();
-          revealSummaryPanel();
+          switchToPanel(summaryScreen);
           try {
             history.replaceState(null, "", "#summary");
           } catch (eSum) {}
-          if (summaryScreen) {
-            summaryScreen.scrollIntoView({ behavior: "smooth", block: "nearest" });
-          }
-        });
-      }
-      if (hideSummaryBtn) {
-        hideSummaryBtn.addEventListener("click", function () {
-          concealSummaryPanel();
         });
       }
       if (weeklyTrendNavLink) {
         weeklyTrendNavLink.addEventListener("click", function (e) {
           e.preventDefault();
+          updateActiveNavLink(weeklyTrendNavLink);
           loadCalendarNotes().then(function () {
             renderWeeklyTrend();
-            revealWeeklyTrendPanel();
+            switchToPanel(weeklyTrendScreen);
             try {
               history.replaceState(null, "", "#weekly-trend");
             } catch (eWt) {}
-            if (weeklyTrendScreen) {
-              weeklyTrendScreen.scrollIntoView({ behavior: "smooth", block: "nearest" });
-            }
           }).catch(function () {
             renderWeeklyTrend();
-            revealWeeklyTrendPanel();
-            if (weeklyTrendScreen) {
-              weeklyTrendScreen.scrollIntoView({ behavior: "smooth", block: "nearest" });
-            }
+            switchToPanel(weeklyTrendScreen);
           });
-        });
-      }
-      if (hideWeeklyTrendBtn) {
-        hideWeeklyTrendBtn.addEventListener("click", function () {
-          concealWeeklyTrendPanel();
         });
       }
       if (calendarNavLink) {
         calendarNavLink.addEventListener("click", function (e) {
           e.preventDefault();
-          revealCalendarPanel();
+          updateActiveNavLink(calendarNavLink);
+          switchToPanel(calendarScreen);
           try {
             history.replaceState(null, "", "#calendar");
           } catch (eCal) {}
-          if (calendarScreen) {
-            calendarScreen.scrollIntoView({ behavior: "smooth", block: "nearest" });
-          }
         });
       }
-      if (hideCalendarBtn) {
-        hideCalendarBtn.addEventListener("click", function () {
-          concealCalendarPanel();
+      if (countOfFixesNavLink) {
+        countOfFixesNavLink.addEventListener("click", function (e) {
+          e.preventDefault();
+          updateActiveNavLink(countOfFixesNavLink);
+          switchToPanel(countOfFixesScreen);
+          renderCountOfFixes();
+          try {
+            history.replaceState(null, "", "#count-of-fixes");
+          } catch (eCof) {}
         });
       }
       if (monthlyTrendNavLink) {
         monthlyTrendNavLink.addEventListener("click", function (e) {
           e.preventDefault();
-          // Force reload calendar notes to get fresh data
+          updateActiveNavLink(monthlyTrendNavLink);
           calendarNotesLoaded = false;
           loadCalendarNotes().then(function () {
             renderMonthlyTrend();
-            revealMonthlyTrendPanel();
+            switchToPanel(monthlyTrendScreen);
             try {
               history.replaceState(null, "", "#monthly-trend");
             } catch (eMt) {}
-            if (monthlyTrendScreen) {
-              monthlyTrendScreen.scrollIntoView({ behavior: "smooth", block: "nearest" });
-            }
           }).catch(function () {
             renderMonthlyTrend();
-            revealMonthlyTrendPanel();
-            if (monthlyTrendScreen) {
-              monthlyTrendScreen.scrollIntoView({ behavior: "smooth", block: "nearest" });
-            }
+            switchToPanel(monthlyTrendScreen);
           });
-        });
-      }
-      if (hideMonthlyTrendBtn) {
-        hideMonthlyTrendBtn.addEventListener("click", function () {
-          concealMonthlyTrendPanel();
         });
       }
       window.addEventListener("hashchange", function () {
@@ -6067,7 +6479,7 @@
         if (backupBtn) {
           backupBtn.addEventListener("click", function() {
             downloadBackupFile();
-            alert("Backup file downloaded! Save it to your OneDrive folder for safekeeping.");
+            showInfoModal("Backup file downloaded! Save it to your OneDrive folder for safekeeping.");
           });
         }
         
@@ -6109,10 +6521,9 @@
               }
               
               if (window.logActivity) logActivity("restore", "Restored from File Backup", backup.entries.length + " entries restored from file");
-              alert("Restore successful! Page will reload.");
-              location.reload();
+              showInfoModal("Restore successful! Page will reload.", false, function() { location.reload(); });
             } catch (err) {
-              alert("Restore failed: " + err.message);
+              showInfoModal("Restore failed: " + err.message, true);
               console.error("Restore error:", err);
             }
             restoreInput.value = "";
@@ -6124,7 +6535,7 @@
           reminderYes.addEventListener("click", function() {
             hideBackupReminder();
             downloadBackupFile();
-            alert("Backup file downloaded! Save it to your OneDrive folder.");
+            showInfoModal("Backup file downloaded! Save it to your OneDrive folder.");
           });
         }
         
@@ -6952,7 +7363,39 @@
         syncSnapshotTablesVisibility();
       }
 
-      function showSaveStatus(msg, isError, skipPopup) {
+      function showInfoModal(msg, isError, onClose) {
+        var overlay = document.getElementById("infoModalOverlay");
+        var messageEl = document.getElementById("infoModalMessage");
+        var titleEl = document.getElementById("infoModalTitle");
+        var iconEl = overlay ? overlay.querySelector(".info-modal-icon") : null;
+        var okBtn = document.getElementById("infoModalOkBtn");
+        if (!overlay || !messageEl) return;
+        
+        messageEl.textContent = msg || "";
+        if (titleEl) titleEl.textContent = isError ? "Error" : "Information";
+        if (iconEl) {
+          iconEl.textContent = isError ? "✕" : "✓";
+          iconEl.classList.toggle("error", isError);
+        }
+        overlay.removeAttribute("hidden");
+        
+        function closeModal() {
+          overlay.setAttribute("hidden", "");
+          if (okBtn) okBtn.removeEventListener("click", closeModal);
+          overlay.removeEventListener("click", overlayClick);
+          if (typeof onClose === "function") onClose();
+        }
+        function overlayClick(e) {
+          if (e.target === overlay) closeModal();
+        }
+        if (okBtn) {
+          okBtn.addEventListener("click", closeModal);
+          okBtn.focus();
+        }
+        overlay.addEventListener("click", overlayClick);
+      }
+
+      function showSaveStatus(msg, isError, skipPopup, onClose) {
         var color = isError ? "var(--status-err)" : "var(--status-ok)";
         var targets = [saveStatus, formSaveStatus];
         var any = false;
@@ -6963,7 +7406,7 @@
           el.style.color = color;
         });
         if (msg && !skipPopup) {
-          alert(msg);
+          showInfoModal(msg, isError, onClose);
         }
         if (!any) return;
         if (msg) {
@@ -6989,7 +7432,18 @@
           entry.requester,
           entry.version,
           entry.pptRfc,
-          entry.prodRfc
+          entry.prodRfc,
+          entry.rollbackHf,
+          entry.rollbackString,
+          entry.files,
+          entry.pptCodeFiles,
+          entry.pptConfigFiles,
+          entry.pptSqlFiles,
+          entry.pptJarFiles,
+          entry.prodCodeFiles,
+          entry.prodConfigFiles,
+          entry.prodSqlFiles,
+          entry.prodJarFiles
         ]
           .map(function (v) {
             return v == null ? "" : String(v).trim().toLowerCase();
@@ -7526,6 +7980,109 @@
         });
       }
 
+      function renderCountOfFixes() {
+        if (!countOfFixesBody) return;
+        
+        var list = readSavedEntries();
+        var pending = list.filter(function (e) {
+          if (!e || e.deletedAt || e.archivedAt || e.parked) return false;
+          var prodStatus = (e.prodDeploymentStatus || "").trim().toLowerCase();
+          return prodStatus === "pending";
+        });
+        
+        var appGroups = {
+          "FE": { apps: ["ASOM", "CRM", "MCO", "OMS", "SDP", "WSF"], defects: {} },
+          "BE": { apps: [], defects: {}, isABP: true },
+          "ODS": { apps: ["ODS"], defects: {} },
+          "Digital": { apps: ["OMNI"], defects: {} },
+          "Infra": { apps: ["ABP - Infra"], defects: {} }
+        };
+        
+        pending.forEach(function (entry) {
+          var appName = (entry.application || "").trim();
+          var defectId = (entry.incidentId || "").trim();
+          var hotfixNum = (entry.hotfixNumber || "").trim();
+          if (!defectId) return;
+          
+          if (appName === "ABP - Infra") {
+            if (!appGroups["Infra"].defects[defectId]) {
+              appGroups["Infra"].defects[defectId] = hotfixNum;
+            }
+          } else if (appName.toUpperCase().startsWith("ABP")) {
+            if (!appGroups["BE"].defects[defectId]) {
+              appGroups["BE"].defects[defectId] = hotfixNum;
+            }
+          } else {
+            var matched = false;
+            Object.keys(appGroups).forEach(function (groupKey) {
+              if (groupKey === "BE" || groupKey === "Infra") return;
+              var group = appGroups[groupKey];
+              group.apps.forEach(function (app) {
+                if (appName.toUpperCase() === app.toUpperCase() || 
+                    appName.toUpperCase().indexOf(app.toUpperCase()) === 0) {
+                  if (!group.defects[defectId]) {
+                    group.defects[defectId] = hotfixNum;
+                  }
+                  matched = true;
+                }
+              });
+            });
+          }
+        });
+        
+        var rows = ["FE", "BE", "ODS", "Digital", "Infra"];
+        var grandTotal = 0;
+        var allDefectIds = new Set();
+        
+        countOfFixesBody.innerHTML = "";
+        rows.forEach(function (groupName) {
+          var group = appGroups[groupName];
+          var defectKeys = Object.keys(group.defects);
+          var count = defectKeys.length;
+          defectKeys.forEach(function (id) {
+            allDefectIds.add(id);
+          });
+          
+          var tr = document.createElement("tr");
+          tr.className = "expandable-row";
+          tr.innerHTML =
+            "<td>" + escapeHtml(groupName) + "</td>" +
+            "<td>" + count + "</td>";
+          countOfFixesBody.appendChild(tr);
+          
+          var detailsTr = document.createElement("tr");
+          detailsTr.className = "details-row";
+          var detailsContent = "";
+          if (defectKeys.length > 0) {
+            var sortedKeys = defectKeys.sort();
+            detailsContent = '<table class="defect-details-table">' +
+              '<thead><tr><th>Incident/Defect ID</th><th>Hotfix Number</th></tr></thead>' +
+              '<tbody>' + 
+              sortedKeys.map(function(id) {
+                var hotfix = group.defects[id] || "—";
+                return '<tr><td>' + escapeHtml(id) + '</td><td>' + escapeHtml(hotfix) + '</td></tr>';
+              }).join('') + '</tbody></table>';
+          } else {
+            detailsContent = '<span class="defect-ids-empty">No defect IDs</span>';
+          }
+          detailsTr.innerHTML = '<td colspan="2">' + detailsContent + '</td>';
+          countOfFixesBody.appendChild(detailsTr);
+          
+          tr.addEventListener("click", function() {
+            tr.classList.toggle("expanded");
+            detailsTr.classList.toggle("visible");
+          });
+        });
+        
+        grandTotal = allDefectIds.size;
+        var totalTr = document.createElement("tr");
+        totalTr.className = "total-row";
+        totalTr.innerHTML =
+          "<td>Total</td>" +
+          "<td>" + grandTotal + "</td>";
+        countOfFixesBody.appendChild(totalTr);
+      }
+
       function getWeekRange(dateStr) {
         if (!dateStr) return null;
         var d = new Date(dateStr + "T12:00:00");
@@ -7969,9 +8526,9 @@
           });
           
           Promise.all(promises).then(function () {
-            alert("Planned values saved successfully!");
+            showInfoModal("Planned values saved successfully!");
           }).catch(function () {
-            alert("Failed to save some planned values.");
+            showInfoModal("Failed to save some planned values.", true);
           });
         });
       }
@@ -8366,7 +8923,7 @@
           var tr = document.createElement("tr");
           tr.innerHTML = 
             '<td>' + escapeHtml(item.displayDate) + '</td>' +
-            '<td class="' + item.statusClass + '">' + item.status + '</td>' +
+            '<td><span class="' + item.statusClass + '">' + item.status + '</span></td>' +
             '<td><ul class="remarks-list">' + item.remarks.map(function(r) { return '<li class="remarks-item">' + r + '</li>'; }).join('') + '</ul></td>';
           weeklyStatusBody.appendChild(tr);
         });
@@ -9367,8 +9924,11 @@
               applyEntryToForm(found);
               loadedEntryId = found.id;
               if (updateEntryBtn) updateEntryBtn.disabled = false;
-              showSaveStatus("Loaded into form. You can now edit and click Update.");
-              form.scrollIntoView({ behavior: "smooth", block: "start" });
+              showSaveStatus("Loaded into form. You can now edit and click Update.", false, false, function() {
+                updateActiveNavLink(newEntryNavLink);
+                switchToPanel(newEntryPanel);
+                if (form) form.scrollIntoView({ behavior: "smooth", block: "start" });
+              });
             }
             return;
           }
@@ -9614,8 +10174,11 @@
               applyEntryToForm(foundA);
               loadedEntryId = foundA.id;
               if (updateEntryBtn) updateEntryBtn.disabled = false;
-              showSaveStatus("Loaded into form. You can now edit and click Update.");
-              form.scrollIntoView({ behavior: "smooth", block: "start" });
+              showSaveStatus("Loaded into form. You can now edit and click Update.", false, false, function() {
+                updateActiveNavLink(newEntryNavLink);
+                switchToPanel(newEntryPanel);
+                if (form) form.scrollIntoView({ behavior: "smooth", block: "start" });
+              });
             }
             return;
           }
@@ -10008,13 +10571,13 @@
           
           if (statusRequiresRfcDate(newPptStatus)) {
             if (!pptRfcVal || !pptDateVal) {
-              alert("PPT RFC and Date are required when setting PPT Status to \"" + newPptStatus + "\".");
+              showInfoModal("PPT RFC and Date are required when setting PPT Status to \"" + newPptStatus + "\".", true);
               return;
             }
           }
           if (statusRequiresRfcDate(newProdStatus)) {
             if (!prodRfcVal || !prodDateVal) {
-              alert("PROD RFC and Date are required when setting PROD Status to \"" + newProdStatus + "\".");
+              showInfoModal("PROD RFC and Date are required when setting PROD Status to \"" + newProdStatus + "\".", true);
               return;
             }
           }
@@ -10467,6 +11030,425 @@
               exportAllSummaryBtn.disabled = false;
             });
         });
+      }
+
+      if (exportCountOfFixesBtn) {
+        exportCountOfFixesBtn.addEventListener("click", function () {
+          exportCountOfFixesBtn.disabled = true;
+          loadXlsx()
+            .then(function (hasXlsx) {
+              doExportCountOfFixes(hasXlsx);
+            })
+            .catch(function () {})
+            .then(function () {
+              exportCountOfFixesBtn.disabled = false;
+            });
+        });
+      }
+
+      if (emailCountOfFixesBtn) {
+        emailCountOfFixesBtn.addEventListener("click", function () {
+          openEmailModal();
+        });
+      }
+
+      if (emailModalCloseBtn) {
+        emailModalCloseBtn.addEventListener("click", function () {
+          closeEmailModal();
+        });
+      }
+
+      if (emailModalOverlay) {
+        emailModalOverlay.addEventListener("click", function (e) {
+          if (e.target === emailModalOverlay) {
+            closeEmailModal();
+          }
+        });
+      }
+
+      if (emailSendBtn) {
+        emailSendBtn.addEventListener("click", function () {
+          sendEmailFromMailbox();
+        });
+      }
+
+      if (emailDraftBtn) {
+        emailDraftBtn.addEventListener("click", function () {
+          saveAsOutlookDraft();
+        });
+      }
+
+      function openEmailModal() {
+        var emailData = generateEmailContent();
+        var defaultTo = "Dado Trako <Dado.Trako@optus.com.au>; Chia wei Sau <Chiawei.Sau@optus.com.au>; Md shah Jalal <Mdshah.Jalal@optus.com.au>; Changez Khan <Changez.Khan@optus.com.au>; Adelaide Zeta-Gillan <Adelaide.Zeta-Gillan@optus.com.au>; Pratik Kulkarni <Pratik.Kulkarni@optus.com.au>";
+        var defaultCc = "OPTUS Prod Support Leads <AIOOptusLeads@amdocs.com>; Ruth Abegail Adraneda <ruthabegail.adraneda-ama-v@optus.com.au>";
+        var todayFormatted = new Date().toISOString().slice(0, 10);
+        var defaultSubject = "OPTUS | Weekly Production Release Deployment Review || " + todayFormatted;
+        
+        if (emailTo) emailTo.value = defaultTo;
+        if (emailCc) emailCc.value = defaultCc;
+        if (emailBcc) emailBcc.value = "";
+        if (emailSubject) emailSubject.value = defaultSubject;
+        if (emailMessage) emailMessage.value = emailData.body;
+        if (emailModalOverlay) emailModalOverlay.hidden = false;
+      }
+
+      function closeEmailModal() {
+        if (emailModalOverlay) emailModalOverlay.hidden = true;
+      }
+
+      function generateEmailContent() {
+        var list = readSavedEntries();
+        var pending = list.filter(function (e) {
+          if (!e || e.deletedAt || e.archivedAt || e.parked) return false;
+          var prodStatus = (e.prodDeploymentStatus || "").trim().toLowerCase();
+          return prodStatus === "pending";
+        });
+        
+        var appGroups = {
+          "FE": { apps: ["ASOM", "CRM", "MCO", "OMS", "SDP", "WSF"], defects: {} },
+          "BE": { apps: [], defects: {}, isABP: true },
+          "ODS": { apps: ["ODS"], defects: {} },
+          "Digital": { apps: ["OMNI"], defects: {} },
+          "Infra": { apps: ["ABP - Infra"], defects: {} }
+        };
+        
+        pending.forEach(function (entry) {
+          var appName = (entry.application || "").trim();
+          var defectId = (entry.incidentId || "").trim();
+          var hotfixNum = (entry.hotfixNumber || "").trim();
+          if (!defectId) return;
+          
+          if (appName === "ABP - Infra") {
+            if (!appGroups["Infra"].defects[defectId]) {
+              appGroups["Infra"].defects[defectId] = hotfixNum;
+            }
+          } else if (appName.toUpperCase().startsWith("ABP")) {
+            if (!appGroups["BE"].defects[defectId]) {
+              appGroups["BE"].defects[defectId] = hotfixNum;
+            }
+          } else {
+            Object.keys(appGroups).forEach(function (groupKey) {
+              if (groupKey === "BE" || groupKey === "Infra") return;
+              var group = appGroups[groupKey];
+              group.apps.forEach(function (app) {
+                if (appName.toUpperCase() === app.toUpperCase() || 
+                    appName.toUpperCase().indexOf(app.toUpperCase()) === 0) {
+                  if (!group.defects[defectId]) {
+                    group.defects[defectId] = hotfixNum;
+                  }
+                }
+              });
+            });
+          }
+        });
+        
+        var rows = ["FE", "BE", "ODS", "Digital", "Infra"];
+        var allDefectIds = new Set();
+        var today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+        var todayShort = new Date().toISOString().slice(0, 10);
+        
+        var body = "Hi All,\n\n";
+        body += "Below are the fixes planned for SmartOps PROD release on _____________.\n";
+        body += "Have consolidated the list per FE, BE, and ODS application teams.\n\n";
+        body += "Complete details are in the attached Excel.\n\n\n";
+        
+        body += "┌─────────────┬────────────────┐\n";
+        body += "│ Application │ Count of Fixes │\n";
+        body += "├─────────────┼────────────────┤\n";
+        
+        rows.forEach(function (groupName) {
+          var group = appGroups[groupName];
+          var defectKeys = Object.keys(group.defects);
+          var count = defectKeys.length;
+          defectKeys.forEach(function (id) {
+            allDefectIds.add(id);
+          });
+          var appPadded = groupName.padEnd(11, " ");
+          var countPadded = String(count).padStart(14, " ");
+          body += "│ " + appPadded + " │" + countPadded + " │\n";
+        });
+        
+        body += "├─────────────┼────────────────┤\n";
+        body += "│ Total       │" + String(allDefectIds.size).padStart(14, " ") + " │\n";
+        body += "└─────────────┴────────────────┘\n\n\n";
+        
+        body += "DETAILS:\n\n";
+        rows.forEach(function (groupName) {
+          var group = appGroups[groupName];
+          var defectKeys = Object.keys(group.defects).sort();
+          if (defectKeys.length > 0) {
+            body += groupName + ":\n";
+            defectKeys.forEach(function (id) {
+              var hotfix = group.defects[id] || "—";
+              body += "  • " + id + " - " + hotfix + "\n";
+            });
+            body += "\n";
+          }
+        });
+
+        body += "\nThanks and Best Regards";
+        
+        return {
+          subject: "Count of Fixes Report - " + todayShort,
+          body: body
+        };
+      }
+
+      function sendEmailFromMailbox() {
+        var to = emailTo ? emailTo.value.trim() : "";
+        var cc = emailCc ? emailCc.value.trim() : "";
+        var bcc = emailBcc ? emailBcc.value.trim() : "";
+        var subject = emailSubject ? emailSubject.value.trim() : "";
+
+        if (!to) {
+          showInfoModal("Please enter at least one recipient in the TO field.", true);
+          return;
+        }
+        if (!subject) {
+          showInfoModal("Please enter a subject.", true);
+          return;
+        }
+
+        var htmlContent = generateHtmlEmailContent();
+        
+        navigator.clipboard.write([
+          new ClipboardItem({
+            "text/html": new Blob([htmlContent], { type: "text/html" }),
+            "text/plain": new Blob([emailMessage ? emailMessage.value : ""], { type: "text/plain" })
+          })
+        ]).then(function() {
+          var mailtoLink = "mailto:" + encodeURIComponent(to);
+          var params = [];
+          if (cc) params.push("cc=" + encodeURIComponent(cc));
+          if (bcc) params.push("bcc=" + encodeURIComponent(bcc));
+          params.push("subject=" + encodeURIComponent(subject));
+          
+          if (params.length > 0) {
+            mailtoLink += "?" + params.join("&");
+          }
+          
+          window.location.href = mailtoLink;
+          closeEmailModal();
+          
+          setTimeout(function() {
+            showInfoModal("Email opened in Outlook! Press Ctrl+V to paste the formatted table.", false);
+          }, 500);
+        }).catch(function(err) {
+          var mailtoLink = "mailto:" + encodeURIComponent(to);
+          var params = [];
+          if (cc) params.push("cc=" + encodeURIComponent(cc));
+          if (bcc) params.push("bcc=" + encodeURIComponent(bcc));
+          params.push("subject=" + encodeURIComponent(subject));
+          params.push("body=" + encodeURIComponent(emailMessage ? emailMessage.value : ""));
+          
+          if (params.length > 0) {
+            mailtoLink += "?" + params.join("&");
+          }
+          
+          window.location.href = mailtoLink;
+          closeEmailModal();
+        });
+      }
+
+      function generateHtmlEmailContent() {
+        var list = readSavedEntries();
+        var pending = list.filter(function (e) {
+          if (!e || e.deletedAt || e.archivedAt || e.parked) return false;
+          var prodStatus = (e.prodDeploymentStatus || "").trim().toLowerCase();
+          return prodStatus === "pending";
+        });
+        
+        var appGroups = {
+          "FE": { apps: ["ASOM", "CRM", "MCO", "OMS", "SDP", "WSF"], defects: {} },
+          "BE": { apps: [], defects: {}, isABP: true },
+          "ODS": { apps: ["ODS"], defects: {} },
+          "Digital": { apps: ["OMNI"], defects: {} },
+          "Infra": { apps: ["ABP - Infra"], defects: {} }
+        };
+        
+        pending.forEach(function (entry) {
+          var appName = (entry.application || "").trim();
+          var defectId = (entry.incidentId || "").trim();
+          var hotfixNum = (entry.hotfixNumber || "").trim();
+          if (!defectId) return;
+          
+          if (appName === "ABP - Infra") {
+            if (!appGroups["Infra"].defects[defectId]) {
+              appGroups["Infra"].defects[defectId] = hotfixNum;
+            }
+          } else if (appName.toUpperCase().startsWith("ABP")) {
+            if (!appGroups["BE"].defects[defectId]) {
+              appGroups["BE"].defects[defectId] = hotfixNum;
+            }
+          } else {
+            Object.keys(appGroups).forEach(function (groupKey) {
+              if (groupKey === "BE" || groupKey === "Infra") return;
+              var group = appGroups[groupKey];
+              group.apps.forEach(function (app) {
+                if (appName.toUpperCase() === app.toUpperCase() || 
+                    appName.toUpperCase().indexOf(app.toUpperCase()) === 0) {
+                  if (!group.defects[defectId]) {
+                    group.defects[defectId] = hotfixNum;
+                  }
+                }
+              });
+            });
+          }
+        });
+        
+        var rows = ["FE", "BE", "ODS", "Digital", "Infra"];
+        var allDefectIds = new Set();
+        
+        var html = '<div style="font-family: Calibri, Arial, sans-serif; font-size: 11pt;">';
+        html += '<p>Hi All,</p>';
+        html += '<p>Below are the fixes planned for SmartOps PROD release on _____________.<br>';
+        html += 'Have consolidated the list per FE, BE, and ODS application teams.</p>';
+        html += '<p>Complete details are in the attached Excel.</p><br>';
+        
+        html += '<table style="border-collapse: collapse; font-family: Calibri, Arial, sans-serif; font-size: 10pt;">';
+        html += '<thead><tr>';
+        html += '<th style="border: 1px solid #000; padding: 6px 12px; background: linear-gradient(to bottom, #1e3a5f, #1e40af); color: #fff; font-weight: bold; text-align: left;">Application</th>';
+        html += '<th style="border: 1px solid #000; padding: 6px 12px; background: linear-gradient(to bottom, #1e3a5f, #1e40af); color: #fff; font-weight: bold; text-align: center;">Count of Fixes</th>';
+        html += '</tr></thead><tbody>';
+        
+        rows.forEach(function (groupName) {
+          var group = appGroups[groupName];
+          var defectKeys = Object.keys(group.defects);
+          var count = defectKeys.length;
+          defectKeys.forEach(function (id) {
+            allDefectIds.add(id);
+          });
+          html += '<tr>';
+          html += '<td style="border: 1px solid #ccc; padding: 4px 12px;">' + groupName + '</td>';
+          html += '<td style="border: 1px solid #ccc; padding: 4px 12px; text-align: center;">' + count + '</td>';
+          html += '</tr>';
+        });
+        
+        html += '<tr>';
+        html += '<td style="border: 1px solid #000; padding: 4px 12px; background: #fef08a; font-weight: bold;">Total</td>';
+        html += '<td style="border: 1px solid #000; padding: 4px 12px; background: #fef08a; font-weight: bold; text-align: center;">' + allDefectIds.size + '</td>';
+        html += '</tr>';
+        html += '</tbody></table><br>';
+        
+        html += '<p><strong>DETAILS:</strong></p>';
+        rows.forEach(function (groupName) {
+          var group = appGroups[groupName];
+          var defectKeys = Object.keys(group.defects).sort();
+          if (defectKeys.length > 0) {
+            html += '<p style="margin-bottom: 2px;"><strong>' + groupName + ':</strong></p>';
+            html += '<ul style="margin-top: 2px; margin-bottom: 12px;">';
+            defectKeys.forEach(function (id) {
+              var hotfix = group.defects[id] || "—";
+              html += '<li>' + id + ' - ' + hotfix + '</li>';
+            });
+            html += '</ul>';
+          }
+        });
+        
+        html += '<br><p>Thanks and Best Regards</p>';
+        html += '</div>';
+        
+        return html;
+      }
+
+      function saveAsOutlookDraft() {
+        var to = emailTo ? emailTo.value.trim() : "";
+        var cc = emailCc ? emailCc.value.trim() : "";
+        var bcc = emailBcc ? emailBcc.value.trim() : "";
+        var subject = emailSubject ? emailSubject.value.trim() : "";
+        var body = emailMessage ? emailMessage.value : "";
+
+        var eml = "MIME-Version: 1.0\n";
+        eml += "Content-Type: text/plain; charset=UTF-8\n";
+        if (to) eml += "To: " + to + "\n";
+        if (cc) eml += "Cc: " + cc + "\n";
+        if (bcc) eml += "Bcc: " + bcc + "\n";
+        eml += "Subject: " + subject + "\n";
+        eml += "\n";
+        eml += body;
+
+        var blob = new Blob([eml], { type: "message/rfc822" });
+        var link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "Count_of_Fixes_Report_" + new Date().toISOString().slice(0, 10) + ".eml";
+        link.click();
+        
+        showInfoModal("Draft saved! Double-click the downloaded .eml file to open in Outlook.", false);
+        closeEmailModal();
+      }
+
+      function doExportCountOfFixes(hasXlsx) {
+        var list = readSavedEntries();
+        var pending = list.filter(function (e) {
+          if (!e || e.deletedAt || e.archivedAt || e.parked) return false;
+          var prodStatus = (e.prodDeploymentStatus || "").trim().toLowerCase();
+          return prodStatus === "pending";
+        });
+        
+        var appGroups = {
+          "FE": { apps: ["ASOM", "CRM", "MCO", "OMS", "SDP", "WSF"], defectIds: new Set() },
+          "BE": { apps: [], defectIds: new Set(), isABP: true },
+          "ODS": { apps: ["ODS"], defectIds: new Set() },
+          "Digital": { apps: ["OMNI"], defectIds: new Set() },
+          "Infra": { apps: ["ABP - Infra"], defectIds: new Set() }
+        };
+        
+        pending.forEach(function (entry) {
+          var appName = (entry.application || "").trim();
+          var defectId = (entry.incidentId || "").trim();
+          if (!defectId) return;
+          
+          if (appName === "ABP - Infra") {
+            appGroups["Infra"].defectIds.add(defectId);
+          } else if (appName.toUpperCase().startsWith("ABP")) {
+            appGroups["BE"].defectIds.add(defectId);
+          } else {
+            Object.keys(appGroups).forEach(function (groupKey) {
+              if (groupKey === "BE" || groupKey === "Infra") return;
+              var group = appGroups[groupKey];
+              group.apps.forEach(function (app) {
+                if (appName.toUpperCase() === app.toUpperCase() || 
+                    appName.toUpperCase().indexOf(app.toUpperCase()) === 0) {
+                  group.defectIds.add(defectId);
+                }
+              });
+            });
+          }
+        });
+        
+        var rows = ["FE", "BE", "ODS", "Digital", "Infra"];
+        var allDefectIds = new Set();
+        var data = [["Application", "Count of Fixes"]];
+        
+        rows.forEach(function (groupName) {
+          var group = appGroups[groupName];
+          var count = group.defectIds.size;
+          group.defectIds.forEach(function (id) {
+            allDefectIds.add(id);
+          });
+          data.push([groupName, count]);
+        });
+        
+        data.push(["Total", allDefectIds.size]);
+        
+        if (hasXlsx && window.XLSX) {
+          var ws = XLSX.utils.aoa_to_sheet(data);
+          var wb = XLSX.utils.book_new();
+          XLSX.utils.book_append_sheet(wb, ws, "Count of Fixes");
+          XLSX.writeFile(wb, "count_of_fixes_" + new Date().toISOString().slice(0, 10) + ".xlsx");
+        } else {
+          var csv = data.map(function (r) {
+            return r.map(function (c) {
+              return '"' + String(c).replace(/"/g, '""') + '"';
+            }).join(",");
+          }).join("\n");
+          var blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+          var link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = "count_of_fixes_" + new Date().toISOString().slice(0, 10) + ".csv";
+          link.click();
+        }
       }
 
       var IMPORT_COLUMN_MAP = {
@@ -11192,13 +12174,13 @@
             .then(function (result) {
               if (result.error) {
                 console.error("Failed to delete calendar note:", result.error);
-                alert("Failed to delete note: " + result.error.message);
+                showInfoModal("Failed to delete note: " + result.error.message, true);
               }
               return result;
             })
             .catch(function (err) {
               console.error("Calendar note delete error:", err);
-              alert("Failed to delete note. Check console for details.");
+              showInfoModal("Failed to delete note. Check console for details.", true);
             });
         }
         return supabaseClient
@@ -11211,7 +12193,7 @@
           .then(function (result) {
             if (result.error) {
               console.error("Failed to save calendar note:", result.error);
-              alert("Failed to save note: " + result.error.message);
+              showInfoModal("Failed to save note: " + result.error.message, true);
             } else {
               backupCalendarNotesToLocalStorage(calendarNotes);
             }
@@ -11219,7 +12201,7 @@
           })
           .catch(function (err) {
             console.error("Calendar note save error:", err);
-            alert("Failed to save note. Check console for details.");
+            showInfoModal("Failed to save note. Check console for details.", true);
           });
       }
 
@@ -11277,7 +12259,7 @@
         });
         
         if (savedMatches.length > 0 && archivedMatches.length > 0) {
-          alert("Found " + savedMatches.length + " entry(ies) in Saved Entries and " + archivedMatches.length + " entry(ies) in Summary/Archive with RFC: " + rfcNumber + ". Navigating to Saved Entries.");
+          showInfoModal("Found " + savedMatches.length + " entry(ies) in Saved Entries and " + archivedMatches.length + " entry(ies) in Summary/Archive with RFC: " + rfcNumber + ". Navigating to Saved Entries.");
           var searchInput = document.getElementById("savedSearchInput");
           if (searchInput) {
             searchInput.value = rfcNumber;
@@ -11289,7 +12271,7 @@
             savedPanel.scrollIntoView({ behavior: "smooth", block: "start" });
           }
         } else if (savedMatches.length > 0) {
-          alert("Found " + savedMatches.length + " entry(ies) in Saved Entries with RFC: " + rfcNumber);
+          showInfoModal("Found " + savedMatches.length + " entry(ies) in Saved Entries with RFC: " + rfcNumber);
           var searchInput = document.getElementById("savedSearchInput");
           if (searchInput) {
             searchInput.value = rfcNumber;
@@ -11301,7 +12283,7 @@
             savedPanel.scrollIntoView({ behavior: "smooth", block: "start" });
           }
         } else if (archivedMatches.length > 0) {
-          alert("Found " + archivedMatches.length + " archived/deployed entry(ies) in Summary with RFC: " + rfcNumber);
+          showInfoModal("Found " + archivedMatches.length + " archived/deployed entry(ies) in Summary with RFC: " + rfcNumber);
           var summarySearchEl = document.getElementById("summarySearchInput");
           if (summarySearchEl) {
             summarySearchEl.value = rfcNumber;
@@ -11316,7 +12298,7 @@
             highlightRfcInTable(rfcUpper, "summaryEntriesBody");
           }, 300);
         } else {
-          alert("No entries found with RFC: " + rfcNumber);
+          showInfoModal("No entries found with RFC: " + rfcNumber);
         }
       }
       
@@ -11644,12 +12626,12 @@
             
             // Validate cancellation reasons are mandatory
             if (cancelled1 && !cancelReason1) {
-              alert("Please provide a reason for cancellation for Note 1.");
+              showInfoModal("Please provide a reason for cancellation for Note 1.", true);
               if (calendarNoteTuesday1CancelReason) calendarNoteTuesday1CancelReason.focus();
               return;
             }
             if (cancelled2 && !cancelReason2) {
-              alert("Please provide a reason for cancellation for Note 2.");
+              showInfoModal("Please provide a reason for cancellation for Note 2.", true);
               if (calendarNoteTuesday2CancelReason) calendarNoteTuesday2CancelReason.focus();
               return;
             }
