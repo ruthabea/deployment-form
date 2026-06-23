@@ -1322,6 +1322,23 @@
       transform: translateY(-2px);
       box-shadow: 0 5px 12px rgba(75, 85, 99, 0.45);
     }
+    .bulk-actions-panel .btn-bulk-unpark {
+      padding: 0.7rem 1.25rem;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 3px 8px rgba(16, 185, 129, 0.35);
+    }
+    .bulk-actions-panel .btn-bulk-unpark:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 12px rgba(16, 185, 129, 0.45);
+    }
     .saved-table tr.bulk-selected {
       background: rgba(59, 130, 246, 0.1);
     }
@@ -3011,6 +3028,75 @@
       padding: 0.5rem 1.25rem;
       font-size: 0.85rem;
     }
+    .confirm-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.55);
+      animation: fadeIn 0.2s ease;
+    }
+    .confirm-modal-overlay[hidden] {
+      display: none !important;
+    }
+    .confirm-modal-dialog {
+      width: 100%;
+      max-width: 28rem;
+      padding: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.25s ease;
+    }
+    .confirm-modal-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .confirm-modal-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 50%;
+    }
+    .confirm-modal-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+    .confirm-modal-message {
+      margin: 0 0 1.25rem 0;
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+    .confirm-modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+    .confirm-modal-actions .btn-secondary {
+      min-width: 80px;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.85rem;
+    }
+    .confirm-modal-actions .btn-save {
+      min-width: 80px;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.85rem;
+    }
     .email-modal-overlay {
       position: fixed;
       inset: 0;
@@ -4072,6 +4158,7 @@
           <div class="bulk-panel-actions">
             <button type="button" class="btn-bulk-apply" id="bulkApplyBtn">Apply Changes</button>
             <button type="button" class="btn-bulk-park" id="bulkParkBtn">Park Selected</button>
+            <button type="button" class="btn-bulk-unpark" id="bulkUnparkBtn">Unpark Selected</button>
             <button type="button" class="btn-bulk-clear" id="bulkClearBtn">Clear Selection</button>
           </div>
         </div>
@@ -4628,6 +4715,20 @@
       <p id="infoModalMessage" class="info-modal-message"></p>
       <div class="info-modal-actions">
         <button type="button" class="btn-save" id="infoModalOkBtn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="confirmModalOverlay" class="confirm-modal-overlay" hidden>
+    <div class="confirm-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+      <div class="confirm-modal-header">
+        <span class="confirm-modal-icon">?</span>
+        <h3 id="confirmModalTitle">Confirm Action</h3>
+      </div>
+      <p id="confirmModalMessage" class="confirm-modal-message"></p>
+      <div class="confirm-modal-actions">
+        <button type="button" class="btn-secondary" id="confirmModalCancelBtn">Cancel</button>
+        <button type="button" class="btn-save" id="confirmModalOkBtn">OK</button>
       </div>
     </div>
   </div>
@@ -7221,11 +7322,13 @@
       }
 
       function captureEntry() {
+        var pptEnvIsNA = isPptEnvNotApplicable();
+        var prodEnvIsNA = isProdEnvNotApplicable();
         var o = {
           id: uniqueId(),
           savedAt: new Date().toISOString(),
-          pptDeploymentStatus: "Pending",
-          prodDeploymentStatus: "Pending",
+          pptDeploymentStatus: pptEnvIsNA ? "N/A" : "Pending",
+          prodDeploymentStatus: prodEnvIsNA ? "N/A" : "Pending",
           pptRfc: "",
           pptDeploymentDate: "",
           prodRfc: "",
@@ -7391,6 +7494,52 @@
         if (okBtn) {
           okBtn.addEventListener("click", closeModal);
           okBtn.focus();
+        }
+        overlay.addEventListener("click", overlayClick);
+      }
+
+      function showConfirmModal(msg, title, onConfirm, onCancel) {
+        var overlay = document.getElementById("confirmModalOverlay");
+        var messageEl = document.getElementById("confirmModalMessage");
+        var titleEl = document.getElementById("confirmModalTitle");
+        var okBtn = document.getElementById("confirmModalOkBtn");
+        var cancelBtn = document.getElementById("confirmModalCancelBtn");
+        if (!overlay || !messageEl) {
+          if (window.confirm(msg)) {
+            if (typeof onConfirm === "function") onConfirm();
+          } else {
+            if (typeof onCancel === "function") onCancel();
+          }
+          return;
+        }
+        
+        messageEl.textContent = msg || "";
+        if (titleEl) titleEl.textContent = title || "Confirm Action";
+        overlay.removeAttribute("hidden");
+        
+        function closeModal() {
+          overlay.setAttribute("hidden", "");
+          if (okBtn) okBtn.removeEventListener("click", handleOk);
+          if (cancelBtn) cancelBtn.removeEventListener("click", handleCancel);
+          overlay.removeEventListener("click", overlayClick);
+        }
+        function handleOk() {
+          closeModal();
+          if (typeof onConfirm === "function") onConfirm();
+        }
+        function handleCancel() {
+          closeModal();
+          if (typeof onCancel === "function") onCancel();
+        }
+        function overlayClick(e) {
+          if (e.target === overlay) handleCancel();
+        }
+        if (okBtn) {
+          okBtn.addEventListener("click", handleOk);
+        }
+        if (cancelBtn) {
+          cancelBtn.addEventListener("click", handleCancel);
+          cancelBtn.focus();
         }
         overlay.addEventListener("click", overlayClick);
       }
@@ -9608,6 +9757,7 @@
       if (savedFilterParked) {
         savedFilterParked.addEventListener("change", renderSavedList);
       }
+      
       if (archiveSearchInput) {
         archiveSearchInput.addEventListener("input", function () {
           archiveCurrentPage = 1;
@@ -10553,13 +10703,13 @@
         bulkApplyBtn.addEventListener("click", function() {
           var selectedIds = getSelectedBulkIds();
           if (!selectedIds.length) {
-            alert("No entries selected.");
+            showInfoModal("No entries selected.", true);
             return;
           }
           var newPptStatus = bulkPptStatus ? bulkPptStatus.value : "";
           var newProdStatus = bulkProdStatus ? bulkProdStatus.value : "";
           if (!newPptStatus && !newProdStatus) {
-            alert("Please select at least one status to update.");
+            showInfoModal("Please select at least one status to update.", true);
             return;
           }
           
@@ -10598,42 +10748,42 @@
             }
           }
           var confirmMsg = "Bulk update " + selectedIds.length + " entr" + (selectedIds.length === 1 ? "y" : "ies") + ":\n\n" + changes.join("\n") + "\n\nContinue?";
-          if (!window.confirm(confirmMsg)) return;
-          
-          var list = readSavedEntries();
-          var updated = 0;
-          list.forEach(function(entry) {
-            if (selectedIds.indexOf(entry.id) >= 0) {
-              if (newPptStatus) {
-                entry.pptDeploymentStatus = newPptStatus;
-                if (statusRequiresRfcDate(newPptStatus)) {
-                  entry.pptRfc = pptRfcVal;
-                  entry.pptDeploymentDate = pptDateVal;
+          showConfirmModal(confirmMsg, "Bulk Update", function() {
+            var list = readSavedEntries();
+            var updated = 0;
+            list.forEach(function(entry) {
+              if (selectedIds.indexOf(entry.id) >= 0) {
+                if (newPptStatus) {
+                  entry.pptDeploymentStatus = newPptStatus;
+                  if (statusRequiresRfcDate(newPptStatus)) {
+                    entry.pptRfc = pptRfcVal;
+                    entry.pptDeploymentDate = pptDateVal;
+                  }
                 }
-              }
-              if (newProdStatus) {
-                entry.prodDeploymentStatus = newProdStatus;
-                if (statusRequiresRfcDate(newProdStatus)) {
-                  entry.prodRfc = prodRfcVal;
-                  entry.prodDeploymentDate = prodDateVal;
+                if (newProdStatus) {
+                  entry.prodDeploymentStatus = newProdStatus;
+                  if (statusRequiresRfcDate(newProdStatus)) {
+                    entry.prodRfc = prodRfcVal;
+                    entry.prodDeploymentDate = prodDateVal;
+                  }
                 }
+                updated++;
               }
-              updated++;
-            }
+            });
+            persistEntries(list, { message: "Bulk updated " + updated + " entries." });
+            if (window.logActivity) logActivity("edit", "Bulk Status Update", updated + " entries updated" + (newPptStatus ? ", PPT→" + newPptStatus : "") + (newProdStatus ? ", PROD→" + newProdStatus : ""));
+            
+            // Reset bulk update UI
+            if (bulkPptStatus) bulkPptStatus.value = "";
+            if (bulkProdStatus) bulkProdStatus.value = "";
+            if (bulkPptRfc) bulkPptRfc.value = "";
+            if (bulkPptDate) bulkPptDate.value = "";
+            if (bulkProdRfc) bulkProdRfc.value = "";
+            if (bulkProdDate) bulkProdDate.value = "";
+            updateBulkExtrasVisibility();
+            if (bulkSelectAll) bulkSelectAll.checked = false;
+            updateBulkActionsPanel();
           });
-          persistEntries(list, { message: "Bulk updated " + updated + " entries." });
-          if (window.logActivity) logActivity("edit", "Bulk Status Update", updated + " entries updated" + (newPptStatus ? ", PPT→" + newPptStatus : "") + (newProdStatus ? ", PROD→" + newProdStatus : ""));
-          
-          // Reset bulk update UI
-          if (bulkPptStatus) bulkPptStatus.value = "";
-          if (bulkProdStatus) bulkProdStatus.value = "";
-          if (bulkPptRfc) bulkPptRfc.value = "";
-          if (bulkPptDate) bulkPptDate.value = "";
-          if (bulkProdRfc) bulkProdRfc.value = "";
-          if (bulkProdDate) bulkProdDate.value = "";
-          updateBulkExtrasVisibility();
-          if (bulkSelectAll) bulkSelectAll.checked = false;
-          updateBulkActionsPanel();
         });
       }
       
@@ -10643,42 +10793,87 @@
         bulkParkBtn.addEventListener("click", function() {
           var selectedIds = getSelectedBulkIds();
           if (!selectedIds.length) {
-            alert("No entries selected.");
+            showInfoModal("No entries selected.", true);
             return;
           }
           
           var confirmMsg = "Park " + selectedIds.length + " hotfix" + (selectedIds.length === 1 ? "" : "es") + "?\n\nThey will be moved to Parked Hotfixes and hidden from the active list.";
-          if (!window.confirm(confirmMsg)) return;
-          
-          var list = readSavedEntries();
-          var parked = 0;
-          var alreadyParked = 0;
-          list.forEach(function(entry) {
-            if (selectedIds.indexOf(entry.id) >= 0) {
-              if (entry.parked) {
-                alreadyParked++;
-              } else {
-                entry.parked = true;
-                entry.parkedAt = new Date().toISOString();
-                parked++;
+          showConfirmModal(confirmMsg, "Park Hotfixes", function() {
+            var list = readSavedEntries();
+            var parked = 0;
+            var alreadyParked = 0;
+            list.forEach(function(entry) {
+              if (selectedIds.indexOf(entry.id) >= 0) {
+                if (entry.parked) {
+                  alreadyParked++;
+                } else {
+                  entry.parked = true;
+                  entry.parkedAt = new Date().toISOString();
+                  parked++;
+                }
               }
+            });
+            
+            if (parked > 0) {
+              var msg = "Parked " + parked + " hotfix" + (parked === 1 ? "" : "es") + ".";
+              if (alreadyParked > 0) {
+                msg += " (" + alreadyParked + " already parked)";
+              }
+              persistEntries(list, { message: msg });
+              if (window.logActivity) logActivity("park", "Bulk Park", parked + " hotfixes parked");
+            } else if (alreadyParked > 0) {
+              showInfoModal("All selected entries are already parked.", true);
             }
+            
+            // Reset bulk update UI
+            if (bulkSelectAll) bulkSelectAll.checked = false;
+            updateBulkActionsPanel();
           });
-          
-          if (parked > 0) {
-            var msg = "Parked " + parked + " hotfix" + (parked === 1 ? "" : "es") + ".";
-            if (alreadyParked > 0) {
-              msg += " (" + alreadyParked + " already parked)";
-            }
-            persistEntries(list, { message: msg });
-            if (window.logActivity) logActivity("park", "Bulk Park", parked + " hotfixes parked");
-          } else if (alreadyParked > 0) {
-            alert("All selected entries are already parked.");
+        });
+      }
+
+      // Unpark selected entries
+      var bulkUnparkBtn = document.getElementById("bulkUnparkBtn");
+      if (bulkUnparkBtn) {
+        bulkUnparkBtn.addEventListener("click", function() {
+          var selectedIds = getSelectedBulkIds();
+          if (!selectedIds.length) {
+            showInfoModal("No entries selected.", true);
+            return;
           }
           
-          // Reset bulk update UI
-          if (bulkSelectAll) bulkSelectAll.checked = false;
-          updateBulkActionsPanel();
+          var confirmMsg = "Unpark " + selectedIds.length + " hotfix" + (selectedIds.length === 1 ? "" : "es") + "?\n\nThey will be restored to the active list.";
+          showConfirmModal(confirmMsg, "Unpark Hotfixes", function() {
+            var list = readSavedEntries();
+            var unparked = 0;
+            var notParked = 0;
+            list.forEach(function(entry) {
+              if (selectedIds.indexOf(entry.id) >= 0) {
+                if (!entry.parked) {
+                  notParked++;
+                } else {
+                  entry.parked = false;
+                  delete entry.parkedAt;
+                  unparked++;
+                }
+              }
+            });
+            
+            if (unparked > 0) {
+              var msg = "Unparked " + unparked + " hotfix" + (unparked === 1 ? "" : "es") + ".";
+              if (notParked > 0) {
+                msg += " (" + notParked + " were not parked)";
+              }
+              persistEntries(list, { message: msg });
+              if (window.logActivity) logActivity("unpark", "Bulk Unpark", unparked + " hotfixes unparked");
+            } else if (notParked > 0) {
+              showInfoModal("None of the selected entries are parked.", true);
+            }
+            
+            // Reset bulk update UI
+            if (bulkSelectAll) bulkSelectAll.checked = false;
+            updateBulkActionsPanel();
+          });
         });
       }
 
@@ -11633,6 +11828,19 @@
           if (parsed.problem) entry.problem = parsed.problem;
           if (parsed.resolutionDetails) entry.resolutionDetails = parsed.resolutionDetails;
           if (parsed.riskMitigationPlan) entry.riskMitigationPlan = parsed.riskMitigationPlan;
+        }
+        // Auto-set deployment status to N/A if environment is NA
+        if (entry.pptEnv) {
+          var pptEnvNorm = String(entry.pptEnv).replace(/\s+/g, "").toUpperCase();
+          if (pptEnvNorm === "NA" || pptEnvNorm === "N/A" || pptEnvNorm === "NOTAPPLICABLE") {
+            entry.pptDeploymentStatus = "N/A";
+          }
+        }
+        if (entry.prodEnv) {
+          var prodEnvNorm = String(entry.prodEnv).replace(/\s+/g, "").toUpperCase();
+          if (prodEnvNorm === "NA" || prodEnvNorm === "N/A" || prodEnvNorm === "NOTAPPLICABLE") {
+            entry.prodDeploymentStatus = "N/A";
+          }
         }
         if (entry.pptDeploymentStatus === "Deployed" && entry.prodDeploymentStatus === "Deployed" && !entry.archivedAt) {
           entry.archivedAt = new Date().toISOString();
