@@ -1092,78 +1092,6 @@
       border: 1px dashed var(--border);
       text-align: center;
     }
-    .to-be-planned-section {
-      margin-bottom: 1rem;
-      border-radius: 10px;
-      border: 1px solid #e5a000;
-      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-      overflow: hidden;
-    }
-    [data-theme="dark"] .to-be-planned-section {
-      background: linear-gradient(135deg, #292524 0%, #1c1917 100%);
-      border-color: #b45309;
-    }
-    .to-be-planned-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.6rem 1rem;
-      cursor: pointer;
-      user-select: none;
-      transition: background 0.15s ease;
-    }
-    .to-be-planned-header:hover {
-      background: rgba(245, 158, 11, 0.15);
-    }
-    .to-be-planned-arrow {
-      font-size: 0.7rem;
-      color: #b45309;
-      transition: transform 0.2s ease;
-    }
-    [data-theme="dark"] .to-be-planned-arrow {
-      color: #fbbf24;
-    }
-    .to-be-planned-section.expanded .to-be-planned-arrow {
-      transform: rotate(90deg);
-    }
-    .to-be-planned-title {
-      font-weight: 600;
-      font-size: 0.85rem;
-      color: #92400e;
-    }
-    [data-theme="dark"] .to-be-planned-title {
-      color: #fcd34d;
-    }
-    .to-be-planned-count {
-      background: #f59e0b;
-      color: #fff;
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 0.15rem 0.5rem;
-      border-radius: 10px;
-      min-width: 1.2rem;
-      text-align: center;
-    }
-    .to-be-planned-content {
-      border-top: 1px solid rgba(245, 158, 11, 0.3);
-      background: var(--surface);
-    }
-    .to-be-planned-content[hidden] {
-      display: none;
-    }
-    .to-be-planned-table {
-      margin: 0;
-      border-radius: 0;
-      font-size: 0.78rem;
-    }
-    .to-be-planned-table th {
-      background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
-      padding: 0.5rem 0.6rem;
-      font-size: 0.72rem;
-    }
-    .to-be-planned-table td {
-      padding: 0.45rem 0.6rem;
-    }
     .saved-table-wrap {
       overflow-x: auto;
       margin-top: 0.5rem;
@@ -2388,6 +2316,13 @@
       min-width: 95px;
       max-width: 110px;
       font-size: 0.72rem !important;
+      padding: 0.25rem 0.35rem;
+    }
+    .na-field {
+      display: inline-block;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-style: italic;
       padding: 0.25rem 0.35rem;
     }
     .saved-field-error {
@@ -4184,6 +4119,7 @@
           <select id="savedFilterParked">
             <option value="active">Active Only</option>
             <option value="parked">Parked Only</option>
+            <option value="tobeplanned">To be Planned</option>
             <option value="all">All Entries</option>
           </select>
           <div class="column-settings-wrap">
@@ -4263,35 +4199,6 @@
             <button type="button" class="btn-bulk-unpark" id="bulkUnparkBtn">Unpark Selected</button>
             <button type="button" class="btn-bulk-clear" id="bulkClearBtn">Clear Selection</button>
           </div>
-        </div>
-      </div>
-      <div id="toBePlannedSection" class="to-be-planned-section" hidden>
-        <div class="to-be-planned-header" id="toBePlannedToggle">
-          <span class="to-be-planned-arrow">▶</span>
-          <span class="to-be-planned-title">To be Planned</span>
-          <span id="toBePlannedCount" class="to-be-planned-count">0</span>
-        </div>
-        <div id="toBePlannedContent" class="to-be-planned-content" hidden>
-          <table class="saved-table to-be-planned-table">
-            <thead>
-              <tr>
-                <th>Saved At</th>
-                <th>Application</th>
-                <th>Requester</th>
-                <th>Incident/Defect ID</th>
-                <th>Hotfix #</th>
-                <th>Deployment</th>
-                <th>PPT Status</th>
-                <th>PPT RFC</th>
-                <th>PPT Date</th>
-                <th>PROD Status</th>
-                <th>PROD RFC</th>
-                <th>PROD Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody id="toBePlannedBody"></tbody>
-          </table>
         </div>
       </div>
       <div id="savedTableWrap" class="saved-table-wrap" hidden>
@@ -6439,11 +6346,6 @@
       var savedFilterPpt = document.getElementById("savedFilterPpt");
       var savedFilterProd = document.getElementById("savedFilterProd");
       var savedFilterParked = document.getElementById("savedFilterParked");
-      var toBePlannedSection = document.getElementById("toBePlannedSection");
-      var toBePlannedToggle = document.getElementById("toBePlannedToggle");
-      var toBePlannedContent = document.getElementById("toBePlannedContent");
-      var toBePlannedBody = document.getElementById("toBePlannedBody");
-      var toBePlannedCount = document.getElementById("toBePlannedCount");
       var savedSearchNoMatch = document.getElementById("savedSearchNoMatch");
       var savedEmpty = document.getElementById("savedEmpty");
       var savedCount = document.getElementById("savedCount");
@@ -7778,6 +7680,12 @@
           if (prodFilter && normalizeDeploymentStatus(e.prodDeploymentStatus) !== prodFilter) return false;
           if (parkedFilter === "active" && e.parked) return false;
           if (parkedFilter === "parked" && !e.parked) return false;
+          if (parkedFilter === "tobeplanned") {
+            var pptS = normalizeDeploymentStatus(e.pptDeploymentStatus);
+            var prodS = normalizeDeploymentStatus(e.prodDeploymentStatus);
+            if (pptS !== "To be Planned" && prodS !== "To be Planned") return false;
+            if (e.parked) return false;
+          }
           return true;
         });
         // Sort by savedAt from oldest to latest (ascending)
@@ -7874,19 +7782,19 @@
             deploymentStatusSelectHtml("pptDeploymentStatus", entry.id, pptStatus) +
             "</td>" +
             '<td class="cell-clip">' +
-            '<input type="text" class="saved-inline-input saved-inline-rfc" data-entry-id="' + escapeAttr(entry.id) + '" data-ppt-field="pptRfc" value="' + escapeAttr(entry.pptRfc || "") + '" placeholder="RFC #" autocomplete="off" />' +
+            (pptStatus === "N/A" ? '<span class="na-field">N/A</span>' : '<input type="text" class="saved-inline-input saved-inline-rfc" data-entry-id="' + escapeAttr(entry.id) + '" data-ppt-field="pptRfc" value="' + escapeAttr(entry.pptRfc || "") + '" placeholder="RFC #" autocomplete="off" />') +
             "</td>" +
             '<td class="cell-clip">' +
-            '<input type="date" class="saved-inline-input saved-inline-date" data-entry-id="' + escapeAttr(entry.id) + '" data-ppt-field="pptDeploymentDate" value="' + escapeAttr(entry.pptDeploymentDate || "") + '" />' +
+            (pptStatus === "N/A" ? '<span class="na-field">N/A</span>' : '<input type="date" class="saved-inline-input saved-inline-date" data-entry-id="' + escapeAttr(entry.id) + '" data-ppt-field="pptDeploymentDate" value="' + escapeAttr(entry.pptDeploymentDate || "") + '" />') +
             "</td>" +
             "<td>" +
             deploymentStatusSelectHtml("prodDeploymentStatus", entry.id, prodStatus) +
             "</td>" +
             '<td class="cell-clip">' +
-            '<input type="text" class="saved-inline-input saved-inline-rfc" data-entry-id="' + escapeAttr(entry.id) + '" data-prod-field="prodRfc" value="' + escapeAttr(entry.prodRfc || "") + '" placeholder="RFC #" autocomplete="off" />' +
+            (prodStatus === "N/A" ? '<span class="na-field">N/A</span>' : '<input type="text" class="saved-inline-input saved-inline-rfc" data-entry-id="' + escapeAttr(entry.id) + '" data-prod-field="prodRfc" value="' + escapeAttr(entry.prodRfc || "") + '" placeholder="RFC #" autocomplete="off" />') +
             "</td>" +
             '<td class="cell-clip">' +
-            '<input type="date" class="saved-inline-input saved-inline-date" data-entry-id="' + escapeAttr(entry.id) + '" data-prod-field="prodDeploymentDate" value="' + escapeAttr(entry.prodDeploymentDate || "") + '" />' +
+            (prodStatus === "N/A" ? '<span class="na-field">N/A</span>' : '<input type="date" class="saved-inline-input saved-inline-date" data-entry-id="' + escapeAttr(entry.id) + '" data-prod-field="prodDeploymentDate" value="' + escapeAttr(entry.prodDeploymentDate || "") + '" />') +
             "</td>" +
             '<td class="cell-actions">' +
             '<button type="button" class="btn-secondary btn-tiny" data-load="' +
@@ -7910,66 +7818,7 @@
         var bulkSelectedCountEl = document.getElementById("bulkSelectedCount");
         if (bulkSelectedCountEl) bulkSelectedCountEl.textContent = "0";
         
-        renderToBePlannedSection();
         renderArchiveList();
-      }
-
-      function renderToBePlannedSection() {
-        var list = readSavedEntries();
-        var toBePlanned = list.filter(function (e) {
-          if (!e || isEntryArchived(e) || e.deletedAt || e.parked) return false;
-          var pptStatus = normalizeDeploymentStatus(e.pptDeploymentStatus);
-          var prodStatus = normalizeDeploymentStatus(e.prodDeploymentStatus);
-          return pptStatus === "To be Planned" || prodStatus === "To be Planned";
-        });
-        
-        toBePlanned.sort(function (a, b) {
-          var ta = a.savedAt ? new Date(a.savedAt).getTime() : 0;
-          var tb = b.savedAt ? new Date(b.savedAt).getTime() : 0;
-          return ta - tb;
-        });
-        
-        if (toBePlannedCount) {
-          toBePlannedCount.textContent = toBePlanned.length;
-        }
-        
-        if (!toBePlanned.length) {
-          if (toBePlannedSection) toBePlannedSection.hidden = true;
-          return;
-        }
-        
-        if (toBePlannedSection) toBePlannedSection.hidden = false;
-        if (!toBePlannedBody) return;
-        
-        toBePlannedBody.innerHTML = "";
-        toBePlanned.forEach(function (entry) {
-          var tr = document.createElement("tr");
-          tr.setAttribute("data-entry-id", entry.id);
-          var when = entry.savedAt ? new Date(entry.savedAt).toLocaleString() : "—";
-          var pptStatus = normalizeDeploymentStatus(entry.pptDeploymentStatus);
-          var prodStatus = normalizeDeploymentStatus(entry.prodDeploymentStatus);
-          var pptRfc = entry.pptRfc || "—";
-          var pptDate = entry.pptDeploymentDate || "—";
-          var prodRfc = entry.prodRfc || "—";
-          var prodDate = entry.prodDeploymentDate || "—";
-          tr.innerHTML =
-            "<td>" + escapeHtml(when) + "</td>" +
-            '<td class="cell-clip" title="' + escapeAttr(entry.application) + '">' + escapeHtml(entry.application || "—") + "</td>" +
-            '<td class="cell-clip" title="' + escapeAttr(entry.requester) + '">' + escapeHtml(entry.requester || "—") + "</td>" +
-            '<td class="cell-clip" title="' + escapeAttr(entry.incidentId) + '">' + escapeHtml(entry.incidentId || "—") + "</td>" +
-            '<td class="cell-clip">' + escapeHtml(entry.hotfixNumber || "—") + "</td>" +
-            '<td class="cell-clip">' + escapeHtml(entry.deploymentType || "—") + "</td>" +
-            '<td><span class="status-badge status-' + pptStatus.toLowerCase().replace(/\s+/g, "-").replace(/\//g, "") + '">' + escapeHtml(pptStatus) + '</span></td>' +
-            '<td class="cell-clip">' + escapeHtml(pptRfc) + "</td>" +
-            '<td class="cell-clip">' + escapeHtml(pptDate) + "</td>" +
-            '<td><span class="status-badge status-' + prodStatus.toLowerCase().replace(/\s+/g, "-").replace(/\//g, "") + '">' + escapeHtml(prodStatus) + '</span></td>' +
-            '<td class="cell-clip">' + escapeHtml(prodRfc) + "</td>" +
-            '<td class="cell-clip">' + escapeHtml(prodDate) + "</td>" +
-            '<td class="cell-actions">' +
-            '<button type="button" class="btn-secondary btn-tiny" data-tbp-load="' + escapeAttr(entry.id) + '" title="Load into form">Load</button>' +
-            '</td>';
-          toBePlannedBody.appendChild(tr);
-        });
       }
 
       function getMonthsFromEntries(entries) {
@@ -9979,47 +9828,16 @@
       }
 
       if (savedSearchInput) {
-        savedSearchInput.addEventListener("input", renderSavedList);
+        savedSearchInput.addEventListener("input", function() { renderSavedList(); });
       }
       if (savedFilterPpt) {
-        savedFilterPpt.addEventListener("change", renderSavedList);
+        savedFilterPpt.addEventListener("change", function() { renderSavedList(); });
       }
       if (savedFilterProd) {
-        savedFilterProd.addEventListener("change", renderSavedList);
+        savedFilterProd.addEventListener("change", function() { renderSavedList(); });
       }
       if (savedFilterParked) {
-        savedFilterParked.addEventListener("change", renderSavedList);
-      }
-      
-      if (toBePlannedToggle) {
-        toBePlannedToggle.addEventListener("click", function () {
-          if (toBePlannedSection) {
-            toBePlannedSection.classList.toggle("expanded");
-          }
-          if (toBePlannedContent) {
-            toBePlannedContent.hidden = !toBePlannedContent.hidden;
-          }
-        });
-      }
-      
-      if (toBePlannedBody) {
-        toBePlannedBody.addEventListener("click", function (e) {
-          var t = e.target;
-          if (t.tagName !== "BUTTON") return;
-          var loadId = t.getAttribute("data-tbp-load");
-          if (loadId) {
-            var loadList = readSavedEntries();
-            var toLoad = loadList.filter(function (en) { return en.id === loadId; })[0];
-            if (toLoad) {
-              loadEntryIntoForm(toLoad);
-              showSaveStatus("Loaded into form. You can now edit and click Update.", false, false, function () {
-                updateActiveNavLink(newEntryNavLink);
-                switchToPanel(newEntryPanel);
-                if (form) form.scrollIntoView({ behavior: "smooth", block: "start" });
-              });
-            }
-          }
-        });
+        savedFilterParked.addEventListener("change", function() { renderSavedList(); });
       }
       
       if (archiveSearchInput) {
@@ -11408,6 +11226,12 @@
           if (prodFilter && normalizeDeploymentStatus(e.prodDeploymentStatus) !== prodFilter) return false;
           if (parkedFilter === "active" && e.parked) return false;
           if (parkedFilter === "parked" && !e.parked) return false;
+          if (parkedFilter === "tobeplanned") {
+            var pptS = normalizeDeploymentStatus(e.pptDeploymentStatus);
+            var prodS = normalizeDeploymentStatus(e.prodDeploymentStatus);
+            if (pptS !== "To be Planned" && prodS !== "To be Planned") return false;
+            if (e.parked) return false;
+          }
           return true;
         });
         if (!list.length) {
