@@ -1092,6 +1092,78 @@
       border: 1px dashed var(--border);
       text-align: center;
     }
+    .to-be-planned-section {
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      border: 1px solid #e5a000;
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      overflow: hidden;
+    }
+    [data-theme="dark"] .to-be-planned-section {
+      background: linear-gradient(135deg, #292524 0%, #1c1917 100%);
+      border-color: #b45309;
+    }
+    .to-be-planned-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s ease;
+    }
+    .to-be-planned-header:hover {
+      background: rgba(245, 158, 11, 0.15);
+    }
+    .to-be-planned-arrow {
+      font-size: 0.7rem;
+      color: #b45309;
+      transition: transform 0.2s ease;
+    }
+    [data-theme="dark"] .to-be-planned-arrow {
+      color: #fbbf24;
+    }
+    .to-be-planned-section.expanded .to-be-planned-arrow {
+      transform: rotate(90deg);
+    }
+    .to-be-planned-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #92400e;
+    }
+    [data-theme="dark"] .to-be-planned-title {
+      color: #fcd34d;
+    }
+    .to-be-planned-count {
+      background: #f59e0b;
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: 10px;
+      min-width: 1.2rem;
+      text-align: center;
+    }
+    .to-be-planned-content {
+      border-top: 1px solid rgba(245, 158, 11, 0.3);
+      background: var(--surface);
+    }
+    .to-be-planned-content[hidden] {
+      display: none;
+    }
+    .to-be-planned-table {
+      margin: 0;
+      border-radius: 0;
+      font-size: 0.78rem;
+    }
+    .to-be-planned-table th {
+      background: linear-gradient(135deg, #d97706 0%, #b45309 100%) !important;
+      padding: 0.5rem 0.6rem;
+      font-size: 0.72rem;
+    }
+    .to-be-planned-table td {
+      padding: 0.45rem 0.6rem;
+    }
     .saved-table-wrap {
       overflow-x: auto;
       margin-top: 0.5rem;
@@ -2228,9 +2300,9 @@
       white-space: nowrap;
     }
     .saved-status-select {
-      font-size: 0.78rem;
-      padding: 0.4rem 0.5rem;
-      max-width: 9.5rem;
+      font-size: 0.72rem;
+      padding: 0.25rem 0.35rem;
+      max-width: 8rem;
       width: 100%;
       box-sizing: border-box;
       border-radius: 6px;
@@ -2305,6 +2377,18 @@
     }
     .saved-inline-input[type="date"] {
       width: auto;
+    }
+    input.saved-inline-rfc {
+      min-width: 80px;
+      max-width: 95px;
+      font-size: 0.75rem !important;
+      padding: 0.25rem 0.35rem;
+    }
+    input.saved-inline-date {
+      min-width: 95px;
+      max-width: 110px;
+      font-size: 0.72rem !important;
+      padding: 0.25rem 0.35rem;
     }
     .saved-field-error {
       font-size: 0.72rem;
@@ -4102,6 +4186,24 @@
             <option value="parked">Parked Only</option>
             <option value="all">All Entries</option>
           </select>
+          <div class="column-settings-wrap">
+            <button type="button" class="btn-column-settings" id="savedColumnSettingsBtn" title="Show/Hide Columns">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;">
+                <rect x="3" y="3" width="7" height="7"/>
+                <rect x="14" y="3" width="7" height="7"/>
+                <rect x="14" y="14" width="7" height="7"/>
+                <rect x="3" y="14" width="7" height="7"/>
+              </svg>
+              Columns
+            </button>
+            <div class="column-settings-dropdown" id="savedColumnSettingsDropdown">
+              <div class="column-settings-header">
+                <span>Show/Hide Columns</span>
+                <button type="button" id="savedColResetBtn">Reset</button>
+              </div>
+              <div class="column-settings-list" id="savedColumnSettingsList"></div>
+            </div>
+          </div>
         </div>
       </div>
       <p id="savedSearchNoMatch" class="saved-search-no-match" hidden>No saved entries match your search.</p>
@@ -4163,6 +4265,35 @@
           </div>
         </div>
       </div>
+      <div id="toBePlannedSection" class="to-be-planned-section" hidden>
+        <div class="to-be-planned-header" id="toBePlannedToggle">
+          <span class="to-be-planned-arrow">▶</span>
+          <span class="to-be-planned-title">To be Planned</span>
+          <span id="toBePlannedCount" class="to-be-planned-count">0</span>
+        </div>
+        <div id="toBePlannedContent" class="to-be-planned-content" hidden>
+          <table class="saved-table to-be-planned-table">
+            <thead>
+              <tr>
+                <th>Saved At</th>
+                <th>Application</th>
+                <th>Requester</th>
+                <th>Incident/Defect ID</th>
+                <th>Hotfix #</th>
+                <th>Deployment</th>
+                <th>PPT Status</th>
+                <th>PPT RFC</th>
+                <th>PPT Date</th>
+                <th>PROD Status</th>
+                <th>PROD RFC</th>
+                <th>PROD Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="toBePlannedBody"></tbody>
+          </table>
+        </div>
+      </div>
       <div id="savedTableWrap" class="saved-table-wrap" hidden>
         <table class="saved-table">
           <thead>
@@ -4174,8 +4305,12 @@
               <th>Incident/Defect ID</th>
               <th>Hotfix #</th>
               <th>Deployment</th>
-              <th>PPT deployment status</th>
-              <th>PROD deployment status</th>
+              <th>PPT Status</th>
+              <th>PPT RFC</th>
+              <th>PPT Date of Deployment</th>
+              <th>PROD Status</th>
+              <th>PROD RFC</th>
+              <th>PROD Date of Deployment</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -5486,6 +5621,8 @@
 
       var HF_CONCAT_PPT_PATH_PREFIX = "cesgnpinfla002:~tooladm/hotfix/HOTFIX/";
       var HF_CONCAT_PROD_PATH_PREFIX = "cesprdamcla001:~tooladm/hotfix/HOTFIX/";
+      var HF_CONCAT_ODS_PPT_PATH_PREFIX = "cespptetlla001:/tmp/PROD_BRT/";
+      var HF_CONCAT_ODS_PROD_PATH_PREFIX = "cesprdetlla001:/tmp/PROD_BRT/";
 
       function normalizeAppForHfConcat(appValue) {
         // If application starts with "ABP", return just "ABP"
@@ -5509,7 +5646,8 @@
 
       function buildHfConcatenatedStringPpt() {
         var hf = val("hotfixNumber");
-        var app = normalizeAppForHfConcat(val("application"));
+        var appRaw = val("application");
+        var app = normalizeAppForHfConcat(appRaw);
         var ver = val("version");
         var filesEl = document.getElementById("files");
         var filesRaw = filesEl ? String(filesEl.value || "") : "";
@@ -5522,6 +5660,10 @@
           .join(",");
         var areaEl = document.getElementById("areaServerDbSchemaPpt");
         var area = transformAreaLinesForHfConcat(areaEl ? areaEl.value : "");
+        var isOds = appRaw && appRaw.toUpperCase() === "ODS";
+        if (isOds) {
+          return hf + ":" + HF_CONCAT_ODS_PPT_PATH_PREFIX + hf + ":" + files + ":" + area;
+        }
         return (
           hf +
           ":" +
@@ -5540,7 +5682,8 @@
 
       function buildHfConcatenatedStringProd() {
         var hf = val("hotfixNumber");
-        var app = normalizeAppForHfConcat(val("application"));
+        var appRaw = val("application");
+        var app = normalizeAppForHfConcat(appRaw);
         var ver = val("version");
         var filesEl = document.getElementById("files");
         var filesRaw = filesEl ? String(filesEl.value || "") : "";
@@ -5553,6 +5696,10 @@
           .join(",");
         var areaEl = document.getElementById("areaServerDbSchemaProd");
         var area = transformAreaLinesForHfConcat(areaEl ? areaEl.value : "");
+        var isOds = appRaw && appRaw.toUpperCase() === "ODS";
+        if (isOds) {
+          return hf + ":" + HF_CONCAT_ODS_PROD_PATH_PREFIX + hf + ":" + files + ":" + area;
+        }
         return (
           hf +
           ":" +
@@ -5571,11 +5718,16 @@
 
       function buildHfConcatenatedStringRollbackPpt() {
         var rb = val("rollbackHf");
-        var app = normalizeAppForHfConcat(val("application"));
+        var appRaw = val("application");
+        var app = normalizeAppForHfConcat(appRaw);
         var ver = val("version");
         var rbStr = val("rollbackString");
         var areaEl = document.getElementById("areaServerDbSchemaPpt");
         var area = transformAreaLinesForHfConcat(areaEl ? areaEl.value : "");
+        var isOds = appRaw && appRaw.toUpperCase() === "ODS";
+        if (isOds) {
+          return rb + ":" + HF_CONCAT_ODS_PPT_PATH_PREFIX + rb + ":" + rbStr + ":" + area;
+        }
         return (
           rb +
           ":" +
@@ -5594,11 +5746,16 @@
 
       function buildHfConcatenatedStringRollbackProd() {
         var rb = val("rollbackHf");
-        var app = normalizeAppForHfConcat(val("application"));
+        var appRaw = val("application");
+        var app = normalizeAppForHfConcat(appRaw);
         var ver = val("version");
         var rbStr = val("rollbackString");
         var areaEl = document.getElementById("areaServerDbSchemaProd");
         var area = transformAreaLinesForHfConcat(areaEl ? areaEl.value : "");
+        var isOds = appRaw && appRaw.toUpperCase() === "ODS";
+        if (isOds) {
+          return rb + ":" + HF_CONCAT_ODS_PROD_PATH_PREFIX + rb + ":" + rbStr + ":" + area;
+        }
         return (
           rb +
           ":" +
@@ -6282,6 +6439,11 @@
       var savedFilterPpt = document.getElementById("savedFilterPpt");
       var savedFilterProd = document.getElementById("savedFilterProd");
       var savedFilterParked = document.getElementById("savedFilterParked");
+      var toBePlannedSection = document.getElementById("toBePlannedSection");
+      var toBePlannedToggle = document.getElementById("toBePlannedToggle");
+      var toBePlannedContent = document.getElementById("toBePlannedContent");
+      var toBePlannedBody = document.getElementById("toBePlannedBody");
+      var toBePlannedCount = document.getElementById("toBePlannedCount");
       var savedSearchNoMatch = document.getElementById("savedSearchNoMatch");
       var savedEmpty = document.getElementById("savedEmpty");
       var savedCount = document.getElementById("savedCount");
@@ -7709,10 +7871,22 @@
             escapeHtml(entry.deploymentType || "—") +
             "</td>" +
             "<td>" +
-            pptDeploymentCellHtml(entry) +
+            deploymentStatusSelectHtml("pptDeploymentStatus", entry.id, pptStatus) +
+            "</td>" +
+            '<td class="cell-clip">' +
+            '<input type="text" class="saved-inline-input saved-inline-rfc" data-entry-id="' + escapeAttr(entry.id) + '" data-ppt-field="pptRfc" value="' + escapeAttr(entry.pptRfc || "") + '" placeholder="RFC #" autocomplete="off" />' +
+            "</td>" +
+            '<td class="cell-clip">' +
+            '<input type="date" class="saved-inline-input saved-inline-date" data-entry-id="' + escapeAttr(entry.id) + '" data-ppt-field="pptDeploymentDate" value="' + escapeAttr(entry.pptDeploymentDate || "") + '" />' +
             "</td>" +
             "<td>" +
-            prodDeploymentCellHtml(entry) +
+            deploymentStatusSelectHtml("prodDeploymentStatus", entry.id, prodStatus) +
+            "</td>" +
+            '<td class="cell-clip">' +
+            '<input type="text" class="saved-inline-input saved-inline-rfc" data-entry-id="' + escapeAttr(entry.id) + '" data-prod-field="prodRfc" value="' + escapeAttr(entry.prodRfc || "") + '" placeholder="RFC #" autocomplete="off" />' +
+            "</td>" +
+            '<td class="cell-clip">' +
+            '<input type="date" class="saved-inline-input saved-inline-date" data-entry-id="' + escapeAttr(entry.id) + '" data-prod-field="prodDeploymentDate" value="' + escapeAttr(entry.prodDeploymentDate || "") + '" />' +
             "</td>" +
             '<td class="cell-actions">' +
             '<button type="button" class="btn-secondary btn-tiny" data-load="' +
@@ -7736,7 +7910,66 @@
         var bulkSelectedCountEl = document.getElementById("bulkSelectedCount");
         if (bulkSelectedCountEl) bulkSelectedCountEl.textContent = "0";
         
+        renderToBePlannedSection();
         renderArchiveList();
+      }
+
+      function renderToBePlannedSection() {
+        var list = readSavedEntries();
+        var toBePlanned = list.filter(function (e) {
+          if (!e || isEntryArchived(e) || e.deletedAt || e.parked) return false;
+          var pptStatus = normalizeDeploymentStatus(e.pptDeploymentStatus);
+          var prodStatus = normalizeDeploymentStatus(e.prodDeploymentStatus);
+          return pptStatus === "To be Planned" || prodStatus === "To be Planned";
+        });
+        
+        toBePlanned.sort(function (a, b) {
+          var ta = a.savedAt ? new Date(a.savedAt).getTime() : 0;
+          var tb = b.savedAt ? new Date(b.savedAt).getTime() : 0;
+          return ta - tb;
+        });
+        
+        if (toBePlannedCount) {
+          toBePlannedCount.textContent = toBePlanned.length;
+        }
+        
+        if (!toBePlanned.length) {
+          if (toBePlannedSection) toBePlannedSection.hidden = true;
+          return;
+        }
+        
+        if (toBePlannedSection) toBePlannedSection.hidden = false;
+        if (!toBePlannedBody) return;
+        
+        toBePlannedBody.innerHTML = "";
+        toBePlanned.forEach(function (entry) {
+          var tr = document.createElement("tr");
+          tr.setAttribute("data-entry-id", entry.id);
+          var when = entry.savedAt ? new Date(entry.savedAt).toLocaleString() : "—";
+          var pptStatus = normalizeDeploymentStatus(entry.pptDeploymentStatus);
+          var prodStatus = normalizeDeploymentStatus(entry.prodDeploymentStatus);
+          var pptRfc = entry.pptRfc || "—";
+          var pptDate = entry.pptDeploymentDate || "—";
+          var prodRfc = entry.prodRfc || "—";
+          var prodDate = entry.prodDeploymentDate || "—";
+          tr.innerHTML =
+            "<td>" + escapeHtml(when) + "</td>" +
+            '<td class="cell-clip" title="' + escapeAttr(entry.application) + '">' + escapeHtml(entry.application || "—") + "</td>" +
+            '<td class="cell-clip" title="' + escapeAttr(entry.requester) + '">' + escapeHtml(entry.requester || "—") + "</td>" +
+            '<td class="cell-clip" title="' + escapeAttr(entry.incidentId) + '">' + escapeHtml(entry.incidentId || "—") + "</td>" +
+            '<td class="cell-clip">' + escapeHtml(entry.hotfixNumber || "—") + "</td>" +
+            '<td class="cell-clip">' + escapeHtml(entry.deploymentType || "—") + "</td>" +
+            '<td><span class="status-badge status-' + pptStatus.toLowerCase().replace(/\s+/g, "-").replace(/\//g, "") + '">' + escapeHtml(pptStatus) + '</span></td>' +
+            '<td class="cell-clip">' + escapeHtml(pptRfc) + "</td>" +
+            '<td class="cell-clip">' + escapeHtml(pptDate) + "</td>" +
+            '<td><span class="status-badge status-' + prodStatus.toLowerCase().replace(/\s+/g, "-").replace(/\//g, "") + '">' + escapeHtml(prodStatus) + '</span></td>' +
+            '<td class="cell-clip">' + escapeHtml(prodRfc) + "</td>" +
+            '<td class="cell-clip">' + escapeHtml(prodDate) + "</td>" +
+            '<td class="cell-actions">' +
+            '<button type="button" class="btn-secondary btn-tiny" data-tbp-load="' + escapeAttr(entry.id) + '" title="Load into form">Load</button>' +
+            '</td>';
+          toBePlannedBody.appendChild(tr);
+        });
       }
 
       function getMonthsFromEntries(entries) {
@@ -9758,6 +9991,37 @@
         savedFilterParked.addEventListener("change", renderSavedList);
       }
       
+      if (toBePlannedToggle) {
+        toBePlannedToggle.addEventListener("click", function () {
+          if (toBePlannedSection) {
+            toBePlannedSection.classList.toggle("expanded");
+          }
+          if (toBePlannedContent) {
+            toBePlannedContent.hidden = !toBePlannedContent.hidden;
+          }
+        });
+      }
+      
+      if (toBePlannedBody) {
+        toBePlannedBody.addEventListener("click", function (e) {
+          var t = e.target;
+          if (t.tagName !== "BUTTON") return;
+          var loadId = t.getAttribute("data-tbp-load");
+          if (loadId) {
+            var loadList = readSavedEntries();
+            var toLoad = loadList.filter(function (en) { return en.id === loadId; })[0];
+            if (toLoad) {
+              loadEntryIntoForm(toLoad);
+              showSaveStatus("Loaded into form. You can now edit and click Update.", false, false, function () {
+                updateActiveNavLink(newEntryNavLink);
+                switchToPanel(newEntryPanel);
+                if (form) form.scrollIntoView({ behavior: "smooth", block: "start" });
+              });
+            }
+          }
+        });
+      }
+      
       if (archiveSearchInput) {
         archiveSearchInput.addEventListener("input", function () {
           archiveCurrentPage = 1;
@@ -9817,8 +10081,26 @@
         { key: "prodStatus", label: "PROD deployment status", index: 11 }
       ];
       
+      var SAVED_ENTRIES_COLUMNS = [
+        { key: "checkbox", label: "Checkbox", index: 0 },
+        { key: "savedAt", label: "Saved At", index: 1 },
+        { key: "application", label: "Application", index: 2 },
+        { key: "requester", label: "Requester", index: 3 },
+        { key: "incidentId", label: "Incident/Defect ID", index: 4 },
+        { key: "hotfixNumber", label: "Hotfix #", index: 5 },
+        { key: "deploymentType", label: "Deployment", index: 6 },
+        { key: "pptStatus", label: "PPT Status", index: 7 },
+        { key: "pptRfc", label: "PPT RFC", index: 8 },
+        { key: "pptDate", label: "PPT Date of Deployment", index: 9 },
+        { key: "prodStatus", label: "PROD Status", index: 10 },
+        { key: "prodRfc", label: "PROD RFC", index: 11 },
+        { key: "prodDate", label: "PROD Date of Deployment", index: 12 },
+        { key: "actions", label: "Actions", index: 13 }
+      ];
+      
       var ARCHIVE_COL_STORAGE_KEY = "archiveColumnVisibility_v1";
       var SUMMARY_COL_STORAGE_KEY = "summaryColumnVisibility_v1";
+      var SAVED_ENTRIES_COL_STORAGE_KEY = "savedEntriesColumnVisibility_v1";
       
       function getColumnVisibility(storageKey, columns) {
         try {
@@ -9956,6 +10238,44 @@
         });
       }
       
+      // Saved Entries column settings
+      var savedColSettingsBtn = document.getElementById("savedColumnSettingsBtn");
+      var savedColSettingsDropdown = document.getElementById("savedColumnSettingsDropdown");
+      var savedColSettingsList = document.getElementById("savedColumnSettingsList");
+      var savedColResetBtn = document.getElementById("savedColResetBtn");
+      var savedColVisibility = getColumnVisibility(SAVED_ENTRIES_COL_STORAGE_KEY, SAVED_ENTRIES_COLUMNS);
+      
+      function applySavedEntriesColumnVisibility() {
+        applyColumnVisibility("#savedTableWrap table", SAVED_ENTRIES_COLUMNS, savedColVisibility);
+      }
+      
+      if (savedColSettingsBtn && savedColSettingsDropdown) {
+        savedColSettingsBtn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          savedColSettingsDropdown.classList.toggle("visible");
+          if (savedColSettingsDropdown.classList.contains("visible")) {
+            buildColumnSettingsList(savedColSettingsList, SAVED_ENTRIES_COLUMNS, savedColVisibility, function(key, checked) {
+              savedColVisibility[key] = checked;
+              saveColumnVisibility(SAVED_ENTRIES_COL_STORAGE_KEY, savedColVisibility);
+              applySavedEntriesColumnVisibility();
+            });
+          }
+        });
+      }
+      
+      if (savedColResetBtn) {
+        savedColResetBtn.addEventListener("click", function() {
+          SAVED_ENTRIES_COLUMNS.forEach(function(col) { savedColVisibility[col.key] = true; });
+          saveColumnVisibility(SAVED_ENTRIES_COL_STORAGE_KEY, savedColVisibility);
+          applySavedEntriesColumnVisibility();
+          buildColumnSettingsList(savedColSettingsList, SAVED_ENTRIES_COLUMNS, savedColVisibility, function(key, checked) {
+            savedColVisibility[key] = checked;
+            saveColumnVisibility(SAVED_ENTRIES_COL_STORAGE_KEY, savedColVisibility);
+            applySavedEntriesColumnVisibility();
+          });
+        });
+      }
+      
       // Close dropdowns when clicking outside
       document.addEventListener("click", function(e) {
         if (archiveColSettingsDropdown && !archiveColSettingsDropdown.contains(e.target) && e.target !== archiveColSettingsBtn) {
@@ -9963,6 +10283,9 @@
         }
         if (summaryColSettingsDropdown && !summaryColSettingsDropdown.contains(e.target) && e.target !== summaryColSettingsBtn) {
           summaryColSettingsDropdown.classList.remove("visible");
+        }
+        if (savedColSettingsDropdown && !savedColSettingsDropdown.contains(e.target) && e.target !== savedColSettingsBtn) {
+          savedColSettingsDropdown.classList.remove("visible");
         }
       });
       
@@ -9977,6 +10300,12 @@
       renderSummaryList = function() {
         originalRenderSummaryList();
         applySummaryColumnVisibility();
+      };
+      
+      var originalRenderSavedList = renderSavedList;
+      renderSavedList = function() {
+        originalRenderSavedList();
+        applySavedEntriesColumnVisibility();
       };
 
       if (archivePrevBtn) {
