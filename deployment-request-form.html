@@ -12236,6 +12236,33 @@
         };
       }
 
+      function copyHtmlToClipboard(html) {
+        var tempDiv = document.createElement("div");
+        tempDiv.innerHTML = html;
+        tempDiv.style.position = "fixed";
+        tempDiv.style.left = "-9999px";
+        tempDiv.style.top = "0";
+        tempDiv.style.opacity = "0";
+        document.body.appendChild(tempDiv);
+        
+        var range = document.createRange();
+        range.selectNodeContents(tempDiv);
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        
+        var success = false;
+        try {
+          success = document.execCommand("copy");
+        } catch (e) {
+          console.error("Copy failed:", e);
+        }
+        
+        selection.removeAllRanges();
+        document.body.removeChild(tempDiv);
+        return success;
+      }
+
       function sendEmailFromMailbox() {
         var to = emailTo ? emailTo.value.trim() : "";
         var cc = emailCc ? emailCc.value.trim() : "";
@@ -12252,45 +12279,28 @@
         }
 
         var htmlContent = generateHtmlEmailContent();
-        var plainText = emailMessage ? emailMessage.innerText : "";
+        var copied = copyHtmlToClipboard(htmlContent);
         
-        navigator.clipboard.write([
-          new ClipboardItem({
-            "text/html": new Blob([htmlContent], { type: "text/html" }),
-            "text/plain": new Blob([plainText], { type: "text/plain" })
-          })
-        ]).then(function() {
-          var mailtoLink = "mailto:" + encodeURIComponent(to);
-          var params = [];
-          if (cc) params.push("cc=" + encodeURIComponent(cc));
-          if (bcc) params.push("bcc=" + encodeURIComponent(bcc));
-          params.push("subject=" + encodeURIComponent(subject));
-          
-          if (params.length > 0) {
-            mailtoLink += "?" + params.join("&");
-          }
-          
-          window.location.href = mailtoLink;
-          closeEmailModal();
-          
-          setTimeout(function() {
+        var mailtoLink = "mailto:" + encodeURIComponent(to);
+        var params = [];
+        if (cc) params.push("cc=" + encodeURIComponent(cc));
+        if (bcc) params.push("bcc=" + encodeURIComponent(bcc));
+        params.push("subject=" + encodeURIComponent(subject));
+        
+        if (params.length > 0) {
+          mailtoLink += "?" + params.join("&");
+        }
+        
+        window.location.href = mailtoLink;
+        closeEmailModal();
+        
+        setTimeout(function() {
+          if (copied) {
             showInfoModal("Email opened in Outlook! Press Ctrl+V to paste the formatted table.", false);
-          }, 500);
-        }).catch(function(err) {
-          var mailtoLink = "mailto:" + encodeURIComponent(to);
-          var params = [];
-          if (cc) params.push("cc=" + encodeURIComponent(cc));
-          if (bcc) params.push("bcc=" + encodeURIComponent(bcc));
-          params.push("subject=" + encodeURIComponent(subject));
-          params.push("body=" + encodeURIComponent(emailMessage ? emailMessage.innerText : ""));
-          
-          if (params.length > 0) {
-            mailtoLink += "?" + params.join("&");
+          } else {
+            showInfoModal("Email opened. Please manually copy the content from the preview.", true);
           }
-          
-          window.location.href = mailtoLink;
-          closeEmailModal();
-        });
+        }, 500);
       }
 
       function generateHtmlEmailContent() {
