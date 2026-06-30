@@ -1135,6 +1135,7 @@
     }
     .saved-table th:last-child {
       border-radius: 0 12px 0 0;
+      text-align: center;
     }
     .saved-table tbody tr {
       transition: all 0.15s ease;
@@ -1559,6 +1560,19 @@
       text-transform: uppercase;
       letter-spacing: 0.3px;
     }
+    .redeploy-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      color: #fff;
+      font-size: 0.55rem;
+      font-weight: 700;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
     .btn-park {
       background: #6b7280;
       color: #fff;
@@ -1578,6 +1592,7 @@
     .saved-table td.cell-actions {
       white-space: nowrap;
       padding: 0.5rem;
+      text-align: center;
     }
     .saved-table td.cell-actions .btn-tiny {
       padding: 0.4rem 0.65rem;
@@ -1616,7 +1631,7 @@
       background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
     }
     #weeklyTrendTableWrap {
-      max-width: 680px;
+      max-width: 780px;
       margin-left: 0;
       margin-right: auto;
     }
@@ -1631,6 +1646,73 @@
     .weekly-trend-table th:first-child,
     .weekly-trend-table td:first-child {
       text-align: left;
+    }
+    .redeploy-expandable {
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+    .redeploy-expandable:hover {
+      background-color: rgba(139, 92, 246, 0.1);
+    }
+    .redeploy-expandable.expanded {
+      background-color: rgba(139, 92, 246, 0.15);
+    }
+    .redeploy-count-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 10px;
+      min-width: 22px;
+      text-align: center;
+    }
+    .redeploy-expand-icon {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-left: 0.25rem;
+      transition: transform 0.2s ease;
+    }
+    .redeploy-none {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    .redeploy-cell {
+      white-space: nowrap;
+    }
+    .redeploy-detail-row {
+      background-color: rgba(139, 92, 246, 0.05);
+    }
+    .redeploy-detail-cell {
+      padding: 0 !important;
+    }
+    .redeploy-detail-content {
+      padding: 0.75rem 1rem;
+      border-left: 3px solid #8b5cf6;
+      margin: 0.5rem;
+      background: var(--surface);
+      border-radius: 6px;
+    }
+    .redeploy-detail-table {
+      width: 100%;
+      font-size: 0.8rem;
+      border-collapse: collapse;
+    }
+    .redeploy-detail-table th {
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      color: #fff;
+      padding: 0.4rem 0.6rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.7rem;
+    }
+    .redeploy-detail-table td {
+      padding: 0.4rem 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .redeploy-detail-table tbody tr:last-child td {
+      border-bottom: none;
     }
     .weekly-trend-content {
       display: flex;
@@ -2977,7 +3059,7 @@
     .info-modal-overlay {
       position: fixed;
       inset: 0;
-      z-index: 2000;
+      z-index: 10005;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -3050,7 +3132,7 @@
     .confirm-modal-overlay {
       position: fixed;
       inset: 0;
-      z-index: 2000;
+      z-index: 10005;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -3438,6 +3520,43 @@
       resize: vertical;
       min-height: 150px;
       line-height: 1.5;
+    }
+    .email-message-preview {
+      padding: 1rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: #ffffff;
+      color: #333;
+      font-size: 0.85rem;
+      font-family: inherit;
+      min-height: 200px;
+      max-height: 350px;
+      overflow-y: auto;
+      line-height: 1.5;
+    }
+    .email-message-preview table {
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.8rem;
+    }
+    .email-message-preview th {
+      background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      text-align: left;
+      font-weight: 600;
+      border: 1px solid #1e3a5f;
+    }
+    .email-message-preview td {
+      padding: 0.4rem 1rem;
+      border: 1px solid #ddd;
+    }
+    .email-message-preview tr.total-row {
+      background: #fef9c3;
+      font-weight: 700;
+    }
+    .email-message-preview tr.total-row td {
+      border-top: 2px solid #1e3a5f;
     }
     .email-field-row {
       display: grid;
@@ -4425,10 +4544,10 @@
               <th>Deployment</th>
               <th>PPT Status</th>
               <th>PPT RFC</th>
-              <th>PPT Date of Deployment</th>
+              <th>PPT Date</th>
               <th>PROD Status</th>
               <th>PROD RFC</th>
-              <th>PROD Date of Deployment</th>
+              <th>PROD Date</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -4489,12 +4608,12 @@
               <th>Incident/Defect ID</th>
               <th>Description</th>
               <th>Deployment</th>
-              <th class="ppt-highlight">PPT deployment status</th>
+              <th class="ppt-highlight">PPT Status</th>
               <th class="ppt-highlight">PPT RFC</th>
-              <th class="ppt-highlight">Date of PPT deployment</th>
-              <th class="prod-highlight">PROD deployment status</th>
+              <th class="ppt-highlight">PPT Date</th>
+              <th class="prod-highlight">PROD Status</th>
               <th class="prod-highlight">PROD RFC</th>
-              <th class="prod-highlight">Date of PROD deployment</th>
+              <th class="prod-highlight">PROD Date</th>
               <th>Saved at</th>
               <th>Archived at</th>
               <th>Actions</th>
@@ -4527,8 +4646,8 @@
               <th>Incident/Defect ID</th>
               <th>Hotfix #</th>
               <th>Deployment</th>
-              <th>PPT deployment status</th>
-              <th>PROD deployment status</th>
+              <th>PPT Status</th>
+              <th>PROD Status</th>
               <th>Deleted at</th>
               <th>Actions</th>
             </tr>
@@ -4590,11 +4709,11 @@
               <th>Deployment type</th>
               <th>Description</th>
               <th class="ppt-highlight">PPT RFC</th>
-              <th class="ppt-highlight">Date of PPT deployment</th>
-              <th class="ppt-highlight">PPT deployment status</th>
+              <th class="ppt-highlight">PPT Date</th>
+              <th class="ppt-highlight">PPT Status</th>
               <th class="prod-highlight">PROD RFC</th>
-              <th class="prod-highlight">Date of PROD deployment</th>
-              <th class="prod-highlight">PROD deployment status</th>
+              <th class="prod-highlight">PROD Date</th>
+              <th class="prod-highlight">PROD Status</th>
             </tr>
           </thead>
           <tbody id="summaryEntriesBody"></tbody>
@@ -4630,6 +4749,7 @@
                   <th>PROD RFC</th>
                   <th>Total HF - PROD</th>
                   <th>Defects/Incident Deployed</th>
+                  <th>Redeployments</th>
                 </tr>
               </thead>
               <tbody id="weeklyTrendBody"></tbody>
@@ -5071,8 +5191,8 @@
           <input type="text" id="emailSubject" />
         </div>
         <div class="email-field">
-          <label for="emailMessage">MESSAGE <span class="req">*</span></label>
-          <textarea id="emailMessage" rows="12"></textarea>
+          <label for="emailMessage">MESSAGE PREVIEW</label>
+          <div id="emailMessage" class="email-message-preview" contenteditable="false"></div>
         </div>
       </div>
       <div class="email-modal-actions">
@@ -5698,12 +5818,12 @@
         hfConcatenatedStringProd: "HF CONCATENATED STRING (PROD)",
         hfConcatenatedStringRollbackPpt: "HF CONCATENATED STRING ROLLBACK (PPT)",
         hfConcatenatedStringRollbackProd: "HF CONCATENATED STRING ROLLBACK (PROD)",
-        pptDeploymentStatus: "PPT Deployment Status",
+        pptDeploymentStatus: "PPT Status",
         pptRfc: "PPT RFC",
-        pptDeploymentDate: "Date of PPT deployment",
-        prodDeploymentStatus: "PROD Deployment Status",
+        pptDeploymentDate: "PPT Date",
+        prodDeploymentStatus: "PROD Status",
         prodRfc: "PROD RFC",
-        prodDeploymentDate: "Date of PROD deployment",
+        prodDeploymentDate: "PROD Date",
         archivedAt: "Archived at"
       };
 
@@ -7309,19 +7429,23 @@
         }
         
         if (logClear) {
-          logClear.addEventListener("click", async function() {
-            if (confirm("Clear all activity log entries? This will remove logs for ALL users.")) {
-              if (window.supabaseClient) {
-                try {
-                  await window.supabaseClient.from("activity_log").delete().neq("id", "00000000-0000-0000-0000-000000000000");
-                  activityLogCache = [];
-                  renderActivityLog();
-                  showToast("Activity log cleared", "info");
-                } catch (e) {
-                  showToast("Failed to clear log: " + e.message, "error");
+          logClear.addEventListener("click", function() {
+            showConfirmModal(
+              "Clear all activity log entries? This will remove logs for ALL users.",
+              "Clear Activity Log",
+              async function() {
+                if (window.supabaseClient) {
+                  try {
+                    await window.supabaseClient.from("activity_log").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+                    activityLogCache = [];
+                    renderActivityLog();
+                    showToast("Activity log cleared", "info");
+                  } catch (e) {
+                    showToast("Failed to clear log: " + e.message, "error");
+                  }
                 }
               }
-            }
+            );
           });
         }
         
@@ -8183,6 +8307,7 @@
             ? new Date(entry.savedAt).toLocaleString()
             : "—";
           var parkedBadge = entry.parked ? '<span class="parked-badge">PARKED</span>' : '';
+          var redeployBadge = entry.isRedeployment ? '<span class="redeploy-badge">REDEPLOYMENT</span>' : '';
           var parkBtn = entry.parked
             ? '<button type="button" class="btn-unpark btn-tiny" data-unpark="' + escapeAttr(entry.id) + '" title="Restore to active entries">Unpark</button> '
             : '<button type="button" class="btn-park btn-tiny" data-park="' + escapeAttr(entry.id) + '" title="Park this hotfix for later">Park</button> ';
@@ -8191,7 +8316,7 @@
             escapeAttr(entry.id) +
             '"></td>' +
             "<td>" +
-            escapeHtml(when) + parkedBadge +
+            escapeHtml(when) + parkedBadge + redeployBadge +
             "</td>" +
             '<td class="cell-clip" title="' +
             escapeAttr(entry.application) +
@@ -8811,20 +8936,30 @@
           var incidentId = String(entry.incidentId || "").trim().toUpperCase();
           var prodRfc = String(entry.prodRfc || "").trim();
           var isArchived = isEntryArchived(entry);
+          var isRedeploy = entry.isRedeployment === true;
+          var appName = String(entry.application || "").trim();
           if (pptDate && pptStatus === "Deployed" && isValidHotfixNumber(hotfixNum)) {
             var weekPpt = getWeekRange(pptDate);
             if (weekPpt) {
               if (!weekData[weekPpt.key]) {
-                weekData[weekPpt.key] = { label: weekPpt.label, monday: weekPpt.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
+                weekData[weekPpt.key] = { label: weekPpt.label, monday: weekPpt.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {}, redeployList: [] };
               }
               weekData[weekPpt.key].pptHfSet[hotfixNum] = true;
+              if (isRedeploy) {
+                weekData[weekPpt.key].redeployList.push({
+                  hotfixNumber: hotfixNum,
+                  application: appName,
+                  redeployDate: pptDate,
+                  env: entry.redeploymentEnv || "ppt"
+                });
+              }
             }
           }
           if (isArchived && prodDate && prodStatus === "Deployed") {
             var weekProd = getWeekRange(prodDate);
             if (weekProd) {
               if (!weekData[weekProd.key]) {
-                weekData[weekProd.key] = { label: weekProd.label, monday: weekProd.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
+                weekData[weekProd.key] = { label: weekProd.label, monday: weekProd.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {}, redeployList: [] };
               }
               if (isValidHotfixNumber(hotfixNum)) {
                 weekData[weekProd.key].prodHfSet[hotfixNum] = true;
@@ -8836,6 +8971,19 @@
               defectIds.forEach(function(defId) {
                 weekData[weekProd.key].defectsSet[defId] = true;
               });
+              if (isRedeploy && (entry.redeploymentEnv === "prod" || entry.redeploymentEnv === "both")) {
+                var alreadyAddedProd = weekData[weekProd.key].redeployList.some(function(r) {
+                  return r.hotfixNumber === hotfixNum && r.redeployDate === prodDate;
+                });
+                if (!alreadyAddedProd) {
+                  weekData[weekProd.key].redeployList.push({
+                    hotfixNumber: hotfixNum,
+                    application: appName,
+                    redeployDate: prodDate,
+                    env: "prod"
+                  });
+                }
+              }
             }
           }
         });
@@ -8848,7 +8996,7 @@
           var weekInfo = getWeekRange(dateKey);
           if (!weekInfo) return;
           if (!weekData[weekInfo.key]) {
-            weekData[weekInfo.key] = { label: weekInfo.label, monday: weekInfo.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
+            weekData[weekInfo.key] = { label: weekInfo.label, monday: weekInfo.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {}, redeployList: [] };
           }
           var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
           var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
@@ -8905,22 +9053,16 @@
           var prodRfcCount = Object.keys(w.prodRfcSet).length;
           var prodHfCount = Object.keys(w.prodHfSet).length;
           var defectsCount = Object.keys(w.defectsSet).length;
+          var redeployList = w.redeployList || [];
           chartData.push({
             key: key,
             label: w.label,
             pptHf: pptHfCount,
             prodRfc: prodRfcCount,
             prodHf: prodHfCount,
-            defects: defectsCount
+            defects: defectsCount,
+            redeployList: redeployList
           });
-          var tr = document.createElement("tr");
-          tr.innerHTML =
-            "<td>" + escapeHtml(w.label) + "</td>" +
-            "<td style='text-align:center'>" + pptHfCount + "</td>" +
-            "<td style='text-align:center'>" + prodRfcCount + "</td>" +
-            "<td style='text-align:center'>" + prodHfCount + "</td>" +
-            "<td style='text-align:center'>" + defectsCount + "</td>";
-          weeklyTrendBody.appendChild(tr);
         });
         
         window.weeklyTrendChartData = chartData;
@@ -8928,6 +9070,7 @@
         window.weeklyTrendWeekData = weekData;
         populateTableMonthFilter(chartData);
         populateChartMonthFilter(chartData);
+        renderWeeklyTrendTable();
         renderWeekSelector(getFilteredWeeksByMonth());
         renderWeeklyTrendChart(getFilteredWeeksByMonth());
         
@@ -8997,15 +9140,66 @@
         }
         
         weeklyTrendBody.innerHTML = "";
-        filtered.forEach(function (w) {
+        filtered.forEach(function (w, idx) {
+          var redeployCount = w.redeployList ? w.redeployList.length : 0;
+          var hasRedeploys = redeployCount > 0;
           var tr = document.createElement("tr");
+          tr.className = hasRedeploys ? "redeploy-expandable" : "";
+          tr.setAttribute("data-week-idx", idx);
+          
+          var redeployCell = hasRedeploys 
+            ? '<span class="redeploy-count-badge">' + redeployCount + '</span> <span class="redeploy-expand-icon">▶</span>'
+            : '<span class="redeploy-none">0</span>';
+          
           tr.innerHTML =
             "<td>" + escapeHtml(w.label) + "</td>" +
             "<td style='text-align:center'>" + w.pptHf + "</td>" +
             "<td style='text-align:center'>" + w.prodRfc + "</td>" +
             "<td style='text-align:center'>" + w.prodHf + "</td>" +
-            "<td style='text-align:center'>" + w.defects + "</td>";
+            "<td style='text-align:center'>" + w.defects + "</td>" +
+            "<td style='text-align:center' class='redeploy-cell'>" + redeployCell + "</td>";
           weeklyTrendBody.appendChild(tr);
+          
+          if (hasRedeploys) {
+            var detailRow = document.createElement("tr");
+            detailRow.className = "redeploy-detail-row";
+            detailRow.setAttribute("data-detail-for", idx);
+            detailRow.style.display = "none";
+            
+            var detailHtml = '<td colspan="6" class="redeploy-detail-cell">' +
+              '<div class="redeploy-detail-content">' +
+              '<table class="redeploy-detail-table">' +
+              '<thead><tr><th>Hotfix Number</th><th>Application</th><th>Redeploy Date</th><th>Environment</th></tr></thead>' +
+              '<tbody>';
+            
+            w.redeployList.forEach(function(r) {
+              var envLabel = r.env === "ppt" ? "PPT" : (r.env === "prod" ? "PROD" : "PPT & PROD");
+              detailHtml += '<tr>' +
+                '<td>' + escapeHtml(r.hotfixNumber) + '</td>' +
+                '<td>' + escapeHtml(r.application) + '</td>' +
+                '<td>' + escapeHtml(r.redeployDate) + '</td>' +
+                '<td>' + envLabel + '</td>' +
+                '</tr>';
+            });
+            
+            detailHtml += '</tbody></table></div></td>';
+            detailRow.innerHTML = detailHtml;
+            weeklyTrendBody.appendChild(detailRow);
+          }
+        });
+        
+        weeklyTrendBody.querySelectorAll(".redeploy-expandable").forEach(function(row) {
+          row.addEventListener("click", function() {
+            var idx = this.getAttribute("data-week-idx");
+            var detailRow = weeklyTrendBody.querySelector('tr[data-detail-for="' + idx + '"]');
+            var icon = this.querySelector(".redeploy-expand-icon");
+            if (detailRow) {
+              var isHidden = detailRow.style.display === "none";
+              detailRow.style.display = isHidden ? "table-row" : "none";
+              if (icon) icon.textContent = isHidden ? "▼" : "▶";
+              this.classList.toggle("expanded", isHidden);
+            }
+          });
         });
       }
       
@@ -9855,7 +10049,7 @@
       if (exportMonthlyTrendBtn) {
         exportMonthlyTrendBtn.addEventListener("click", function () {
           if (!window.monthlyTrendData || !window.monthlyTrendData.length) {
-            alert("No monthly trend data to export.");
+            showInfoModal("No monthly trend data to export.");
             return;
           }
           exportMonthlyTrendBtn.disabled = true;
@@ -9873,7 +10067,7 @@
       function doExportMonthlyTrend(hasXlsx) {
         var data = window.monthlyTrendData;
         if (!data || !data.length) {
-          alert("No monthly trend data to export.");
+          showInfoModal("No monthly trend data to export.");
           return;
         }
         
@@ -10312,12 +10506,12 @@
         { key: "incidentId", label: "Incident/Defect ID", index: 3 },
         { key: "description", label: "Description", index: 4 },
         { key: "deploymentType", label: "Deployment", index: 5 },
-        { key: "pptStatus", label: "PPT deployment status", index: 6 },
+        { key: "pptStatus", label: "PPT Status", index: 6 },
         { key: "pptRfc", label: "PPT RFC", index: 7 },
-        { key: "pptDate", label: "Date of PPT deployment", index: 8 },
-        { key: "prodStatus", label: "PROD deployment status", index: 9 },
+        { key: "pptDate", label: "PPT Date", index: 8 },
+        { key: "prodStatus", label: "PROD Status", index: 9 },
         { key: "prodRfc", label: "PROD RFC", index: 10 },
-        { key: "prodDate", label: "Date of PROD deployment", index: 11 },
+        { key: "prodDate", label: "PROD Date", index: 11 },
         { key: "savedAt", label: "Saved at", index: 12 },
         { key: "archivedAt", label: "Archived at", index: 13 },
         { key: "actions", label: "Actions", index: 14 }
@@ -10331,11 +10525,11 @@
         { key: "deploymentType", label: "Deployment type", index: 4 },
         { key: "description", label: "Description", index: 5 },
         { key: "pptRfc", label: "PPT RFC", index: 6 },
-        { key: "pptDate", label: "Date of PPT deployment", index: 7 },
-        { key: "pptStatus", label: "PPT deployment status", index: 8 },
+        { key: "pptDate", label: "PPT Date", index: 7 },
+        { key: "pptStatus", label: "PPT Status", index: 8 },
         { key: "prodRfc", label: "PROD RFC", index: 9 },
-        { key: "prodDate", label: "Date of PROD deployment", index: 10 },
-        { key: "prodStatus", label: "PROD deployment status", index: 11 }
+        { key: "prodDate", label: "PROD Date", index: 10 },
+        { key: "prodStatus", label: "PROD Status", index: 11 }
       ];
       
       var SAVED_ENTRIES_COLUMNS = [
@@ -10348,10 +10542,10 @@
         { key: "deploymentType", label: "Deployment", index: 6 },
         { key: "pptStatus", label: "PPT Status", index: 7 },
         { key: "pptRfc", label: "PPT RFC", index: 8 },
-        { key: "pptDate", label: "PPT Date of Deployment", index: 9 },
+        { key: "pptDate", label: "PPT Date", index: 9 },
         { key: "prodStatus", label: "PROD Status", index: 10 },
         { key: "prodRfc", label: "PROD RFC", index: 11 },
-        { key: "prodDate", label: "PROD Date of Deployment", index: 12 },
+        { key: "prodDate", label: "PROD Date", index: 12 },
         { key: "actions", label: "Actions", index: 13 }
       ];
       
@@ -10839,12 +11033,16 @@
               (toPark.application && String(toPark.application).trim()) ||
               (toPark.incidentId && String(toPark.incidentId).trim()) ||
               "this entry";
-            if (window.confirm("Park this hotfix?\n\n" + parkSummary + "\n\nIt will be moved to Parked Hotfixes and hidden from the active list.")) {
-              toPark.parked = true;
-              toPark.parkedAt = new Date().toISOString();
-              persistEntries(parkList, { message: "Hotfix parked successfully." });
-              if (window.logActivity) logActivity("park", "Hotfix Parked", "HF: " + (toPark.hotfixNumber || "Unknown"));
-            }
+            showConfirmModal(
+              "Park this hotfix?\n\n" + parkSummary + "\n\nIt will be moved to Parked Hotfixes and hidden from the active list.",
+              "Park Hotfix",
+              function() {
+                toPark.parked = true;
+                toPark.parkedAt = new Date().toISOString();
+                persistEntries(parkList, { message: "Hotfix parked successfully." });
+                if (window.logActivity) logActivity("park", "Hotfix Parked", "HF: " + (toPark.hotfixNumber || "Unknown"));
+              }
+            );
             return;
           }
           var unparkId = t.getAttribute("data-unpark");
@@ -10859,12 +11057,16 @@
               (toUnpark.application && String(toUnpark.application).trim()) ||
               (toUnpark.incidentId && String(toUnpark.incidentId).trim()) ||
               "this entry";
-            if (window.confirm("Unpark this hotfix?\n\n" + unparkSummary + "\n\nIt will be restored to the active list.")) {
-              toUnpark.parked = false;
-              delete toUnpark.parkedAt;
-              persistEntries(unparkList, { message: "Hotfix unparked successfully." });
-              if (window.logActivity) logActivity("unpark", "Hotfix Unparked", "HF: " + (toUnpark.hotfixNumber || "Unknown"));
-            }
+            showConfirmModal(
+              "Unpark this hotfix?\n\n" + unparkSummary + "\n\nIt will be restored to the active list.",
+              "Unpark Hotfix",
+              function() {
+                toUnpark.parked = false;
+                delete toUnpark.parkedAt;
+                persistEntries(unparkList, { message: "Hotfix unparked successfully." });
+                if (window.logActivity) logActivity("unpark", "Hotfix Unparked", "HF: " + (toUnpark.hotfixNumber || "Unknown"));
+              }
+            );
             return;
           }
           var cloneId = t.getAttribute("data-clone");
@@ -10889,18 +11091,15 @@
               (toRemove.incidentId && String(toRemove.incidentId).trim()) ||
               "this entry";
             withDestructivePassword(function () {
-              if (
-                !window.confirm(
-                  "Are you sure you want to delete this saved entry?\n\n" +
-                    summary +
-                    "\n\nIt will be moved to Deleted Hotfixes."
-                )
-              ) {
-                return;
-              }
-              toRemove.deletedAt = new Date().toISOString();
-              persistEntries(currentList, { message: "Entry moved to Deleted Hotfixes." });
-              if (window.logActivity) logActivity("delete", "Entry Deleted", "HF: " + (toRemove.hotfixNumber || "Unknown"));
+              showConfirmModal(
+                "Are you sure you want to delete this saved entry?\n\n" + summary + "\n\nIt will be moved to Deleted Hotfixes.",
+                "Delete Entry",
+                function() {
+                  toRemove.deletedAt = new Date().toISOString();
+                  persistEntries(currentList, { message: "Entry moved to Deleted Hotfixes." });
+                  if (window.logActivity) logActivity("delete", "Entry Deleted", "HF: " + (toRemove.hotfixNumber || "Unknown"));
+                }
+              );
             });
           }
         });
@@ -10940,18 +11139,15 @@
               (toRemoveA.incidentId && String(toRemoveA.incidentId).trim()) ||
               "this entry";
             withDestructivePassword(function () {
-              if (
-                !window.confirm(
-                  "Are you sure you want to delete this archived entry?\n\n" +
-                    summaryA +
-                    "\n\nIt will be moved to Deleted Hotfixes."
-                )
-              ) {
-                return;
-              }
-              toRemoveA.deletedAt = new Date().toISOString();
-              persistEntries(currentArch, { message: "Entry moved to Deleted Hotfixes." });
-              if (window.logActivity) logActivity("delete", "Archived Entry Deleted", "HF: " + (toRemoveA.hotfixNumber || "Unknown"));
+              showConfirmModal(
+                "Are you sure you want to delete this archived entry?\n\n" + summaryA + "\n\nIt will be moved to Deleted Hotfixes.",
+                "Delete Archived Entry",
+                function() {
+                  toRemoveA.deletedAt = new Date().toISOString();
+                  persistEntries(currentArch, { message: "Entry moved to Deleted Hotfixes." });
+                  if (window.logActivity) logActivity("delete", "Archived Entry Deleted", "HF: " + (toRemoveA.hotfixNumber || "Unknown"));
+                }
+              );
             });
           }
         });
@@ -10990,22 +11186,19 @@
               (toRemoveD.incidentId && String(toRemoveD.incidentId).trim()) ||
               "this entry";
             withDestructivePassword(function () {
-              if (
-                !window.confirm(
-                  "Are you sure you want to PERMANENTLY delete this entry?\n\n" +
-                    summaryD +
-                    "\n\nThis cannot be undone."
-                )
-              ) {
-                return;
-              }
-              var permDelEntry = currentDel.filter(function (e) { return e.id === permDelId; })[0];
-              var nextD = currentDel.filter(function (e) {
-                return e.id !== permDelId;
-              });
-              persistEntries(nextD, { message: "Entry permanently deleted." });
-              if (window.logActivity) logActivity("delete", "Entry Permanently Deleted", "HF: " + (permDelEntry ? permDelEntry.hotfixNumber : "Unknown"));
-              renderDeletedList();
+              showConfirmModal(
+                "Are you sure you want to PERMANENTLY delete this entry?\n\n" + summaryD + "\n\nThis cannot be undone.",
+                "Permanently Delete",
+                function() {
+                  var permDelEntry = currentDel.filter(function (e) { return e.id === permDelId; })[0];
+                  var nextD = currentDel.filter(function (e) {
+                    return e.id !== permDelId;
+                  });
+                  persistEntries(nextD, { message: "Entry permanently deleted." });
+                  if (window.logActivity) logActivity("delete", "Entry Permanently Deleted", "HF: " + (permDelEntry ? permDelEntry.hotfixNumber : "Unknown"));
+                  renderDeletedList();
+                }
+              );
             });
           }
         });
@@ -11018,26 +11211,23 @@
             return e && e.deletedAt;
           });
           if (!deleted.length) {
-            alert("No deleted entries to clear.");
+            showInfoModal("No deleted entries to clear.");
             return;
           }
           withDestructivePassword(function () {
-            if (
-              !window.confirm(
-                "Are you sure you want to PERMANENTLY delete all " +
-                  deleted.length +
-                  " deleted entries?\n\nThis cannot be undone."
-              )
-            ) {
-              return;
-            }
-            var deletedCount = list.filter(function (e) { return e.deletedAt; }).length;
-            var remaining = list.filter(function (e) {
-              return !e.deletedAt;
-            });
-            persistEntries(remaining, { message: "All deleted entries permanently removed." });
-            if (window.logActivity) logActivity("delete", "Bulk Permanent Delete", deletedCount + " entries permanently removed");
-            renderDeletedList();
+            showConfirmModal(
+              "Are you sure you want to PERMANENTLY delete all " + deleted.length + " deleted entries?\n\nThis cannot be undone.",
+              "Clear All Deleted",
+              function() {
+                var deletedCount = list.filter(function (e) { return e.deletedAt; }).length;
+                var remaining = list.filter(function (e) {
+                  return !e.deletedAt;
+                });
+                persistEntries(remaining, { message: "All deleted entries permanently removed." });
+                if (window.logActivity) logActivity("delete", "Bulk Permanent Delete", deletedCount + " entries permanently removed");
+                renderDeletedList();
+              }
+            );
           });
         });
       }
@@ -11150,21 +11340,15 @@
           var n = readSavedEntries().length;
           if (!n) return;
           withDestructivePassword(function () {
-            if (
-              !window.confirm(
-                "Are you sure you want to clear all saved entries?\n\n" +
-                  "You will remove " +
-                  n +
-                  " saved entr" +
-                  (n === 1 ? "y" : "ies") +
-                  " from the database. This cannot be undone."
-              )
-            ) {
-              return;
-            }
-            var clearedCount = readSavedEntries().length;
-            persistEntries([], { message: "All saved entries cleared." });
-            if (window.logActivity) logActivity("delete", "All Entries Cleared", clearedCount + " entries cleared");
+            showConfirmModal(
+              "Are you sure you want to clear all saved entries?\n\nYou will remove " + n + " saved entr" + (n === 1 ? "y" : "ies") + " from the database. This cannot be undone.",
+              "Clear All Entries",
+              function() {
+                var clearedCount = readSavedEntries().length;
+                persistEntries([], { message: "All saved entries cleared." });
+                if (window.logActivity) logActivity("delete", "All Entries Cleared", clearedCount + " entries cleared");
+              }
+            );
           });
         });
       }
@@ -11684,15 +11868,11 @@
         });
         if (!list.length) {
           if (active.length) {
-            alert(
-              "No entries match the current filters. Clear filters to export all active entries."
-            );
+            showInfoModal("No entries match the current filters. Clear filters to export all active entries.");
           } else if (allSaved.length) {
-            alert(
-              "No active saved entries to export. Entries in Archive are not included in Export all to Excel."
-            );
+            showInfoModal("No active saved entries to export. Entries in Archive are not included in Export all to Excel.");
           } else {
-            alert("No saved entries to export.");
+            showInfoModal("No saved entries to export.");
           }
           return;
         }
@@ -11754,13 +11934,11 @@
         var list = filterByMonth(archived, selectedMonth);
         if (!list.length) {
           if (archived.length && selectedMonth) {
-            alert("No entries for the selected month filter.");
+            showInfoModal("No entries for the selected month filter.");
           } else if (allSaved.length) {
-            alert(
-              "No summary entries to export. Summary includes only archived (fully deployed) entries."
-            );
+            showInfoModal("No summary entries to export. Summary includes only archived (fully deployed) entries.");
           } else {
-            alert("No saved entries to export.");
+            showInfoModal("No saved entries to export.");
           }
           return;
         }
@@ -11875,7 +12053,7 @@
       }
 
       function openEmailModal() {
-        var emailData = generateEmailContent();
+        var htmlPreview = generateHtmlEmailPreview();
         var defaultTo = "Dado Trako <Dado.Trako@optus.com.au>; Chia wei Sau <Chiawei.Sau@optus.com.au>; Md shah Jalal <Mdshah.Jalal@optus.com.au>; Changez Khan <Changez.Khan@optus.com.au>; Adelaide Zeta-Gillan <Adelaide.Zeta-Gillan@optus.com.au>; Pratik Kulkarni <Pratik.Kulkarni@optus.com.au>";
         var defaultCc = "OPTUS Prod Support Leads <AIOOptusLeads@amdocs.com>; Ruth Abegail Adraneda <ruthabegail.adraneda-ama-v@optus.com.au>";
         var todayFormatted = new Date().toISOString().slice(0, 10);
@@ -11885,12 +12063,79 @@
         if (emailCc) emailCc.value = defaultCc;
         if (emailBcc) emailBcc.value = "";
         if (emailSubject) emailSubject.value = defaultSubject;
-        if (emailMessage) emailMessage.value = emailData.body;
+        if (emailMessage) emailMessage.innerHTML = htmlPreview;
         if (emailModalOverlay) emailModalOverlay.hidden = false;
       }
 
       function closeEmailModal() {
         if (emailModalOverlay) emailModalOverlay.hidden = true;
+      }
+
+      function generateHtmlEmailPreview() {
+        var list = readSavedEntries();
+        var pending = list.filter(function (e) {
+          if (!e || e.deletedAt || e.archivedAt || e.parked) return false;
+          var prodStatus = (e.prodDeploymentStatus || "").trim().toLowerCase();
+          return prodStatus === "pending";
+        });
+        
+        var appGroups = {
+          "FE": { apps: ["ASOM", "CRM", "MCO", "OMS", "SDP", "WSF"], defects: {} },
+          "BE": { apps: [], defects: {}, isABP: true },
+          "ODS": { apps: ["ODS"], defects: {} },
+          "Digital": { apps: ["OMNI"], defects: {} },
+          "Infra": { apps: ["ABP - Infra"], defects: {} }
+        };
+        
+        pending.forEach(function (entry) {
+          var appName = (entry.application || "").trim();
+          var defectId = (entry.incidentId || "").trim();
+          var hotfixNum = (entry.hotfixNumber || "").trim();
+          if (!defectId) return;
+          
+          if (appName === "ABP - Infra") {
+            if (!appGroups["Infra"].defects[defectId]) {
+              appGroups["Infra"].defects[defectId] = hotfixNum;
+            }
+          } else if (appName.toUpperCase().startsWith("ABP")) {
+            if (!appGroups["BE"].defects[defectId]) {
+              appGroups["BE"].defects[defectId] = hotfixNum;
+            }
+          } else {
+            for (var group in appGroups) {
+              if (group === "BE") continue;
+              if (appGroups[group].apps.indexOf(appName) !== -1) {
+                if (!appGroups[group].defects[defectId]) {
+                  appGroups[group].defects[defectId] = hotfixNum;
+                }
+                break;
+              }
+            }
+          }
+        });
+        
+        var total = 0;
+        var groupOrder = ["FE", "BE", "ODS", "Digital", "Infra"];
+        
+        var html = '<p>Hi All,</p>';
+        html += '<p>Below are the fixes planned for SmartOps PROD release on <strong>_________</strong>.</p>';
+        html += '<p>Have consolidated the list per FE, BE, and ODS application teams.</p>';
+        html += '<p>Complete details are in the attached Excel.</p>';
+        html += '<br>';
+        html += '<table>';
+        html += '<thead><tr><th>APPLICATION</th><th style="text-align:center;">COUNT OF FIXES</th></tr></thead>';
+        html += '<tbody>';
+        
+        groupOrder.forEach(function (group) {
+          var count = Object.keys(appGroups[group].defects).length;
+          total += count;
+          html += '<tr><td>► ' + group + '</td><td style="text-align:center;">' + count + '</td></tr>';
+        });
+        
+        html += '<tr class="total-row"><td><strong>Total</strong></td><td style="text-align:center;"><strong>' + total + '</strong></td></tr>';
+        html += '</tbody></table>';
+        
+        return html;
       }
 
       function generateEmailContent() {
@@ -12287,10 +12532,12 @@
         "Problem – Resolution details – Risk / Mitigation plan –": "_combinedProblemField",
         "Problem –\nResolution details –\nRisk / Mitigation plan –": "_combinedProblemField",
         "PPT RFC": "pptRfc",
+        "PPT Date": "pptDeploymentDate",
         "Date of PPT deployment": "pptDeploymentDate",
         "PPT deployment status": "pptDeploymentStatus",
         "PPT Status": "pptDeploymentStatus",
         "PROD RFC": "prodRfc",
+        "PROD Date": "prodDeploymentDate",
         "Date of PROD deployment": "prodDeploymentDate",
         "PROD Deployment status": "prodDeploymentStatus",
         "PROD Status": "prodDeploymentStatus"
@@ -12675,7 +12922,7 @@
           var weekInfo = getWeekRange(dateKey);
           if (!weekInfo) return;
           if (!weekData[weekInfo.key]) {
-            weekData[weekInfo.key] = { label: weekInfo.label, monday: weekInfo.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
+            weekData[weekInfo.key] = { label: weekInfo.label, monday: weekInfo.monday, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {}, redeployList: [] };
           }
           var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
           var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
@@ -12720,7 +12967,7 @@
           return mondayInMonth || fridayInMonth;
         });
         if (!weeks.length) {
-          alert("No weekly trend data to export for the current month.");
+          showInfoModal("No weekly trend data to export for the current month.");
           return;
         }
         var stamp = exportFilenameStem();
