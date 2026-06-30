@@ -12252,11 +12252,12 @@
         }
 
         var htmlContent = generateHtmlEmailContent();
+        var plainText = emailMessage ? emailMessage.innerText : "";
         
         navigator.clipboard.write([
           new ClipboardItem({
             "text/html": new Blob([htmlContent], { type: "text/html" }),
-            "text/plain": new Blob([emailMessage ? emailMessage.value : ""], { type: "text/plain" })
+            "text/plain": new Blob([plainText], { type: "text/plain" })
           })
         ]).then(function() {
           var mailtoLink = "mailto:" + encodeURIComponent(to);
@@ -12281,7 +12282,7 @@
           if (cc) params.push("cc=" + encodeURIComponent(cc));
           if (bcc) params.push("bcc=" + encodeURIComponent(bcc));
           params.push("subject=" + encodeURIComponent(subject));
-          params.push("body=" + encodeURIComponent(emailMessage ? emailMessage.value : ""));
+          params.push("body=" + encodeURIComponent(emailMessage ? emailMessage.innerText : ""));
           
           if (params.length > 0) {
             mailtoLink += "?" + params.join("&");
@@ -12398,7 +12399,7 @@
         var cc = emailCc ? emailCc.value.trim() : "";
         var bcc = emailBcc ? emailBcc.value.trim() : "";
         var subject = emailSubject ? emailSubject.value.trim() : "";
-        var body = emailMessage ? emailMessage.value : "";
+        var body = emailMessage ? emailMessage.innerText : "";
 
         var eml = "MIME-Version: 1.0\n";
         eml += "Content-Type: text/plain; charset=UTF-8\n";
