@@ -3116,6 +3116,94 @@
       padding: 0.5rem 1.25rem;
       font-size: 0.85rem;
     }
+    .user-name-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.7);
+      animation: fadeIn 0.2s ease;
+    }
+    .user-name-modal-overlay[hidden] {
+      display: none !important;
+    }
+    .user-name-modal-dialog {
+      width: 100%;
+      max-width: 420px;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      border-radius: 16px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+      animation: slideDown 0.25s ease;
+      padding: 2rem;
+    }
+    .user-name-modal-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .user-name-modal-icon {
+      font-size: 2rem;
+    }
+    .user-name-modal-header h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .user-name-modal-message {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .user-name-modal-field {
+      margin-bottom: 1.5rem;
+    }
+    .user-name-modal-field label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .user-name-modal-field input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: var(--input-bg);
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .user-name-modal-field input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--focus-ring);
+    }
+    .user-name-modal-field input.error {
+      border-color: var(--status-err);
+    }
+    .user-name-error {
+      color: var(--status-err);
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    .user-name-modal-actions {
+      display: flex;
+      justify-content: center;
+    }
+    .user-name-modal-actions .btn-save {
+      min-width: 150px;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+    }
     .email-modal-overlay {
       position: fixed;
       inset: 0;
@@ -4771,6 +4859,24 @@
       <div class="confirm-modal-actions">
         <button type="button" class="btn-secondary" id="confirmModalCancelBtn">Cancel</button>
         <button type="button" class="btn-save" id="confirmModalOkBtn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="userNameModalOverlay" class="user-name-modal-overlay">
+    <div class="user-name-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="userNameModalTitle">
+      <div class="user-name-modal-header">
+        <span class="user-name-modal-icon">👤</span>
+        <h3 id="userNameModalTitle">Welcome! Please Enter Your Name</h3>
+      </div>
+      <p class="user-name-modal-message">Your name is required for activity tracking. This helps identify who made changes to deployment entries.</p>
+      <div class="user-name-modal-field">
+        <label for="userNameInput">Your Name <span class="req">*</span></label>
+        <input type="text" id="userNameInput" placeholder="Enter your full name" autocomplete="name" />
+        <p id="userNameError" class="user-name-error" hidden>Please enter your name to continue.</p>
+      </div>
+      <div class="user-name-modal-actions">
+        <button type="button" class="btn-save" id="userNameSubmitBtn">Continue</button>
       </div>
     </div>
   </div>
@@ -6742,20 +6848,30 @@
         updateStatusBar();
       }
       
-      function promptForUserName() {
+      function showUserNameModal() {
+        var overlay = document.getElementById("userNameModalOverlay");
+        var input = document.getElementById("userNameInput");
+        var errorEl = document.getElementById("userNameError");
+        
+        if (!overlay || !input) return;
+        
         var currentName = getCurrentUserName();
-        var name = prompt("Please enter your name (for activity tracking):", currentName);
-        if (name && name.trim()) {
-          setCurrentUserName(name.trim());
-          showToast("Welcome, " + name.trim() + "!", "success");
-          return name.trim();
-        }
-        return currentName;
+        input.value = currentName;
+        if (errorEl) errorEl.hidden = true;
+        input.classList.remove("error");
+        
+        overlay.hidden = false;
+        setTimeout(function() { input.focus(); }, 100);
+      }
+      
+      function promptForUserName() {
+        showUserNameModal();
       }
       
       window.getCurrentUserName = getCurrentUserName;
       window.setCurrentUserName = setCurrentUserName;
       window.promptForUserName = promptForUserName;
+      window.showUserNameModal = showUserNameModal;
       
       // Activity Log (Supabase-based)
       var activityLogCache = [];
@@ -7076,12 +7192,56 @@
           });
         }
         
-        // Check if user name is set, prompt if not
-        setTimeout(function() {
-          if (!getCurrentUserName()) {
-            promptForUserName();
+        // Initialize user name modal event handlers
+        var userNameOverlay = document.getElementById("userNameModalOverlay");
+        var userNameInput = document.getElementById("userNameInput");
+        var userNameError = document.getElementById("userNameError");
+        var userNameSubmitBtn = document.getElementById("userNameSubmitBtn");
+        
+        function handleUserNameSubmit() {
+          var name = userNameInput.value.trim();
+          if (!name) {
+            if (userNameError) userNameError.hidden = false;
+            userNameInput.classList.add("error");
+            userNameInput.focus();
+            return;
           }
-        }, 2000);
+          var isInitialLogin = !getCurrentUserName();
+          setCurrentUserName(name);
+          userNameOverlay.hidden = true;
+          showToast("Welcome, " + name + "!", "success");
+          if (isInitialLogin) {
+            logActivity("Page loaded", "Started session");
+          }
+        }
+        
+        if (userNameSubmitBtn) {
+          userNameSubmitBtn.addEventListener("click", handleUserNameSubmit);
+        }
+        if (userNameInput) {
+          userNameInput.addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleUserNameSubmit();
+            }
+          });
+          userNameInput.addEventListener("input", function() {
+            if (userNameError) userNameError.hidden = true;
+            userNameInput.classList.remove("error");
+          });
+        }
+        
+        // Check if user name is set - show mandatory modal if not
+        if (getCurrentUserName()) {
+          // User already has a name, hide the modal
+          if (userNameOverlay) userNameOverlay.hidden = true;
+        } else {
+          // No name set - keep modal visible (it's mandatory)
+          if (userNameOverlay) {
+            userNameOverlay.hidden = false;
+            if (userNameInput) setTimeout(function() { userNameInput.focus(); }, 300);
+          }
+        }
         
         // Initial status bar update
         setTimeout(updateStatusBar, 1000);
@@ -7453,12 +7613,15 @@
         return changes;
       }
 
-      function validateSaveAgainstExisting(entry) {
+      function validateSaveAgainstExisting(entry, onValid, onCancel) {
         var existing = findMatchingSavedEntryForSave(
           entry.hotfixNumber,
           entry.incidentId
         );
-        if (!existing) return true;
+        if (!existing) {
+          onValid();
+          return;
+        }
 
         var changes = compareEntryFormFields(entry, existing);
         var hfDisp = String(entry.hotfixNumber || "").trim();
@@ -7474,12 +7637,13 @@
           noChangeMsg += idParts.join(" and/or ") + ".\n\n";
           noChangeMsg +=
             "Update at least one field before saving, or change the Hotfix Number / Incident ID.";
-          window.alert(noChangeMsg);
+          showInfoModal(noChangeMsg, true);
           showSaveStatus(
             "No changes to save — matching Hotfix # or Incident/Defect ID already on file.",
             true
           );
-          return false;
+          if (onCancel) onCancel();
+          return;
         }
 
         var changeLines = changes.map(function (c) {
@@ -7495,13 +7659,13 @@
         var confirmMsg =
           "A saved entry already exists with the same Hotfix Number and/or Incident/Defect ID.\n\n" +
           "The following changes will be saved as a new entry:\n\n" +
-          changeLines.join("\n\n") +
-          "\n\nSave this new entry anyway?";
-        if (!window.confirm(confirmMsg)) {
+          changeLines.join("\n\n");
+        showConfirmModal(confirmMsg, "Duplicate Entry Detected", function() {
+          onValid();
+        }, function() {
           showSaveStatus("Save cancelled.", true, true);
-          return false;
-        }
-        return true;
+          if (onCancel) onCancel();
+        });
       }
 
       function applyEntryToForm(entry) {
@@ -10601,32 +10765,31 @@
             return;
           }
           var entry = captureEntry();
-          if (!validateSaveAgainstExisting(entry)) {
-            return;
-          }
-          var list = readSavedEntries();
-          list.unshift(entry);
-          saveEntryBtn.disabled = true;
-          persistEntries(list, {
-            revealSavedPanel: true,
-            useLocalFallback: false,
-          })
-            .then(function (normalized) {
-              var activeN = normalized.filter(function (e) {
-                return e && !isEntryArchived(e);
-              }).length;
-              clearFormAfterSave();
-              if (window.logActivity) logActivity("add", "New Entry Added", "HF: " + (entry.hotfixNumber || "Unknown") + " - " + (entry.applicationName || ""));
-              showSaveStatus(
-                "Saved to shared database (" +
-                  activeN +
-                  " active). Form cleared — open All saved entries to review."
-              );
+          validateSaveAgainstExisting(entry, function() {
+            var list = readSavedEntries();
+            list.unshift(entry);
+            saveEntryBtn.disabled = true;
+            persistEntries(list, {
+              revealSavedPanel: true,
+              useLocalFallback: false,
             })
-            .catch(function () {})
-            .then(function () {
-              saveEntryBtn.disabled = false;
-            });
+              .then(function (normalized) {
+                var activeN = normalized.filter(function (e) {
+                  return e && !isEntryArchived(e);
+                }).length;
+                clearFormAfterSave();
+                if (window.logActivity) logActivity("add", "New Entry Added", "HF: " + (entry.hotfixNumber || "Unknown") + " - " + (entry.applicationName || ""));
+                showSaveStatus(
+                  "Saved to shared database (" +
+                    activeN +
+                    " active). Form cleared — open All saved entries to review."
+                );
+              })
+              .catch(function () {})
+              .then(function () {
+                saveEntryBtn.disabled = false;
+              });
+          });
         });
       }
 
