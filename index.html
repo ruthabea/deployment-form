@@ -3204,6 +3204,129 @@
       font-size: 1rem;
       font-weight: 600;
     }
+    .btn-clone {
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      color: #fff;
+      border: none;
+    }
+    .btn-clone:hover {
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+    }
+    .clone-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.6);
+      animation: fadeIn 0.2s ease;
+    }
+    .clone-modal-overlay[hidden] {
+      display: none !important;
+    }
+    .clone-modal-dialog {
+      width: 100%;
+      max-width: 480px;
+      background: var(--surface);
+      border: 2px solid #8b5cf6;
+      border-radius: 16px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+      animation: slideDown 0.25s ease;
+      padding: 1.75rem;
+    }
+    .clone-modal-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .clone-modal-icon {
+      font-size: 1.75rem;
+    }
+    .clone-modal-header h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .clone-modal-message {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .clone-hotfix-info {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+    }
+    .clone-hotfix-info strong {
+      color: var(--accent);
+    }
+    .clone-modal-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .clone-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .clone-option:hover {
+      border-color: #8b5cf6;
+      background: rgba(139, 92, 246, 0.05);
+    }
+    .clone-option input[type="radio"] {
+      margin-top: 0.25rem;
+      accent-color: #8b5cf6;
+    }
+    .clone-option input[type="radio"]:checked + .clone-option-text strong {
+      color: #8b5cf6;
+    }
+    .clone-option-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .clone-option-text strong {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+    .clone-option-text small {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .clone-modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+    .clone-modal-actions .btn-secondary {
+      min-width: 80px;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.85rem;
+    }
+    .clone-modal-actions .btn-save {
+      min-width: 120px;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.85rem;
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    }
+    .clone-modal-actions .btn-save:hover {
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+    }
     .email-modal-overlay {
       position: fixed;
       inset: 0;
@@ -4877,6 +5000,44 @@
       </div>
       <div class="user-name-modal-actions">
         <button type="button" class="btn-save" id="userNameSubmitBtn">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="cloneModalOverlay" class="clone-modal-overlay" hidden>
+    <div class="clone-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="cloneModalTitle">
+      <div class="clone-modal-header">
+        <span class="clone-modal-icon">📋</span>
+        <h3 id="cloneModalTitle">Clone for Redeployment</h3>
+      </div>
+      <p class="clone-modal-message">Select which environment(s) need redeployment. The cloned entry will have deployment fields cleared for the selected environment(s), while the other environment will be set to "N/A".</p>
+      <div id="cloneHotfixInfo" class="clone-hotfix-info"></div>
+      <div class="clone-modal-options">
+        <label class="clone-option">
+          <input type="radio" name="cloneEnv" value="ppt" checked />
+          <span class="clone-option-text">
+            <strong>PPT only</strong>
+            <small>Clone for PPT redeployment. PROD will be set to N/A.</small>
+          </span>
+        </label>
+        <label class="clone-option">
+          <input type="radio" name="cloneEnv" value="prod" />
+          <span class="clone-option-text">
+            <strong>PROD only</strong>
+            <small>Clone for PROD redeployment. PPT will be set to N/A.</small>
+          </span>
+        </label>
+        <label class="clone-option">
+          <input type="radio" name="cloneEnv" value="both" />
+          <span class="clone-option-text">
+            <strong>Both PPT and PROD</strong>
+            <small>Clone for full redeployment in both environments.</small>
+          </span>
+        </label>
+      </div>
+      <div class="clone-modal-actions">
+        <button type="button" class="btn-secondary" id="cloneModalCancelBtn">Cancel</button>
+        <button type="button" class="btn-save" id="cloneModalConfirmBtn">Clone Entry</button>
       </div>
     </div>
   </div>
@@ -7772,6 +7933,117 @@
         overlay.addEventListener("click", overlayClick);
       }
 
+      var cloneEntryData = null;
+      
+      function openCloneModal(entry) {
+        var overlay = document.getElementById("cloneModalOverlay");
+        var hotfixInfoEl = document.getElementById("cloneHotfixInfo");
+        if (!overlay) return;
+        
+        cloneEntryData = entry;
+        
+        var hfNum = entry.hotfixNumber || "N/A";
+        var app = entry.application || "N/A";
+        var incident = entry.incidentId || "N/A";
+        
+        if (hotfixInfoEl) {
+          hotfixInfoEl.innerHTML = 
+            "<strong>Hotfix:</strong> " + escapeHtml(hfNum) + "<br>" +
+            "<strong>Application:</strong> " + escapeHtml(app) + "<br>" +
+            "<strong>Incident/Defect:</strong> " + escapeHtml(incident);
+        }
+        
+        var radioButtons = overlay.querySelectorAll('input[name="cloneEnv"]');
+        radioButtons.forEach(function(rb) {
+          if (rb.value === "ppt") rb.checked = true;
+        });
+        
+        overlay.removeAttribute("hidden");
+      }
+      
+      function closeCloneModal() {
+        var overlay = document.getElementById("cloneModalOverlay");
+        if (overlay) overlay.setAttribute("hidden", "");
+        cloneEntryData = null;
+      }
+      
+      function performClone(envOption) {
+        if (!cloneEntryData) return;
+        
+        var original = cloneEntryData;
+        var newEntry = JSON.parse(JSON.stringify(original));
+        
+        newEntry.id = "entry_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
+        newEntry.savedAt = new Date().toISOString();
+        newEntry.archivedAt = null;
+        newEntry.deletedAt = null;
+        newEntry.parked = false;
+        newEntry.parkedAt = null;
+        newEntry.isRedeployment = true;
+        newEntry.originalEntryId = original.id;
+        newEntry.redeploymentEnv = envOption;
+        
+        if (envOption === "ppt") {
+          newEntry.pptDeploymentStatus = "Pending";
+          newEntry.pptRfc = "";
+          newEntry.pptDeploymentDate = "";
+          newEntry.prodDeploymentStatus = "N/A";
+          newEntry.prodRfc = "N/A";
+          newEntry.prodDeploymentDate = "";
+          newEntry.prodEnv = "N/A";
+        } else if (envOption === "prod") {
+          newEntry.pptDeploymentStatus = "N/A";
+          newEntry.pptRfc = "N/A";
+          newEntry.pptDeploymentDate = "";
+          newEntry.pptEnv = "N/A";
+          newEntry.prodDeploymentStatus = "Pending";
+          newEntry.prodRfc = "";
+          newEntry.prodDeploymentDate = "";
+        } else {
+          newEntry.pptDeploymentStatus = "Pending";
+          newEntry.pptRfc = "";
+          newEntry.pptDeploymentDate = "";
+          newEntry.prodDeploymentStatus = "Pending";
+          newEntry.prodRfc = "";
+          newEntry.prodDeploymentDate = "";
+        }
+        
+        var list = readSavedEntries();
+        list.unshift(newEntry);
+        persistEntries(list, { message: "Entry cloned for redeployment successfully." });
+        
+        if (window.logActivity) {
+          var envLabel = envOption === "ppt" ? "PPT only" : (envOption === "prod" ? "PROD only" : "Both PPT & PROD");
+          logActivity("clone", "Entry Cloned for Redeployment", "HF: " + (newEntry.hotfixNumber || "Unknown") + " - " + envLabel);
+        }
+        
+        closeCloneModal();
+      }
+      
+      (function initCloneModal() {
+        var cancelBtn = document.getElementById("cloneModalCancelBtn");
+        var confirmBtn = document.getElementById("cloneModalConfirmBtn");
+        var overlay = document.getElementById("cloneModalOverlay");
+        
+        if (cancelBtn) {
+          cancelBtn.addEventListener("click", closeCloneModal);
+        }
+        
+        if (confirmBtn) {
+          confirmBtn.addEventListener("click", function() {
+            var selectedOption = document.querySelector('input[name="cloneEnv"]:checked');
+            var envOption = selectedOption ? selectedOption.value : "ppt";
+            performClone(envOption);
+          });
+        }
+        
+        if (overlay) {
+          overlay.addEventListener("click", function(e) {
+            if (e.target === overlay) closeCloneModal();
+          });
+        }
+      })();
+
       function showSaveStatus(msg, isError, skipPopup, onClose) {
         var color = isError ? "var(--status-err)" : "var(--status-ok)";
         var targets = [saveStatus, formSaveStatus];
@@ -7967,6 +8239,9 @@
             '<button type="button" class="btn-secondary btn-tiny" data-show-steps="' +
             escapeAttr(entry.id) +
             '" title="Show deployment details">Show Details</button> ' +
+            '<button type="button" class="btn-clone btn-tiny" data-clone="' +
+            escapeAttr(entry.id) +
+            '" title="Clone for redeployment">Clone</button> ' +
             '<button type="button" class="btn-danger btn-tiny" data-del="' +
             escapeAttr(entry.id) +
             '">Delete</button> ' +
@@ -10590,6 +10865,16 @@
               persistEntries(unparkList, { message: "Hotfix unparked successfully." });
               if (window.logActivity) logActivity("unpark", "Hotfix Unparked", "HF: " + (toUnpark.hotfixNumber || "Unknown"));
             }
+            return;
+          }
+          var cloneId = t.getAttribute("data-clone");
+          if (cloneId) {
+            var cloneList = readSavedEntries();
+            var toClone = cloneList.filter(function (e) {
+              return e.id === cloneId;
+            })[0];
+            if (!toClone) return;
+            openCloneModal(toClone);
             return;
           }
           if (delId) {
