@@ -1630,6 +1630,130 @@
     .saved-table td.cell-actions .btn-danger:hover {
       background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
     }
+    /* Icon button styles */
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      margin-right: 4px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-icon:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .btn-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+    .btn-icon-load {
+      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+      border-color: #93c5fd;
+      color: #1d4ed8;
+    }
+    .btn-icon-load:hover {
+      background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
+    }
+    .btn-icon-details {
+      background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+      border-color: #a5b4fc;
+      color: #4338ca;
+    }
+    .btn-icon-details:hover {
+      background: linear-gradient(135deg, #c7d2fe 0%, #a5b4fc 100%);
+    }
+    .btn-icon-clone {
+      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+      border-color: #6ee7b7;
+      color: #047857;
+    }
+    .btn-icon-clone:hover {
+      background: linear-gradient(135deg, #a7f3d0 0%, #6ee7b7 100%);
+    }
+    .btn-icon-delete {
+      background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+      border-color: #fca5a5;
+      color: #dc2626;
+    }
+    .btn-icon-delete:hover {
+      background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+    }
+    .btn-icon-park {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-color: #fcd34d;
+      color: #b45309;
+    }
+    .btn-icon-park:hover {
+      background: linear-gradient(135deg, #fde68a 0%, #fcd34d 100%);
+    }
+    .btn-icon-unpark {
+      background: linear-gradient(135deg, #d9f99d 0%, #bef264 100%);
+      border-color: #a3e635;
+      color: #4d7c0f;
+    }
+    .btn-icon-unpark:hover {
+      background: linear-gradient(135deg, #bef264 0%, #a3e635 100%);
+    }
+    .btn-icon-restore {
+      background: linear-gradient(135deg, #cffafe 0%, #a5f3fc 100%);
+      border-color: #67e8f9;
+      color: #0e7490;
+    }
+    .btn-icon-restore:hover {
+      background: linear-gradient(135deg, #a5f3fc 0%, #67e8f9 100%);
+    }
+    /* Dark mode icon buttons */
+    [data-theme="dark"] .btn-icon {
+      background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+      border-color: #475569;
+      color: #e2e8f0;
+    }
+    [data-theme="dark"] .btn-icon:hover {
+      background: linear-gradient(135deg, #475569 0%, #334155 100%);
+    }
+    [data-theme="dark"] .btn-icon-load {
+      background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%);
+      border-color: #3b82f6;
+      color: #93c5fd;
+    }
+    [data-theme="dark"] .btn-icon-details {
+      background: linear-gradient(135deg, #312e81 0%, #3730a3 100%);
+      border-color: #6366f1;
+      color: #a5b4fc;
+    }
+    [data-theme="dark"] .btn-icon-clone {
+      background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
+      border-color: #10b981;
+      color: #6ee7b7;
+    }
+    [data-theme="dark"] .btn-icon-delete {
+      background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+      border-color: #ef4444;
+      color: #fecaca;
+    }
+    [data-theme="dark"] .btn-icon-park {
+      background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
+      border-color: #f59e0b;
+      color: #fde68a;
+    }
+    [data-theme="dark"] .btn-icon-unpark {
+      background: linear-gradient(135deg, #365314 0%, #4d7c0f 100%);
+      border-color: #84cc16;
+      color: #d9f99d;
+    }
+    [data-theme="dark"] .btn-icon-restore {
+      background: linear-gradient(135deg, #164e63 0%, #0e7490 100%);
+      border-color: #06b6d4;
+      color: #a5f3fc;
+    }
     #weeklyTrendTableWrap {
       max-width: 780px;
       margin-left: 0;
@@ -8308,9 +8432,9 @@
             : "—";
           var parkedBadge = entry.parked ? '<span class="parked-badge">PARKED</span>' : '';
           var redeployBadge = entry.isRedeployment ? '<span class="redeploy-badge">REDEPLOYMENT</span>' : '';
-          var parkBtn = entry.parked
-            ? '<button type="button" class="btn-unpark btn-tiny" data-unpark="' + escapeAttr(entry.id) + '" title="Restore to active entries">Unpark</button> '
-            : '<button type="button" class="btn-park btn-tiny" data-park="' + escapeAttr(entry.id) + '" title="Park this hotfix for later">Park</button> ';
+          var parkBtnIcon = entry.parked
+            ? '<button type="button" class="btn-icon btn-icon-unpark" data-unpark="' + escapeAttr(entry.id) + '" title="Unpark"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/><line x1="12" y1="22" x2="12" y2="12"/><line x1="5" y1="7" x2="19" y2="7"/></svg></button>'
+            : '<button type="button" class="btn-icon btn-icon-park" data-park="' + escapeAttr(entry.id) + '" title="Park"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/><polyline points="9 10 12 8 15 10"/></svg></button>';
           tr.innerHTML =
             '<td class="col-checkbox"><input type="checkbox" class="bulk-checkbox bulk-row-checkbox" data-bulk-id="' +
             escapeAttr(entry.id) +
@@ -8358,19 +8482,19 @@
             (prodStatus === "N/A" ? '<span class="na-field">N/A</span>' : '<input type="date" class="saved-inline-input saved-inline-date" data-entry-id="' + escapeAttr(entry.id) + '" data-prod-field="prodDeploymentDate" value="' + escapeAttr(entry.prodDeploymentDate || "") + '" />') +
             "</td>" +
             '<td class="cell-actions">' +
-            '<button type="button" class="btn-secondary btn-tiny" data-load="' +
+            '<button type="button" class="btn-icon btn-icon-load" data-load="' +
             escapeAttr(entry.id) +
-            '" title="Copy/Load data to form">Copy/Load Data</button> ' +
-            '<button type="button" class="btn-secondary btn-tiny" data-show-steps="' +
+            '" title="Copy/Load Data"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v10a2 2 0 002 2h6"/><path d="M9 3v4a2 2 0 01-2 2H3"/><path d="M3 3h6l3 3"/><path d="M14 15l3-3 3 3"/><path d="M17 12v9"/><path d="M21 17v4h-8v-4"/></svg></button>' +
+            '<button type="button" class="btn-icon btn-icon-details" data-show-steps="' +
             escapeAttr(entry.id) +
-            '" title="Show deployment details">Show Details</button> ' +
-            '<button type="button" class="btn-clone btn-tiny" data-clone="' +
+            '" title="Show Details"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><circle cx="17" cy="17" r="3"/><path d="M21 21l-1.5-1.5"/></svg></button>' +
+            '<button type="button" class="btn-icon btn-icon-clone" data-clone="' +
             escapeAttr(entry.id) +
-            '" title="Clone for redeployment">Clone</button> ' +
-            '<button type="button" class="btn-danger btn-tiny" data-del="' +
+            '" title="Clone for Redeployment"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button>' +
+            '<button type="button" class="btn-icon btn-icon-delete" data-del="' +
             escapeAttr(entry.id) +
-            '">Delete</button> ' +
-            parkBtn +
+            '" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>' +
+            parkBtnIcon +
             "</td>";
           savedEntriesBody.appendChild(tr);
         });
@@ -8572,12 +8696,12 @@
             escapeHtml(archWhen) +
             "</td>" +
             '<td class="cell-actions">' +
-            '<button type="button" class="btn-secondary btn-tiny" data-arch-load="' +
+            '<button type="button" class="btn-icon btn-icon-load" data-arch-load="' +
             escapeAttr(entry.id) +
-            '" title="Copy/Load data to form">Copy/Load Data</button> ' +
-            '<button type="button" class="btn-danger btn-tiny" data-arch-del="' +
+            '" title="Copy/Load Data"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v10a2 2 0 002 2h6"/><path d="M9 3v4a2 2 0 01-2 2H3"/><path d="M3 3h6l3 3"/><path d="M14 15l3-3 3 3"/><path d="M17 12v9"/><path d="M21 17v4h-8v-4"/></svg></button>' +
+            '<button type="button" class="btn-icon btn-icon-delete" data-arch-del="' +
             escapeAttr(entry.id) +
-            '">Delete</button>' +
+            '" title="Delete"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>' +
             "</td>";
           archiveEntriesBody.appendChild(tr);
         });
@@ -8764,12 +8888,12 @@
             escapeHtml(delWhen) +
             "</td>" +
             '<td class="cell-actions">' +
-            '<button type="button" class="btn-secondary btn-tiny" data-del-restore="' +
+            '<button type="button" class="btn-icon btn-icon-restore" data-del-restore="' +
             escapeAttr(entry.id) +
-            '" title="Restore to saved entries">Restore</button> ' +
-            '<button type="button" class="btn-danger btn-tiny" data-del-perm="' +
+            '" title="Restore"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></button>' +
+            '<button type="button" class="btn-icon btn-icon-delete" data-del-perm="' +
             escapeAttr(entry.id) +
-            '" title="Permanently delete">Delete</button>' +
+            '" title="Permanently Delete"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>' +
             "</td>";
           deletedEntriesBody.appendChild(tr);
         });
