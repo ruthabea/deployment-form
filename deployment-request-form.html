@@ -10966,10 +10966,12 @@
         );
         savedEntriesBody.addEventListener("click", function (ev) {
           var t = ev.target;
-          if (!(t && t.getAttribute)) return;
-          var loadId = t.getAttribute("data-load");
-          var delId = t.getAttribute("data-del");
-          var showStepsId = t.getAttribute("data-show-steps");
+          if (!t) return;
+          var btn = t.closest("button");
+          if (!btn) return;
+          var loadId = btn.getAttribute("data-load");
+          var delId = btn.getAttribute("data-del");
+          var showStepsId = btn.getAttribute("data-show-steps");
           if (loadId) {
             var found = readSavedEntries().filter(function (e) {
               return e.id === loadId;
@@ -11145,7 +11147,7 @@
             }
             return;
           }
-          var parkId = t.getAttribute("data-park");
+          var parkId = btn.getAttribute("data-park");
           if (parkId) {
             var parkList = readSavedEntries();
             var toPark = parkList.filter(function (e) {
@@ -11169,7 +11171,7 @@
             );
             return;
           }
-          var unparkId = t.getAttribute("data-unpark");
+          var unparkId = btn.getAttribute("data-unpark");
           if (unparkId) {
             var unparkList = readSavedEntries();
             var toUnpark = unparkList.filter(function (e) {
@@ -11193,7 +11195,7 @@
             );
             return;
           }
-          var cloneId = t.getAttribute("data-clone");
+          var cloneId = btn.getAttribute("data-clone");
           if (cloneId) {
             var cloneList = readSavedEntries();
             var toClone = cloneList.filter(function (e) {
@@ -11232,9 +11234,11 @@
       if (archiveEntriesBody) {
         archiveEntriesBody.addEventListener("click", function (ev) {
           var t = ev.target;
-          if (!(t && t.getAttribute)) return;
-          var archLoadId = t.getAttribute("data-arch-load");
-          var archDelId = t.getAttribute("data-arch-del");
+          if (!t) return;
+          var btn = t.closest("button");
+          if (!btn) return;
+          var archLoadId = btn.getAttribute("data-arch-load");
+          var archDelId = btn.getAttribute("data-arch-del");
           if (archLoadId) {
             var foundA = readSavedEntries().filter(function (e) {
               return e.id === archLoadId;
@@ -11280,9 +11284,11 @@
       if (deletedEntriesBody) {
         deletedEntriesBody.addEventListener("click", function (ev) {
           var t = ev.target;
-          if (!(t && t.getAttribute)) return;
-          var restoreId = t.getAttribute("data-del-restore");
-          var permDelId = t.getAttribute("data-del-perm");
+          if (!t) return;
+          var btn = t.closest("button");
+          if (!btn) return;
+          var restoreId = btn.getAttribute("data-del-restore");
+          var permDelId = btn.getAttribute("data-del-perm");
           if (restoreId) {
             withDestructivePassword(function () {
               var listR = readSavedEntries();
