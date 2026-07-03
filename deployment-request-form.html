@@ -2443,6 +2443,7 @@
       border: 1px solid var(--border);
       background: var(--input-bg);
       transition: all 0.2s;
+      font-weight: 600;
     }
     .saved-status-select:focus {
       border-color: var(--accent);
@@ -2450,6 +2451,68 @@
     }
     .saved-status-select:hover {
       border-color: var(--accent);
+    }
+    /* Status color highlighting */
+    .saved-status-select.status-pending {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      color: #92400e;
+    }
+    .saved-status-select.status-tobeplanned {
+      background: #dbeafe;
+      border-color: #3b82f6;
+      color: #1e40af;
+    }
+    .saved-status-select.status-planned {
+      background: #e0e7ff;
+      border-color: #6366f1;
+      color: #3730a3;
+    }
+    .saved-status-select.status-inprogress {
+      background: #fef9c3;
+      border-color: #eab308;
+      color: #854d0e;
+    }
+    .saved-status-select.status-deployed {
+      background: #dcfce7;
+      border-color: #22c55e;
+      color: #166534;
+    }
+    .saved-status-select.status-na {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+      color: #64748b;
+    }
+    /* Dark mode status colors */
+    [data-theme="dark"] .saved-status-select.status-pending {
+      background: #78350f;
+      border-color: #f59e0b;
+      color: #fde68a;
+    }
+    [data-theme="dark"] .saved-status-select.status-tobeplanned {
+      background: #1e3a5f;
+      border-color: #3b82f6;
+      color: #93c5fd;
+    }
+    [data-theme="dark"] .saved-status-select.status-planned {
+      background: #312e81;
+      border-color: #6366f1;
+      color: #c7d2fe;
+    }
+    [data-theme="dark"] .saved-status-select.status-inprogress {
+      background: #713f12;
+      border-color: #eab308;
+      color: #fef08a;
+    }
+    [data-theme="dark"] .saved-status-select.status-deployed {
+      background: #14532d;
+      border-color: #22c55e;
+      color: #bbf7d0;
+    }
+    [data-theme="dark"] .saved-status-select.status-na {
+      background: #334155;
+      border-color: #64748b;
+      color: #94a3b8;
     }
     .saved-deploy-extras {
       margin-top: 0.65rem;
@@ -4556,6 +4619,7 @@
             <option value="">All</option>
             <option value="Pending">Pending</option>
             <option value="To be Planned">To be Planned</option>
+            <option value="Planned">Planned</option>
             <option value="In progress">In progress</option>
             <option value="Deployed">Deployed</option>
             <option value="N/A">N/A</option>
@@ -4565,6 +4629,7 @@
             <option value="">All</option>
             <option value="Pending">Pending</option>
             <option value="To be Planned">To be Planned</option>
+            <option value="Planned">Planned</option>
             <option value="In progress">In progress</option>
             <option value="Deployed">Deployed</option>
             <option value="N/A">N/A</option>
@@ -4615,6 +4680,7 @@
               <option value="">— No change —</option>
               <option value="Pending">Pending</option>
               <option value="To be Planned">To be Planned</option>
+              <option value="Planned">Planned</option>
               <option value="In progress">In progress</option>
               <option value="Deployed">Deployed</option>
               <option value="N/A">N/A</option>
@@ -4634,6 +4700,7 @@
               <option value="">— No change —</option>
               <option value="Pending">Pending</option>
               <option value="To be Planned">To be Planned</option>
+              <option value="Planned">Planned</option>
               <option value="In progress">In progress</option>
               <option value="Deployed">Deployed</option>
               <option value="N/A">N/A</option>
@@ -6783,7 +6850,7 @@
         "riskMitigationPlan"
       ];
 
-      var DEPLOYMENT_STATUS_OPTIONS = ["Pending", "To be Planned", "In progress", "Deployed", "N/A"];
+      var DEPLOYMENT_STATUS_OPTIONS = ["Pending", "To be Planned", "Planned", "In progress", "Deployed", "N/A"];
 
       var SAVED_STATUS_EXPORT_KEYS = [
         "pptDeploymentStatus",
@@ -7685,12 +7752,12 @@
         entry.prodRfc = String(entry.prodRfc == null ? "" : entry.prodRfc);
         entry.prodDeploymentDate = String(entry.prodDeploymentDate == null ? "" : entry.prodDeploymentDate);
         var pptStatus = normalizeDeploymentStatus(entry.pptDeploymentStatus);
-        if (pptStatus !== "Deployed" && pptStatus !== "To be Planned") {
+        if (pptStatus !== "Deployed" && pptStatus !== "To be Planned" && pptStatus !== "Planned") {
           entry.pptRfc = "";
           entry.pptDeploymentDate = "";
         }
         var prodStatus = normalizeDeploymentStatus(entry.prodDeploymentStatus);
-        if (prodStatus !== "Deployed" && prodStatus !== "To be Planned") {
+        if (prodStatus !== "Deployed" && prodStatus !== "To be Planned" && prodStatus !== "Planned") {
           entry.prodRfc = "";
           entry.prodDeploymentDate = "";
         }
@@ -8423,7 +8490,7 @@
           var rowClasses = [];
           if (entry.parked) {
             rowClasses.push("parked-entry");
-          } else if (pptStatus === "To be Planned" || prodStatus === "To be Planned") {
+          } else if (pptStatus === "To be Planned" || prodStatus === "To be Planned" || pptStatus === "Planned" || prodStatus === "Planned") {
             rowClasses.push("to-be-planned");
           }
           tr.className = rowClasses.join(" ");
@@ -10418,10 +10485,22 @@
         return escapeHtml(s).replace(/'/g, "&#39;");
       }
 
+      function getStatusClass(status) {
+        var s = String(status || "").toLowerCase().replace(/\s+/g, "");
+        if (s === "pending") return "status-pending";
+        if (s === "tobeplanned") return "status-tobeplanned";
+        if (s === "planned") return "status-planned";
+        if (s === "inprogress") return "status-inprogress";
+        if (s === "deployed") return "status-deployed";
+        if (s === "n/a") return "status-na";
+        return "status-pending";
+      }
+
       function deploymentStatusSelectHtml(field, entryId, value) {
         var cur = normalizeDeploymentStatus(value);
+        var statusClass = getStatusClass(cur);
         var parts = [
-          '<select class="saved-status-select" data-entry-id="' +
+          '<select class="saved-status-select ' + statusClass + '" data-entry-id="' +
             escapeAttr(entryId) +
             '" data-status-field="' +
             escapeAttr(field) +
@@ -10446,7 +10525,7 @@
         var id = entry.id;
         var status = normalizeDeploymentStatus(entry.pptDeploymentStatus);
         var deployed = status === "Deployed";
-        var toBePlanned = status === "To be Planned";
+        var toBePlanned = status === "To be Planned" || status === "Planned";
         var rfc = String(entry.pptRfc == null ? "" : entry.pptRfc);
         var depDate = String(entry.pptDeploymentDate == null ? "" : entry.pptDeploymentDate);
         var parts = [];
@@ -10502,7 +10581,7 @@
         var id = entry.id;
         var status = normalizeDeploymentStatus(entry.prodDeploymentStatus);
         var deployed = status === "Deployed";
-        var toBePlanned = status === "To be Planned";
+        var toBePlanned = status === "To be Planned" || status === "Planned";
         var rfc = String(entry.prodRfc == null ? "" : entry.prodRfc);
         var depDate = String(entry.prodDeploymentDate == null ? "" : entry.prodDeploymentDate);
         var parts = [];
@@ -10929,17 +11008,20 @@
           if (!entryId || (field !== "pptDeploymentStatus" && field !== "prodDeploymentStatus")) {
             return;
           }
+          // Update status color class
+          t.className = "saved-status-select " + getStatusClass(t.value);
           var list = readSavedEntries();
           var ent = list.filter(function (e) {
             return e.id === entryId;
           })[0];
           if (!ent) return;
           ent[field] = normalizeDeploymentStatus(t.value);
-          if (field === "pptDeploymentStatus" && ent[field] !== "Deployed" && ent[field] !== "To be Planned") {
+          var statusAllowsDetails = ["Deployed", "To be Planned", "Planned"];
+          if (field === "pptDeploymentStatus" && statusAllowsDetails.indexOf(ent[field]) === -1) {
             ent.pptRfc = "";
             ent.pptDeploymentDate = "";
           }
-          if (field === "prodDeploymentStatus" && ent[field] !== "Deployed" && ent[field] !== "To be Planned") {
+          if (field === "prodDeploymentStatus" && statusAllowsDetails.indexOf(ent[field]) === -1) {
             ent.prodRfc = "";
             ent.prodDeploymentDate = "";
           }
@@ -11499,7 +11581,7 @@
       var bulkProdDate = document.getElementById("bulkProdDate");
       
       function statusRequiresRfcDate(status) {
-        return status === "Deployed" || status === "To be Planned";
+        return status === "Deployed" || status === "To be Planned" || status === "Planned";
       }
       
       function updateBulkExtrasVisibility() {
