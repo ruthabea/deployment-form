@@ -255,16 +255,16 @@
     .network-share-banner .banner-close:hover {
       color: #fff;
     }
-    .header-mascot {
-      display: flex;
-      align-items: center;
-      margin-left: auto;
-      margin-right: 10px;
-    }
-    .mascot-img {
-      height: 40px;
-      width: auto;
-      object-fit: contain;
+    .header-mascot-bg {
+      flex: 1;
+      min-width: 100px;
+      height: 100%;
+      background-image: url('mascot.png');
+      background-repeat: no-repeat;
+      background-position: right center;
+      background-size: contain;
+      margin: 0 10px;
+      opacity: 0.85;
     }
     .sync-status-bar {
       display: flex;
@@ -4366,9 +4366,7 @@
           <a href="#calendar">Calendar</a>
           <a href="#count-of-fixes">Count of Fixes</a>
         </div>
-        <div class="header-mascot">
-          <img src="mascot.png" alt="Mascot" class="mascot-img" onerror="this.style.display='none'">
-        </div>
+        <div class="header-mascot-bg"></div>
         <div id="syncStatusBar" class="sync-status-bar" hidden>
           <span id="syncIndicator" class="sync-indicator"></span>
           <span id="syncStatusText">Last synced: --</span>
