@@ -4045,6 +4045,236 @@
       cursor: pointer;
       font-size: 12px;
     }
+    /* Verification Modal Styles */
+    .verify-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 10010;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(2px);
+    }
+    .verify-modal-overlay.show {
+      display: flex;
+    }
+    .verify-modal-dialog {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+      width: 90%;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      animation: verifyModalSlide 0.2s ease-out;
+    }
+    .verify-details-dialog {
+      max-width: 700px;
+    }
+    @keyframes verifyModalSlide {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .verify-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      border-radius: 12px 12px 0 0;
+    }
+    .verify-modal-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: 600;
+    }
+    .verify-modal-close {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .verify-modal-close:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .verify-modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .verify-modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+      border-radius: 0 0 12px 12px;
+    }
+    .verify-summary-icon {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .verify-summary-text {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .verify-summary-count {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ef4444;
+      margin-bottom: 8px;
+    }
+    .verify-summary-count.success {
+      color: #22c55e;
+    }
+    .verify-summary-subtext {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .verify-details-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .verify-details-table th,
+    .verify-details-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .verify-details-table th {
+      background: var(--bg);
+      font-weight: 600;
+      color: var(--text);
+      position: sticky;
+      top: 0;
+    }
+    .verify-details-table tr:hover {
+      background: rgba(59, 130, 246, 0.05);
+    }
+    .verify-hf-link {
+      color: #3b82f6;
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .verify-hf-link:hover {
+      color: #1d4ed8;
+    }
+    .verify-missing-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .verify-missing-tag {
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+    [data-theme="dark"] .verify-missing-tag {
+      background: #7f1d1d;
+      color: #fecaca;
+    }
+    .verify-status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .verify-status-ppt {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+    .verify-status-prod {
+      background: #dcfce7;
+      color: #166534;
+    }
+    [data-theme="dark"] .verify-status-ppt {
+      background: #1e3a5f;
+      color: #93c5fd;
+    }
+    [data-theme="dark"] .verify-status-prod {
+      background: #14532d;
+      color: #bbf7d0;
+    }
+    .verify-id-issue {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px dashed #f59e0b;
+    }
+    [data-theme="dark"] .verify-id-issue {
+      background: #78350f;
+      color: #fde68a;
+      border-color: #f59e0b;
+    }
+    .btn-fix-id {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      color: #fff;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-fix-id:hover {
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      transform: translateY(-1px);
+    }
+    .verify-fix-dropdown {
+      display: inline-block;
+    }
+    .verify-fix-select {
+      font-size: 0.7rem;
+      padding: 4px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: var(--input-bg);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .verify-fix-select:focus {
+      border-color: #22c55e;
+      outline: none;
+    }
+    /* Missing field highlighting in form */
+    .field-missing {
+      border-color: #ef4444 !important;
+      background: #fef2f2 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+    }
+    [data-theme="dark"] .field-missing {
+      background: rgba(239, 68, 68, 0.15) !important;
+    }
+    .field-missing-label {
+      color: #ef4444 !important;
+    }
     .toast-container {
       position: fixed;
       top: 20px;
@@ -7612,6 +7842,425 @@
             logActivity("backup", "Manual Backup", "Quick backup from status bar");
           });
         }
+
+        // Verify Entries functionality
+        var verifyEntriesBtn = document.getElementById("statusVerifyEntries");
+        var verifySummaryOverlay = document.getElementById("verifySummaryOverlay");
+        var verifySummaryClose = document.getElementById("verifySummaryClose");
+        var verifySummaryCloseBtn = document.getElementById("verifySummaryCloseBtn");
+        var verifySummaryViewDetails = document.getElementById("verifySummaryViewDetails");
+        var verifySummaryBody = document.getElementById("verifySummaryBody");
+        var verifyDetailsOverlay = document.getElementById("verifyDetailsOverlay");
+        var verifyDetailsClose = document.getElementById("verifyDetailsClose");
+        var verifyDetailsCloseBtn = document.getElementById("verifyDetailsCloseBtn");
+        var verifyDetailsBody = document.getElementById("verifyDetailsBody");
+        var verificationResults = [];
+
+        function getRequiredFieldsForEntry(entry) {
+          var missing = [];
+          var pptStatus = normalizeDeploymentStatus(entry.pptDeploymentStatus);
+          var prodStatus = normalizeDeploymentStatus(entry.prodDeploymentStatus);
+          var deployType = (entry.deploymentType || "").toLowerCase();
+          
+          // Always required
+          if (!entry.application || !String(entry.application).trim()) missing.push({ field: "application", label: "Application" });
+          if (!entry.requester || !String(entry.requester).trim()) missing.push({ field: "requester", label: "Requester" });
+          if (!entry.hotfixNumber || !String(entry.hotfixNumber).trim()) missing.push({ field: "hotfixNumber", label: "Hotfix Number" });
+          if (!entry.deploymentType || !String(entry.deploymentType).trim()) missing.push({ field: "deploymentType", label: "Deployment Type" });
+          if (!entry.description || !String(entry.description).trim()) missing.push({ field: "description", label: "Description" });
+          
+          // Incident ID required for Hotfix type
+          if (deployType === "hotfix" || deployType === "hf") {
+            if (!entry.incidentId || !String(entry.incidentId).trim()) {
+              missing.push({ field: "incidentId", label: "Incident/Defect ID" });
+            }
+          }
+          
+          // PPT fields (when not N/A)
+          if (pptStatus !== "N/A") {
+            if (!entry.pptEnv || !String(entry.pptEnv).trim()) missing.push({ field: "pptEnv", label: "PPT Environment" });
+            if (!entry.deploymentStepsPpt || !String(entry.deploymentStepsPpt).trim()) missing.push({ field: "deploymentStepsPpt", label: "Deployment Steps (PPT)" });
+            
+            // RFC and Date required when Deployed/Planned/To be Planned
+            if (pptStatus === "Deployed" || pptStatus === "Planned" || pptStatus === "To be Planned") {
+              if (!entry.pptRfc || !String(entry.pptRfc).trim()) missing.push({ field: "pptRfc", label: "PPT RFC" });
+              if (!entry.pptDeploymentDate || !String(entry.pptDeploymentDate).trim()) missing.push({ field: "pptDeploymentDate", label: "PPT Date" });
+            }
+          }
+          
+          // PROD fields (when not N/A)
+          if (prodStatus !== "N/A") {
+            if (!entry.prodEnv || !String(entry.prodEnv).trim()) missing.push({ field: "prodEnv", label: "PROD Environment" });
+            if (!entry.deploymentStepsProd || !String(entry.deploymentStepsProd).trim()) missing.push({ field: "deploymentStepsProd", label: "Deployment Steps (PROD)" });
+            
+            // RFC and Date required when Deployed/Planned/To be Planned
+            if (prodStatus === "Deployed" || prodStatus === "Planned" || prodStatus === "To be Planned") {
+              if (!entry.prodRfc || !String(entry.prodRfc).trim()) missing.push({ field: "prodRfc", label: "PROD RFC" });
+              if (!entry.prodDeploymentDate || !String(entry.prodDeploymentDate).trim()) missing.push({ field: "prodDeploymentDate", label: "PROD Date" });
+            }
+          }
+          
+          return missing;
+        }
+
+        function isValidIncidentDefectId(id) {
+          if (!id || !String(id).trim()) return { valid: false, type: "empty" };
+          var val = String(id).trim();
+          
+          // Valid: Defect#XXXX
+          if (/^Defect#\d+$/i.test(val)) return { valid: true, type: "defect" };
+          
+          // Valid: INCXXXXXXX (incident number without #)
+          if (/^INC\d+$/i.test(val)) return { valid: true, type: "incident" };
+          
+          // Invalid patterns that can be auto-corrected to Defect#
+          if (/^D#\d+$/i.test(val)) return { valid: false, type: "defect", suggestion: "Defect#" + val.replace(/^D#/i, "") };
+          if (/^DF#\d+$/i.test(val)) return { valid: false, type: "defect", suggestion: "Defect#" + val.replace(/^DF#/i, "") };
+          if (/^DEF#\d+$/i.test(val)) return { valid: false, type: "defect", suggestion: "Defect#" + val.replace(/^DEF#/i, "") };
+          if (/^Defect\d+$/i.test(val)) return { valid: false, type: "defect", suggestion: "Defect#" + val.replace(/^Defect/i, "") };
+          
+          // Invalid patterns that can be auto-corrected to INC
+          if (/^I#\d+$/i.test(val)) return { valid: false, type: "incident", suggestion: "INC" + val.replace(/^I#/i, "") };
+          if (/^INC#\d+$/i.test(val)) return { valid: false, type: "incident", suggestion: "INC" + val.replace(/^INC#/i, "") };
+          if (/^Incident#\d+$/i.test(val)) return { valid: false, type: "incident", suggestion: "INC" + val.replace(/^Incident#/i, "") };
+          if (/^Incident\d+$/i.test(val)) return { valid: false, type: "incident", suggestion: "INC" + val.replace(/^Incident/i, "") };
+          
+          // Numbers only - needs user choice
+          if (/^\d+$/.test(val)) return { valid: false, type: "unknown", number: val };
+          
+          // Other invalid format
+          return { valid: false, type: "invalid" };
+        }
+
+        function runVerification() {
+          var entries = readSavedEntries();
+          // Filter: only entries with PPT or PROD status = "Pending" (not parked, not archived, not deleted)
+          var pendingEntries = entries.filter(function(e) {
+            if (!e || e.parked || e.deletedAt || isEntryArchived(e)) return false;
+            var pptStatus = normalizeDeploymentStatus(e.pptDeploymentStatus);
+            var prodStatus = normalizeDeploymentStatus(e.prodDeploymentStatus);
+            return pptStatus === "Pending" || prodStatus === "Pending";
+          });
+          
+          verificationResults = [];
+          pendingEntries.forEach(function(entry) {
+            var missing = getRequiredFieldsForEntry(entry);
+            var idValidation = null;
+            
+            // Check Incident/Defect ID format if it has a value
+            if (entry.incidentId && String(entry.incidentId).trim()) {
+              idValidation = isValidIncidentDefectId(entry.incidentId);
+              if (!idValidation.valid && idValidation.type !== "empty") {
+                // Add ID format issue to missing list with clear explanation
+                var currentVal = String(entry.incidentId).trim();
+                var issueLabel = "";
+                
+                if (idValidation.suggestion) {
+                  // Has auto-suggestion - show current → suggested
+                  issueLabel = "'" + currentVal + "' → " + idValidation.suggestion;
+                } else if (idValidation.type === "unknown") {
+                  // Number only - needs prefix
+                  issueLabel = "'" + currentVal + "' needs Defect# or INC prefix";
+                } else {
+                  // Other invalid format
+                  issueLabel = "'" + currentVal + "' is invalid format";
+                }
+                
+                missing.push({ 
+                  field: "incidentId", 
+                  label: issueLabel, 
+                  isFormatIssue: true,
+                  idValidation: idValidation,
+                  currentValue: entry.incidentId
+                });
+              }
+            }
+            
+            if (missing.length > 0) {
+              verificationResults.push({
+                entry: entry,
+                missing: missing
+              });
+            }
+          });
+          
+          return verificationResults;
+        }
+
+        function showVerificationSummary() {
+          var results = runVerification();
+          var count = results.length;
+          
+          if (count === 0) {
+            verifySummaryBody.innerHTML = 
+              '<div class="verify-summary-icon">✅</div>' +
+              '<div class="verify-summary-text">All entries are complete!</div>' +
+              '<div class="verify-summary-count success">0</div>' +
+              '<div class="verify-summary-subtext">No missing or incomplete details found.</div>';
+            verifySummaryViewDetails.style.display = "none";
+          } else {
+            verifySummaryBody.innerHTML = 
+              '<div class="verify-summary-icon">⚠️</div>' +
+              '<div class="verify-summary-text">Entries with incomplete details:</div>' +
+              '<div class="verify-summary-count">' + count + '</div>' +
+              '<div class="verify-summary-subtext">Click "View Details" to see which hotfixes need attention.</div>';
+            verifySummaryViewDetails.style.display = "inline-block";
+          }
+          
+          verifySummaryOverlay.classList.add("show");
+          logActivity("verify", "Verification Run", count + " entries with incomplete details");
+        }
+
+        function showVerificationDetails() {
+          if (verificationResults.length === 0) return;
+          
+          var html = '<table class="verify-details-table"><thead><tr>' +
+            '<th>Hotfix #</th><th>Application</th><th>Missing Fields</th><th>PPT/PROD Status</th><th>Actions</th>' +
+            '</tr></thead><tbody>';
+          
+          verificationResults.forEach(function(result) {
+            var entry = result.entry;
+            var missing = result.missing;
+            var pptStatus = normalizeDeploymentStatus(entry.pptDeploymentStatus);
+            var prodStatus = normalizeDeploymentStatus(entry.prodDeploymentStatus);
+            
+            // Check if there's an ID format issue
+            var hasIdFormatIssue = false;
+            var idIssue = null;
+            
+            var missingHtml = '<div class="verify-missing-list">';
+            missing.forEach(function(m) {
+              if (m.isFormatIssue) {
+                hasIdFormatIssue = true;
+                idIssue = m;
+                missingHtml += '<span class="verify-missing-tag verify-id-issue">' + escapeHtml(m.label) + '</span>';
+              } else {
+                missingHtml += '<span class="verify-missing-tag">' + escapeHtml(m.label) + '</span>';
+              }
+            });
+            missingHtml += '</div>';
+            
+            // Build actions column
+            var actionsHtml = '';
+            if (hasIdFormatIssue && idIssue) {
+              if (idIssue.idValidation && idIssue.idValidation.suggestion) {
+                // Has auto-suggestion
+                actionsHtml = '<button type="button" class="btn-fix-id btn-tiny" ' +
+                  'data-fix-entry-id="' + escapeAttr(entry.id) + '" ' +
+                  'data-fix-suggestion="' + escapeAttr(idIssue.idValidation.suggestion) + '" ' +
+                  'title="Fix to: ' + escapeAttr(idIssue.idValidation.suggestion) + '">Fix ID</button>';
+              } else if (idIssue.idValidation && idIssue.idValidation.type === "unknown") {
+                // Number only - needs user choice
+                actionsHtml = '<div class="verify-fix-dropdown">' +
+                  '<select class="verify-fix-select" data-fix-entry-id="' + escapeAttr(entry.id) + '" data-fix-number="' + escapeAttr(idIssue.idValidation.number) + '">' +
+                  '<option value="">Choose prefix</option>' +
+                  '<option value="Defect#">Defect#' + escapeHtml(idIssue.idValidation.number) + '</option>' +
+                  '<option value="INC">INC' + escapeHtml(idIssue.idValidation.number) + '</option>' +
+                  '</select></div>';
+              }
+            }
+            
+            html += '<tr>' +
+              '<td><span class="verify-hf-link" data-verify-entry-id="' + escapeAttr(entry.id) + '">' + escapeHtml(entry.hotfixNumber || "N/A") + '</span></td>' +
+              '<td>' + escapeHtml(entry.application || "N/A") + '</td>' +
+              '<td>' + missingHtml + '</td>' +
+              '<td>' +
+                '<span class="verify-status-badge verify-status-ppt">PPT: ' + escapeHtml(pptStatus) + '</span> ' +
+                '<span class="verify-status-badge verify-status-prod">PROD: ' + escapeHtml(prodStatus) + '</span>' +
+              '</td>' +
+              '<td>' + actionsHtml + '</td>' +
+            '</tr>';
+          });
+          
+          html += '</tbody></table>';
+          verifyDetailsBody.innerHTML = html;
+          
+          // Add click handlers for hotfix links
+          var hfLinks = verifyDetailsBody.querySelectorAll(".verify-hf-link");
+          hfLinks.forEach(function(link) {
+            link.addEventListener("click", function() {
+              var entryId = this.getAttribute("data-verify-entry-id");
+              loadEntryAndHighlightMissing(entryId);
+            });
+          });
+          
+          // Add click handlers for Fix ID buttons
+          var fixButtons = verifyDetailsBody.querySelectorAll(".btn-fix-id");
+          fixButtons.forEach(function(btn) {
+            btn.addEventListener("click", function() {
+              var entryId = this.getAttribute("data-fix-entry-id");
+              var suggestion = this.getAttribute("data-fix-suggestion");
+              fixIncidentDefectId(entryId, suggestion);
+            });
+          });
+          
+          // Add change handlers for prefix select dropdowns
+          var fixSelects = verifyDetailsBody.querySelectorAll(".verify-fix-select");
+          fixSelects.forEach(function(sel) {
+            sel.addEventListener("change", function() {
+              if (!this.value) return;
+              var entryId = this.getAttribute("data-fix-entry-id");
+              var number = this.getAttribute("data-fix-number");
+              var newValue = this.value + number;
+              fixIncidentDefectId(entryId, newValue);
+            });
+          });
+          
+          verifySummaryOverlay.classList.remove("show");
+          verifyDetailsOverlay.classList.add("show");
+        }
+
+        function fixIncidentDefectId(entryId, newValue) {
+          var entries = readSavedEntries();
+          var entry = entries.find(function(e) { return e.id === entryId; });
+          if (!entry) return;
+          
+          var oldValue = entry.incidentId;
+          entry.incidentId = newValue;
+          persistEntries(entries, { message: "Incident/Defect ID corrected." });
+          
+          logActivity("fix-id", "ID Corrected", "HF: " + (entry.hotfixNumber || "Unknown") + " | " + oldValue + " → " + newValue);
+          showToast("ID corrected: " + newValue, "success");
+          
+          // Re-run verification and refresh details
+          runVerification();
+          showVerificationDetails();
+        }
+
+        function loadEntryAndHighlightMissing(entryId) {
+          var result = verificationResults.find(function(r) {
+            return r.entry.id === entryId;
+          });
+          if (!result) return;
+          
+          var entry = result.entry;
+          var missing = result.missing;
+          
+          // Close modals
+          verifyDetailsOverlay.classList.remove("show");
+          verifySummaryOverlay.classList.remove("show");
+          
+          // Load entry into form
+          applyEntryToForm(entry);
+          loadedEntryId = entry.id;
+          if (updateEntryBtn) updateEntryBtn.disabled = false;
+          
+          // Switch to New Entry panel
+          updateActiveNavLink(newEntryNavLink);
+          switchToPanel(newEntryPanel);
+          
+          // Clear previous highlights
+          clearMissingFieldHighlights();
+          
+          // Highlight missing fields
+          setTimeout(function() {
+            missing.forEach(function(m) {
+              highlightMissingField(m.field);
+            });
+            
+            // Scroll to form
+            if (form) form.scrollIntoView({ behavior: "smooth", block: "start" });
+            
+            showToast("Entry loaded. Missing fields are highlighted in red.", "warning");
+          }, 100);
+        }
+
+        function highlightMissingField(fieldName) {
+          var fieldMap = {
+            "application": "application",
+            "requester": "requester",
+            "hotfixNumber": "hotfixNumber",
+            "deploymentType": "deploymentType",
+            "description": "description",
+            "incidentId": "incidentId",
+            "pptEnv": "pptEnv",
+            "prodEnv": "prodEnv",
+            "deploymentStepsPpt": "deploymentStepsPpt",
+            "deploymentStepsProd": "deploymentStepsProd",
+            "pptRfc": "pptRfc",
+            "pptDeploymentDate": "pptDeploymentDate",
+            "prodRfc": "prodRfc",
+            "prodDeploymentDate": "prodDeploymentDate"
+          };
+          
+          var elementId = fieldMap[fieldName];
+          if (!elementId) return;
+          
+          var element = document.getElementById(elementId);
+          if (element) {
+            element.classList.add("field-missing");
+            
+            // Also highlight label
+            var label = document.querySelector('label[for="' + elementId + '"]');
+            if (label) {
+              label.classList.add("field-missing-label");
+            }
+          }
+        }
+
+        function clearMissingFieldHighlights() {
+          var highlighted = document.querySelectorAll(".field-missing");
+          highlighted.forEach(function(el) {
+            el.classList.remove("field-missing");
+          });
+          var highlightedLabels = document.querySelectorAll(".field-missing-label");
+          highlightedLabels.forEach(function(el) {
+            el.classList.remove("field-missing-label");
+          });
+        }
+
+        // Event listeners for verification
+        if (verifyEntriesBtn) {
+          verifyEntriesBtn.addEventListener("click", showVerificationSummary);
+        }
+        
+        if (verifySummaryClose) {
+          verifySummaryClose.addEventListener("click", function() {
+            verifySummaryOverlay.classList.remove("show");
+          });
+        }
+        
+        if (verifySummaryCloseBtn) {
+          verifySummaryCloseBtn.addEventListener("click", function() {
+            verifySummaryOverlay.classList.remove("show");
+          });
+        }
+        
+        if (verifySummaryViewDetails) {
+          verifySummaryViewDetails.addEventListener("click", showVerificationDetails);
+        }
+        
+        if (verifyDetailsClose) {
+          verifyDetailsClose.addEventListener("click", function() {
+            verifyDetailsOverlay.classList.remove("show");
+          });
+        }
+        
+        if (verifyDetailsCloseBtn) {
+          verifyDetailsCloseBtn.addEventListener("click", function() {
+            verifyDetailsOverlay.classList.remove("show");
+          });
+        }
+
+        // Clear highlights when form fields change
+        if (form) {
+          form.addEventListener("input", function(ev) {
+            var target = ev.target;
+            if (target && target.classList.contains("field-missing")) {
+              target.classList.remove("field-missing");
+              var label = document.querySelector('label[for="' + target.id + '"]');
+              if (label) label.classList.remove("field-missing-label");
+            }
+          });
+          form.addEventListener("change", function(ev) {
+            var target = ev.target;
+            if (target && target.classList.contains("field-missing")) {
+              target.classList.remove("field-missing");
+              var label = document.querySelector('label[for="' + target.id + '"]');
+              if (label) label.classList.remove("field-missing-label");
+            }
+          });
+        }
         
         if (logClose) {
           logClose.addEventListener("click", function() {
@@ -9296,6 +9945,13 @@
         return { monthsSet: monthsSet, monthKeys: Object.keys(monthsSet).sort().reverse() };
       }
       
+      function getCurrentMonthKey() {
+        var now = new Date();
+        var y = now.getFullYear();
+        var m = String(now.getMonth() + 1).padStart(2, "0");
+        return y + "-" + m;
+      }
+
       function populateTableMonthFilter(chartData) {
         var select = document.getElementById("tableMonthFilter");
         if (!select) return;
@@ -9307,6 +9963,10 @@
           opt.textContent = opts.monthsSet[key];
           select.appendChild(opt);
         });
+        var currentMonth = getCurrentMonthKey();
+        if (opts.monthKeys.indexOf(currentMonth) >= 0) {
+          select.value = currentMonth;
+        }
         select.removeEventListener("change", onTableMonthFilterChange);
         select.addEventListener("change", onTableMonthFilterChange);
       }
@@ -9508,6 +10168,10 @@
           opt.textContent = opts.monthsSet[key];
           select.appendChild(opt);
         });
+        var currentMonth = getCurrentMonthKey();
+        if (opts.monthKeys.indexOf(currentMonth) >= 0) {
+          select.value = currentMonth;
+        }
         select.removeEventListener("change", onAppTrendMonthFilterChange);
         select.addEventListener("change", onAppTrendMonthFilterChange);
       }
@@ -10312,6 +10976,10 @@
           opt.textContent = opts.monthsSet[key];
           select.appendChild(opt);
         });
+        var currentMonth = getCurrentMonthKey();
+        if (opts.monthKeys.indexOf(currentMonth) >= 0) {
+          select.value = currentMonth;
+        }
         select.removeEventListener("change", onChartMonthFilterChange);
         select.addEventListener("change", onChartMonthFilterChange);
       }
@@ -14077,6 +14745,7 @@
       <span id="statusUserName" style="cursor: pointer;">👤 Set Name</span>
       <button type="button" id="statusViewLogBtn">📋 Activity Log</button>
       <button type="button" id="statusQuickBackup">💾 Quick Backup</button>
+      <button type="button" id="statusVerifyEntries">✓ Verify Entries</button>
     </div>
   </div>
   
@@ -14099,5 +14768,38 @@
   
   <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Verification Summary Modal -->
+  <div class="verify-modal-overlay" id="verifySummaryOverlay">
+    <div class="verify-modal-dialog verify-summary-dialog">
+      <div class="verify-modal-header">
+        <h3>✓ Verification Complete</h3>
+        <button type="button" class="verify-modal-close" id="verifySummaryClose">&times;</button>
+      </div>
+      <div class="verify-modal-body" id="verifySummaryBody">
+        <!-- Summary content will be inserted here -->
+      </div>
+      <div class="verify-modal-footer">
+        <button type="button" class="btn-secondary" id="verifySummaryCloseBtn">Close</button>
+        <button type="button" class="btn-primary" id="verifySummaryViewDetails" style="display:none;">View Details</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Verification Details Modal -->
+  <div class="verify-modal-overlay" id="verifyDetailsOverlay">
+    <div class="verify-modal-dialog verify-details-dialog">
+      <div class="verify-modal-header">
+        <h3>📋 Incomplete Hotfix Details</h3>
+        <button type="button" class="verify-modal-close" id="verifyDetailsClose">&times;</button>
+      </div>
+      <div class="verify-modal-body" id="verifyDetailsBody">
+        <!-- Details content will be inserted here -->
+      </div>
+      <div class="verify-modal-footer">
+        <button type="button" class="btn-secondary" id="verifyDetailsCloseBtn">Close</button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
