@@ -255,6 +255,17 @@
     .network-share-banner .banner-close:hover {
       color: #fff;
     }
+    .header-mascot {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      margin-right: 10px;
+    }
+    .mascot-img {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+    }
     .sync-status-bar {
       display: flex;
       align-items: center;
@@ -4354,6 +4365,9 @@
           <a href="#monthly-trend">Monthly Trend</a>
           <a href="#calendar">Calendar</a>
           <a href="#count-of-fixes">Count of Fixes</a>
+        </div>
+        <div class="header-mascot">
+          <img src="mascot.png" alt="Mascot" class="mascot-img" onerror="this.style.display='none'">
         </div>
         <div id="syncStatusBar" class="sync-status-bar" hidden>
           <span id="syncIndicator" class="sync-indicator"></span>
