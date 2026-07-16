@@ -63,7 +63,7 @@
       --link-num-hover: #3f5268;
       --danger: #dc2626;
       --input-bg: #ffffff;
-      --table-head-bg: #f1f5f9;
+      --table-head-bg: #334155;
       --shadow-strong: rgba(15, 23, 42, 0.08);
       --shadow-medium: rgba(15, 23, 42, 0.06);
       --focus-ring: rgba(37, 99, 235, 0.2);
@@ -1086,6 +1086,173 @@
     .saved-filters-row select:hover {
       border-color: var(--accent);
     }
+    .saved-app-filter-wrap {
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .saved-app-filter-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.45rem;
+      min-width: 11rem;
+      max-width: 15rem;
+      padding: 0.35rem 0.55rem;
+      font: inherit;
+      font-size: 0.75rem;
+      color: var(--text);
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .saved-app-filter-btn:hover,
+    .saved-app-filter-btn[aria-expanded="true"] {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--focus-ring);
+    }
+    .saved-app-filter-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      text-align: left;
+      flex: 1;
+    }
+    .saved-app-filter-caret {
+      font-size: 0.65rem;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    .saved-app-filter-dropdown {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      z-index: 1005;
+      width: 15.5rem;
+      max-height: 18rem;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 10px 28px var(--shadow-medium);
+    }
+    .saved-app-filter-dropdown[hidden] {
+      display: none !important;
+    }
+    .saved-app-filter-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.5rem 0.65rem;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #475569 0%, #334155 100%);
+      color: #f8fafc;
+      flex-shrink: 0;
+    }
+    .saved-app-filter-header-text {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1.3;
+    }
+    .saved-app-filter-count {
+      display: block;
+      font-size: 0.62rem;
+      font-weight: 500;
+      opacity: 0.85;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .saved-app-filter-clear {
+      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      color: #f8fafc;
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .saved-app-filter-clear:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+    .saved-app-filter-search-wrap {
+      padding: 0.45rem 0.55rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .saved-app-filter-search {
+      width: 100%;
+      padding: 0.35rem 0.5rem;
+      font: inherit;
+      font-size: 0.72rem;
+      color: var(--text);
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+    }
+    .saved-app-filter-search:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--focus-ring);
+    }
+    .saved-app-filter-list {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 0.25rem 0;
+    }
+    .saved-app-filter-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.4rem 0.65rem;
+      margin: 0;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text);
+      text-transform: none;
+      letter-spacing: normal;
+      cursor: pointer;
+      user-select: none;
+      box-sizing: border-box;
+    }
+    .saved-app-filter-item:hover {
+      background: rgba(100, 116, 139, 0.1);
+    }
+    .saved-app-filter-item.is-hidden {
+      display: none !important;
+    }
+    .saved-app-filter-item input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      margin: 0;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .saved-app-filter-item-text {
+      display: block;
+      flex: 1;
+      min-width: 0;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    .saved-app-filter-empty,
+    .saved-app-filter-no-results {
+      padding: 0.65rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-align: center;
+    }
     .saved-search-no-match {
       color: var(--muted);
       font-size: 0.88rem;
@@ -1125,14 +1292,19 @@
       vertical-align: middle;
     }
     .saved-table th {
-      background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%);
-      color: #fff;
+      background: linear-gradient(180deg, #475569 0%, #334155 100%);
+      color: #f8fafc;
       font-weight: 600;
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.3px;
       white-space: nowrap;
-      border-bottom: none;
+      border-bottom: 2px solid #1e293b;
+    }
+    [data-theme="dark"] .saved-table th {
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      color: #e2e8f0;
+      border-bottom-color: #334155;
     }
     .saved-table th:first-child {
       border-radius: 12px 0 0 0;
@@ -1145,7 +1317,7 @@
       transition: all 0.15s ease;
     }
     .saved-table tbody tr:hover {
-      background: rgba(59, 130, 246, 0.06);
+      background: rgba(100, 116, 139, 0.06);
       transform: scale(1.002);
     }
     .saved-table tbody tr:last-child td:first-child {
@@ -1155,7 +1327,12 @@
       border-radius: 0 0 12px 0;
     }
     .saved-table th.ppt-highlight {
-      background: linear-gradient(135deg, #854d0e 0%, #a16207 100%);
+      background: linear-gradient(180deg, #a16207 0%, #854d0e 100%);
+      color: #fef9c3;
+    }
+    [data-theme="dark"] .saved-table th.ppt-highlight {
+      background: linear-gradient(180deg, #854d0e 0%, #713f12 100%);
+      color: #fef9c3;
     }
     .saved-table td.ppt-highlight {
       background: rgba(253, 224, 71, 0.15);
@@ -1164,7 +1341,12 @@
       background: rgba(234, 179, 8, 0.12);
     }
     .saved-table th.prod-highlight {
-      background: linear-gradient(135deg, #9a3412 0%, #c2410c 100%);
+      background: linear-gradient(180deg, #c2410c 0%, #9a3412 100%);
+      color: #ffedd5;
+    }
+    [data-theme="dark"] .saved-table th.prod-highlight {
+      background: linear-gradient(180deg, #9a3412 0%, #7c2d12 100%);
+      color: #ffedd5;
     }
     .saved-table td.prod-highlight {
       background: rgba(251, 146, 60, 0.12);
@@ -1960,8 +2142,8 @@
       border-bottom: 1px solid var(--border);
     }
     .monthly-trend-table th {
-      background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%);
-      color: #fff;
+      background: linear-gradient(180deg, #475569 0%, #334155 100%);
+      color: #f8fafc;
       font-weight: 700;
       font-size: 0.72rem;
       text-transform: uppercase;
@@ -2025,12 +2207,12 @@
       line-height: 1.4;
     }
     .monthly-trend-details-table th {
-      background: var(--bg);
+      background: linear-gradient(180deg, #475569 0%, #334155 100%);
       font-weight: 600;
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.3px;
-      color: var(--muted);
+      color: #f8fafc;
     }
     .monthly-trend-details-table tbody tr:hover {
       background: rgba(59, 130, 246, 0.08);
@@ -2078,8 +2260,8 @@
       padding: 8px 8px;
     }
     .monthly-trend-details-table.monthly-trend-details-saved-style th {
-      background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%);
-      color: #fff;
+      background: linear-gradient(180deg, #475569 0%, #334155 100%);
+      color: #f8fafc;
       font-weight: 700;
       font-size: 0.68rem;
       text-transform: uppercase;
@@ -2412,11 +2594,11 @@
     .weekly-deployment-status-table th {
       padding: 0.5rem 0.65rem;
       border: none;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid #1e293b;
       text-align: center;
       font-size: 0.7rem;
-      background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%);
-      color: #fff;
+      background: linear-gradient(180deg, #475569 0%, #334155 100%);
+      color: #f8fafc;
       font-weight: 700;
       white-space: nowrap;
       text-transform: uppercase;
@@ -2535,14 +2717,14 @@
     }
     .count-of-fixes-table th {
       padding: 0.4rem 0.7rem;
-      background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%);
-      color: #fff;
+      background: linear-gradient(180deg, #475569 0%, #334155 100%);
+      color: #f8fafc;
       font-weight: 700;
       font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.3px;
       text-align: left;
-      border: 1px solid #1e40af;
+      border: 1px solid #334155;
     }
     .count-of-fixes-table th:last-child {
       text-align: center;
@@ -2645,6 +2827,116 @@
       width: 100% !important;
       max-height: 320px;
     }
+    .weekly-trend-table tbody tr {
+      transition: transform 0.22s ease, background-color 0.22s ease;
+    }
+    .weekly-trend-table tbody tr:hover {
+      background: rgba(59, 130, 246, 0.06);
+    }
+    .app-trend-table tbody tr {
+      transition: transform 0.22s ease, background-color 0.22s ease;
+    }
+    .app-trend-table tbody tr:hover {
+      background: rgba(59, 130, 246, 0.05);
+    }
+    .weekly-deployment-status-table tbody tr {
+      transition: transform 0.22s ease, background-color 0.22s ease;
+    }
+    .weekly-deployment-status-table tbody tr:hover {
+      background: rgba(59, 130, 246, 0.05);
+    }
+    @keyframes trendPanelReveal {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes trendSectionSlide {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes trendRowReveal {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    @keyframes trendChartReveal {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    @keyframes trendSectionFade {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .trend-panel-reveal {
+      animation: trendPanelReveal 0.55s ease-out both;
+    }
+    .trend-panel-reveal .weekly-trend-left,
+    .trend-panel-reveal .monthly-trend-left {
+      animation: trendSectionSlide 0.6s ease-out both;
+      animation-delay: 0.06s;
+    }
+    .trend-panel-reveal .weekly-trend-right,
+    .trend-panel-reveal .monthly-trend-right {
+      animation: trendSectionSlide 0.65s ease-out both;
+      animation-delay: 0.14s;
+    }
+    .trend-section-reveal {
+      animation: trendSectionFade 0.55s ease-out both;
+    }
+    .trend-row-animate {
+      animation: trendRowReveal 0.42s ease-out both;
+    }
+    .trend-row-animate:hover {
+      transform: translateX(3px);
+    }
+    .trend-chart-animate {
+      animation: trendChartReveal 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .trend-panel-reveal,
+      .trend-panel-reveal .weekly-trend-left,
+      .trend-panel-reveal .weekly-trend-right,
+      .trend-panel-reveal .monthly-trend-left,
+      .trend-panel-reveal .monthly-trend-right,
+      .trend-section-reveal,
+      .trend-row-animate,
+      .trend-chart-animate {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .trend-row-animate:hover {
+        transform: none;
+      }
+    }
     .app-trend-section {
       margin-top: 1.5rem;
       padding-top: 1rem;
@@ -2696,23 +2988,24 @@
     }
     .app-trend-week-col {
       text-align: left !important;
-      background: var(--table-head-bg);
+      background: linear-gradient(180deg, #475569 0%, #334155 100%) !important;
+      color: #f8fafc !important;
     }
     .app-trend-table td:first-child {
       text-align: left;
       white-space: nowrap;
       background: var(--card-bg);
     }
-    .app-group-fe { background: #fff3cd; color: #856404; }
-    .app-group-be { background: #d4edda; color: #155724; }
-    .app-group-ods { background: #cce5ff; color: #004085; }
-    .app-group-infra { background: #f8d7da; color: #721c24; }
-    .app-group-sd { background: #d1ecf1; color: #0c5460; }
-    html[data-theme="dark"] .app-group-fe { background: #5c4d1e; color: #ffeeba; }
-    html[data-theme="dark"] .app-group-be { background: #1e4d2b; color: #c3e6cb; }
-    html[data-theme="dark"] .app-group-ods { background: #1e3a5f; color: #b8daff; }
-    html[data-theme="dark"] .app-group-infra { background: #5c1e24; color: #f5c6cb; }
-    html[data-theme="dark"] .app-group-sd { background: #1e4d5c; color: #bee5eb; }
+    .app-group-fe { background: #92400e; color: #fef3c7; }
+    .app-group-be { background: #166534; color: #dcfce7; }
+    .app-group-ods { background: #1e3a8a; color: #dbeafe; }
+    .app-group-infra { background: #991b1b; color: #fecaca; }
+    .app-group-sd { background: #155e75; color: #cffafe; }
+    html[data-theme="dark"] .app-group-fe { background: #78350f; color: #fde68a; }
+    html[data-theme="dark"] .app-group-be { background: #14532d; color: #bbf7d0; }
+    html[data-theme="dark"] .app-group-ods { background: #1e3a8a; color: #bfdbfe; }
+    html[data-theme="dark"] .app-group-infra { background: #7f1d1d; color: #fecaca; }
+    html[data-theme="dark"] .app-group-sd { background: #164e63; color: #a5f3fc; }
     .app-trend-table input.planned-input {
       width: 45px;
       padding: 0.2rem 0.3rem;
@@ -2728,14 +3021,24 @@
     }
     .archive-filter-wrap {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.35rem;
       margin-bottom: 0.75rem;
       font-size: 0.85rem;
+    }
+    .archive-filter-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
     }
     .archive-filter-wrap label {
       color: var(--muted);
       font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
     }
     .archive-filter-wrap select {
       padding: 0.35rem 0.5rem;
@@ -3675,8 +3978,8 @@
       height: 3.5rem;
       margin: 0 auto 1rem;
       border-radius: 50%;
-      background: #d1fae5;
-      color: #047857;
+      background: #e2e8f0;
+      color: #475569;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -3685,7 +3988,7 @@
     .portal-magic-link-sent h3 {
       margin: 0 0 0.5rem;
       font-size: 1.25rem;
-      color: #134e4a;
+      color: #334155;
     }
     .portal-magic-link-sent p {
       margin: 0.45rem 0;
@@ -3694,7 +3997,7 @@
     }
     .portal-sent-email {
       font-weight: 700;
-      color: #0f766e !important;
+      color: #475569 !important;
       font-size: 0.98rem;
       word-break: break-all;
     }
@@ -3708,15 +4011,16 @@
       padding: 0.62rem 1.1rem;
       font-size: 0.86rem;
       font-weight: 600;
-      color: #0f766e;
-      background: #f0fdfa;
-      border: 1px solid #99f6e4;
+      color: #475569;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
       border-radius: 999px;
       cursor: pointer;
     }
     .portal-login-btn-secondary:hover {
-      background: #ccfbf1;
-      border-color: #5eead4;
+      background: #f1f5f9;
+      border-color: #94a3b8;
+      color: #334155;
     }
     .portal-login-error {
       margin-top: 1rem;
@@ -3746,7 +4050,7 @@
       width: 18px;
       height: 18px;
       border: 2px solid #d1d5db;
-      border-top-color: #0f766e;
+      border-top-color: #64748b;
       border-radius: 50%;
       animation: portal-login-spin 0.8s linear infinite;
     }
@@ -4626,7 +4930,8 @@
       animation: verifyModalSlide 0.2s ease-out;
     }
     .verify-details-dialog {
-      max-width: 700px;
+      max-width: 960px;
+      width: 94%;
     }
     @keyframes verifyModalSlide {
       from { opacity: 0; transform: translateY(-20px); }
@@ -4637,20 +4942,27 @@
       justify-content: space-between;
       align-items: center;
       padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
-      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      border-bottom: 1px solid #1e293b;
+      background: linear-gradient(180deg, #475569 0%, #334155 100%);
       border-radius: 12px 12px 0 0;
+    }
+    [data-theme="dark"] .verify-modal-header {
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border-bottom-color: #334155;
     }
     .verify-modal-header h3 {
       margin: 0;
       font-size: 1.1rem;
-      color: #fff;
+      color: #f8fafc;
       font-weight: 600;
     }
+    [data-theme="dark"] .verify-modal-header h3 {
+      color: #f1f5f9;
+    }
     .verify-modal-close {
-      background: rgba(255,255,255,0.2);
+      background: rgba(255, 255, 255, 0.15);
       border: none;
-      color: #fff;
+      color: #f8fafc;
       font-size: 1.5rem;
       cursor: pointer;
       width: 32px;
@@ -4661,8 +4973,15 @@
       justify-content: center;
       transition: background 0.2s;
     }
+    [data-theme="dark"] .verify-modal-close {
+      background: rgba(255, 255, 255, 0.12);
+      color: #e2e8f0;
+    }
     .verify-modal-close:hover {
-      background: rgba(255,255,255,0.3);
+      background: rgba(255, 255, 255, 0.25);
+    }
+    [data-theme="dark"] .verify-modal-close:hover {
+      background: rgba(255, 255, 255, 0.2);
     }
     .verify-modal-body {
       padding: 20px;
@@ -4738,14 +5057,23 @@
       border-bottom: 1px solid var(--border);
     }
     .verify-details-table th {
-      background: var(--bg);
+      background: linear-gradient(180deg, #475569 0%, #334155 100%);
       font-weight: 600;
-      color: var(--text);
+      color: #f8fafc;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
       position: sticky;
       top: 0;
+      border-bottom: 2px solid #1e293b;
+    }
+    [data-theme="dark"] .verify-details-table th {
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      color: #e2e8f0;
+      border-bottom-color: #334155;
     }
     .verify-details-table tr:hover {
-      background: rgba(59, 130, 246, 0.05);
+      background: rgba(100, 116, 139, 0.06);
     }
     .verify-hf-link {
       color: var(--link-num);
@@ -4769,6 +5097,8 @@
       border-radius: 4px;
       font-size: 0.7rem;
       font-weight: 500;
+      line-height: 1.35;
+      max-width: 100%;
     }
     [data-theme="dark"] .verify-missing-tag {
       background: #7f1d1d;
@@ -4780,6 +5110,22 @@
       border-radius: 4px;
       font-size: 0.7rem;
       font-weight: 600;
+    }
+    .verify-status-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
+    }
+    .verify-defect-id {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.78rem;
+      color: var(--text);
+      word-break: break-word;
+    }
+    .verify-no-action {
+      color: var(--muted);
+      font-size: 0.8rem;
     }
     .verify-status-ppt {
       background: #dbeafe;
@@ -5511,6 +5857,40 @@
             <option value="Deployed">Deployed</option>
             <option value="N/A">N/A</option>
           </select>
+          <label for="savedApplicationFilterBtn">Application</label>
+          <div class="saved-app-filter-wrap" id="savedApplicationFilterWrap">
+            <button
+              type="button"
+              class="saved-app-filter-btn"
+              id="savedApplicationFilterBtn"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="savedApplicationFilterList"
+            >
+              <span class="saved-app-filter-label" id="savedApplicationFilterLabel">All applications</span>
+              <span class="saved-app-filter-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="saved-app-filter-dropdown" id="savedApplicationFilterDropdown" hidden>
+              <div class="saved-app-filter-header">
+                <div class="saved-app-filter-header-text">
+                  <span>Select applications</span>
+                  <span class="saved-app-filter-count" id="savedApplicationFilterCount"></span>
+                </div>
+                <button type="button" class="saved-app-filter-clear" id="savedApplicationFilterClear">Clear</button>
+              </div>
+              <div class="saved-app-filter-search-wrap">
+                <input
+                  type="search"
+                  id="savedApplicationFilterSearch"
+                  class="saved-app-filter-search"
+                  placeholder="Search applications…"
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+              </div>
+              <div class="saved-app-filter-list" id="savedApplicationFilterList" role="listbox" aria-multiselectable="true"></div>
+            </div>
+          </div>
           <label for="savedFilterParked">Show</label>
           <select id="savedFilterParked">
             <option value="active">Active Only</option>
@@ -5645,10 +6025,44 @@
         />
         <div class="archive-filter-wrap" style="margin-top: 0.5rem;">
           <label for="archiveFilterMonth">Filter by PROD deployment month:</label>
-          <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.25rem;">
+          <div class="archive-filter-controls">
             <select id="archiveFilterMonth">
               <option value="">All months</option>
             </select>
+            <label for="archiveApplicationFilterBtn">Application</label>
+            <div class="saved-app-filter-wrap" id="archiveApplicationFilterWrap">
+              <button
+                type="button"
+                class="saved-app-filter-btn"
+                id="archiveApplicationFilterBtn"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-controls="archiveApplicationFilterList"
+              >
+                <span class="saved-app-filter-label" id="archiveApplicationFilterLabel">All applications</span>
+                <span class="saved-app-filter-caret" aria-hidden="true">▾</span>
+              </button>
+              <div class="saved-app-filter-dropdown" id="archiveApplicationFilterDropdown" hidden>
+                <div class="saved-app-filter-header">
+                  <div class="saved-app-filter-header-text">
+                    <span>Select applications</span>
+                    <span class="saved-app-filter-count" id="archiveApplicationFilterCount"></span>
+                  </div>
+                  <button type="button" class="saved-app-filter-clear" id="archiveApplicationFilterClear">Clear</button>
+                </div>
+                <div class="saved-app-filter-search-wrap">
+                  <input
+                    type="search"
+                    id="archiveApplicationFilterSearch"
+                    class="saved-app-filter-search"
+                    placeholder="Search applications…"
+                    autocomplete="off"
+                    spellcheck="false"
+                  />
+                </div>
+                <div class="saved-app-filter-list" id="archiveApplicationFilterList" role="listbox" aria-multiselectable="true"></div>
+              </div>
+            </div>
             <div class="column-settings-wrap">
               <button type="button" class="column-settings-btn" id="archiveColumnSettingsBtn" title="Column Settings">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><circle cx="4" cy="12" r="2"></circle><circle cx="12" cy="10" r="2"></circle><circle cx="20" cy="14" r="2"></circle></svg>
@@ -5747,10 +6161,44 @@
       </div>
       <div id="summaryFilterWrap" class="archive-filter-wrap" hidden>
         <label for="summaryFilterMonth">Filter by PROD deployment month:</label>
-        <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.25rem;">
+        <div class="archive-filter-controls">
           <select id="summaryFilterMonth">
             <option value="">All months</option>
           </select>
+          <label for="summaryApplicationFilterBtn">Application</label>
+          <div class="saved-app-filter-wrap" id="summaryApplicationFilterWrap">
+            <button
+              type="button"
+              class="saved-app-filter-btn"
+              id="summaryApplicationFilterBtn"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="summaryApplicationFilterList"
+            >
+              <span class="saved-app-filter-label" id="summaryApplicationFilterLabel">All applications</span>
+              <span class="saved-app-filter-caret" aria-hidden="true">▾</span>
+            </button>
+            <div class="saved-app-filter-dropdown" id="summaryApplicationFilterDropdown" hidden>
+              <div class="saved-app-filter-header">
+                <div class="saved-app-filter-header-text">
+                  <span>Select applications</span>
+                  <span class="saved-app-filter-count" id="summaryApplicationFilterCount"></span>
+                </div>
+                <button type="button" class="saved-app-filter-clear" id="summaryApplicationFilterClear">Clear</button>
+              </div>
+              <div class="saved-app-filter-search-wrap">
+                <input
+                  type="search"
+                  id="summaryApplicationFilterSearch"
+                  class="saved-app-filter-search"
+                  placeholder="Search applications…"
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+              </div>
+              <div class="saved-app-filter-list" id="summaryApplicationFilterList" role="listbox" aria-multiselectable="true"></div>
+            </div>
+          </div>
           <div class="column-settings-wrap">
             <button type="button" class="column-settings-btn" id="summaryColumnSettingsBtn" title="Column Settings">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><circle cx="4" cy="12" r="2"></circle><circle cx="12" cy="10" r="2"></circle><circle cx="20" cy="14" r="2"></circle></svg>
@@ -7864,6 +8312,68 @@
       var summaryPageInfo = document.getElementById("summaryPageInfo");
       var summaryCurrentPage = 1;
       var SUMMARY_PAGE_SIZE = 20;
+
+      function createAppFilterInstance(opts) {
+        return {
+          btn: document.getElementById(opts.btnId),
+          dropdown: document.getElementById(opts.dropdownId),
+          list: document.getElementById(opts.listId),
+          label: document.getElementById(opts.labelId),
+          clear: document.getElementById(opts.clearId),
+          wrap: document.getElementById(opts.wrapId),
+          search: document.getElementById(opts.searchId),
+          count: document.getElementById(opts.countId),
+          inputIdPrefix: opts.inputIdPrefix || "appFilter_",
+          selected: {},
+          onChange: opts.onChange || function () {}
+        };
+      }
+
+      var savedAppFilter = createAppFilterInstance({
+        btnId: "savedApplicationFilterBtn",
+        dropdownId: "savedApplicationFilterDropdown",
+        listId: "savedApplicationFilterList",
+        labelId: "savedApplicationFilterLabel",
+        clearId: "savedApplicationFilterClear",
+        wrapId: "savedApplicationFilterWrap",
+        searchId: "savedApplicationFilterSearch",
+        countId: "savedApplicationFilterCount",
+        inputIdPrefix: "savedAppFilter_",
+        onChange: function () {
+          renderSavedList();
+        }
+      });
+      var archiveAppFilter = createAppFilterInstance({
+        btnId: "archiveApplicationFilterBtn",
+        dropdownId: "archiveApplicationFilterDropdown",
+        listId: "archiveApplicationFilterList",
+        labelId: "archiveApplicationFilterLabel",
+        clearId: "archiveApplicationFilterClear",
+        wrapId: "archiveApplicationFilterWrap",
+        searchId: "archiveApplicationFilterSearch",
+        countId: "archiveApplicationFilterCount",
+        inputIdPrefix: "archiveAppFilter_",
+        onChange: function () {
+          archiveCurrentPage = 1;
+          renderArchiveList();
+        }
+      });
+      var summaryAppFilter = createAppFilterInstance({
+        btnId: "summaryApplicationFilterBtn",
+        dropdownId: "summaryApplicationFilterDropdown",
+        listId: "summaryApplicationFilterList",
+        labelId: "summaryApplicationFilterLabel",
+        clearId: "summaryApplicationFilterClear",
+        wrapId: "summaryApplicationFilterWrap",
+        searchId: "summaryApplicationFilterSearch",
+        countId: "summaryApplicationFilterCount",
+        inputIdPrefix: "summaryAppFilter_",
+        onChange: function () {
+          summaryCurrentPage = 1;
+          renderSummaryList();
+        }
+      });
+      var appFilters = [savedAppFilter, archiveAppFilter, summaryAppFilter];
       
       var deletedTableWrap = document.getElementById("deletedTableWrap");
       var deletedEntriesBody = document.getElementById("deletedEntriesBody");
@@ -8841,7 +9351,6 @@
           var missing = [];
           var pptStatus = normalizeDeploymentStatus(entry.pptDeploymentStatus);
           var prodStatus = normalizeDeploymentStatus(entry.prodDeploymentStatus);
-          var deployType = (entry.deploymentType || "").toLowerCase();
           
           // Always required
           if (!entry.application || !String(entry.application).trim()) missing.push({ field: "application", label: "Application" });
@@ -8849,12 +9358,8 @@
           if (!entry.hotfixNumber || !String(entry.hotfixNumber).trim()) missing.push({ field: "hotfixNumber", label: "Hotfix Number" });
           if (!entry.deploymentType || !String(entry.deploymentType).trim()) missing.push({ field: "deploymentType", label: "Deployment Type" });
           if (!entry.description || !String(entry.description).trim()) missing.push({ field: "description", label: "Description" });
-          
-          // Incident ID required for Hotfix type
-          if (deployType === "hotfix" || deployType === "hf") {
-            if (!entry.incidentId || !String(entry.incidentId).trim()) {
-              missing.push({ field: "incidentId", label: "Incident/Defect ID" });
-            }
+          if (!entry.incidentId || !String(entry.incidentId).trim()) {
+            missing.push({ field: "incidentId", label: "Incident/Defect ID" });
           }
           
           // PPT fields (when not N/A)
@@ -8887,12 +9392,27 @@
         function isValidIncidentDefectId(id) {
           if (!id || !String(id).trim()) return { valid: false, type: "empty" };
           var val = String(id).trim();
+          var compact = val.replace(/\s+/g, "");
           
           // Valid: Defect#XXXX
           if (/^Defect#\d+$/i.test(val)) return { valid: true, type: "defect" };
           
           // Valid: INCXXXXXXX (incident number without #)
           if (/^INC\d+$/i.test(val)) return { valid: true, type: "incident" };
+
+          // Valid: OOPIT-XXXX (flexible spacing, e.g. "OOPIT - 296")
+          var jiraOopit = compact.match(/^JIRA-?OOPIT-?(\d+)$/i);
+          if (jiraOopit) {
+            return { valid: false, type: "oopit", suggestion: "OOPIT-" + jiraOopit[1] };
+          }
+          var ooptMatch = compact.match(/^OOPT-?(\d+)$/i);
+          if (ooptMatch) {
+            return { valid: false, type: "oopit", suggestion: "OOPIT-" + ooptMatch[1] };
+          }
+          var oopitMatch = compact.match(/^OOPIT-?(\d+)$/i);
+          if (oopitMatch) {
+            return { valid: true, type: "oopit" };
+          }
           
           // Invalid patterns that can be auto-corrected to Defect#
           if (/^D#\d+$/i.test(val)) return { valid: false, type: "defect", suggestion: "Defect#" + val.replace(/^D#/i, "") };
@@ -8928,7 +9448,7 @@
             var missing = getRequiredFieldsForEntry(entry);
             var idValidation = null;
             
-            // Check Incident/Defect ID format if it has a value
+            // Check Incident/Defect ID format for hotfix entries only
             if (entry.incidentId && String(entry.incidentId).trim()) {
               idValidation = isValidIncidentDefectId(entry.incidentId);
               if (!idValidation.valid && idValidation.type !== "empty") {
@@ -8994,9 +9514,14 @@
 
         function showVerificationDetails() {
           if (verificationResults.length === 0) return;
+
+          var detailsTitle = document.querySelector("#verifyDetailsOverlay .verify-modal-header h3");
+          if (detailsTitle) {
+            detailsTitle.textContent = "Incomplete Hotfix Details (" + verificationResults.length + ")";
+          }
           
           var html = '<table class="verify-details-table"><thead><tr>' +
-            '<th>Hotfix #</th><th>Application</th><th>Missing Fields</th><th>PPT/PROD Status</th><th>Actions</th>' +
+            '<th>Hotfix #</th><th>Application</th><th>Defect / Incident ID</th><th>Issues</th><th>PPT / PROD</th><th>Actions</th>' +
             '</tr></thead><tbody>';
           
           verificationResults.forEach(function(result) {
@@ -9037,18 +9562,23 @@
                   '<option value="">Choose prefix</option>' +
                   '<option value="Defect#">Defect#' + escapeHtml(idIssue.idValidation.number) + '</option>' +
                   '<option value="INC">INC' + escapeHtml(idIssue.idValidation.number) + '</option>' +
+                  '<option value="OOPIT-">OOPIT-' + escapeHtml(idIssue.idValidation.number) + '</option>' +
                   '</select></div>';
               }
+            }
+            if (!actionsHtml) {
+              actionsHtml = '<span class="verify-no-action">—</span>';
             }
             
             html += '<tr>' +
               '<td><span class="verify-hf-link" data-verify-entry-id="' + escapeAttr(entry.id) + '">' + escapeHtml(entry.hotfixNumber || "N/A") + '</span></td>' +
               '<td>' + escapeHtml(entry.application || "N/A") + '</td>' +
+              '<td><span class="verify-defect-id">' + escapeHtml(String(entry.incidentId || "").trim() || "—") + '</span></td>' +
               '<td>' + missingHtml + '</td>' +
-              '<td>' +
-                '<span class="verify-status-badge verify-status-ppt">PPT: ' + escapeHtml(pptStatus) + '</span> ' +
+              '<td><div class="verify-status-group">' +
+                '<span class="verify-status-badge verify-status-ppt">PPT: ' + escapeHtml(pptStatus) + '</span>' +
                 '<span class="verify-status-badge verify-status-prod">PROD: ' + escapeHtml(prodStatus) + '</span>' +
-              '</td>' +
+              '</div></td>' +
               '<td>' + actionsHtml + '</td>' +
             '</tr>';
           });
@@ -9992,22 +10522,234 @@
         return haystack.indexOf(q) >= 0;
       }
 
-      function renderSavedList() {
-        var list = readSavedEntries();
-        var active = list.filter(function (e) {
-          return e && !isEntryArchived(e) && !e.deletedAt;
+      function getKnownApplicationNames(entries) {
+        var seen = {};
+        var names = [];
+        var applicationSelect = document.getElementById("application");
+        if (applicationSelect) {
+          Array.prototype.forEach.call(applicationSelect.options, function (opt) {
+            var val = String(opt.value || "").trim();
+            if (!val || seen[val]) return;
+            seen[val] = true;
+            names.push(val);
+          });
+        }
+        (entries || []).forEach(function (entry) {
+          var app = String(entry && entry.application != null ? entry.application : "").trim();
+          if (!app || seen[app]) return;
+          seen[app] = true;
+          names.push(app);
         });
-        var searchQ = savedSearchInput ? savedSearchInput.value.trim() : "";
-        var pptFilter = savedFilterPpt ? savedFilterPpt.value : "";
-        var prodFilter = savedFilterProd ? savedFilterProd.value : "";
-        var parkedFilter = savedFilterParked ? savedFilterParked.value : "active";
-        var filtered = active.filter(function (e) {
-          if (!entryMatchesSavedSearch(e, searchQ)) return false;
-          if (pptFilter && normalizeDeploymentStatus(e.pptDeploymentStatus) !== pptFilter) return false;
-          if (prodFilter && normalizeDeploymentStatus(e.prodDeploymentStatus) !== prodFilter) return false;
-          if (parkedFilter === "active" && e.parked) return false;
-          if (parkedFilter === "parked" && !e.parked) return false;
-          if (parkedFilter === "tobeplanned") {
+        names.sort(function (a, b) {
+          return a.localeCompare(b, undefined, { sensitivity: "base" });
+        });
+        return names;
+      }
+
+      function getAppFilterSelectedTokens(filter) {
+        return Object.keys(filter.selected).filter(function (app) {
+          return filter.selected[app];
+        });
+      }
+
+      function updateAppFilterLabel(filter) {
+        if (!filter.label) return;
+        var selected = getAppFilterSelectedTokens(filter);
+        if (filter.count) {
+          filter.count.textContent = selected.length ? selected.length + " selected" : "";
+        }
+        if (!selected.length) {
+          filter.label.textContent = "All applications";
+          return;
+        }
+        if (selected.length === 1) {
+          filter.label.textContent = selected[0];
+          return;
+        }
+        if (selected.length === 2) {
+          filter.label.textContent = selected[0] + ", " + selected[1];
+          return;
+        }
+        filter.label.textContent = selected[0] + ", " + selected[1] + " +" + (selected.length - 2);
+      }
+
+      function applyAppFilterSearch(filter) {
+        if (!filter.list) return;
+        var query = filter.search ? normalizeApplicationFilterValue(filter.search.value) : "";
+        var items = filter.list.querySelectorAll(".saved-app-filter-item");
+        var visibleCount = 0;
+        items.forEach(function (item) {
+          var app = normalizeApplicationFilterValue(item.getAttribute("data-app") || "");
+          var matches = !query || app.indexOf(query) >= 0;
+          item.classList.toggle("is-hidden", !matches);
+          if (matches) visibleCount++;
+        });
+        var noResultsEl = filter.list.querySelector(".saved-app-filter-no-results");
+        if (items.length && visibleCount === 0) {
+          if (!noResultsEl) {
+            noResultsEl = document.createElement("p");
+            noResultsEl.className = "saved-app-filter-no-results";
+            noResultsEl.textContent = "No applications match your search.";
+            filter.list.appendChild(noResultsEl);
+          }
+          noResultsEl.hidden = false;
+        } else if (noResultsEl) {
+          noResultsEl.hidden = true;
+        }
+      }
+
+      function setAppFilterOpen(filter, open) {
+        if (!filter.dropdown || !filter.btn) return;
+        var isOpen = !!open;
+        filter.dropdown.hidden = !isOpen;
+        filter.btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      }
+
+      function clearAppFilterSelection(filter) {
+        filter.selected = {};
+        if (filter.list) {
+          filter.list.querySelectorAll('input[type="checkbox"]').forEach(function (cb) {
+            cb.checked = false;
+          });
+        }
+        if (filter.search) {
+          filter.search.value = "";
+        }
+        applyAppFilterSearch(filter);
+        updateAppFilterLabel(filter);
+        filter.onChange();
+      }
+
+      function refreshAppFilterOptions(filter, entries) {
+        if (!filter.list) return;
+        var options = getKnownApplicationNames(entries);
+        if (!options.length) {
+          filter.list.innerHTML =
+            '<p class="saved-app-filter-empty">No applications in saved entries yet.</p>';
+          updateAppFilterLabel(filter);
+          return;
+        }
+        filter.list.innerHTML = options
+          .map(function (app, index) {
+            var checked = !!filter.selected[app];
+            var inputId = filter.inputIdPrefix + index;
+            return (
+              '<div class="saved-app-filter-item" data-app="' +
+              escapeAttr(app) +
+              '">' +
+              '<input type="checkbox" id="' +
+              escapeAttr(inputId) +
+              '" value="' +
+              escapeAttr(app) +
+              '"' +
+              (checked ? " checked" : "") +
+              " />" +
+              '<span class="saved-app-filter-item-text">' +
+              escapeHtml(app) +
+              "</span></div>"
+            );
+          })
+          .join("");
+        applyAppFilterSearch(filter);
+        updateAppFilterLabel(filter);
+      }
+
+      function wireAppFilterEvents(filter) {
+        if (filter.btn && filter.dropdown) {
+          filter.btn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            var willOpen = filter.dropdown.hidden;
+            setAppFilterOpen(filter, willOpen);
+            if (willOpen && filter.search) {
+              filter.search.focus();
+            }
+          });
+        }
+        if (filter.list) {
+          filter.list.addEventListener("change", function (e) {
+            var target = e.target;
+            if (!target || target.type !== "checkbox") return;
+            var app = String(target.value || "").trim();
+            if (!app) return;
+            filter.selected[app] = target.checked;
+            if (!target.checked) {
+              delete filter.selected[app];
+            }
+            updateAppFilterLabel(filter);
+            filter.onChange();
+          });
+          filter.list.addEventListener("click", function (e) {
+            var item = e.target.closest(".saved-app-filter-item");
+            if (!item || e.target.type === "checkbox") return;
+            var checkbox = item.querySelector('input[type="checkbox"]');
+            if (!checkbox) return;
+            checkbox.checked = !checkbox.checked;
+            checkbox.dispatchEvent(new Event("change", { bubbles: true }));
+          });
+        }
+        if (filter.search) {
+          filter.search.addEventListener("input", function () {
+            applyAppFilterSearch(filter);
+          });
+          filter.search.addEventListener("click", function (e) {
+            e.stopPropagation();
+          });
+        }
+        if (filter.clear) {
+          filter.clear.addEventListener("click", function (e) {
+            e.stopPropagation();
+            clearAppFilterSelection(filter);
+          });
+        }
+      }
+
+      function normalizeApplicationFilterValue(value) {
+        return String(value == null ? "" : value).trim().toLowerCase();
+      }
+
+      function entryMatchesApplicationFilter(entry, tokens) {
+        if (!tokens.length) return true;
+        var app = normalizeApplicationFilterValue(entry.application);
+        if (!app) return false;
+        return tokens.some(function (token) {
+          var needle = normalizeApplicationFilterValue(token);
+          return needle && app === needle;
+        });
+      }
+
+      function getSavedEntriesFilterState() {
+        return {
+          searchQ: savedSearchInput ? savedSearchInput.value.trim() : "",
+          pptFilter: savedFilterPpt ? savedFilterPpt.value : "",
+          prodFilter: savedFilterProd ? savedFilterProd.value : "",
+          parkedFilter: savedFilterParked ? savedFilterParked.value : "active",
+          appTokens: getAppFilterSelectedTokens(savedAppFilter)
+        };
+      }
+
+      function savedEntriesHasActiveFilters(state) {
+        return !!(
+          state.searchQ ||
+          state.pptFilter ||
+          state.prodFilter ||
+          state.parkedFilter !== "active" ||
+          state.appTokens.length
+        );
+      }
+
+      function filterActiveSavedEntries(active, state) {
+        return active.filter(function (e) {
+          if (!entryMatchesSavedSearch(e, state.searchQ)) return false;
+          if (!entryMatchesApplicationFilter(e, state.appTokens)) return false;
+          if (state.pptFilter && normalizeDeploymentStatus(e.pptDeploymentStatus) !== state.pptFilter) {
+            return false;
+          }
+          if (state.prodFilter && normalizeDeploymentStatus(e.prodDeploymentStatus) !== state.prodFilter) {
+            return false;
+          }
+          if (state.parkedFilter === "active" && e.parked) return false;
+          if (state.parkedFilter === "parked" && !e.parked) return false;
+          if (state.parkedFilter === "tobeplanned") {
             var pptS = normalizeDeploymentStatus(e.pptDeploymentStatus);
             var prodS = normalizeDeploymentStatus(e.prodDeploymentStatus);
             if (pptS !== "To be Planned" && prodS !== "To be Planned") return false;
@@ -10015,13 +10757,23 @@
           }
           return true;
         });
+      }
+
+      function renderSavedList() {
+        var list = readSavedEntries();
+        var active = list.filter(function (e) {
+          return e && !isEntryArchived(e) && !e.deletedAt;
+        });
+        refreshAppFilterOptions(savedAppFilter, active);
+        var filterState = getSavedEntriesFilterState();
+        var filtered = filterActiveSavedEntries(active, filterState);
+        var hasFilters = savedEntriesHasActiveFilters(filterState);
         // Sort by savedAt from oldest to latest (ascending)
         filtered.sort(function (a, b) {
           var ta = a.savedAt ? new Date(a.savedAt).getTime() : 0;
           var tb = b.savedAt ? new Date(b.savedAt).getTime() : 0;
           return ta - tb;
         });
-        var hasFilters = searchQ || pptFilter || prodFilter || parkedFilter !== "active";
         if (savedCount) {
           if (hasFilters && active.length) {
             savedCount.textContent =
@@ -10211,23 +10963,27 @@
         archiveEmpty.hidden = true;
         if (archiveHint) archiveHint.hidden = true;
         if (archiveSearchWrap) archiveSearchWrap.hidden = false;
+        refreshAppFilterOptions(archiveAppFilter, archived);
         populateMonthFilter(archiveFilterMonth, archived);
         var selectedMonth = archiveFilterMonth ? archiveFilterMonth.value : "";
         var archiveSearchQ = archiveSearchInput ? archiveSearchInput.value.trim() : "";
+        var archiveAppTokens = getAppFilterSelectedTokens(archiveAppFilter);
+        var hasArchiveFilters = !!(archiveSearchQ || selectedMonth || archiveAppTokens.length);
         var filtered = archived.filter(function (e) {
           if (!entryMatchesSavedSearch(e, archiveSearchQ)) return false;
+          if (!entryMatchesApplicationFilter(e, archiveAppTokens)) return false;
           return true;
         });
         filtered = filterByMonth(filtered, selectedMonth);
         if (archiveCount) {
           var countText = "(" + filtered.length;
-          if (archiveSearchQ || selectedMonth) {
+          if (hasArchiveFilters) {
             countText += " of " + archived.length;
           }
           countText += ")";
           archiveCount.textContent = countText;
         }
-        if (!filtered.length && (archiveSearchQ || selectedMonth)) {
+        if (!filtered.length && hasArchiveFilters) {
           if (archiveSearchNoMatch) archiveSearchNoMatch.hidden = false;
           archiveTableWrap.hidden = true;
           archiveEntriesBody.innerHTML = "";
@@ -10375,16 +11131,22 @@
         summaryEmpty.hidden = true;
         if (summaryFilterWrap) summaryFilterWrap.hidden = false;
         if (summarySearchWrap) summarySearchWrap.hidden = false;
+        refreshAppFilterOptions(summaryAppFilter, archived);
         populateMonthFilter(summaryFilterMonth, archived);
         var selectedMonth = summaryFilterMonth ? summaryFilterMonth.value : "";
         var summarySearchQ = summarySearchInput ? summarySearchInput.value.trim() : "";
+        var summaryAppTokens = getAppFilterSelectedTokens(summaryAppFilter);
+        var hasSummaryFilters = !!(summarySearchQ || selectedMonth || summaryAppTokens.length);
         var filtered = archived.filter(function (e) {
           if (!entryMatchesSavedSearch(e, summarySearchQ)) return false;
+          if (!entryMatchesApplicationFilter(e, summaryAppTokens)) return false;
           return true;
         });
         filtered = filterByMonth(filtered, selectedMonth);
         if (summaryCount) {
-          summaryCount.textContent = selectedMonth ? "(" + filtered.length + " of " + archived.length + ")" : "(" + archived.length + ")";
+          summaryCount.textContent = hasSummaryFilters
+            ? "(" + filtered.length + " of " + archived.length + ")"
+            : "(" + archived.length + ")";
         }
         summaryTableWrap.hidden = false;
         
@@ -10710,6 +11472,80 @@
         return upper !== "NA" && upper !== "N/A" && upper !== "";
       }
 
+      function prefersReducedMotion() {
+        return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+      }
+
+      function trendChartAnimationOptions() {
+        if (prefersReducedMotion()) {
+          return { duration: 0 };
+        }
+        return {
+          duration: 1000,
+          easing: "easeOutQuart",
+          delay: function (context) {
+            if (context.type === "data" && context.mode === "default") {
+              return context.dataIndex * 70 + context.datasetIndex * 50;
+            }
+            return 0;
+          }
+        };
+      }
+
+      function trendChartTransitionOptions() {
+        if (prefersReducedMotion()) {
+          return {
+            active: { animation: { duration: 0 } },
+            resize: { animation: { duration: 0 } }
+          };
+        }
+        return {
+          active: {
+            animation: { duration: 380, easing: "easeOutQuart" }
+          },
+          resize: {
+            animation: { duration: 420, easing: "easeOutQuart" }
+          }
+        };
+      }
+
+      function revealTrendContent(contentEl) {
+        if (!contentEl || prefersReducedMotion()) return;
+        contentEl.classList.remove("trend-panel-reveal");
+        void contentEl.offsetWidth;
+        contentEl.classList.add("trend-panel-reveal");
+      }
+
+      function revealTrendSection(sectionEl) {
+        if (!sectionEl || prefersReducedMotion()) return;
+        sectionEl.classList.remove("trend-section-reveal");
+        void sectionEl.offsetWidth;
+        sectionEl.classList.add("trend-section-reveal");
+      }
+
+      function animateTrendTableRows(tbody, skipSelector) {
+        if (!tbody) return;
+        var selector = ":scope > tr";
+        if (skipSelector) selector += ":not(" + skipSelector + ")";
+        var rows = tbody.querySelectorAll(selector);
+        var reduced = prefersReducedMotion();
+        rows.forEach(function (row, idx) {
+          row.classList.add("trend-row-animate");
+          row.style.animationDelay = reduced ? "0ms" : Math.min(idx * 48, 720) + "ms";
+        });
+      }
+
+      function pulseTrendChartWrap(canvas) {
+        if (!canvas || prefersReducedMotion()) return;
+        var wrap = canvas.closest(
+          ".weekly-trend-chart-wrap, .monthly-trend-chart-wrap, .monthly-trend-area-chart-wrap"
+        );
+        if (!wrap) return;
+        wrap.classList.remove("trend-chart-animate");
+        void wrap.offsetWidth;
+        wrap.classList.add("trend-chart-animate");
+      }
+
       function renderWeeklyTrend() {
         var list = readSavedEntries();
         var allEntries = list.filter(function (e) {
@@ -10833,6 +11669,7 @@
         }
         weeklyTrendEmpty.hidden = true;
         weeklyTrendContent.hidden = false;
+        revealTrendContent(weeklyTrendContent);
         weeklyTrendBody.innerHTML = "";
         
         var chartData = [];
@@ -11020,6 +11857,8 @@
             }
           });
         });
+        
+        animateTrendTableRows(weeklyTrendBody, ".redeploy-detail-row");
       }
       
       var APP_GROUPS = {
@@ -11160,6 +11999,7 @@
         }
         
         appTrendSection.hidden = false;
+        revealTrendSection(appTrendSection);
         
         var appTrendSelect = document.getElementById("appTrendMonthFilter");
         var selectedMonth = appTrendSelect ? appTrendSelect.value : "";
@@ -11192,6 +12032,7 @@
           tr.innerHTML = cells;
           appTrendBody.appendChild(tr);
         });
+        animateTrendTableRows(appTrendBody);
       }
       
       var saveAppTrendBtn = document.getElementById("saveAppTrendBtn");
@@ -11280,6 +12121,7 @@
           tr.innerHTML = cells;
           monthlyBody.appendChild(tr);
         });
+        animateTrendTableRows(monthlyBody);
         
         monthlyFoot.innerHTML = "";
         var footTr = document.createElement("tr");
@@ -11289,6 +12131,7 @@
         });
         footTr.innerHTML = footCells;
         monthlyFoot.appendChild(footTr);
+        animateTrendTableRows(monthlyFoot);
       }
       
       function calculateMonthlyTrendData(entries) {
@@ -11981,6 +12824,7 @@
         
         monthlyTrendEmpty.hidden = true;
         monthlyTrendContent.hidden = false;
+        revealTrendContent(monthlyTrendContent);
         monthlyTrendBody.innerHTML = "";
         
         window.monthlyTrendData = [];
@@ -12024,6 +12868,7 @@
             monthlyTrendDrilldownCell(defectsCount, monthKey, "defectsDeployed");
           monthlyTrendBody.appendChild(tr);
         });
+        animateTrendTableRows(monthlyTrendBody);
         
         renderMonthlyTrendChart(window.monthlyTrendData);
         renderMonthlyTrendAreaChart(window.monthlyTrendData);
@@ -12046,7 +12891,10 @@
           if (weeklyStatusWrap) weeklyStatusWrap.hidden = true;
           return;
         }
-        if (weeklyStatusWrap) weeklyStatusWrap.hidden = false;
+        if (weeklyStatusWrap) {
+          weeklyStatusWrap.hidden = false;
+          revealTrendSection(weeklyStatusWrap);
+        }
         
         // Get all Tuesdays from the months in monthKeys
         var tuesdays = [];
@@ -12184,6 +13032,7 @@
             '<td><ul class="remarks-list">' + item.remarks.map(function(r) { return '<li class="remarks-item">' + r + '</li>'; }).join('') + '</ul></td>';
           weeklyStatusBody.appendChild(tr);
         });
+        animateTrendTableRows(weeklyStatusBody);
       }
       
       // Add event listener for month filter
@@ -12263,6 +13112,8 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: trendChartAnimationOptions(),
+            transitions: trendChartTransitionOptions(),
             interaction: {
               intersect: false,
               mode: "index"
@@ -12313,6 +13164,7 @@
             }
           }
         });
+        pulseTrendChartWrap(canvas);
       }
       
       var monthlyTrendAreaChartInstance = null;
@@ -12381,6 +13233,8 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: trendChartAnimationOptions(),
+            transitions: trendChartTransitionOptions(),
             interaction: {
               intersect: false,
               mode: "index"
@@ -12436,6 +13290,7 @@
             }
           }
         });
+        pulseTrendChartWrap(canvas);
       }
       
       var exportMonthlyTrendBtn = document.getElementById("exportMonthlyTrendBtn");
@@ -12628,6 +13483,8 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: trendChartAnimationOptions(),
+            transitions: trendChartTransitionOptions(),
             plugins: {
               legend: {
                 position: "bottom",
@@ -12677,6 +13534,7 @@
             }
           }
         });
+        pulseTrendChartWrap(canvas);
       }
 
       function escapeHtml(s) {
@@ -12878,6 +13736,7 @@
       if (savedFilterProd) {
         savedFilterProd.addEventListener("change", function() { renderSavedList(); });
       }
+      appFilters.forEach(wireAppFilterEvents);
       if (savedFilterParked) {
         savedFilterParked.addEventListener("change", function() { renderSavedList(); });
       }
@@ -13147,6 +14006,11 @@
         if (savedColSettingsDropdown && !savedColSettingsDropdown.contains(e.target) && e.target !== savedColSettingsBtn) {
           savedColSettingsDropdown.classList.remove("visible");
         }
+        appFilters.forEach(function (filter) {
+          if (filter.wrap && filter.dropdown && !filter.wrap.contains(e.target)) {
+            setAppFilterOpen(filter, false);
+          }
+        });
       });
       
       // Apply saved column visibility after rendering
@@ -14267,24 +15131,8 @@
         var active = allSaved.filter(function (e) {
           return e && !isEntryArchived(e) && !e.deletedAt;
         });
-        var searchQ = savedSearchInput ? savedSearchInput.value.trim() : "";
-        var pptFilter = savedFilterPpt ? savedFilterPpt.value : "";
-        var prodFilter = savedFilterProd ? savedFilterProd.value : "";
-        var parkedFilter = savedFilterParked ? savedFilterParked.value : "active";
-        var list = active.filter(function (e) {
-          if (!entryMatchesSavedSearch(e, searchQ)) return false;
-          if (pptFilter && normalizeDeploymentStatus(e.pptDeploymentStatus) !== pptFilter) return false;
-          if (prodFilter && normalizeDeploymentStatus(e.prodDeploymentStatus) !== prodFilter) return false;
-          if (parkedFilter === "active" && e.parked) return false;
-          if (parkedFilter === "parked" && !e.parked) return false;
-          if (parkedFilter === "tobeplanned") {
-            var pptS = normalizeDeploymentStatus(e.pptDeploymentStatus);
-            var prodS = normalizeDeploymentStatus(e.prodDeploymentStatus);
-            if (pptS !== "To be Planned" && prodS !== "To be Planned") return false;
-            if (e.parked) return false;
-          }
-          return true;
-        });
+        var filterState = getSavedEntriesFilterState();
+        var list = filterActiveSavedEntries(active, filterState);
         if (!list.length) {
           if (active.length) {
             showInfoModal("No entries match the current filters. Clear filters to export all active entries.");
@@ -14350,10 +15198,15 @@
           return tb - ta;
         });
         var selectedMonth = summaryFilterMonth ? summaryFilterMonth.value : "";
-        var list = filterByMonth(archived, selectedMonth);
+        var summaryAppTokens = getAppFilterSelectedTokens(summaryAppFilter);
+        var list = archived.filter(function (e) {
+          if (!entryMatchesApplicationFilter(e, summaryAppTokens)) return false;
+          return true;
+        });
+        list = filterByMonth(list, selectedMonth);
         if (!list.length) {
-          if (archived.length && selectedMonth) {
-            showInfoModal("No entries for the selected month filter.");
+          if (archived.length && (selectedMonth || summaryAppTokens.length)) {
+            showInfoModal("No entries match the current summary filters.");
           } else if (allSaved.length) {
             showInfoModal("No summary entries to export. Summary includes only archived (fully deployed) entries.");
           } else {
