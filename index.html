@@ -3679,6 +3679,11 @@
       color: #64748b;
       font-size: 0.9rem;
     }
+    .portal-login-loading[hidden],
+    .portal-login-error[hidden],
+    .portal-magic-link-sent[hidden] {
+      display: none !important;
+    }
     .portal-login-spinner {
       width: 20px;
       height: 20px;
@@ -7945,6 +7950,7 @@
         var sent = document.getElementById("portalMagicLinkSent");
         if (form) form.hidden = false;
         if (sent) sent.hidden = true;
+        setPortalLoginLoading(false);
         hidePortalLoginError();
       }
 
