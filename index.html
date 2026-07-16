@@ -35,6 +35,8 @@
       --muted: #8b9cb3;
       --accent: #3d8bfd;
       --accent-hover: #5ca0ff;
+      --link-num: #8fa8c8;
+      --link-num-hover: #a8bdd8;
       --danger: #f87171;
       --input-bg: #131c28;
       --table-head-bg: #131c28;
@@ -57,6 +59,8 @@
       --muted: #64748b;
       --accent: #2563eb;
       --accent-hover: #1d4ed8;
+      --link-num: #5a6f8f;
+      --link-num-hover: #3f5268;
       --danger: #dc2626;
       --input-bg: #ffffff;
       --table-head-bg: #f1f5f9;
@@ -254,17 +258,6 @@
     }
     .network-share-banner .banner-close:hover {
       color: #fff;
-    }
-    .header-mascot-bg {
-      flex: 1;
-      min-width: 150px;
-      height: 36px;
-      background-image: url('mascot.png');
-      background-repeat: no-repeat;
-      background-position: right center;
-      background-size: contain;
-      margin: 0 15px;
-      opacity: 0.9;
     }
     .sync-status-bar {
       display: flex;
@@ -1783,14 +1776,17 @@
       text-align: left;
     }
     .redeploy-expandable {
-      cursor: pointer;
       transition: background-color 0.15s ease;
-    }
-    .redeploy-expandable:hover {
-      background-color: rgba(139, 92, 246, 0.1);
     }
     .redeploy-expandable.expanded {
       background-color: rgba(139, 92, 246, 0.15);
+    }
+    .redeploy-cell {
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .redeploy-cell:hover {
+      background-color: rgba(139, 92, 246, 0.1);
     }
     .redeploy-count-badge {
       display: inline-block;
@@ -1812,9 +1808,6 @@
     .redeploy-none {
       color: var(--text-muted);
       font-size: 0.85rem;
-    }
-    .redeploy-cell {
-      white-space: nowrap;
     }
     .redeploy-detail-row {
       background-color: rgba(139, 92, 246, 0.05);
@@ -1994,6 +1987,321 @@
     }
     .monthly-trend-table tbody tr:last-child td:last-child {
       border-radius: 0 0 12px 0;
+    }
+    .monthly-trend-drilldown {
+      background: none;
+      border: none;
+      padding: 0;
+      font: inherit;
+      font-size: inherit;
+      font-weight: 500;
+      color: var(--link-num);
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .monthly-trend-drilldown:hover {
+      color: var(--link-num-hover);
+    }
+    .monthly-trend-details-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      table-layout: fixed;
+    }
+    .monthly-trend-details-table-wrap {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      overflow-x: auto;
+      background: var(--card-bg);
+    }
+    .monthly-trend-details-table th,
+    .monthly-trend-details-table td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+      line-height: 1.4;
+    }
+    .monthly-trend-details-table th {
+      background: var(--bg);
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: var(--muted);
+    }
+    .monthly-trend-details-table tbody tr:hover {
+      background: rgba(59, 130, 246, 0.08);
+    }
+    .monthly-trend-details-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .monthly-trend-details-wide {
+      max-width: 1200px !important;
+      width: 94%;
+    }
+    .monthly-trend-details-table.monthly-trend-details-saved-style {
+      min-width: 1050px;
+    }
+    .monthly-trend-details-table.monthly-trend-details-saved-style.monthly-trend-cols-4 {
+      min-width: 720px;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-4 th {
+      white-space: nowrap;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-4 th:nth-child(1),
+    .monthly-trend-details-table.monthly-trend-cols-4 td:nth-child(1) {
+      width: 16%;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-4 th:nth-child(2),
+    .monthly-trend-details-table.monthly-trend-cols-4 td:nth-child(2) {
+      width: 12%;
+      text-align: center;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-4 th:nth-child(3),
+    .monthly-trend-details-table.monthly-trend-cols-4 td:nth-child(3) {
+      width: 44%;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-4 th:nth-child(4),
+    .monthly-trend-details-table.monthly-trend-cols-4 td:nth-child(4) {
+      width: 28%;
+      text-align: center;
+    }
+    .monthly-trend-details-table.monthly-trend-details-saved-style.monthly-trend-cols-9 {
+      min-width: 1200px;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-9 th {
+      white-space: nowrap;
+      font-size: 0.66rem;
+      padding: 8px 8px;
+    }
+    .monthly-trend-details-table.monthly-trend-details-saved-style th {
+      background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      border-bottom: none;
+      line-height: 1.3;
+      white-space: normal;
+      overflow: hidden;
+      padding: 8px 10px;
+    }
+    .monthly-trend-details-table.monthly-trend-details-saved-style tbody tr:nth-child(even) {
+      background: rgba(59, 130, 246, 0.04);
+    }
+    .monthly-trend-details-table.monthly-trend-details-saved-style tbody tr:nth-child(even):hover {
+      background: rgba(59, 130, 246, 0.08);
+    }
+    .monthly-trend-details-table.monthly-trend-cols-7 th:nth-child(1),
+    .monthly-trend-details-table.monthly-trend-cols-7 td:nth-child(1) {
+      width: 10%;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-7 th:nth-child(2),
+    .monthly-trend-details-table.monthly-trend-cols-7 td:nth-child(2) {
+      width: 12%;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-7 th:nth-child(3),
+    .monthly-trend-details-table.monthly-trend-cols-7 td:nth-child(3) {
+      width: 12%;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-7 th:nth-child(4),
+    .monthly-trend-details-table.monthly-trend-cols-7 td:nth-child(4) {
+      width: 10%;
+      text-align: center;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-7 th:nth-child(5),
+    .monthly-trend-details-table.monthly-trend-cols-7 td:nth-child(5) {
+      width: 9%;
+      text-align: center;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-7 th:nth-child(6),
+    .monthly-trend-details-table.monthly-trend-cols-7 td:nth-child(6) {
+      width: 10%;
+      text-align: center;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-7 th:nth-child(7),
+    .monthly-trend-details-table.monthly-trend-cols-7 td:nth-child(7) {
+      width: 37%;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-9 th:nth-child(1),
+    .monthly-trend-details-table.monthly-trend-cols-9 td:nth-child(1) {
+      width: 9%;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-9 th:nth-child(2),
+    .monthly-trend-details-table.monthly-trend-cols-9 td:nth-child(2) {
+      width: 7%;
+      text-align: center;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-9 th:nth-child(3),
+    .monthly-trend-details-table.monthly-trend-cols-9 td:nth-child(3) {
+      width: 8%;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-9 th:nth-child(4),
+    .monthly-trend-details-table.monthly-trend-cols-9 td:nth-child(4) {
+      width: 11%;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-9 th:nth-child(5),
+    .monthly-trend-details-table.monthly-trend-cols-9 td:nth-child(5) {
+      width: 11%;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-9 th:nth-child(6),
+    .monthly-trend-details-table.monthly-trend-cols-9 td:nth-child(6) {
+      width: 9%;
+      text-align: center;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-9 th:nth-child(7),
+    .monthly-trend-details-table.monthly-trend-cols-9 td:nth-child(7) {
+      width: 8%;
+      text-align: center;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-9 th:nth-child(8),
+    .monthly-trend-details-table.monthly-trend-cols-9 td:nth-child(8) {
+      width: 9%;
+      text-align: center;
+    }
+    .monthly-trend-details-table.monthly-trend-cols-9 th:nth-child(9),
+    .monthly-trend-details-table.monthly-trend-cols-9 td:nth-child(9) {
+      width: 28%;
+    }
+    .monthly-trend-details-table .cell-clip-app {
+      white-space: nowrap;
+    }
+    .monthly-trend-details-table .cell-clip-sm {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .monthly-trend-details-table .cell-clip-requester {
+      white-space: nowrap;
+      font-weight: 500;
+    }
+    .monthly-trend-details-table .cell-clip-incident {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+      font-size: 0.78rem;
+    }
+    .monthly-trend-details-table .cell-clip-nowrap {
+      white-space: nowrap;
+    }
+    .monthly-trend-details-table .cell-clip-desc {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text);
+    }
+    .monthly-trend-details-table .cell-deploy-badge {
+      display: inline-block;
+      padding: 0;
+      border-radius: 0;
+      font-size: inherit;
+      font-weight: inherit;
+      background: transparent;
+      color: var(--text);
+      white-space: nowrap;
+      line-height: inherit;
+    }
+    [data-theme="dark"] .monthly-trend-details-table .cell-deploy-badge {
+      background: transparent;
+      color: var(--text);
+    }
+    .monthly-trend-details-table .cell-source-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      white-space: nowrap;
+      line-height: 1.2;
+    }
+    .monthly-trend-details-table .cell-source-entry {
+      background: rgba(34, 197, 94, 0.12);
+      color: #15803d;
+    }
+    .monthly-trend-details-table .cell-source-calendar {
+      background: rgba(245, 158, 11, 0.12);
+      color: #b45309;
+    }
+    [data-theme="dark"] .monthly-trend-details-table .cell-source-entry {
+      background: rgba(34, 197, 94, 0.18);
+      color: #86efac;
+    }
+    [data-theme="dark"] .monthly-trend-details-table .cell-source-calendar {
+      background: rgba(245, 158, 11, 0.18);
+      color: #fcd34d;
+    }
+    .monthly-trend-details-table .cell-calendar-rfc-detail {
+      padding: 8px 12px !important;
+      overflow: visible;
+      text-align: center;
+    }
+    .monthly-trend-details-table .calendar-rfc-detail-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      width: 100%;
+      min-width: 0;
+      overflow: visible;
+    }
+    .monthly-trend-details-table .calendar-rfc-separator {
+      flex: 1 1 auto;
+      min-width: 20px;
+      max-width: 120px;
+      height: 0;
+      border-top: 1px dashed var(--border);
+      opacity: 0.55;
+      align-self: center;
+    }
+    .monthly-trend-details-table .calendar-rfc-label {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.82rem;
+    }
+    .monthly-trend-details-table .calendar-rfc-date {
+      font-weight: 700;
+      color: #b45309;
+      font-variant-numeric: tabular-nums;
+    }
+    [data-theme="dark"] .monthly-trend-details-table .calendar-rfc-date {
+      color: #fcd34d;
+    }
+    .monthly-trend-details-table tr.monthly-trend-calendar-rfc-row td {
+      overflow: visible;
+    }
+    .monthly-trend-details-table .cell-align-center {
+      text-align: center;
+    }
+    .monthly-trend-details-table .cell-hotfix-num {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.02em;
+    }
+    .monthly-trend-hf-link {
+      color: var(--link-num);
+      cursor: pointer;
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .monthly-trend-hf-link:hover {
+      color: var(--link-num-hover);
+    }
+    .monthly-trend-rfc-link {
+      color: var(--link-num);
+      cursor: pointer;
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .monthly-trend-rfc-link:hover {
+      color: var(--link-num-hover);
     }
     .monthly-trend-table th:first-child,
     .monthly-trend-table td:first-child {
@@ -2773,18 +3081,19 @@
       opacity: 0.8;
     }
     .calendar-day-note .rfc-link {
-      color: #3b82f6;
-      text-decoration: none;
+      color: var(--link-num);
+      text-decoration: underline;
+      text-underline-offset: 2px;
       cursor: pointer;
-      font-weight: 700;
-      background: rgba(59, 130, 246, 0.1);
-      padding: 0.1rem 0.3rem;
-      border-radius: 3px;
-      transition: all 0.15s;
+      font-weight: 500;
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      transition: color 0.15s;
     }
     .calendar-day-note .rfc-link:hover {
-      color: #fff;
-      background: #3b82f6;
+      color: var(--link-num-hover);
+      background: transparent;
     }
     .calendar-legend {
       margin-top: 1.5rem;
@@ -3211,6 +3520,175 @@
     }
     .password-prompt-overlay[hidden] {
       display: none !important;
+    }
+    html.team-host body.magic-link-locked > :not(#magicLinkLoginScreen) {
+      display: none !important;
+    }
+    .portal-login-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #3b82f6 100%);
+    }
+    .portal-login-screen[hidden] {
+      display: none !important;
+    }
+    .portal-login-container {
+      width: 100%;
+      max-width: 26rem;
+      padding: 2.5rem 2rem 2rem;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      text-align: center;
+    }
+    .portal-login-logo {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 1.25rem;
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .portal-login-logo svg {
+      stroke: #fff;
+    }
+    .portal-login-title {
+      margin: 0 0 0.35rem;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    .portal-login-subtitle {
+      margin: 0 0 1.75rem;
+      font-size: 0.95rem;
+      color: #64748b;
+    }
+    .portal-login-email-group {
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+    .portal-login-email-label {
+      display: block;
+      margin-bottom: 0.45rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #475569;
+    }
+    .portal-login-email-input {
+      width: 100%;
+      padding: 0.8rem 0.9rem;
+      font-size: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      background: #f8fafc;
+      color: #1e293b;
+      box-sizing: border-box;
+    }
+    .portal-login-email-input:focus {
+      outline: none;
+      border-color: #2563eb;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .portal-login-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 0.85rem 1.25rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1e293b;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .portal-login-btn:hover:not(:disabled) {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+    .portal-login-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .portal-login-info {
+      margin: 1rem 0 0;
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+    .portal-magic-link-sent h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.35rem;
+      color: #1e293b;
+    }
+    .portal-magic-link-sent p {
+      margin: 0.5rem 0;
+      color: #64748b;
+    }
+    .portal-sent-email {
+      font-weight: 600;
+      color: #2563eb !important;
+      font-size: 1rem;
+      word-break: break-all;
+    }
+    .portal-magic-link-note {
+      font-size: 0.85rem !important;
+      color: #94a3b8 !important;
+      margin-top: 1.25rem !important;
+    }
+    .portal-login-btn-secondary {
+      margin-top: 1.25rem;
+      padding: 0.7rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #64748b;
+      background: transparent;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .portal-login-btn-secondary:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+    .portal-login-error {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      color: #dc2626;
+      font-size: 0.875rem;
+      text-align: left;
+    }
+    .portal-login-loading {
+      margin-top: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+    .portal-login-spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #e2e8f0;
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: portal-login-spin 0.8s linear infinite;
+    }
+    @keyframes portal-login-spin {
+      to { transform: rotate(360deg); }
     }
     .password-prompt-dialog {
       width: 100%;
@@ -4137,6 +4615,28 @@
       background: var(--bg);
       border-radius: 0 0 12px 12px;
     }
+    #monthlyTrendDetailsOverlay .verify-modal-header {
+      padding: 8px 14px;
+    }
+    #monthlyTrendDetailsOverlay .verify-modal-header h3 {
+      font-size: 1rem;
+    }
+    #monthlyTrendDetailsOverlay .verify-modal-close {
+      width: 28px;
+      height: 28px;
+      font-size: 1.25rem;
+    }
+    #monthlyTrendDetailsOverlay .verify-modal-footer {
+      padding: 4px 10px;
+    }
+    #monthlyTrendDetailsOverlay .verify-modal-footer .btn-secondary {
+      padding: 0.3rem 0.75rem;
+      font-size: 0.78rem;
+      min-height: 0;
+    }
+    #monthlyTrendDetailsOverlay .verify-modal-body {
+      padding: 8px 12px 6px;
+    }
     .verify-summary-icon {
       font-size: 3rem;
       text-align: center;
@@ -4185,13 +4685,14 @@
       background: rgba(59, 130, 246, 0.05);
     }
     .verify-hf-link {
-      color: #3b82f6;
+      color: var(--link-num);
       text-decoration: underline;
+      text-underline-offset: 2px;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 500;
     }
     .verify-hf-link:hover {
-      color: #1d4ed8;
+      color: var(--link-num-hover);
     }
     .verify-missing-list {
       display: flex;
@@ -4327,8 +4828,66 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+  <script>
+    (function () {
+      var host = location.hostname || "";
+      if (host.indexOf("github.io") !== -1) {
+        document.documentElement.classList.add("team-host");
+      }
+    })();
+  </script>
 </head>
 <body>
+  <div id="magicLinkLoginScreen" class="portal-login-screen" hidden>
+    <div class="portal-login-container" role="dialog" aria-modal="true" aria-labelledby="portalLoginTitle">
+      <div class="portal-login-logo" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+      </div>
+      <h1 id="portalLoginTitle" class="portal-login-title">Release and Deployment Portal</h1>
+      <p class="portal-login-subtitle">Deployment / Hotfix Request Management</p>
+
+      <div id="portalLoginFormContainer">
+        <div class="portal-login-email-group">
+          <label for="portalLoginEmail" class="portal-login-email-label">Enter your email address</label>
+          <input
+            type="email"
+            id="portalLoginEmail"
+            class="portal-login-email-input"
+            placeholder="your.name@amdocs.com"
+            autocomplete="email"
+          />
+        </div>
+        <button type="button" id="portalLoginBtn" class="portal-login-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:10px;">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          Send Sign-In Link
+        </button>
+        <p class="portal-login-info">A secure sign-in link will be sent to your email.</p>
+      </div>
+
+      <div id="portalMagicLinkSent" class="portal-magic-link-sent" hidden>
+        <h3>Check your email!</h3>
+        <p>We've sent a sign-in link to:</p>
+        <p class="portal-sent-email" id="portalSentToEmail">email@amdocs.com</p>
+        <p class="portal-magic-link-note">Click the link in the email to sign in. The link expires in 15 minutes.</p>
+        <button type="button" class="portal-login-btn-secondary" id="portalBackToEmailBtn">← Use a different email</button>
+      </div>
+
+      <p id="portalLoginError" class="portal-login-error" hidden></p>
+      <div id="portalLoginLoading" class="portal-login-loading" hidden>
+        <div class="portal-login-spinner"></div>
+        <span id="portalLoginLoadingText">Sending sign-in link...</span>
+      </div>
+    </div>
+  </div>
   <div class="wrap">
     <header>
       <div class="header-top">
@@ -4366,7 +4925,6 @@
           <a href="#calendar">Calendar</a>
           <a href="#count-of-fixes">Count of Fixes</a>
         </div>
-        <div class="header-mascot-bg"></div>
         <div id="syncStatusBar" class="sync-status-bar" hidden>
           <span id="syncIndicator" class="sync-indicator"></span>
           <span id="syncStatusText">Last synced: --</span>
@@ -5539,7 +6097,7 @@
     </div>
   </div>
 
-  <div id="userNameModalOverlay" class="user-name-modal-overlay">
+  <div id="userNameModalOverlay" class="user-name-modal-overlay" hidden>
     <div class="user-name-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="userNameModalTitle">
       <div class="user-name-modal-header">
         <span class="user-name-modal-icon">👤</span>
@@ -7289,6 +7847,296 @@
         } else {
           console.warn("Supabase library not available - window.supabase is:", window.supabase);
         }
+
+      // ===== Magic Link Authentication (live site only) =====
+      var MAGIC_LINK_SESSION_KEY = "deployment_auth_session";
+      var MAGIC_LINK_SESSION_DURATION = 24 * 60 * 60 * 1000;
+      var magicLinkCurrentUser = null;
+      var magicLinkAuthInitialized = false;
+
+      function requiresMagicLinkAuth() {
+        var host = window.location.hostname || "";
+        return host.indexOf("github.io") !== -1;
+      }
+
+      function isAmdocsEmailAddress(email) {
+        return /^[^\s@]+@amdocs\.com$/i.test((email || "").trim());
+      }
+
+      function getStoredMagicLinkSession() {
+        try {
+          var raw = localStorage.getItem(MAGIC_LINK_SESSION_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function storeMagicLinkSession(user) {
+        var session = {
+          user: user,
+          expiresAt: Date.now() + MAGIC_LINK_SESSION_DURATION
+        };
+        localStorage.setItem(MAGIC_LINK_SESSION_KEY, JSON.stringify(session));
+      }
+
+      function clearMagicLinkSession() {
+        localStorage.removeItem(MAGIC_LINK_SESSION_KEY);
+        magicLinkCurrentUser = null;
+      }
+
+      function getMagicLinkCurrentUser() {
+        return magicLinkCurrentUser;
+      }
+
+      function lockPortalApp() {
+        document.body.classList.add("magic-link-locked");
+      }
+
+      function unlockPortalApp() {
+        document.body.classList.remove("magic-link-locked");
+        var screen = document.getElementById("magicLinkLoginScreen");
+        if (screen) screen.setAttribute("hidden", "");
+      }
+
+      function showPortalLoginScreen() {
+        lockPortalApp();
+        var screen = document.getElementById("magicLinkLoginScreen");
+        if (screen) screen.removeAttribute("hidden");
+        setPortalLoginLoading(false);
+      }
+
+      function showPortalLoginError(message) {
+        var errEl = document.getElementById("portalLoginError");
+        if (errEl) {
+          errEl.textContent = message;
+          errEl.hidden = false;
+        }
+      }
+
+      function hidePortalLoginError() {
+        var errEl = document.getElementById("portalLoginError");
+        if (errEl) {
+          errEl.hidden = true;
+          errEl.textContent = "";
+        }
+      }
+
+      function setPortalLoginLoading(show, text) {
+        var loadingEl = document.getElementById("portalLoginLoading");
+        var btn = document.getElementById("portalLoginBtn");
+        var loadingText = document.getElementById("portalLoginLoadingText");
+        if (loadingEl) loadingEl.hidden = !show;
+        if (loadingText && text) loadingText.textContent = text;
+        if (btn) btn.disabled = show;
+      }
+
+      function showPortalMagicLinkSent(email) {
+        var form = document.getElementById("portalLoginFormContainer");
+        var sent = document.getElementById("portalMagicLinkSent");
+        var sentEmail = document.getElementById("portalSentToEmail");
+        if (form) form.hidden = true;
+        if (sent) sent.hidden = false;
+        if (sentEmail) sentEmail.textContent = email;
+      }
+
+      function resetPortalLoginForm() {
+        var form = document.getElementById("portalLoginFormContainer");
+        var sent = document.getElementById("portalMagicLinkSent");
+        if (form) form.hidden = false;
+        if (sent) sent.hidden = true;
+        hidePortalLoginError();
+      }
+
+      function clearPortalAuthUrlParams() {
+        var url = window.location.pathname + window.location.hash;
+        window.history.replaceState({}, "", url);
+      }
+
+      async function requestDeploymentMagicLink() {
+        var emailInput = document.getElementById("portalLoginEmail");
+        var email = emailInput ? emailInput.value.trim().toLowerCase() : "";
+
+        if (!email) {
+          showPortalLoginError("Please enter your email address.");
+          return;
+        }
+        if (!isAmdocsEmailAddress(email)) {
+          showPortalLoginError("Please use your @amdocs.com email address.");
+          return;
+        }
+
+        setPortalLoginLoading(true, "Sending sign-in link...");
+        hidePortalLoginError();
+
+        try {
+          var response = await fetch(SUPABASE_URL + "/functions/v1/send-deployment-magic-link", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer " + SUPABASE_ANON_KEY
+            },
+            body: JSON.stringify({ email: email })
+          });
+          var data = await response.json();
+
+          if (data.success) {
+            showPortalMagicLinkSent(email);
+          } else {
+            showPortalLoginError(data.error || "Failed to send sign-in link. Please try again.");
+          }
+        } catch (error) {
+          console.error("Magic link request error:", error);
+          showPortalLoginError("Failed to send sign-in link. Please try again.");
+        } finally {
+          setPortalLoginLoading(false);
+        }
+      }
+
+      async function validateDeploymentMagicToken(token) {
+        showPortalLoginScreen();
+        setPortalLoginLoading(true, "Verifying your sign-in link...");
+        var form = document.getElementById("portalLoginFormContainer");
+        if (form) form.hidden = true;
+
+        try {
+          var response = await fetch(
+            SUPABASE_URL + "/rest/v1/auth_tokens?token=eq." + encodeURIComponent(token) + "&used=eq.false&select=*",
+            {
+              headers: {
+                "apikey": SUPABASE_ANON_KEY,
+                "Authorization": "Bearer " + SUPABASE_ANON_KEY
+              }
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to validate token");
+          }
+
+          var tokens = await response.json();
+          if (!tokens.length) {
+            showPortalLoginError("This sign-in link is invalid or has already been used.");
+            resetPortalLoginForm();
+            clearPortalAuthUrlParams();
+            return;
+          }
+
+          var tokenData = tokens[0];
+          if (new Date(tokenData.expires_at) < new Date()) {
+            showPortalLoginError("This sign-in link has expired. Please request a new one.");
+            resetPortalLoginForm();
+            clearPortalAuthUrlParams();
+            return;
+          }
+
+          await fetch(
+            SUPABASE_URL + "/rest/v1/auth_tokens?id=eq." + tokenData.id,
+            {
+              method: "PATCH",
+              headers: {
+                "apikey": SUPABASE_ANON_KEY,
+                "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({ used: true })
+            }
+          );
+
+          magicLinkCurrentUser = { email: tokenData.email };
+          storeMagicLinkSession(magicLinkCurrentUser);
+          clearPortalAuthUrlParams();
+          unlockPortalApp();
+          updateStatusBar();
+
+          if (typeof showToast === "function") {
+            showToast("Signed in as " + tokenData.email, "success");
+          }
+          if (typeof logActivity === "function") {
+            logActivity("auth", "Signed in", tokenData.email);
+          }
+        } catch (error) {
+          console.error("Token validation error:", error);
+          showPortalLoginError("Failed to verify sign-in link. Please try again.");
+          resetPortalLoginForm();
+          clearPortalAuthUrlParams();
+        } finally {
+          setPortalLoginLoading(false);
+        }
+      }
+
+      function showAuthenticatedPortalApp() {
+        unlockPortalApp();
+        updateStatusBar();
+      }
+
+      function magicLinkSignOut() {
+        clearMagicLinkSession();
+        resetPortalLoginForm();
+        var emailInput = document.getElementById("portalLoginEmail");
+        if (emailInput) emailInput.value = "";
+        showPortalLoginScreen();
+        var emailField = document.getElementById("portalLoginEmail");
+        if (emailField) setTimeout(function() { emailField.focus(); }, 100);
+      }
+
+      function bindMagicLinkAuthEvents() {
+        if (magicLinkAuthInitialized) return;
+        magicLinkAuthInitialized = true;
+
+        var loginBtn = document.getElementById("portalLoginBtn");
+        var emailInput = document.getElementById("portalLoginEmail");
+        var backBtn = document.getElementById("portalBackToEmailBtn");
+        var signOutBtn = document.getElementById("statusSignOutBtn");
+
+        if (loginBtn) loginBtn.addEventListener("click", requestDeploymentMagicLink);
+        if (backBtn) backBtn.addEventListener("click", resetPortalLoginForm);
+        if (emailInput) {
+          emailInput.addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              requestDeploymentMagicLink();
+            }
+          });
+        }
+        if (signOutBtn) {
+          signOutBtn.hidden = !requiresMagicLinkAuth();
+          signOutBtn.addEventListener("click", magicLinkSignOut);
+        }
+      }
+
+      function initializeMagicLinkAuth() {
+        bindMagicLinkAuthEvents();
+
+        if (!requiresMagicLinkAuth()) {
+          unlockPortalApp();
+          return;
+        }
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var authToken = urlParams.get("authToken");
+        if (authToken) {
+          validateDeploymentMagicToken(authToken);
+          return;
+        }
+
+        var session = getStoredMagicLinkSession();
+        if (session && session.expiresAt > Date.now() && session.user && session.user.email) {
+          magicLinkCurrentUser = session.user;
+          showAuthenticatedPortalApp();
+          return;
+        }
+
+        clearMagicLinkSession();
+        showPortalLoginScreen();
+        var emailField = document.getElementById("portalLoginEmail");
+        if (emailField) setTimeout(function() { emailField.focus(); }, 150);
+      }
+
+      window.magicLinkSignOut = magicLinkSignOut;
+      window.getMagicLinkCurrentUser = getMagicLinkCurrentUser;
+      window.requiresMagicLinkAuth = requiresMagicLinkAuth;
+      document.addEventListener("DOMContentLoaded", initializeMagicLinkAuth);
         
         // Global backup recovery functions (accessible from console)
         window.checkBackup = function() {
@@ -7550,11 +8398,20 @@
       
       // ===== MONITORING FEATURES =====
       
-      // User Name Management
+      // User Name / identity (email on live site, local label for dev)
       var USER_NAME_KEY = "deploymentUserName";
       
       function getCurrentUserName() {
-        return localStorage.getItem(USER_NAME_KEY) || "";
+        if (requiresMagicLinkAuth && requiresMagicLinkAuth()) {
+          var user = getMagicLinkCurrentUser ? getMagicLinkCurrentUser() : null;
+          if (user && user.email) return user.email;
+          var session = getStoredMagicLinkSession ? getStoredMagicLinkSession() : null;
+          if (session && session.expiresAt > Date.now() && session.user && session.user.email) {
+            return session.user.email;
+          }
+          return "";
+        }
+        return "Local Dev";
       }
       
       function setCurrentUserName(name) {
@@ -7685,10 +8542,17 @@
         var lastFileBackup = localStorage.getItem("deploymentLastFileBackup");
         var userName = getCurrentUserName();
         
-        // Update user name
+        // Update signed-in user (email on live site)
         if (statusUserName) {
-          statusUserName.textContent = userName ? "👤 " + userName : "👤 Set Name";
-          statusUserName.style.cursor = "pointer";
+          if (requiresMagicLinkAuth && requiresMagicLinkAuth()) {
+            statusUserName.textContent = userName ? userName : "Not signed in";
+            statusUserName.style.cursor = "default";
+            statusUserName.title = userName || "";
+          } else {
+            statusUserName.textContent = userName ? userName : "Local Dev";
+            statusUserName.style.cursor = "default";
+            statusUserName.title = "Local development mode";
+          }
         }
         
         // Update entry count
@@ -8321,64 +9185,9 @@
           });
         }
         
-        // User name click handler
-        var statusUserName = document.getElementById("statusUserName");
-        if (statusUserName) {
-          statusUserName.addEventListener("click", function() {
-            promptForUserName();
-          });
-        }
-        
-        // Initialize user name modal event handlers
+        // Name modal removed — identity comes from magic-link email on live site
         var userNameOverlay = document.getElementById("userNameModalOverlay");
-        var userNameInput = document.getElementById("userNameInput");
-        var userNameError = document.getElementById("userNameError");
-        var userNameSubmitBtn = document.getElementById("userNameSubmitBtn");
-        
-        function handleUserNameSubmit() {
-          var name = userNameInput.value.trim();
-          if (!name) {
-            if (userNameError) userNameError.hidden = false;
-            userNameInput.classList.add("error");
-            userNameInput.focus();
-            return;
-          }
-          var isInitialLogin = !getCurrentUserName();
-          setCurrentUserName(name);
-          userNameOverlay.hidden = true;
-          showToast("Welcome, " + name + "!", "success");
-          if (isInitialLogin) {
-            logActivity("Page loaded", "Started session");
-          }
-        }
-        
-        if (userNameSubmitBtn) {
-          userNameSubmitBtn.addEventListener("click", handleUserNameSubmit);
-        }
-        if (userNameInput) {
-          userNameInput.addEventListener("keydown", function(e) {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              handleUserNameSubmit();
-            }
-          });
-          userNameInput.addEventListener("input", function() {
-            if (userNameError) userNameError.hidden = true;
-            userNameInput.classList.remove("error");
-          });
-        }
-        
-        // Check if user name is set - show mandatory modal if not
-        if (getCurrentUserName()) {
-          // User already has a name, hide the modal
-          if (userNameOverlay) userNameOverlay.hidden = true;
-        } else {
-          // No name set - keep modal visible (it's mandatory)
-          if (userNameOverlay) {
-            userNameOverlay.hidden = false;
-            if (userNameInput) setTimeout(function() { userNameInput.focus(); }, 300);
-          }
-        }
+        if (userNameOverlay) userNameOverlay.hidden = true;
         
         // Initial status bar update
         setTimeout(updateStatusBar, 1000);
@@ -8389,8 +9198,9 @@
         // Update status bar periodically
         setInterval(updateStatusBar, 30000);
         
-        // Log app start with user name
+        // Log app start (skip until signed in on live site)
         setTimeout(function() {
+          if (requiresMagicLinkAuth && requiresMagicLinkAuth() && !getCurrentUserName()) return;
           var userName = getCurrentUserName() || "Anonymous";
           logActivity("sync", "Application Started", "Page loaded by " + userName);
         }, 3000);
@@ -9753,15 +10563,37 @@
         return matches.map(function(m) { return m.toUpperCase(); });
       }
 
+      function formatDefectDisplayId(match) {
+        var m = String(match || "").trim();
+        var compact = m.replace(/\s+/g, "");
+        var jiraMatch = compact.match(/^OOPIT-?(\d+)$/i);
+        if (jiraMatch) return "OOPIT-" + jiraMatch[1];
+        var num = (m.match(/\d+/) || [])[0];
+        if (!num) return m;
+        if (/^INC/i.test(compact)) {
+          return "INC" + num;
+        }
+        return "Defect#" + num;
+      }
+
+      function normalizeDefectIdKey(match) {
+        var compact = String(match || "").toUpperCase().replace(/\s+/g, "");
+        var jiraMatch = compact.match(/^OOPIT-?(\d+)$/);
+        if (jiraMatch) return "OOPIT-" + jiraMatch[1];
+        return compact.replace(/DEFECT#?/i, "DEF").replace(/DEF#/i, "DEF");
+      }
+
       function extractDefectIds(text) {
         if (!text) return [];
         var ids = [];
-        var defectPattern = /DEFECT\s*#?\s*\d+|DEF\s*#?\s*\d+|INC\s*\d+/gi;
+        var seen = {};
+        var defectPattern = /DEFECT\s*#?\s*\d+|DEF\s*#?\s*\d+|INC\s*\d+|OOPIT\s*-?\s*\d+/gi;
         var matches = text.match(defectPattern) || [];
-        matches.forEach(function(m) {
-          var normalized = m.toUpperCase().replace(/\s+/g, "").replace(/DEFECT#?/i, "DEF").replace(/DEF#/i, "DEF");
-          if (ids.indexOf(normalized) === -1) {
-            ids.push(normalized);
+        matches.forEach(function (m) {
+          var key = normalizeDefectIdKey(m);
+          if (!seen[key]) {
+            seen[key] = true;
+            ids.push({ key: key, display: formatDefectDisplayId(m) });
           }
         });
         return ids;
@@ -9820,8 +10652,8 @@
                 weekData[weekProd.key].prodRfcSet[prodRfc] = true;
               }
               var defectIds = extractDefectIds(incidentId);
-              defectIds.forEach(function(defId) {
-                weekData[weekProd.key].defectsSet[defId] = true;
+              defectIds.forEach(function (def) {
+                weekData[weekProd.key].defectsSet[def.key] = true;
               });
               if (isRedeploy && (entry.redeploymentEnv === "prod" || entry.redeploymentEnv === "both")) {
                 var alreadyAddedProd = weekData[weekProd.key].redeployList.some(function(r) {
@@ -9920,6 +10752,22 @@
         window.weeklyTrendChartData = chartData;
         window.weeklyTrendAllWeeks = weeks;
         window.weeklyTrendWeekData = weekData;
+
+        var weeklyDetailMaps = calculateWeeklyTrendDetailData(allEntries);
+        window.weeklyTrendDetailData = {};
+        weeks.forEach(function (weekKey) {
+          var w = weeklyDetailMaps[weekKey];
+          if (!w) return;
+          window.weeklyTrendDetailData[weekKey] = {
+            label: w.label,
+            pptRelease: Object.keys(w.pptReleaseMap).map(function (k) { return w.pptReleaseMap[k]; }),
+            prodRfc: Object.keys(w.prodRfcMap).map(function (k) { return w.prodRfcMap[k]; }),
+            hfDeployed: Object.keys(w.hfDeployedMap).map(function (k) { return w.hfDeployedMap[k]; }),
+            defectsDeployed: Object.keys(w.defectsMap).map(function (k) { return w.defectsMap[k]; })
+          };
+        });
+
+        initTrendDrilldown();
         populateTableMonthFilter(chartData);
         populateChartMonthFilter(chartData);
         renderWeeklyTrendTable();
@@ -10016,10 +10864,10 @@
           
           tr.innerHTML =
             "<td>" + escapeHtml(w.label) + "</td>" +
-            "<td style='text-align:center'>" + w.pptHf + "</td>" +
-            "<td style='text-align:center'>" + w.prodRfc + "</td>" +
-            "<td style='text-align:center'>" + w.prodHf + "</td>" +
-            "<td style='text-align:center'>" + w.defects + "</td>" +
+            weeklyTrendDrilldownCell(w.pptHf, w.key, "pptRelease") +
+            weeklyTrendDrilldownCell(w.prodRfc, w.key, "prodRfc") +
+            weeklyTrendDrilldownCell(w.prodHf, w.key, "hfDeployed") +
+            weeklyTrendDrilldownCell(w.defects, w.key, "defectsDeployed") +
             "<td style='text-align:center' class='redeploy-cell'>" + redeployCell + "</td>";
           weeklyTrendBody.appendChild(tr);
           
@@ -10052,15 +10900,18 @@
         });
         
         weeklyTrendBody.querySelectorAll(".redeploy-expandable").forEach(function(row) {
-          row.addEventListener("click", function() {
-            var idx = this.getAttribute("data-week-idx");
+          var redeployCell = row.querySelector(".redeploy-cell");
+          if (!redeployCell) return;
+          redeployCell.addEventListener("click", function(e) {
+            e.stopPropagation();
+            var idx = row.getAttribute("data-week-idx");
             var detailRow = weeklyTrendBody.querySelector('tr[data-detail-for="' + idx + '"]');
-            var icon = this.querySelector(".redeploy-expand-icon");
+            var icon = row.querySelector(".redeploy-expand-icon");
             if (detailRow) {
               var isHidden = detailRow.style.display === "none";
               detailRow.style.display = isHidden ? "table-row" : "none";
               if (icon) icon.textContent = isHidden ? "▼" : "▶";
-              this.classList.toggle("expanded", isHidden);
+              row.classList.toggle("expanded", isHidden);
             }
           });
         });
@@ -10338,10 +11189,37 @@
       function calculateMonthlyTrendData(entries) {
         var result = {};
         var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        
+
+        function ensureMonth(monthKey, monthLabel) {
+          if (!result[monthKey]) {
+            result[monthKey] = {
+              label: monthLabel,
+              pptReleaseMap: {},
+              prodRfcMap: {},
+              hfDeployedMap: {},
+              defectsMap: {}
+            };
+          }
+          return result[monthKey];
+        }
+
+        function monthlyTrendEntryDetail(entry, dateStr) {
+          var hotfixNum = String(entry.hotfixNumber || "").trim();
+          return {
+            hotfix: isValidHotfixNumber(hotfixNum) ? hotfixNum : "—",
+            application: String(entry.application || "").trim() || "—",
+            requester: String(entry.requester || "").trim() || "—",
+            incidentId: String(entry.incidentId || "").trim() || "—",
+            deploymentType: String(entry.deploymentType || "").trim() || "—",
+            description: String(entry.description || "").trim() || "—",
+            date: dateStr,
+            entryId: entry.id
+          };
+        }
+
         entries.forEach(function (entry) {
           if (!entry || entry.deletedAt) return;
-          
+
           var pptDate = String(entry.pptDeploymentDate || "").trim();
           var prodDate = String(entry.prodDeploymentDate || "").trim();
           var pptStatus = normalizeDeploymentStatus(entry.pptDeploymentStatus);
@@ -10350,92 +11228,621 @@
           var incidentId = String(entry.incidentId || "").trim().toUpperCase();
           var prodRfc = String(entry.prodRfc || "").trim();
           var isArchived = isEntryArchived(entry);
-          
+          var application = String(entry.application || "").trim() || "—";
+
           if (pptDate && pptStatus === "Deployed" && isValidHotfixNumber(hotfixNum)) {
             var pptParts = pptDate.split("-");
             if (pptParts.length >= 2) {
               var pptMonthKey = pptParts[0] + "-" + pptParts[1];
               var pptLabel = monthNames[parseInt(pptParts[1], 10) - 1] + "-" + pptParts[0].slice(2);
-              if (!result[pptMonthKey]) {
-                result[pptMonthKey] = { label: pptLabel, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
+              var pptMonth = ensureMonth(pptMonthKey, pptLabel);
+              if (!pptMonth.pptReleaseMap[hotfixNum]) {
+                pptMonth.pptReleaseMap[hotfixNum] = {
+                  hotfix: hotfixNum,
+                  application: application,
+                  requester: String(entry.requester || "").trim() || "—",
+                  incidentId: String(entry.incidentId || "").trim() || "—",
+                  deploymentType: String(entry.deploymentType || "").trim() || "—",
+                  description: String(entry.description || "").trim() || "—",
+                  date: pptDate,
+                  entryId: entry.id
+                };
               }
-              result[pptMonthKey].pptHfSet[hotfixNum] = true;
             }
           }
-          
+
           if (isArchived && prodDate && prodStatus === "Deployed") {
             var prodParts = prodDate.split("-");
             if (prodParts.length >= 2) {
               var prodMonthKey = prodParts[0] + "-" + prodParts[1];
               var prodLabel = monthNames[parseInt(prodParts[1], 10) - 1] + "-" + prodParts[0].slice(2);
-              if (!result[prodMonthKey]) {
-                result[prodMonthKey] = { label: prodLabel, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
-              }
-              if (isValidHotfixNumber(hotfixNum)) {
-                result[prodMonthKey].prodHfSet[hotfixNum] = true;
+              var prodMonth = ensureMonth(prodMonthKey, prodLabel);
+              if (isValidHotfixNumber(hotfixNum) && !prodMonth.hfDeployedMap[hotfixNum]) {
+                prodMonth.hfDeployedMap[hotfixNum] = Object.assign(
+                  { hotfix: hotfixNum },
+                  monthlyTrendEntryDetail(entry, prodDate)
+                );
               }
               if (prodRfc) {
-                result[prodMonthKey].prodRfcSet[prodRfc] = true;
+                var rfcKey = prodRfc.toUpperCase();
+                prodMonth.prodRfcMap[rfcKey] = {
+                  rfc: prodRfc,
+                  source: "Entry",
+                  description: "SmartOPS PROD Release",
+                  date: prodDate,
+                  entryId: entry.id
+                };
               }
-              var defectIds = extractDefectIds(incidentId);
-              defectIds.forEach(function(defId) {
-                result[prodMonthKey].defectsSet[defId] = true;
+              extractDefectIds(incidentId).forEach(function (def) {
+                if (!prodMonth.defectsMap[def.key]) {
+                  prodMonth.defectsMap[def.key] = Object.assign(
+                    { defectId: def.display },
+                    monthlyTrendEntryDetail(entry, prodDate)
+                  );
+                }
               });
             }
           }
         });
-        
+
         Object.keys(calendarNotes).forEach(function (dateKey) {
           var noteData = calendarNotes[dateKey];
           if (!noteData) return;
           if (typeof noteData === "string") {
             try { noteData = JSON.parse(noteData); } catch (e) { return; }
           }
-          
+
           var dateParts = dateKey.split("-");
           if (dateParts.length < 2) return;
           var monthKey = dateParts[0] + "-" + dateParts[1];
-          var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
           var monthLabel = monthNames[parseInt(dateParts[1], 10) - 1] + "-" + dateParts[0].slice(2);
-          
-          if (!result[monthKey]) {
-            result[monthKey] = { label: monthLabel, pptHfSet: {}, prodRfcSet: {}, prodHfSet: {}, defectsSet: {} };
-          }
-          
+          var month = ensureMonth(monthKey, monthLabel);
+
           var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
           var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
           var isCancelled2 = noteData.cancelled2 === true || noteData.cancelled2 === "true";
-          if (noteData.note1) {
-            var note1Lower = noteData.note1.toLowerCase();
-            var hasPPT1 = note1Lower.indexOf("ppt deployment") !== -1 || note1Lower.indexOf("ppt") !== -1;
-            var rfcs1 = extractRfcsFromNote(noteData.note1);
-            if (!isCancelled1 && !hasPPT1) {
-              rfcs1.forEach(function (rfc) {
-                result[monthKey].prodRfcSet[rfc] = true;
-              });
+
+          function addCalendarRfcs(text, cancelled, eventLabel) {
+            if (!text || cancelled) return;
+            var noteLower = text.toLowerCase();
+            if (noteLower.indexOf("ppt deployment") !== -1 || noteLower.indexOf("ppt") !== -1) return;
+            extractRfcsFromNote(text).forEach(function (rfc) {
+              var rfcKey = rfc.toUpperCase();
+              if (!month.prodRfcMap[rfcKey]) {
+                month.prodRfcMap[rfcKey] = {
+                  rfc: rfc,
+                  source: "Calendar",
+                  description: eventLabel || "Weekly Bounce",
+                  date: dateKey,
+                  entryId: null
+                };
+              }
+            });
+          }
+
+          addCalendarRfcs(noteData.note1, isCancelled1, "Weekly Bounce");
+          addCalendarRfcs(noteData.note2, isCancelled2, "BCC PROD Deployment");
+          addCalendarRfcs(noteData.note, genericCancelled, "Weekly Bounce");
+        });
+
+        return result;
+      }
+
+      function calculateWeeklyTrendDetailData(entries) {
+        var result = {};
+
+        function ensureWeek(weekInfo) {
+          if (!weekInfo) return null;
+          if (!result[weekInfo.key]) {
+            result[weekInfo.key] = {
+              label: weekInfo.label,
+              pptReleaseMap: {},
+              prodRfcMap: {},
+              hfDeployedMap: {},
+              defectsMap: {}
+            };
+          }
+          return result[weekInfo.key];
+        }
+
+        function weeklyTrendEntryDetail(entry, dateStr) {
+          var hotfixNum = String(entry.hotfixNumber || "").trim();
+          return {
+            hotfix: isValidHotfixNumber(hotfixNum) ? hotfixNum : "—",
+            application: String(entry.application || "").trim() || "—",
+            requester: String(entry.requester || "").trim() || "—",
+            incidentId: String(entry.incidentId || "").trim() || "—",
+            deploymentType: String(entry.deploymentType || "").trim() || "—",
+            description: String(entry.description || "").trim() || "—",
+            date: dateStr,
+            entryId: entry.id
+          };
+        }
+
+        entries.forEach(function (entry) {
+          if (!entry || entry.deletedAt) return;
+
+          var pptDate = String(entry.pptDeploymentDate || "").trim();
+          var prodDate = String(entry.prodDeploymentDate || "").trim();
+          var pptStatus = normalizeDeploymentStatus(entry.pptDeploymentStatus);
+          var prodStatus = normalizeDeploymentStatus(entry.prodDeploymentStatus);
+          var hotfixNum = String(entry.hotfixNumber || "").trim();
+          var incidentId = String(entry.incidentId || "").trim().toUpperCase();
+          var prodRfc = String(entry.prodRfc || "").trim();
+          var isArchived = isEntryArchived(entry);
+          var application = String(entry.application || "").trim() || "—";
+
+          if (pptDate && pptStatus === "Deployed" && isValidHotfixNumber(hotfixNum)) {
+            var weekPpt = getWeekRange(pptDate);
+            var pptWeek = ensureWeek(weekPpt);
+            if (pptWeek && !pptWeek.pptReleaseMap[hotfixNum]) {
+              pptWeek.pptReleaseMap[hotfixNum] = {
+                hotfix: hotfixNum,
+                application: application,
+                requester: String(entry.requester || "").trim() || "—",
+                incidentId: String(entry.incidentId || "").trim() || "—",
+                deploymentType: String(entry.deploymentType || "").trim() || "—",
+                description: String(entry.description || "").trim() || "—",
+                date: pptDate,
+                entryId: entry.id
+              };
             }
           }
-          if (noteData.note2) {
-            var note2Lower = noteData.note2.toLowerCase();
-            var hasPPT2 = note2Lower.indexOf("ppt deployment") !== -1 || note2Lower.indexOf("ppt") !== -1;
-            var rfcs2 = extractRfcsFromNote(noteData.note2);
-            if (!isCancelled2 && !hasPPT2) {
-              rfcs2.forEach(function (rfc) {
-                result[monthKey].prodRfcSet[rfc] = true;
-              });
-            }
-          }
-          if (noteData.note && !genericCancelled) {
-            var noteLower = noteData.note.toLowerCase();
-            if (noteLower.indexOf("ppt deployment") === -1 && noteLower.indexOf("ppt") === -1) {
-              extractRfcsFromNote(noteData.note).forEach(function (rfc) {
-                result[monthKey].prodRfcSet[rfc] = true;
+
+          if (isArchived && prodDate && prodStatus === "Deployed") {
+            var weekProd = getWeekRange(prodDate);
+            var prodWeek = ensureWeek(weekProd);
+            if (prodWeek) {
+              if (isValidHotfixNumber(hotfixNum) && !prodWeek.hfDeployedMap[hotfixNum]) {
+                prodWeek.hfDeployedMap[hotfixNum] = Object.assign(
+                  { hotfix: hotfixNum },
+                  weeklyTrendEntryDetail(entry, prodDate)
+                );
+              }
+              if (prodRfc) {
+                var rfcKey = prodRfc.toUpperCase();
+                prodWeek.prodRfcMap[rfcKey] = {
+                  rfc: prodRfc,
+                  source: "Entry",
+                  description: "SmartOPS PROD Release",
+                  date: prodDate,
+                  entryId: entry.id
+                };
+              }
+              extractDefectIds(incidentId).forEach(function (def) {
+                if (!prodWeek.defectsMap[def.key]) {
+                  prodWeek.defectsMap[def.key] = Object.assign(
+                    { defectId: def.display },
+                    weeklyTrendEntryDetail(entry, prodDate)
+                  );
+                }
               });
             }
           }
         });
-        
+
+        Object.keys(calendarNotes).forEach(function (dateKey) {
+          var noteData = calendarNotes[dateKey];
+          if (!noteData) return;
+          if (typeof noteData === "string") {
+            try { noteData = JSON.parse(noteData); } catch (e) { return; }
+          }
+
+          var weekInfo = getWeekRange(dateKey);
+          var week = ensureWeek(weekInfo);
+          if (!week) return;
+
+          var genericCancelled = noteData.cancelled === true || noteData.cancelled === "true";
+          var isCancelled1 = noteData.cancelled1 === true || noteData.cancelled1 === "true" || genericCancelled;
+          var isCancelled2 = noteData.cancelled2 === true || noteData.cancelled2 === "true";
+
+          function addCalendarRfcs(text, cancelled, eventLabel) {
+            if (!text || cancelled) return;
+            var noteLower = text.toLowerCase();
+            if (noteLower.indexOf("ppt deployment") !== -1 || noteLower.indexOf("ppt") !== -1) return;
+            extractRfcsFromNote(text).forEach(function (rfc) {
+              var rfcKey = rfc.toUpperCase();
+              if (!week.prodRfcMap[rfcKey]) {
+                week.prodRfcMap[rfcKey] = {
+                  rfc: rfc,
+                  source: "Calendar",
+                  description: eventLabel || "Weekly Bounce",
+                  date: dateKey,
+                  entryId: null
+                };
+              }
+            });
+          }
+
+          addCalendarRfcs(noteData.note1, isCancelled1, "Weekly Bounce");
+          addCalendarRfcs(noteData.note2, isCancelled2, "BCC PROD Deployment");
+          addCalendarRfcs(noteData.note, genericCancelled, "Weekly Bounce");
+        });
+
         return result;
+      }
+
+      window.monthlyTrendDetailData = {};
+      window.weeklyTrendDetailData = {};
+
+      function formatTrendDisplayDate(dateStr) {
+        if (!dateStr) return "—";
+        var d = new Date(dateStr.length === 10 ? dateStr + "T12:00:00" : dateStr);
+        if (isNaN(d.getTime())) return dateStr;
+        return d.toLocaleDateString();
+      }
+
+      function formatProdRfcDisplayDate(dateStr) {
+        if (!dateStr) return "—";
+        var d = new Date(dateStr.length === 10 ? dateStr + "T12:00:00" : dateStr);
+        if (isNaN(d.getTime())) return dateStr;
+        var month = d.toLocaleDateString("en-US", { month: "long" });
+        var day = String(d.getDate()).padStart(2, "0");
+        return month + " " + day + ", " + d.getFullYear();
+      }
+
+      function formatTitleCaseName(name) {
+        if (!name || name === "—") return name;
+        return String(name).toLowerCase().replace(/\b\w/g, function (c) {
+          return c.toUpperCase();
+        });
+      }
+
+      function monthlyTrendDrilldownCell(count, monthKey, metric) {
+        return trendDrilldownCell(count, monthKey, metric, "month");
+      }
+
+      function weeklyTrendDrilldownCell(count, weekKey, metric) {
+        return trendDrilldownCell(count, weekKey, metric, "week");
+      }
+
+      function trendDrilldownCell(count, periodKey, metric, trendType) {
+        var align = trendType === "week" ? " style='text-align:center'" : "";
+        if (!count) {
+          return "<td" + align + ">" + count + "</td>";
+        }
+        var periodAttr = trendType === "week" ? "data-week-key" : "data-month-key";
+        return "<td" + align + '><button type="button" class="monthly-trend-drilldown" ' + periodAttr + '="' +
+          escapeAttr(periodKey) + '" data-metric="' + escapeAttr(metric) + '">' + count + "</button></td>";
+      }
+
+      function getMonthlyTrendMetricConfig(metric) {
+        var configs = {
+          pptRelease: {
+            title: "PPT Release",
+            sortKey: "hotfix",
+            wide: true,
+            savedStyle: true,
+            colCount: 7,
+            columns: [
+              { key: "application", label: "Application", clip: "app" },
+              { key: "requester", label: "Name of requester", clip: "requester", format: "titlecase" },
+              { key: "incidentId", label: "Incident/Defect ID", clip: "incident" },
+              { key: "hotfix", label: "Hotfix number", link: true, clip: "hotfix" },
+              { key: "deploymentType", label: "Deploy Type", clip: "badge" },
+              { key: "date", label: "Deploy Date", format: "date", clip: "nowrap" },
+              { key: "description", label: "Description", clip: "desc" }
+            ]
+          },
+          prodRfc: {
+            title: "PROD RFC",
+            sortKey: "rfc",
+            wide: true,
+            savedStyle: true,
+            colCount: 4,
+            columns: [
+              { key: "rfc", label: "RFC #", rfcLink: true, clip: "hotfix" },
+              { key: "source", label: "Source", clip: "source" },
+              { key: "description", label: "Description" },
+              { key: "date", label: "Deployment Date", format: "longdate", clip: "nowrap" }
+            ]
+          },
+          hfDeployed: {
+            title: "HF Deployed",
+            sortKey: "hotfix",
+            wide: true,
+            savedStyle: true,
+            colCount: 7,
+            columns: [
+              { key: "application", label: "Application", clip: "app" },
+              { key: "requester", label: "Name of requester", clip: "requester", format: "titlecase" },
+              { key: "incidentId", label: "Incident/Defect ID", clip: "incident" },
+              { key: "hotfix", label: "Hotfix number", link: true, clip: "hotfix" },
+              { key: "deploymentType", label: "Deploy Type", clip: "badge" },
+              { key: "date", label: "Deploy Date", format: "date", clip: "nowrap" },
+              { key: "description", label: "Description", clip: "desc" }
+            ]
+          },
+          defectsDeployed: {
+            title: "Defects Deployed",
+            sortKey: "defectId",
+            wide: true,
+            savedStyle: true,
+            colCount: 7,
+            columns: [
+              { key: "application", label: "Application", clip: "app" },
+              { key: "requester", label: "Name of requester", clip: "requester", format: "titlecase" },
+              { key: "defectId", label: "Defect/Incident ID", clip: "incident" },
+              { key: "hotfix", label: "Hotfix number", link: true, clip: "hotfix" },
+              { key: "deploymentType", label: "Deploy Type", clip: "badge" },
+              { key: "date", label: "Deploy Date", format: "date", clip: "nowrap" },
+              { key: "description", label: "Description", clip: "desc" }
+            ]
+          }
+        };
+        return configs[metric] || null;
+      }
+
+      window.trendModalBack = null;
+
+      function getEntriesForProdRfc(rfcNumber) {
+        var rfcUpper = String(rfcNumber || "").trim().toUpperCase();
+        if (!rfcUpper) return [];
+        return readSavedEntries().filter(function (entry) {
+          if (!entry || entry.deletedAt) return false;
+          var prodRfc = String(entry.prodRfc || "").trim().toUpperCase();
+          return prodRfc && prodRfc.indexOf(rfcUpper) !== -1;
+        });
+      }
+
+      function setMonthlyTrendBackButton(show) {
+        var backBtn = document.getElementById("monthlyTrendDetailsBackBtn");
+        if (backBtn) backBtn.style.display = show ? "inline-block" : "none";
+      }
+
+      function wireMonthlyTrendModalLinks(bodyEl, periodKey, metric, trendType) {
+        if (!bodyEl) return;
+        bodyEl.querySelectorAll(".monthly-trend-hf-link").forEach(function (link) {
+          link.addEventListener("click", function () {
+            loadEntryFromMonthlyTrend(link.getAttribute("data-entry-id"));
+          });
+        });
+        bodyEl.querySelectorAll(".monthly-trend-rfc-link").forEach(function (link) {
+          link.addEventListener("click", function (e) {
+            e.preventDefault();
+            var rfc = link.getAttribute("data-rfc");
+            var backContext = periodKey && metric
+              ? { trendType: trendType || "month", periodKey: periodKey, metric: metric }
+              : null;
+            showRfcHotfixesModal(rfc, backContext);
+          });
+        });
+      }
+
+      function buildMonthlyTrendDetailsTable(config, items, metric) {
+        var tableClass = "monthly-trend-details-table";
+        if (config.savedStyle) tableClass += " monthly-trend-details-saved-style";
+        if (config.colCount) tableClass += " monthly-trend-cols-" + config.colCount;
+
+        var html = '<div class="monthly-trend-details-table-wrap"><table class="' + tableClass + '"><thead><tr>';
+        config.columns.forEach(function (col) {
+          html += "<th>" + escapeHtml(col.label) + "</th>";
+        });
+        html += "</tr></thead><tbody>";
+
+        items.forEach(function (item) {
+          html += "<tr>";
+          config.columns.forEach(function (col) {
+            var value = item[col.key];
+            if (col.format === "date") {
+              value = formatTrendDisplayDate(value);
+            } else if (col.format === "longdate") {
+              value = formatProdRfcDisplayDate(value);
+            } else if (col.format === "titlecase") {
+              value = formatTitleCaseName(value);
+            } else {
+              value = value == null || value === "" ? "—" : String(value);
+            }
+            var cellClass = "";
+            if (col.clip === "desc") cellClass = "cell-clip-desc";
+            else if (col.clip === "requester") cellClass = "cell-clip-requester";
+            else if (col.clip === "incident") cellClass = "cell-clip-incident";
+            else if (col.clip === "app") cellClass = "cell-clip-app";
+            else if (col.clip === "nowrap") cellClass = "cell-clip-nowrap";
+            else if (col.clip === "badge") cellClass = "cell-deploy-badge";
+            else if (col.clip === "hotfix") cellClass = "cell-hotfix-num";
+            else if (col.clip === "sm") cellClass = "cell-clip-sm";
+            else if (col.clip === true) cellClass = "cell-clip-sm";
+            var classAttr = cellClass ? ' class="' + cellClass + '"' : "";
+            var titleAttr = (col.clip === "desc" || col.clip === "incident") && value !== "—"
+              ? ' title="' + escapeAttr(value) + '"'
+              : "";
+            if (col.clip === "badge" && value !== "—") {
+              html += "<td" + titleAttr + '><span class="cell-deploy-badge">' + escapeHtml(value) + "</span></td>";
+            } else if (col.clip === "source" && value !== "—") {
+              var sourceClass = value === "Entry" ? "cell-source-badge cell-source-entry" : "cell-source-badge cell-source-calendar";
+              html += "<td" + titleAttr + '><span class="' + sourceClass + '">' + escapeHtml(value) + "</span></td>";
+            } else if (col.rfcLink && value !== "—") {
+              html += "<td" + classAttr + '><span class="monthly-trend-rfc-link" data-rfc="' +
+                escapeAttr(value) + '">' + escapeHtml(value) + "</span></td>";
+            } else if (col.link && item.entryId && value !== "—") {
+              html += "<td" + classAttr + titleAttr + '><span class="monthly-trend-hf-link" data-entry-id="' +
+                escapeAttr(item.entryId) + '">' + escapeHtml(value) + "</span></td>";
+            } else {
+              html += "<td" + classAttr + titleAttr + ">" + escapeHtml(value) + "</td>";
+            }
+          });
+          html += "</tr>";
+        });
+
+        html += "</tbody></table></div>";
+        return html;
+      }
+
+      function showRfcHotfixesModal(rfcNumber, backContext) {
+        var overlay = document.getElementById("monthlyTrendDetailsOverlay");
+        var titleEl = document.getElementById("monthlyTrendDetailsTitle");
+        var bodyEl = document.getElementById("monthlyTrendDetailsBody");
+        if (!overlay || !titleEl || !bodyEl) return;
+
+        var entries = getEntriesForProdRfc(rfcNumber);
+        if (!entries.length) {
+          showInfoModal("No hotfixes found for RFC: " + rfcNumber, true);
+          return;
+        }
+
+        entries.sort(function (a, b) {
+          var aVal = String(a.hotfixNumber || "");
+          var bVal = String(b.hotfixNumber || "");
+          return aVal.localeCompare(bVal, undefined, { numeric: true, sensitivity: "base" });
+        });
+
+        var items = entries.map(function (entry) {
+          return {
+            application: String(entry.application || "").trim() || "—",
+            requester: String(entry.requester || "").trim() || "—",
+            incidentId: String(entry.incidentId || "").trim() || "—",
+            hotfix: String(entry.hotfixNumber || "").trim() || "—",
+            deploymentType: String(entry.deploymentType || "").trim() || "—",
+            date: String(entry.prodDeploymentDate || "").trim() || "—",
+            description: String(entry.description || "").trim() || "—",
+            entryId: entry.id
+          };
+        });
+
+        var config = getMonthlyTrendMetricConfig("hfDeployed");
+        titleEl.textContent = "RFC " + rfcNumber + " — Hotfixes (" + items.length + ")";
+
+        var dialog = overlay.querySelector(".verify-modal-dialog");
+        if (dialog) dialog.classList.add("monthly-trend-details-wide");
+
+        bodyEl.innerHTML = buildMonthlyTrendDetailsTable(config, items, null);
+        window.trendModalBack = backContext || null;
+        setMonthlyTrendBackButton(!!backContext);
+        wireMonthlyTrendModalLinks(bodyEl, null, null, null);
+        overlay.classList.add("show");
+      }
+
+      function loadEntryFromMonthlyTrend(entryId) {
+        if (!entryId) return;
+        var list = readSavedEntries();
+        var entry = list.find(function (e) {
+          return e && e.id === entryId;
+        });
+        if (!entry) {
+          showToast("Entry not found.", "error");
+          return;
+        }
+        var overlay = document.getElementById("monthlyTrendDetailsOverlay");
+        if (overlay) overlay.classList.remove("show");
+        applyEntryToForm(entry);
+        loadedEntryId = entry.id;
+        if (updateEntryBtn) updateEntryBtn.disabled = false;
+        updateActiveNavLink(newEntryNavLink);
+        switchToPanel(newEntryPanel);
+        if (form) form.scrollIntoView({ behavior: "smooth", block: "start" });
+        showToast("Entry loaded into form.", "success");
+      }
+
+      function showTrendDetailsModal(periodKey, metric, trendType) {
+        var overlay = document.getElementById("monthlyTrendDetailsOverlay");
+        var titleEl = document.getElementById("monthlyTrendDetailsTitle");
+        var bodyEl = document.getElementById("monthlyTrendDetailsBody");
+        if (!overlay || !titleEl || !bodyEl) return;
+
+        var config = getMonthlyTrendMetricConfig(metric);
+        var detailStore = trendType === "week" ? window.weeklyTrendDetailData : window.monthlyTrendDetailData;
+        var periodDetails = detailStore[periodKey];
+        if (!config || !periodDetails) return;
+
+        var items = (periodDetails[metric] || []).slice();
+        if (!items.length) return;
+
+        items.sort(function (a, b) {
+          var aVal = String(a[config.sortKey] || "");
+          var bVal = String(b[config.sortKey] || "");
+          return aVal.localeCompare(bVal, undefined, { numeric: true, sensitivity: "base" });
+        });
+
+        var periodLabel = (periodDetails && periodDetails.label) || periodKey;
+        titleEl.textContent = config.title + " — " + periodLabel + " (" + items.length + ")";
+
+        var dialog = overlay.querySelector(".verify-modal-dialog");
+        if (dialog) {
+          dialog.classList.toggle("monthly-trend-details-wide", !!config.wide);
+        }
+
+        bodyEl.innerHTML = buildMonthlyTrendDetailsTable(config, items, metric);
+        window.trendModalBack = null;
+        setMonthlyTrendBackButton(false);
+        wireMonthlyTrendModalLinks(bodyEl, periodKey, metric, trendType);
+
+        overlay.classList.add("show");
+      }
+
+      function showMonthlyTrendDetailsModal(monthKey, metric) {
+        showTrendDetailsModal(monthKey, metric, "month");
+      }
+
+      function showWeeklyTrendDetailsModal(weekKey, metric) {
+        showTrendDetailsModal(weekKey, metric, "week");
+      }
+
+      function initTrendDrilldown() {
+        var monthlyTrendBody = document.getElementById("monthlyTrendBody");
+        var weeklyTrendBody = document.getElementById("weeklyTrendBody");
+        var overlay = document.getElementById("monthlyTrendDetailsOverlay");
+        var closeBtn = document.getElementById("monthlyTrendDetailsClose");
+        var closeFooterBtn = document.getElementById("monthlyTrendDetailsCloseBtn");
+
+        if (monthlyTrendBody && !monthlyTrendBody._drilldownBound) {
+          monthlyTrendBody._drilldownBound = true;
+          monthlyTrendBody.addEventListener("click", function (e) {
+            var btn = e.target.closest(".monthly-trend-drilldown");
+            if (!btn) return;
+            showMonthlyTrendDetailsModal(
+              btn.getAttribute("data-month-key"),
+              btn.getAttribute("data-metric")
+            );
+          });
+        }
+
+        if (weeklyTrendBody && !weeklyTrendBody._drilldownBound) {
+          weeklyTrendBody._drilldownBound = true;
+          weeklyTrendBody.addEventListener("click", function (e) {
+            var btn = e.target.closest(".monthly-trend-drilldown");
+            if (!btn) return;
+            e.preventDefault();
+            e.stopPropagation();
+            showWeeklyTrendDetailsModal(
+              btn.getAttribute("data-week-key"),
+              btn.getAttribute("data-metric")
+            );
+          }, true);
+        }
+
+        function closeTrendModal() {
+          if (overlay) overlay.classList.remove("show");
+          window.trendModalBack = null;
+          setMonthlyTrendBackButton(false);
+        }
+
+        if (overlay && !overlay._drilldownBound) {
+          overlay._drilldownBound = true;
+          if (closeBtn) closeBtn.addEventListener("click", closeTrendModal);
+          if (closeFooterBtn) closeFooterBtn.addEventListener("click", closeTrendModal);
+          overlay.addEventListener("click", function (e) {
+            if (e.target === overlay) closeTrendModal();
+          });
+        }
+
+        var backBtn = document.getElementById("monthlyTrendDetailsBackBtn");
+        if (backBtn && !backBtn._drilldownBound) {
+          backBtn._drilldownBound = true;
+          backBtn.addEventListener("click", function () {
+            var ctx = window.trendModalBack;
+            if (!ctx || !ctx.periodKey || !ctx.metric) return;
+            if (ctx.trendType === "week") {
+              showWeeklyTrendDetailsModal(ctx.periodKey, ctx.metric);
+            } else {
+              showMonthlyTrendDetailsModal(ctx.periodKey, ctx.metric);
+            }
+          });
+        }
+      }
+
+      function initMonthlyTrendDrilldown() {
+        initTrendDrilldown();
       }
       
       function renderMonthlyTrend() {
@@ -10472,13 +11879,27 @@
         monthlyTrendBody.innerHTML = "";
         
         window.monthlyTrendData = [];
+        window.monthlyTrendDetailData = {};
+        initMonthlyTrendDrilldown();
         
         monthKeys.forEach(function (monthKey) {
           var m = monthlyData[monthKey];
-          var pptCount = Object.keys(m.pptHfSet).length;
-          var prodRfcCount = Object.keys(m.prodRfcSet).length;
-          var prodHfCount = Object.keys(m.prodHfSet).length;
-          var defectsCount = Object.keys(m.defectsSet).length;
+          var pptItems = Object.keys(m.pptReleaseMap).map(function (k) { return m.pptReleaseMap[k]; });
+          var prodRfcItems = Object.keys(m.prodRfcMap).map(function (k) { return m.prodRfcMap[k]; });
+          var hfItems = Object.keys(m.hfDeployedMap).map(function (k) { return m.hfDeployedMap[k]; });
+          var defectItems = Object.keys(m.defectsMap).map(function (k) { return m.defectsMap[k]; });
+          var pptCount = pptItems.length;
+          var prodRfcCount = prodRfcItems.length;
+          var prodHfCount = hfItems.length;
+          var defectsCount = defectItems.length;
+          
+          window.monthlyTrendDetailData[monthKey] = {
+            label: m.label,
+            pptRelease: pptItems,
+            prodRfc: prodRfcItems,
+            hfDeployed: hfItems,
+            defectsDeployed: defectItems
+          };
           
           window.monthlyTrendData.push({
             key: monthKey,
@@ -10492,10 +11913,10 @@
           var tr = document.createElement("tr");
           tr.innerHTML =
             "<td>" + escapeHtml(m.label) + "</td>" +
-            "<td>" + pptCount + "</td>" +
-            "<td>" + prodRfcCount + "</td>" +
-            "<td>" + prodHfCount + "</td>" +
-            "<td>" + defectsCount + "</td>";
+            monthlyTrendDrilldownCell(pptCount, monthKey, "pptRelease") +
+            monthlyTrendDrilldownCell(prodRfcCount, monthKey, "prodRfc") +
+            monthlyTrendDrilldownCell(prodHfCount, monthKey, "hfDeployed") +
+            monthlyTrendDrilldownCell(defectsCount, monthKey, "defectsDeployed");
           monthlyTrendBody.appendChild(tr);
         });
         
@@ -13810,8 +15231,8 @@
                 weekData[weekProd.key].prodRfcSet[prodRfc] = true;
               }
               var defectIds = extractDefectIds(incidentId);
-              defectIds.forEach(function(defId) {
-                weekData[weekProd.key].defectsSet[defId] = true;
+              defectIds.forEach(function (def) {
+                weekData[weekProd.key].defectsSet[def.key] = true;
               });
             }
           }
@@ -14754,7 +16175,8 @@
       <span id="statusBackupTime">Last backup: --</span>
     </div>
     <div class="status-bar-right">
-      <span id="statusUserName" style="cursor: pointer;">👤 Set Name</span>
+      <span id="statusUserName" title="">Local Dev</span>
+      <button type="button" id="statusSignOutBtn" hidden title="Sign out">Sign Out</button>
       <button type="button" id="statusViewLogBtn">📋 Activity Log</button>
       <button type="button" id="statusQuickBackup">💾 Quick Backup</button>
       <button type="button" id="statusVerifyEntries">✓ Verify Entries</button>
@@ -14810,6 +16232,21 @@
       </div>
       <div class="verify-modal-footer">
         <button type="button" class="btn-secondary" id="verifyDetailsCloseBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Monthly Trend Details Modal -->
+  <div class="verify-modal-overlay" id="monthlyTrendDetailsOverlay">
+    <div class="verify-modal-dialog verify-details-dialog">
+      <div class="verify-modal-header">
+        <h3 id="monthlyTrendDetailsTitle">Monthly Trend Details</h3>
+        <button type="button" class="verify-modal-close" id="monthlyTrendDetailsClose">&times;</button>
+      </div>
+      <div class="verify-modal-body" id="monthlyTrendDetailsBody"></div>
+      <div class="verify-modal-footer">
+        <button type="button" class="btn-secondary" id="monthlyTrendDetailsBackBtn" style="display:none">← Back</button>
+        <button type="button" class="btn-secondary" id="monthlyTrendDetailsCloseBtn">Close</button>
       </div>
     </div>
   </div>
