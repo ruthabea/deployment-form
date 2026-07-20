@@ -16342,7 +16342,7 @@
       var syncIndicator = document.getElementById("syncIndicator");
       var syncStatusText = document.getElementById("syncStatusText");
       var syncRefreshBtn = document.getElementById("syncRefreshBtn");
-      var AUTO_SYNC_INTERVAL = 30000;
+      var AUTO_SYNC_INTERVAL = 5 * 60 * 1000; // 5 minutes (reduces Supabase egress vs 30s)
       var syncIntervalId = null;
       var lastSyncTime = null;
       var isOnline = true;
@@ -16371,7 +16371,7 @@
           .then(function () {
             lastSyncTime = new Date();
             isOnline = true;
-            updateSyncStatus("ok", "Last synced: " + formatSyncTime(lastSyncTime) + " (auto-refresh every 30s)");
+            updateSyncStatus("ok", "Last synced: " + formatSyncTime(lastSyncTime) + " (auto-refresh every 5 min)");
             renderSavedList();
             renderWeeklyTrend();
             loadCalendarNotes().then(function () {
