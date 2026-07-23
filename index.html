@@ -47,6 +47,19 @@
       --status-err: #fca5a5;
       --body-grad-a: #0a0e14;
       --body-grad-b: #121a24;
+      --sidebar-bg: #0b0b0f;
+      --sidebar-border: rgba(255, 255, 255, 0.06);
+      --sidebar-text: #e8eef5;
+      --sidebar-muted: rgba(148, 163, 184, 0.85);
+      --sidebar-link: rgba(226, 232, 240, 0.82);
+      --sidebar-hover-bg: rgba(255, 255, 255, 0.06);
+      --sidebar-hover-text: #ffffff;
+      --sidebar-active-bg: rgba(139, 92, 246, 0.28);
+      --sidebar-active-text: #ffffff;
+      --ui-size: 0.86rem;
+      --ui-weight: 400;
+      --ui-weight-strong: 400;
+      --table-size: 0.72rem;
       --radius: 10px;
       --font: system-ui, "Segoe UI", Roboto, sans-serif;
     }
@@ -71,6 +84,19 @@
       --status-err: #dc2626;
       --body-grad-a: #e2e8f0;
       --body-grad-b: #f8fafc;
+      --sidebar-bg: #ffffff;
+      --sidebar-border: #d4d0cb;
+      --sidebar-text: #0f172a;
+      --sidebar-muted: #64748b;
+      --sidebar-link: #334155;
+      --sidebar-hover-bg: rgba(37, 99, 235, 0.08);
+      --sidebar-hover-text: #0f172a;
+      --sidebar-active-bg: rgba(139, 92, 246, 0.16);
+      --sidebar-active-text: #5b21b6;
+      --ui-size: 0.86rem;
+      --ui-weight: 400;
+      --ui-weight-strong: 400;
+      --table-size: 0.72rem;
       --radius: 10px;
       --font: system-ui, "Segoe UI", Roboto, sans-serif;
     }
@@ -82,6 +108,8 @@
       margin: 0;
       min-height: 100vh;
       font-family: var(--font);
+      font-size: var(--ui-size);
+      font-weight: var(--ui-weight);
       background: linear-gradient(160deg, var(--body-grad-a) 0%, var(--bg) 45%, var(--body-grad-b) 100%);
       color: var(--text);
       line-height: 1.5;
@@ -92,10 +120,95 @@
       max-width: none;
       min-height: 100vh;
       margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: stretch;
+    }
+    .app-sidebar {
+      width: 16.5rem;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      padding: 1.15rem 0.85rem 1.25rem;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      color: var(--sidebar-text);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 40;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+    .sidebar-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      padding: 0.15rem 0.55rem 0.35rem;
+    }
+    .sidebar-brand-row {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .sidebar-brand-logo {
+      display: block;
+      width: 2.75rem;
+      height: 2.75rem;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+    .sidebar-brand-wordmark {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: 1.55rem;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      background: linear-gradient(90deg, #c084fc 0%, #f472b6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .sidebar-brand-sub {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--sidebar-muted);
+      line-height: 1.35;
+      padding-left: 0.1rem;
+    }
+    .app-main {
+      flex: 1 1 auto;
+      min-width: 0;
       padding: 1rem 1.25rem 2rem;
     }
-    header {
-      margin-bottom: 1.75rem;
+    header.app-main-toolbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.75rem;
+      min-height: 2.5rem;
+      flex-wrap: nowrap;
+    }
+    header.app-main-toolbar .sync-status-bar {
+      margin: 0;
+      flex: 0 0 auto;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+      max-width: none;
+      width: max-content;
+    }
+    header.app-main-toolbar .sync-status-bar #syncStatusText {
+      white-space: nowrap;
+    }
+    header.app-main-toolbar .sync-refresh-btn {
+      margin-left: 0.25rem;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .header-top {
       display: flex;
@@ -105,9 +218,21 @@
       gap: 0.75rem 1rem;
       margin-bottom: 0.35rem;
     }
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .header-brand-logo {
+      display: none;
+    }
     .header-top h1 {
       margin: 0;
       flex: 1 1 auto;
+      min-width: 0;
+      line-height: 1.2;
     }
     .theme-toggle-btn {
       display: inline-flex;
@@ -151,68 +276,227 @@
       display: block;
     }
     h1 {
-      font-size: 1.35rem;
-      font-weight: 600;
+      font-size: 1.15rem;
+      font-weight: 400;
       margin: 0 0 0.35rem;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
     }
     .subtitle {
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: var(--ui-size);
+      font-weight: var(--ui-weight);
       margin: 0;
     }
     .header-saved-link {
-      margin: 0.75rem 0 0;
+      margin: 0;
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
+      flex-direction: column;
+      gap: 1rem;
+      flex: 1 1 auto;
     }
     .header-nav-links {
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 0.75rem;
-      background: var(--card-bg);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      flex-direction: column;
+      gap: 0.2rem;
+      padding: 0;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
     }
-    .header-saved-link a {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.5rem 0.85rem;
-      color: var(--muted);
-      text-decoration: none;
+    .sidebar-section-label {
+      margin: 0.85rem 0 0.35rem;
+      padding: 0 0.7rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--sidebar-muted);
+    }
+    .sidebar-section-label:first-child {
+      margin-top: 0.15rem;
+    }
+    .sidebar-saved-filters {
+      margin: 0.15rem 0.35rem 0.55rem 0.85rem;
+      padding: 0.55rem 0.55rem 0.65rem;
+      border-radius: 0.55rem;
+      background: rgba(139, 92, 246, 0.08);
+      border: 1px solid rgba(139, 92, 246, 0.18);
+    }
+    html[data-theme="light"] .sidebar-saved-filters {
+      background: rgba(139, 92, 246, 0.06);
+      border-color: rgba(139, 92, 246, 0.16);
+    }
+    [data-theme="dark"] .sidebar-saved-filters {
+      background: rgba(148, 163, 184, 0.06);
+      border-color: rgba(148, 163, 184, 0.18);
+    }
+    .sidebar-saved-filters[hidden] {
+      display: none !important;
+    }
+    .sidebar-saved-filters-title {
+      font-size: 0.68rem;
       font-weight: 500;
-      font-size: 0.78rem;
-      border-radius: 20px;
-      transition: all 0.2s ease;
-      background: transparent;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--sidebar-muted);
+      margin: 0 0 0.45rem;
     }
-    html[data-theme="dark"] .header-saved-link a {
-      background: transparent;
+    .sidebar-saved-filters .saved-filters-row {
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: 0.35rem;
+      margin: 0;
+      padding: 0;
+      border: none;
     }
-    .header-saved-link a:hover {
-      color: var(--accent);
-      background: rgba(59, 130, 246, 0.1);
+    .sidebar-saved-filters .saved-filters-row label {
+      display: block;
+      margin: 0.2rem 0 0;
+      font-size: 0.68rem;
+      color: var(--sidebar-muted);
+    }
+    .sidebar-saved-filters .saved-filters-row select,
+    .sidebar-saved-filters .saved-app-filter-btn,
+    .sidebar-saved-filters .btn-column-settings,
+    .sidebar-saved-filters .column-settings-btn {
+      width: 100%;
+      max-width: none;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    .sidebar-saved-filters .saved-app-filter-wrap,
+    .sidebar-saved-filters .column-settings-wrap {
+      width: 100% !important;
+      max-width: none !important;
+      display: block !important;
+      margin: 0 !important;
+      margin-left: 0 !important;
+      padding: 0 !important;
+      align-self: stretch;
+    }
+    .sidebar-saved-filters .btn-column-settings,
+    .sidebar-saved-filters .column-settings-btn {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: 0.45rem;
+      width: 100% !important;
+      max-width: none !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+      padding: 0.35rem 0.55rem !important;
+      font-size: 0.75rem !important;
+      font-weight: 400 !important;
+      line-height: 1.2 !important;
+      color: var(--text) !important;
+      background: var(--input-bg) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: 6px !important;
+      text-align: left !important;
+      margin: 0 !important;
+      box-shadow: none !important;
+      transform: none !important;
+    }
+    .sidebar-saved-filters .btn-column-settings:hover,
+    .sidebar-saved-filters .column-settings-btn:hover {
+      border-color: var(--accent) !important;
+      background: var(--input-bg) !important;
+      color: var(--text) !important;
+    }
+    .sidebar-saved-filters .btn-column-settings svg,
+    .sidebar-saved-filters .column-settings-btn svg {
+      width: 0.9rem !important;
+      height: 0.9rem !important;
+      margin: 0 !important;
+      margin-right: 0 !important;
+      flex-shrink: 0;
+      vertical-align: middle;
+    }
+    .sidebar-saved-filters .saved-app-filter-dropdown,
+    .sidebar-saved-filters .column-settings-dropdown {
+      width: 100%;
+      left: 0;
+      right: 0;
+      z-index: 1200;
+    }
+    .header-saved-link a,
+    .header-nav-links .sidebar-nav-action {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.55rem 0.7rem;
+      color: var(--sidebar-link);
+      text-decoration: none;
+      font-weight: var(--ui-weight);
+      font-size: var(--ui-size);
+      border-radius: 0.55rem;
+      transition: background 0.15s ease, color 0.15s ease;
+      background: transparent;
+      line-height: 1.2;
+    }
+    .header-nav-links .sidebar-nav-action {
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+    .header-saved-link a .nav-ico,
+    .header-nav-links .sidebar-nav-action .nav-ico {
+      width: 1.05rem;
+      height: 1.05rem;
+      flex-shrink: 0;
+      opacity: 0.85;
+    }
+    .header-saved-link a .nav-ico svg,
+    .header-nav-links .sidebar-nav-action .nav-ico svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .header-saved-link a:hover,
+    .header-nav-links .sidebar-nav-action:hover {
+      color: var(--sidebar-hover-text);
+      background: var(--sidebar-hover-bg);
       text-decoration: none;
     }
     .header-saved-link a.nav-active {
-      color: #fff;
-      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-      font-weight: 600;
-      box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
-    }
-    html[data-theme="dark"] .header-saved-link a.nav-active {
-      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: var(--sidebar-active-text);
+      background: var(--sidebar-active-bg);
+      font-weight: var(--ui-weight-strong);
+      box-shadow: none;
     }
     .header-nav-sep {
       display: none;
+    }
+    @media (max-width: 900px) {
+      .wrap {
+        flex-direction: column;
+      }
+      .app-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid var(--sidebar-border);
+      }
+      .header-nav-links {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .sidebar-section-label {
+        flex: 0 0 100%;
+        margin-top: 0.5rem;
+      }
     }
     .network-share-banner {
       position: fixed;
@@ -269,6 +553,8 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 4px;
+      flex-wrap: nowrap;
+      white-space: nowrap;
     }
     .sync-status-bar[hidden] {
       display: none !important;
@@ -348,7 +634,7 @@
       padding: 0;
     }
     legend {
-      font-size: 0.95rem;
+      font-size: var(--ui-size);
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
@@ -388,8 +674,8 @@
     }
     label {
       display: block;
-      font-size: 0.8rem;
-      font-weight: 500;
+      font-size: var(--ui-size);
+      font-weight: var(--ui-weight);
       color: var(--muted);
       margin-bottom: 0.35rem;
     }
@@ -401,7 +687,8 @@
       width: 100%;
       padding: 0.55rem 0.65rem;
       font: inherit;
-      font-size: 0.95rem;
+      font-size: var(--ui-size);
+      font-weight: var(--ui-weight);
       color: var(--text);
       background: var(--input-bg);
       border: 1px solid var(--border);
@@ -431,8 +718,8 @@
     }
     button {
       font: inherit;
-      font-size: 0.95rem;
-      font-weight: 600;
+      font-size: var(--ui-size);
+      font-weight: 400;
       padding: 0.6rem 1.1rem;
       border-radius: 6px;
       border: none;
@@ -440,6 +727,12 @@
       transition: background 0.15s, transform 0.1s;
     }
     button:active { transform: scale(0.98); }
+    .app-main b,
+    .app-main strong,
+    .saved-panel b,
+    .saved-panel strong {
+      font-weight: 400;
+    }
     .btn-secondary {
       background: transparent;
       color: var(--muted);
@@ -488,6 +781,35 @@
     }
     .btn-restore:hover {
       background: #8b5cf6;
+    }
+    /* Dark mode header actions — muted slate, not saturated fills */
+    [data-theme="dark"] .btn-export,
+    [data-theme="dark"] .btn-import,
+    [data-theme="dark"] .btn-backup,
+    [data-theme="dark"] .btn-restore,
+    [data-theme="dark"] .btn-email {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #475569;
+    }
+    [data-theme="dark"] .btn-export:hover,
+    [data-theme="dark"] .btn-import:hover,
+    [data-theme="dark"] .btn-backup:hover,
+    [data-theme="dark"] .btn-restore:hover,
+    [data-theme="dark"] .btn-email:hover {
+      background: #334155;
+      border-color: #64748b;
+      color: #f8fafc;
+    }
+    [data-theme="dark"] .btn-danger {
+      background: transparent;
+      color: #fca5a5;
+      border: 1px solid rgba(248, 113, 113, 0.4);
+    }
+    [data-theme="dark"] .btn-danger:hover {
+      background: rgba(127, 29, 29, 0.35);
+      border-color: rgba(248, 113, 113, 0.55);
+      color: #fecaca;
     }
     .backup-reminder-overlay {
       position: fixed;
@@ -622,7 +944,7 @@
     }
     .import-preview-table th {
       background: var(--bg);
-      font-weight: 600;
+      font-weight: 400;
     }
     .import-preview-scroll {
       max-height: 250px;
@@ -704,7 +1026,7 @@
     }
     .rollback-callout .rollback-field-label {
       color: #fef3c7;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 0.95rem;
       margin-bottom: 0.2rem;
     }
@@ -712,12 +1034,12 @@
       margin-top: 0.95rem;
     }
     .rollback-callout .rollback-req {
-      font-weight: 700;
+      font-weight: 400;
     }
     .rollback-note {
       margin: 0 0 0.65rem;
       font-size: 0.78rem;
-      font-weight: 600;
+      font-weight: 400;
       color: #fcd34d;
       letter-spacing: 0.01em;
     }
@@ -748,26 +1070,26 @@
     .unix-callout-title {
       margin: 0 0 0.15rem;
       font-size: 0.95rem;
-      font-weight: 700;
+      font-weight: 400;
       color: #ccfbf1;
       letter-spacing: 0.02em;
     }
     .unix-note {
       margin: 0 0 0.75rem;
       font-size: 0.78rem;
-      font-weight: 600;
+      font-weight: 400;
       color: #5eead4;
       letter-spacing: 0.01em;
     }
     .unix-field-label {
       display: block;
       color: #99f6e4;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 0.85rem;
       margin-bottom: 0.35rem;
     }
     .unix-req {
-      font-weight: 700;
+      font-weight: 400;
     }
     .unix-callout textarea.auto-static-steps {
       border-color: rgba(45, 212, 191, 0.42);
@@ -796,7 +1118,7 @@
     .auto-callout-title {
       margin: 0 0 0.65rem;
       font-size: 1.2rem;
-      font-weight: 700;
+      font-weight: 400;
       color: #e0e7ff;
       letter-spacing: 0.02em;
       line-height: 1.3;
@@ -804,19 +1126,19 @@
     .auto-note {
       margin: 0 0 0.75rem;
       font-size: 0.78rem;
-      font-weight: 600;
+      font-weight: 400;
       color: #a5b4fc;
       letter-spacing: 0.01em;
     }
     .auto-field-label {
       display: block;
       color: #c7d2fe;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 0.85rem;
       margin-bottom: 0.35rem;
     }
     .auto-req {
-      font-weight: 700;
+      font-weight: 400;
     }
     .auto-callout textarea {
       border-color: rgba(129, 140, 248, 0.45);
@@ -860,7 +1182,7 @@
     .mandatory-pill {
       display: inline-block;
       font-size: 0.62rem;
-      font-weight: 800;
+      font-weight: 400;
       letter-spacing: 0.07em;
       color: #1c1917;
       background: linear-gradient(180deg, #fcd34d 0%, #f59e0b 100%);
@@ -873,7 +1195,7 @@
     .mandatory-inline {
       display: inline-block;
       font-size: 0.62rem;
-      font-weight: 800;
+      font-weight: 400;
       letter-spacing: 0.05em;
       color: #fef9c3;
       margin-left: 0.4rem;
@@ -961,7 +1283,8 @@
       color: #fecaca;
     }
     .btn-tiny {
-      font-size: 0.85rem;
+      font-size: var(--ui-size);
+      font-weight: var(--ui-weight-strong);
       padding: 0.35rem 0.65rem;
     }
     .saved-panel {
@@ -977,17 +1300,17 @@
       background: var(--bg);
     }
     .saved-panel h2 {
-      margin: 0 0 0.5rem;
-      font-size: 1rem;
-      font-weight: 600;
+      margin: 0;
+      font-size: var(--ui-size);
+      font-weight: var(--ui-weight-strong);
     }
     .saved-panel-head {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 0.75rem;
-      margin-bottom: 0.75rem;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
     }
     .saved-panel-head .saved-actions {
       display: flex;
@@ -996,10 +1319,19 @@
     }
     #saveStatus,
     #formSaveStatus {
-      min-height: 1.25rem;
+      min-height: 0;
       font-size: 0.8rem;
       color: var(--status-ok);
-      margin-bottom: 0.5rem;
+      margin: 0;
+    }
+    #saveStatus:empty,
+    #formSaveStatus:empty {
+      display: none;
+    }
+    #saveStatus:not(:empty),
+    #formSaveStatus:not(:empty) {
+      min-height: 1.25rem;
+      margin-bottom: 0.35rem;
     }
     #formSaveStatus {
       margin-top: 0.35rem;
@@ -1008,26 +1340,135 @@
     }
     .saved-empty {
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: var(--ui-size);
+      font-weight: var(--ui-weight);
       margin: 0;
-      padding: 0.5rem 0;
+      padding: 0.25rem 0;
+    }
+    .saved-empty[hidden] {
+      display: none !important;
     }
     .saved-search-wrap {
-      margin: 0.5rem 0 1rem;
-      padding: 1rem 1.25rem;
-      background: linear-gradient(135deg, var(--card-bg) 0%, var(--surface) 100%);
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+      margin: 0.15rem 0 0.55rem;
+      padding: 0;
+      background: transparent;
+      border: none;
+      box-shadow: none;
     }
-    .saved-search-wrap label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 600;
+    .saved-search-wrap > label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .pill-search-row {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      max-width: 28rem;
+    }
+    .pill-search {
+      flex: 1 1 auto;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.2rem 0.25rem 0.2rem 0.95rem;
+      min-height: 2.35rem;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
+    }
+    html[data-theme="dark"] .pill-search {
+      background: var(--input-bg);
+    }
+    .saved-search-wrap .pill-search input[type="search"] {
+      flex: 1 1 auto;
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 0.4rem 0.35rem 0.4rem 0;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      font-size: var(--table-size);
+      font-weight: 400;
+      color: var(--text);
+      min-width: 0;
+    }
+    .saved-search-wrap .pill-search input[type="search"]:focus {
+      outline: none;
+      border: none;
+      box-shadow: none;
+    }
+    .saved-search-wrap .pill-search input[type="search"]::-webkit-search-decoration,
+    .saved-search-wrap .pill-search input[type="search"]::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .pill-search-btn {
+      width: 2rem;
+      height: 2rem;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 50%;
+      background: #7c3aed;
+      color: #fff;
+      cursor: pointer;
+      padding: 0;
+      box-shadow: none;
+    }
+    .pill-search-btn:hover {
+      background: #6d28d9;
+    }
+    [data-theme="dark"] .pill-search-btn {
+      background: #334155;
+      color: #e2e8f0;
+    }
+    [data-theme="dark"] .pill-search-btn:hover {
+      background: #475569;
+    }
+    .pill-search-btn svg {
+      width: 0.95rem;
+      height: 0.95rem;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.25;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .pill-search-clear {
+      flex-shrink: 0;
+      width: 1.75rem;
+      height: 1.75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      border-radius: 50%;
+      background: transparent;
       color: var(--muted);
-      margin-bottom: 0.4rem;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
+      font-size: 1.15rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+    }
+    .pill-search-clear:hover {
+      color: var(--text);
+      background: rgba(148, 163, 184, 0.18);
+    }
+    .pill-search-clear[hidden] {
+      display: none !important;
     }
     .saved-search-wrap input[type="search"] {
       width: 100%;
@@ -1052,14 +1493,14 @@
       align-items: center;
       justify-content: flex-start;
       gap: 0.5rem 1rem;
-      margin-top: 0.85rem;
-      padding-top: 0.85rem;
+      margin-top: 0.65rem;
+      padding-top: 0.65rem;
       border-top: 1px solid var(--border);
     }
     .saved-filters-row label {
       display: inline;
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--muted);
       margin: 0;
       text-transform: uppercase;
@@ -1156,7 +1597,7 @@
     }
     .saved-app-filter-header-text {
       font-size: 0.68rem;
-      font-weight: 700;
+      font-weight: 400;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       line-height: 1.3;
@@ -1164,7 +1605,7 @@
     .saved-app-filter-count {
       display: block;
       font-size: 0.62rem;
-      font-weight: 500;
+      font-weight: 400;
       opacity: 0.85;
       text-transform: none;
       letter-spacing: 0;
@@ -1176,7 +1617,7 @@
       border-radius: 4px;
       padding: 0.2rem 0.5rem;
       font-size: 0.65rem;
-      font-weight: 600;
+      font-weight: 400;
       cursor: pointer;
       flex-shrink: 0;
     }
@@ -1218,7 +1659,7 @@
       padding: 0.4rem 0.65rem;
       margin: 0;
       font-size: 0.75rem;
-      font-weight: 500;
+      font-weight: 400;
       color: var(--text);
       text-transform: none;
       letter-spacing: normal;
@@ -1274,7 +1715,8 @@
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      font-size: 0.82rem;
+      font-size: var(--table-size);
+      font-weight: var(--ui-weight);
       background: var(--card-bg);
       border-radius: 12px;
       overflow: hidden;
@@ -1286,20 +1728,42 @@
     }
     .saved-table th,
     .saved-table td {
-      padding: 0.65rem 0.75rem;
+      padding: 0.45rem 0.55rem;
       text-align: left;
       border-bottom: 1px solid var(--border);
       vertical-align: middle;
     }
+    /* Summary has no action icons — match Archive/Deleted row height */
+    #summaryTableWrap .saved-table tbody td {
+      padding-top: 0.85rem;
+      padding-bottom: 0.85rem;
+    }
     .saved-table th {
       background: linear-gradient(180deg, #475569 0%, #334155 100%);
       color: #f8fafc;
-      font-weight: 600;
-      font-size: 0.75rem;
+      font-weight: 400;
+      font-size: var(--table-size);
       text-transform: uppercase;
       letter-spacing: 0.3px;
       white-space: nowrap;
       border-bottom: 2px solid #1e293b;
+    }
+    .saved-table input,
+    .saved-table select,
+    .saved-table textarea,
+    .saved-table button,
+    .saved-table .saved-status-select,
+    .saved-table .btn-tiny {
+      font-size: var(--table-size);
+    }
+    #new-entry-panel,
+    #new-entry-panel label,
+    #new-entry-panel legend,
+    #new-entry-panel input,
+    #new-entry-panel select,
+    #new-entry-panel textarea,
+    #new-entry-panel button {
+      font-size: var(--table-size);
     }
     [data-theme="dark"] .saved-table th {
       background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
@@ -1326,33 +1790,33 @@
     .saved-table tbody tr:last-child td:last-child {
       border-radius: 0 0 12px 0;
     }
-    .saved-table th.ppt-highlight {
-      background: linear-gradient(180deg, #a16207 0%, #854d0e 100%);
-      color: #fef9c3;
+    .saved-table th.ppt-highlight,
+    .saved-table th.prod-highlight {
+      background: linear-gradient(180deg, #475569 0%, #334155 100%);
+      color: #f8fafc;
+      border-bottom: 2px solid #1e293b;
     }
-    [data-theme="dark"] .saved-table th.ppt-highlight {
-      background: linear-gradient(180deg, #854d0e 0%, #713f12 100%);
-      color: #fef9c3;
+    [data-theme="dark"] .saved-table th.ppt-highlight,
+    [data-theme="dark"] .saved-table th.prod-highlight {
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      color: #e2e8f0;
+      border-bottom-color: #334155;
     }
     .saved-table td.ppt-highlight {
       background: rgba(253, 224, 71, 0.15);
     }
     [data-theme="dark"] .saved-table td.ppt-highlight {
-      background: rgba(234, 179, 8, 0.12);
-    }
-    .saved-table th.prod-highlight {
-      background: linear-gradient(180deg, #c2410c 0%, #9a3412 100%);
-      color: #ffedd5;
-    }
-    [data-theme="dark"] .saved-table th.prod-highlight {
-      background: linear-gradient(180deg, #9a3412 0%, #7c2d12 100%);
-      color: #ffedd5;
+      background: rgba(234, 179, 8, 0.06);
     }
     .saved-table td.prod-highlight {
       background: rgba(251, 146, 60, 0.12);
     }
     [data-theme="dark"] .saved-table td.prod-highlight {
-      background: rgba(249, 115, 22, 0.12);
+      background: rgba(249, 115, 22, 0.06);
+    }
+    [data-theme="dark"] .saved-table tbody tr:hover {
+      background: rgba(148, 163, 184, 0.06);
+      transform: none;
     }
     
     /* Bulk Update Styles */
@@ -1395,7 +1859,7 @@
     }
     .bulk-panel-title {
       font-size: 0.95rem;
-      font-weight: 700;
+      font-weight: 400;
       color: #1e40af;
       display: flex;
       align-items: center;
@@ -1411,7 +1875,7 @@
       color: #93c5fd;
     }
     .bulk-actions-panel .bulk-selected-count {
-      font-weight: 700;
+      font-weight: 400;
       font-size: 1rem;
       color: #1d4ed8;
       background: rgba(59, 130, 246, 0.15);
@@ -1460,7 +1924,7 @@
       border: none;
       border-radius: 8px;
       font-size: 0.9rem;
-      font-weight: 600;
+      font-weight: 400;
       cursor: pointer;
       transition: transform 0.15s, box-shadow 0.15s;
       box-shadow: 0 3px 8px rgba(37, 99, 235, 0.35);
@@ -1477,7 +1941,7 @@
       border: 1px solid rgba(107, 114, 128, 0.4);
       border-radius: 8px;
       font-size: 0.9rem;
-      font-weight: 500;
+      font-weight: 400;
       cursor: pointer;
       transition: background 0.15s, border-color 0.15s;
     }
@@ -1499,7 +1963,7 @@
       border: none;
       border-radius: 8px;
       font-size: 0.9rem;
-      font-weight: 600;
+      font-weight: 400;
       cursor: pointer;
       transition: transform 0.15s, box-shadow 0.15s;
       box-shadow: 0 3px 8px rgba(75, 85, 99, 0.35);
@@ -1516,7 +1980,7 @@
       border: none;
       border-radius: 8px;
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 400;
       cursor: pointer;
       transition: transform 0.15s, box-shadow 0.15s;
       box-shadow: 0 3px 8px rgba(16, 185, 129, 0.35);
@@ -1539,7 +2003,7 @@
     }
     .bulk-field-group > label {
       font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 400;
       color: #374151;
       margin-bottom: 0.1rem;
     }
@@ -1565,7 +2029,7 @@
       flex-direction: column;
       gap: 0.35rem;
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 400;
       color: #4b5563;
     }
     [data-theme="dark"] .bulk-extras label {
@@ -1591,8 +2055,9 @@
     }
     .column-settings-wrap {
       position: relative;
-      display: inline-block;
-      margin-left: 0.5rem;
+      display: block;
+      margin-left: 0;
+      width: 100%;
     }
     .column-settings-btn {
       background: var(--input-bg);
@@ -1631,7 +2096,7 @@
     }
     [data-theme="dark"] .column-settings-dropdown {
       background: #1e293b;
-      border-color: #3b82f6;
+      border-color: #475569;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     }
     .column-settings-dropdown.visible {
@@ -1640,7 +2105,7 @@
     .column-settings-header {
       padding: 0.6rem 0.85rem;
       border-bottom: 2px solid #e2e8f0;
-      font-weight: 700;
+      font-weight: 400;
       font-size: 0.85rem;
       color: #1e293b;
       background: #f1f5f9;
@@ -1662,7 +2127,7 @@
       border-radius: 4px;
       cursor: pointer;
       color: #ffffff;
-      font-weight: 600;
+      font-weight: 400;
     }
     .column-settings-header button:hover {
       background: #2563eb;
@@ -1704,7 +2169,7 @@
       cursor: pointer;
       margin: 0;
       font-size: 0.8rem;
-      font-weight: 500;
+      font-weight: 400;
     }
     .saved-table tr.to-be-planned {
       background: linear-gradient(90deg, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.08) 100%);
@@ -1718,6 +2183,16 @@
     }
     html[data-theme="light"] .saved-table tr.to-be-planned {
       background: linear-gradient(90deg, rgba(251, 191, 36, 0.2) 0%, rgba(251, 191, 36, 0.1) 100%);
+    }
+    [data-theme="dark"] .saved-table tr.to-be-planned {
+      background: rgba(251, 191, 36, 0.06);
+      border-left: 3px solid rgba(245, 158, 11, 0.45);
+    }
+    [data-theme="dark"] .saved-table tr.to-be-planned td {
+      border-color: rgba(251, 191, 36, 0.15);
+    }
+    [data-theme="dark"] .saved-table tr.to-be-planned td:first-child {
+      border-left: 3px solid rgba(245, 158, 11, 0.45);
     }
     .saved-table tr.parked-entry {
       background: linear-gradient(90deg, rgba(156, 163, 175, 0.15) 0%, rgba(156, 163, 175, 0.08) 100%);
@@ -1738,7 +2213,7 @@
       background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
       color: #fff;
       font-size: 0.6rem;
-      font-weight: 700;
+      font-weight: 400;
       padding: 0.2rem 0.45rem;
       border-radius: 4px;
       margin-left: 0.4rem;
@@ -1751,7 +2226,7 @@
       background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
       color: #fff;
       font-size: 0.55rem;
-      font-weight: 700;
+      font-weight: 400;
       padding: 0.2rem 0.4rem;
       border-radius: 4px;
       margin-left: 0.4rem;
@@ -1783,7 +2258,7 @@
     .saved-table td.cell-actions .btn-tiny {
       padding: 0.4rem 0.65rem;
       font-size: 0.7rem;
-      font-weight: 600;
+      font-weight: 400;
       border-radius: 6px;
       margin-right: 0.25rem;
       transition: all 0.15s;
@@ -1898,47 +2373,52 @@
     }
     /* Dark mode icon buttons */
     [data-theme="dark"] .btn-icon {
-      background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+      background: #1e293b;
+      border-color: #334155;
+      color: #cbd5e1;
+    }
+    [data-theme="dark"] .btn-icon:hover {
+      background: #334155;
       border-color: #475569;
       color: #e2e8f0;
     }
-    [data-theme="dark"] .btn-icon:hover {
-      background: linear-gradient(135deg, #475569 0%, #334155 100%);
+    [data-theme="dark"] .btn-icon-load,
+    [data-theme="dark"] .btn-icon-details,
+    [data-theme="dark"] .btn-icon-clone,
+    [data-theme="dark"] .btn-icon-delete,
+    [data-theme="dark"] .btn-icon-park,
+    [data-theme="dark"] .btn-icon-unpark {
+      background: #1e293b;
+      border-color: #334155;
+      color: #cbd5e1;
     }
-    [data-theme="dark"] .btn-icon-load {
-      background: linear-gradient(135deg, #1e3a5f 0%, #1e40af 100%);
-      border-color: #3b82f6;
-      color: #93c5fd;
-    }
-    [data-theme="dark"] .btn-icon-details {
-      background: linear-gradient(135deg, #312e81 0%, #3730a3 100%);
-      border-color: #6366f1;
-      color: #a5b4fc;
-    }
-    [data-theme="dark"] .btn-icon-clone {
-      background: linear-gradient(135deg, #064e3b 0%, #047857 100%);
-      border-color: #10b981;
-      color: #6ee7b7;
+    [data-theme="dark"] .btn-icon-load:hover,
+    [data-theme="dark"] .btn-icon-details:hover,
+    [data-theme="dark"] .btn-icon-clone:hover,
+    [data-theme="dark"] .btn-icon-park:hover,
+    [data-theme="dark"] .btn-icon-unpark:hover {
+      background: #334155;
+      border-color: #475569;
+      color: #e2e8f0;
     }
     [data-theme="dark"] .btn-icon-delete {
-      background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
-      border-color: #ef4444;
+      color: #fca5a5;
+      border-color: rgba(248, 113, 113, 0.35);
+    }
+    [data-theme="dark"] .btn-icon-delete:hover {
+      background: rgba(127, 29, 29, 0.35);
+      border-color: rgba(248, 113, 113, 0.5);
       color: #fecaca;
     }
-    [data-theme="dark"] .btn-icon-park {
-      background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
-      border-color: #f59e0b;
-      color: #fde68a;
-    }
-    [data-theme="dark"] .btn-icon-unpark {
-      background: linear-gradient(135deg, #365314 0%, #4d7c0f 100%);
-      border-color: #84cc16;
-      color: #d9f99d;
-    }
     [data-theme="dark"] .btn-icon-restore {
-      background: linear-gradient(135deg, #164e63 0%, #0e7490 100%);
-      border-color: #06b6d4;
-      color: #a5f3fc;
+      background: #1e293b;
+      border-color: #334155;
+      color: #cbd5e1;
+    }
+    [data-theme="dark"] .btn-icon-restore:hover {
+      background: #334155;
+      border-color: #475569;
+      color: #e2e8f0;
     }
     #weeklyTrendTableWrap {
       max-width: 780px;
@@ -1975,7 +2455,7 @@
       background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
       color: #fff;
       font-size: 0.75rem;
-      font-weight: 700;
+      font-weight: 400;
       padding: 0.15rem 0.5rem;
       border-radius: 10px;
       min-width: 22px;
@@ -2014,7 +2494,7 @@
       color: #fff;
       padding: 0.4rem 0.6rem;
       text-align: left;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 0.7rem;
     }
     .redeploy-detail-table td {
@@ -2144,7 +2624,7 @@
     .monthly-trend-table th {
       background: linear-gradient(180deg, #475569 0%, #334155 100%);
       color: #f8fafc;
-      font-weight: 700;
+      font-weight: 400;
       font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.4px;
@@ -2176,7 +2656,7 @@
       padding: 0;
       font: inherit;
       font-size: inherit;
-      font-weight: 500;
+      font-weight: 400;
       color: var(--link-num);
       cursor: pointer;
       text-decoration: underline;
@@ -2208,7 +2688,7 @@
     }
     .monthly-trend-details-table th {
       background: linear-gradient(180deg, #475569 0%, #334155 100%);
-      font-weight: 600;
+      font-weight: 400;
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.3px;
@@ -2262,7 +2742,7 @@
     .monthly-trend-details-table.monthly-trend-details-saved-style th {
       background: linear-gradient(180deg, #475569 0%, #334155 100%);
       color: #f8fafc;
-      font-weight: 700;
+      font-weight: 400;
       font-size: 0.68rem;
       text-transform: uppercase;
       letter-spacing: 0.3px;
@@ -2359,7 +2839,7 @@
     }
     .monthly-trend-details-table .cell-clip-requester {
       white-space: nowrap;
-      font-weight: 500;
+      font-weight: 400;
     }
     .monthly-trend-details-table .cell-clip-incident {
       overflow: hidden;
@@ -2397,7 +2877,7 @@
       padding: 0.2rem 0.5rem;
       border-radius: 4px;
       font-size: 0.74rem;
-      font-weight: 600;
+      font-weight: 400;
       white-space: nowrap;
       line-height: 1.2;
     }
@@ -2443,12 +2923,12 @@
     .monthly-trend-details-table .calendar-rfc-label {
       flex: 0 0 auto;
       white-space: nowrap;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--text);
       font-size: 0.82rem;
     }
     .monthly-trend-details-table .calendar-rfc-date {
-      font-weight: 700;
+      font-weight: 400;
       color: #b45309;
       font-variant-numeric: tabular-nums;
     }
@@ -2468,7 +2948,7 @@
     .monthly-trend-hf-link {
       color: var(--link-num);
       cursor: pointer;
-      font-weight: 500;
+      font-weight: 400;
       text-decoration: underline;
       text-underline-offset: 2px;
     }
@@ -2478,7 +2958,7 @@
     .monthly-trend-rfc-link {
       color: var(--link-num);
       cursor: pointer;
-      font-weight: 500;
+      font-weight: 400;
       text-decoration: underline;
       text-underline-offset: 2px;
     }
@@ -2488,7 +2968,7 @@
     .monthly-trend-table th:first-child,
     .monthly-trend-table td:first-child {
       text-align: left;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--accent);
     }
     .monthly-trend-chart-wrap {
@@ -2527,7 +3007,7 @@
     }
     .weekly-deployment-status-title {
       font-size: 0.9rem;
-      font-weight: 700;
+      font-weight: 400;
       color: var(--fg);
       margin: 0 0 0.75rem 0;
       display: flex;
@@ -2551,7 +3031,7 @@
     }
     .weekly-deployment-status-filter label {
       font-size: 0.72rem;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.2px;
@@ -2599,7 +3079,7 @@
       font-size: 0.7rem;
       background: linear-gradient(180deg, #475569 0%, #334155 100%);
       color: #f8fafc;
-      font-weight: 700;
+      font-weight: 400;
       white-space: nowrap;
       text-transform: uppercase;
       letter-spacing: 0.3px;
@@ -2650,7 +3130,7 @@
     .weekly-deployment-status-table td:first-child {
       text-align: center;
       white-space: nowrap;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--accent);
     }
     .weekly-deployment-status-table td:nth-child(2) {
@@ -2662,7 +3142,7 @@
       padding: 0.2rem 0.5rem;
       background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.08) 100%);
       color: #16a34a;
-      font-weight: 700;
+      font-weight: 400;
       border-radius: 12px;
       font-size: 0.68rem;
       text-transform: uppercase;
@@ -2673,7 +3153,7 @@
       padding: 0.2rem 0.5rem;
       background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.08) 100%);
       color: #dc2626;
-      font-weight: 700;
+      font-weight: 400;
       border-radius: 12px;
       font-size: 0.68rem;
       text-transform: uppercase;
@@ -2695,7 +3175,7 @@
     }
     .weekly-deployment-status-table .remark-cancelled {
       color: #dc2626;
-      font-weight: 700;
+      font-weight: 400;
     }
     .count-of-fixes-description {
       font-size: 0.85rem;
@@ -2719,7 +3199,7 @@
       padding: 0.4rem 0.7rem;
       background: linear-gradient(180deg, #475569 0%, #334155 100%);
       color: #f8fafc;
-      font-weight: 700;
+      font-weight: 400;
       font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.3px;
@@ -2738,14 +3218,14 @@
     }
     .count-of-fixes-table td:last-child {
       text-align: center;
-      font-weight: 600;
+      font-weight: 400;
     }
     .count-of-fixes-table tr:hover td {
       background: rgba(59, 130, 246, 0.06);
     }
     .count-of-fixes-table tr.total-row td {
       background: #fef08a;
-      font-weight: 700;
+      font-weight: 400;
       color: #1e293b;
     }
     .count-of-fixes-table tr.total-row:hover td {
@@ -2787,7 +3267,7 @@
       color: #fff;
       padding: 0.3rem 0.5rem;
       text-align: left;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 0.65rem;
       border: 1px solid #475569;
     }
@@ -2805,6 +3285,65 @@
       font-style: italic;
       font-size: 0.8rem;
       padding: 0.5rem 0;
+    }
+    .count-of-fixes-details-section {
+      margin-top: 1.5rem;
+    }
+    .count-of-fixes-details-title {
+      margin: 0 0 0.65rem 0;
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--fg);
+    }
+    .count-of-fixes-details-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      max-width: 100%;
+    }
+    .count-of-fixes-details-table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+      font-size: var(--table-size);
+      background: var(--card-bg);
+    }
+    .count-of-fixes-details-table th {
+      padding: 0.45rem 0.65rem;
+      background: linear-gradient(180deg, #475569 0%, #334155 100%);
+      color: #f8fafc;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      text-align: left;
+      border-bottom: 2px solid #1e293b;
+      white-space: nowrap;
+    }
+    [data-theme="dark"] .count-of-fixes-details-table th {
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border-bottom-color: #334155;
+      color: #e2e8f0;
+    }
+    .count-of-fixes-details-table td {
+      padding: 0.55rem 0.65rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
+    .count-of-fixes-details-table tbody tr:hover td {
+      background: rgba(148, 163, 184, 0.06);
+    }
+    .count-of-fixes-details-table .cell-desc {
+      max-width: 28rem;
+      white-space: normal;
+      word-break: break-word;
+    }
+    .count-of-fixes-details-empty {
+      color: var(--muted);
+      font-style: italic;
+      text-align: center;
+      padding: 0.85rem 0.65rem !important;
     }
     .week-selector {
       display: flex;
@@ -2977,8 +3516,9 @@
       border: 1px solid var(--border);
     }
     .monthly-app-table tfoot td {
-      font-weight: 700;
+      font-weight: 400;
       background: var(--table-head-bg);
+      color: #f8fafc;
     }
     .app-trend-table th,
     .app-trend-table td {
@@ -3001,11 +3541,49 @@
     .app-group-ods { background: #1e3a8a; color: #dbeafe; }
     .app-group-infra { background: #991b1b; color: #fecaca; }
     .app-group-sd { background: #155e75; color: #cffafe; }
-    html[data-theme="dark"] .app-group-fe { background: #78350f; color: #fde68a; }
-    html[data-theme="dark"] .app-group-be { background: #14532d; color: #bbf7d0; }
-    html[data-theme="dark"] .app-group-ods { background: #1e3a8a; color: #bfdbfe; }
-    html[data-theme="dark"] .app-group-infra { background: #7f1d1d; color: #fecaca; }
-    html[data-theme="dark"] .app-group-sd { background: #164e63; color: #a5f3fc; }
+    /* Beat .saved-table th specificity so light-mode color coding shows */
+    .app-trend-table th.app-group-fe { background: #92400e; color: #fef3c7; }
+    .app-trend-table th.app-group-be { background: #166534; color: #dcfce7; }
+    .app-trend-table th.app-group-ods { background: #1e3a8a; color: #dbeafe; }
+    .app-trend-table th.app-group-infra { background: #991b1b; color: #fecaca; }
+    .app-trend-table th.app-group-sd { background: #155e75; color: #cffafe; }
+    /* Dark mode app-trend headers — muted, low-chroma */
+    html[data-theme="dark"] .app-trend-table th.app-group-fe {
+      background: rgba(245, 158, 11, 0.12);
+      color: #d6d3d1;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+    html[data-theme="dark"] .app-trend-table th.app-group-be {
+      background: rgba(52, 211, 153, 0.1);
+      color: #d6d3d1;
+      border-color: rgba(52, 211, 153, 0.28);
+    }
+    html[data-theme="dark"] .app-trend-table th.app-group-ods {
+      background: rgba(96, 165, 250, 0.1);
+      color: #d6d3d1;
+      border-color: rgba(96, 165, 250, 0.28);
+    }
+    html[data-theme="dark"] .app-trend-table th.app-group-infra {
+      background: rgba(248, 113, 113, 0.1);
+      color: #d6d3d1;
+      border-color: rgba(248, 113, 113, 0.28);
+    }
+    html[data-theme="dark"] .app-trend-table th.app-group-sd {
+      background: rgba(34, 211, 238, 0.1);
+      color: #d6d3d1;
+      border-color: rgba(34, 211, 238, 0.28);
+    }
+    html[data-theme="dark"] .app-trend-week-col {
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important;
+      color: #e2e8f0 !important;
+    }
+    html[data-theme="dark"] .app-trend-table-wrap {
+      box-shadow: none;
+    }
+    html[data-theme="dark"] .monthly-app-table tfoot td {
+      background: #1e293b;
+      color: #e2e8f0;
+    }
     .app-trend-table input.planned-input {
       width: 45px;
       padding: 0.2rem 0.3rem;
@@ -3017,7 +3595,7 @@
       color: var(--fg);
     }
     .app-trend-table .deployed-cell {
-      font-weight: 600;
+      font-weight: 400;
     }
     .archive-filter-wrap {
       display: flex;
@@ -3035,7 +3613,7 @@
     }
     .archive-filter-wrap label {
       color: var(--muted);
-      font-weight: 500;
+      font-weight: 400;
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.2px;
@@ -3056,7 +3634,7 @@
       white-space: nowrap;
     }
     .saved-status-select {
-      font-size: 0.72rem;
+      font-size: var(--table-size);
       padding: 0.25rem 0.35rem;
       max-width: 8rem;
       width: 100%;
@@ -3065,7 +3643,7 @@
       border: 1px solid var(--border);
       background: var(--input-bg);
       transition: all 0.2s;
-      font-weight: 600;
+      font-weight: 400;
     }
     .saved-status-select:focus {
       border-color: var(--accent);
@@ -3105,35 +3683,35 @@
       border-color: #94a3b8;
       color: #64748b;
     }
-    /* Dark mode status colors */
+    /* Dark mode status colors — muted, low-chroma */
     [data-theme="dark"] .saved-status-select.status-pending {
-      background: #78350f;
-      border-color: #f59e0b;
-      color: #fde68a;
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(245, 158, 11, 0.35);
+      color: #d6d3d1;
     }
     [data-theme="dark"] .saved-status-select.status-tobeplanned {
-      background: #1e3a5f;
-      border-color: #3b82f6;
-      color: #93c5fd;
+      background: rgba(96, 165, 250, 0.12);
+      border-color: rgba(96, 165, 250, 0.35);
+      color: #d6d3d1;
     }
     [data-theme="dark"] .saved-status-select.status-planned {
-      background: #312e81;
-      border-color: #6366f1;
-      color: #c7d2fe;
+      background: rgba(129, 140, 248, 0.12);
+      border-color: rgba(129, 140, 248, 0.35);
+      color: #d6d3d1;
     }
     [data-theme="dark"] .saved-status-select.status-inprogress {
-      background: #713f12;
-      border-color: #eab308;
-      color: #fef08a;
+      background: rgba(250, 204, 21, 0.1);
+      border-color: rgba(250, 204, 21, 0.3);
+      color: #d6d3d1;
     }
     [data-theme="dark"] .saved-status-select.status-deployed {
-      background: #14532d;
-      border-color: #22c55e;
-      color: #bbf7d0;
+      background: rgba(52, 211, 153, 0.1);
+      border-color: rgba(52, 211, 153, 0.3);
+      color: #d6d3d1;
     }
     [data-theme="dark"] .saved-status-select.status-na {
-      background: #334155;
-      border-color: #64748b;
+      background: rgba(148, 163, 184, 0.1);
+      border-color: rgba(148, 163, 184, 0.28);
       color: #94a3b8;
     }
     .saved-deploy-extras {
@@ -3153,7 +3731,7 @@
     }
     .saved-deploy-extras label {
       font-size: 0.68rem;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.2px;
@@ -3180,7 +3758,7 @@
     }
     .saved-sub-label {
       font-size: 0.72rem;
-      font-weight: 500;
+      font-weight: 400;
       color: var(--muted);
       margin: 0;
       white-space: nowrap;
@@ -3224,6 +3802,8 @@
     }
     .calendar-container {
       margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
     }
     .calendar-nav {
       display: flex;
@@ -3239,7 +3819,7 @@
     .calendar-nav .btn-secondary {
       padding: 0.5rem 1rem;
       border-radius: 8px;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 0.8rem;
       transition: all 0.2s;
     }
@@ -3249,7 +3829,7 @@
     }
     .calendar-month-year {
       font-size: 1.25rem;
-      font-weight: 700;
+      font-weight: 400;
       min-width: 11rem;
       text-align: center;
       color: var(--text);
@@ -3271,7 +3851,7 @@
     .calendar-weekday {
       padding: 0.85rem 0.5rem;
       text-align: center;
-      font-weight: 700;
+      font-weight: 400;
       font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -3362,7 +3942,7 @@
       border-left: 3px solid #a855f7 !important;
     }
     .calendar-day-number {
-      font-weight: 700;
+      font-weight: 400;
       font-size: 0.9rem;
       margin-bottom: 0.35rem;
       color: var(--text);
@@ -3388,7 +3968,7 @@
       text-decoration: underline;
       text-underline-offset: 2px;
       cursor: pointer;
-      font-weight: 500;
+      font-weight: 400;
       background: transparent;
       padding: 0;
       border-radius: 0;
@@ -3409,6 +3989,23 @@
       flex-wrap: wrap;
       gap: 1.5rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .calendar-legend-keys {
+      margin: 0;
+      align-self: center;
+      width: fit-content;
+      max-width: 100%;
+      padding: 0.4rem 0.7rem;
+      gap: 0.85rem;
+      font-size: 0.78rem;
+      box-shadow: none;
+    }
+    #calendar-screen .saved-panel-head {
+      align-items: center;
+      gap: 0.75rem;
+    }
+    #calendar-screen .saved-panel-head .saved-actions {
+      margin-left: auto;
     }
     .calendar-legend-item {
       display: flex;
@@ -3437,9 +4034,81 @@
       background: linear-gradient(135deg, rgba(168, 85, 247, 0.4) 0%, rgba(168, 85, 247, 0.2) 100%);
       border-left: 3px solid #a855f7;
     }
+    /* Dark mode calendar — muted, low-chroma */
+    [data-theme="dark"] .calendar-header {
+      background: #1e293b;
+      color: #cbd5e1;
+      border-bottom: 1px solid #334155;
+    }
+    [data-theme="dark"] .calendar-weekday:first-child,
+    [data-theme="dark"] .calendar-weekday:last-child {
+      color: #94a3b8;
+    }
+    [data-theme="dark"] .calendar-grid {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    [data-theme="dark"] .calendar-day:nth-child(7n+1),
+    [data-theme="dark"] .calendar-day:nth-child(7n) {
+      background: transparent;
+    }
+    [data-theme="dark"] .calendar-day:hover {
+      transform: none;
+      box-shadow: none;
+      background: #1e293b;
+    }
+    [data-theme="dark"] .calendar-day.today {
+      background: rgba(96, 165, 250, 0.08);
+      border: 1px solid rgba(96, 165, 250, 0.4) !important;
+      border-radius: 4px;
+    }
+    [data-theme="dark"] .calendar-day.today .calendar-day-number {
+      background: #334155;
+      color: #e2e8f0;
+      border: 1px solid rgba(96, 165, 250, 0.45);
+    }
+    [data-theme="dark"] .calendar-day.has-note {
+      background: rgba(52, 211, 153, 0.07);
+      border-left: 2px solid rgba(52, 211, 153, 0.45) !important;
+    }
+    [data-theme="dark"] .calendar-day.has-note.today {
+      background: rgba(96, 165, 250, 0.08);
+      border: 1px solid rgba(96, 165, 250, 0.4) !important;
+      border-left: 2px solid rgba(52, 211, 153, 0.5) !important;
+    }
+    [data-theme="dark"] .calendar-day.cancelled {
+      background: rgba(248, 113, 113, 0.07);
+      border-left: 2px solid rgba(248, 113, 113, 0.4) !important;
+    }
+    [data-theme="dark"] .calendar-day.cancelled.today {
+      background: rgba(248, 113, 113, 0.08);
+    }
+    [data-theme="dark"] .calendar-day.holiday {
+      background: rgba(167, 139, 250, 0.07);
+      border-left: 2px solid rgba(167, 139, 250, 0.4) !important;
+    }
+    [data-theme="dark"] .calendar-day-note .note-line-cancelled {
+      color: #fca5a5;
+      opacity: 0.7;
+    }
+    [data-theme="dark"] .calendar-legend-color.today-color {
+      background: rgba(96, 165, 250, 0.15);
+      border: 1px solid rgba(96, 165, 250, 0.45);
+    }
+    [data-theme="dark"] .calendar-legend-color.has-note-color {
+      background: rgba(52, 211, 153, 0.12);
+      border-left: 2px solid rgba(52, 211, 153, 0.45);
+    }
+    [data-theme="dark"] .calendar-legend-color.cancelled-color {
+      background: rgba(248, 113, 113, 0.12);
+      border-left: 2px solid rgba(248, 113, 113, 0.4);
+    }
+    [data-theme="dark"] .calendar-legend-color.holiday-color {
+      background: rgba(167, 139, 250, 0.12);
+      border-left: 2px solid rgba(167, 139, 250, 0.4);
+    }
     .calendar-legend-title {
       margin: 0 0 0.5rem 0;
-      font-weight: 700;
+      font-weight: 400;
       text-decoration: underline;
       color: var(--fg);
     }
@@ -3562,7 +4231,7 @@
     }
     .calendar-tuesday-field-header > label:first-child {
       font-size: 0.85rem;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--text);
       margin: 0;
     }
@@ -3585,7 +4254,7 @@
       cursor: pointer;
     }
     .cancel-checkbox-label span {
-      font-weight: 500;
+      font-weight: 400;
     }
     .cancel-checkbox-label.holiday-checkbox {
       color: #059669;
@@ -3604,7 +4273,7 @@
       padding: 0.1rem 0.35rem;
       border-radius: 3px;
       font-size: 0.6rem;
-      font-weight: 700;
+      font-weight: 400;
       text-transform: uppercase;
       vertical-align: middle;
     }
@@ -3625,6 +4294,90 @@
       color: #9ca3af !important;
       background: rgba(239, 68, 68, 0.05) !important;
     }
+    /* Dark mode calendar note editor — muted */
+    [data-theme="dark"] .calendar-note-editor {
+      background: var(--card-bg);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    [data-theme="dark"] .calendar-note-header strong {
+      color: #e2e8f0;
+    }
+    [data-theme="dark"] .calendar-note-editor textarea:focus {
+      border-color: #475569;
+      box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.2);
+    }
+    [data-theme="dark"] .note-format-btn:hover {
+      border-color: #64748b;
+    }
+    [data-theme="dark"] .note-format-btn:active {
+      background: #334155;
+      color: #e2e8f0;
+    }
+    [data-theme="dark"] .cancel-checkbox-label {
+      color: #fca5a5;
+    }
+    [data-theme="dark"] .cancel-checkbox-label input[type="checkbox"] {
+      accent-color: #f87171;
+    }
+    [data-theme="dark"] .cancel-checkbox-label.holiday-checkbox {
+      color: #86efac;
+    }
+    [data-theme="dark"] .cancel-checkbox-label.holiday-checkbox input[type="checkbox"] {
+      accent-color: #4ade80;
+    }
+    [data-theme="dark"] .cancel-checkbox-label.embargo-checkbox {
+      color: #fcd34d;
+    }
+    [data-theme="dark"] .cancel-checkbox-label.embargo-checkbox input[type="checkbox"] {
+      accent-color: #fbbf24;
+    }
+    [data-theme="dark"] .calendar-note-actions .btn-save {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #475569;
+    }
+    [data-theme="dark"] .calendar-note-actions .btn-save:hover {
+      background: #334155;
+      border-color: #64748b;
+      color: #f8fafc;
+    }
+    [data-theme="dark"] .btn-cancel-toggle {
+      background: transparent;
+      color: #fca5a5;
+      border: 1px solid rgba(248, 113, 113, 0.4);
+    }
+    [data-theme="dark"] .btn-cancel-toggle:hover {
+      background: rgba(127, 29, 29, 0.35);
+      border-color: rgba(248, 113, 113, 0.55);
+      color: #fecaca;
+    }
+    [data-theme="dark"] .btn-cancel-toggle.is-cancelled {
+      background: rgba(127, 29, 29, 0.45);
+      color: #fecaca;
+      border-color: rgba(248, 113, 113, 0.5);
+    }
+    [data-theme="dark"] .btn-cancel-toggle.is-cancelled:hover {
+      background: rgba(127, 29, 29, 0.6);
+    }
+    [data-theme="dark"] .note-badge-holiday {
+      background: rgba(52, 211, 153, 0.2);
+      color: #bbf7d0;
+      border: 1px solid rgba(52, 211, 153, 0.35);
+    }
+    [data-theme="dark"] .note-badge-embargo {
+      background: rgba(251, 191, 36, 0.15);
+      color: #fde68a;
+      border: 1px solid rgba(251, 191, 36, 0.35);
+    }
+    [data-theme="dark"] .calendar-tuesday-field.note-cancelled {
+      background: rgba(248, 113, 113, 0.08) !important;
+      border-color: rgba(248, 113, 113, 0.35) !important;
+    }
+    [data-theme="dark"] .calendar-tuesday-field.note-cancelled textarea:not(.cancel-reason-field) {
+      text-decoration: line-through !important;
+      background: transparent !important;
+      color: #94a3b8 !important;
+    }
     .cancel-reason-wrap {
       margin-top: 0.5rem;
       padding: 0.5rem;
@@ -3639,7 +4392,7 @@
     .cancel-reason-label {
       display: block;
       font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 400;
       color: #b91c1c;
       margin-bottom: 0.35rem;
     }
@@ -3789,7 +4542,7 @@
       padding: 0.6rem 1.1rem;
       font: inherit;
       font-size: 0.78rem;
-      font-weight: 700;
+      font-weight: 400;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: #fff;
@@ -3884,7 +4637,7 @@
     .portal-login-eyebrow {
       margin: 0;
       font-size: 0.68rem;
-      font-weight: 700;
+      font-weight: 400;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: #64748b;
@@ -3892,7 +4645,7 @@
     .portal-login-title {
       margin: 0.2rem 0 0;
       font-size: 1.35rem;
-      font-weight: 700;
+      font-weight: 400;
       color: #334155;
       line-height: 1.25;
     }
@@ -3912,7 +4665,7 @@
       display: block;
       margin-bottom: 0.4rem;
       font-size: 0.82rem;
-      font-weight: 600;
+      font-weight: 400;
       color: #334155;
     }
     .portal-login-email-input {
@@ -3939,7 +4692,7 @@
       width: 100%;
       padding: 0.82rem 1.2rem;
       font-size: 0.95rem;
-      font-weight: 700;
+      font-weight: 400;
       color: #fff;
       background: #475569;
       border: none;
@@ -3996,7 +4749,7 @@
       font-size: 0.92rem;
     }
     .portal-sent-email {
-      font-weight: 700;
+      font-weight: 400;
       color: #475569 !important;
       font-size: 0.98rem;
       word-break: break-all;
@@ -4010,7 +4763,7 @@
       margin-top: 1.15rem;
       padding: 0.62rem 1.1rem;
       font-size: 0.86rem;
-      font-weight: 600;
+      font-weight: 400;
       color: #475569;
       background: #f8fafc;
       border: 1px solid #cbd5e1;
@@ -4069,7 +4822,7 @@
     .password-prompt-dialog h3 {
       margin: 0 0 0.35rem;
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 400;
     }
     .password-prompt-text {
       margin: 0 0 0.85rem;
@@ -4154,7 +4907,7 @@
     .info-modal-dialog h3 {
       margin: 0;
       font-size: 1.1rem;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--text);
     }
     .info-modal-message {
@@ -4211,7 +4964,7 @@
       background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
       color: #fff;
       font-size: 1.2rem;
-      font-weight: bold;
+      font-weight: 400;
       border-radius: 50%;
     }
     .confirm-modal-header h3 {
@@ -4277,7 +5030,7 @@
     .user-name-modal-header h3 {
       margin: 0;
       font-size: 1.25rem;
-      font-weight: 700;
+      font-weight: 400;
       color: var(--text);
     }
     .user-name-modal-message {
@@ -4291,7 +5044,7 @@
     }
     .user-name-modal-field label {
       display: block;
-      font-weight: 600;
+      font-weight: 400;
       font-size: 0.85rem;
       margin-bottom: 0.5rem;
       color: var(--text);
@@ -4327,7 +5080,7 @@
       min-width: 150px;
       padding: 0.75rem 2rem;
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 400;
     }
     .btn-clone {
       background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
@@ -4373,7 +5126,7 @@
     .clone-modal-header h3 {
       margin: 0;
       font-size: 1.2rem;
-      font-weight: 700;
+      font-weight: 400;
       color: var(--text);
     }
     .clone-modal-message {
@@ -4488,7 +5241,7 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--text);
     }
     .email-modal-title svg {
@@ -4525,7 +5278,7 @@
     }
     .email-field label {
       font-size: 0.7rem;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.3px;
@@ -4587,7 +5340,7 @@
       color: #fff;
       padding: 0.5rem 1rem;
       text-align: left;
-      font-weight: 600;
+      font-weight: 400;
       border: 1px solid #1e3a5f;
     }
     .email-message-preview td {
@@ -4596,7 +5349,7 @@
     }
     .email-message-preview tr.total-row {
       background: #fef9c3;
-      font-weight: 700;
+      font-weight: 400;
     }
     .email-message-preview tr.total-row td {
       border-top: 2px solid #1e3a5f;
@@ -4623,7 +5376,7 @@
       border: none;
       border-radius: 6px;
       font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 400;
       cursor: pointer;
       transition: all 0.15s ease;
     }
@@ -4666,7 +5419,7 @@
       align-items: center;
       gap: 0.5rem;
       cursor: pointer;
-      font-weight: 500;
+      font-weight: 400;
       color: #92400e;
     }
     .snapshot-refresh-label input[type="checkbox"] {
@@ -4684,7 +5437,7 @@
     .snapshot-tables-label {
       display: block;
       font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 400;
       color: #854d0e;
       margin-bottom: 0.5rem;
     }
@@ -4736,7 +5489,7 @@
       border-radius: 4px;
       color: #b91c1c;
       font-size: 0.85rem;
-      font-weight: 500;
+      font-weight: 400;
     }
     .schema-warning-message.visible {
       display: block;
@@ -4886,7 +5639,7 @@
     .activity-icon.backup { background: #cffafe; color: #0891b2; }
     .activity-icon.sync { background: #e0e7ff; color: #4f46e5; }
     .activity-content { flex: 1; }
-    .activity-title { font-weight: 500; color: #1e293b; margin-bottom: 2px; }
+    .activity-title { font-weight: 400; color: #1e293b; margin-bottom: 2px; }
     .activity-detail { font-size: 12px; color: #64748b; }
     .activity-time { font-size: 11px; color: #94a3b8; white-space: nowrap; }
     .activity-log-footer {
@@ -4954,7 +5707,7 @@
       margin: 0;
       font-size: 1.1rem;
       color: #f8fafc;
-      font-weight: 600;
+      font-weight: 400;
     }
     [data-theme="dark"] .verify-modal-header h3 {
       color: #f1f5f9;
@@ -5033,7 +5786,7 @@
     .verify-summary-count {
       text-align: center;
       font-size: 2rem;
-      font-weight: 700;
+      font-weight: 400;
       color: #ef4444;
       margin-bottom: 8px;
     }
@@ -5058,7 +5811,7 @@
     }
     .verify-details-table th {
       background: linear-gradient(180deg, #475569 0%, #334155 100%);
-      font-weight: 600;
+      font-weight: 400;
       color: #f8fafc;
       font-size: 0.72rem;
       text-transform: uppercase;
@@ -5080,7 +5833,7 @@
       text-decoration: underline;
       text-underline-offset: 2px;
       cursor: pointer;
-      font-weight: 500;
+      font-weight: 400;
     }
     .verify-hf-link:hover {
       color: var(--link-num-hover);
@@ -5096,7 +5849,7 @@
       padding: 2px 6px;
       border-radius: 4px;
       font-size: 0.7rem;
-      font-weight: 500;
+      font-weight: 400;
       line-height: 1.35;
       max-width: 100%;
     }
@@ -5109,7 +5862,7 @@
       padding: 2px 8px;
       border-radius: 4px;
       font-size: 0.7rem;
-      font-weight: 600;
+      font-weight: 400;
     }
     .verify-status-group {
       display: flex;
@@ -5160,7 +5913,7 @@
       padding: 4px 10px;
       border-radius: 4px;
       font-size: 0.7rem;
-      font-weight: 600;
+      font-weight: 400;
       cursor: pointer;
       transition: all 0.15s;
     }
@@ -5233,7 +5986,29 @@
       padding: 0;
       margin-left: auto;
     }
-  </style>
+  
+    .saved-table,
+    .saved-table th,
+    .saved-table td,
+    .saved-table input,
+    .saved-table select,
+    .saved-table button,
+    .saved-table .saved-status-select,
+    .app-main,
+    .app-main input,
+    .app-main select,
+    .app-main textarea,
+    .app-main button:not(.pill-search-btn):not(.pill-search-clear),
+    .app-main label,
+    .app-main h1,
+    .app-main h2 {
+      font-weight: 400 !important;
+    }
+    #new-entry-panel legend,
+    #new-entry-panel .deployment-steps-legend {
+      font-weight: 700 !important;
+    }
+</style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -5312,48 +6087,297 @@
     </div>
   </div>
   <div class="wrap">
-    <header>
-      <div class="header-top">
-        <h1 id="mainHeading">DEPLOYMENT / HOTFIX REQUEST</h1>
-        <button
-          type="button"
-          class="theme-toggle-btn"
-          id="themeToggleBtn"
-          aria-label="Switch to light theme"
-          title="Switch to light theme"
-        >
-          <span class="theme-icon theme-icon-sun" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0-16h1.5v3H12V2Zm0 19h1.5v3H12v-3ZM2 11h3v1.5H2V11Zm19 0h3v1.5h-3V11ZM4.22 4.22l2.12 2.12-1.06 1.06-2.12-2.12 1.06-1.06Zm14.14 14.14 2.12 2.12-1.06 1.06-2.12-2.12 1.06-1.06ZM4.22 19.78l1.06-1.06 2.12 2.12-1.06 1.06-2.12-2.12ZM19.78 4.22l1.06 1.06-2.12 2.12-1.06-1.06 2.12-2.12Z" />
-            </svg>
-          </span>
-          <span class="theme-icon theme-icon-moon" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M21 14.5A7.5 7.5 0 0 1 9.5 3 9 9 0 1 0 21 14.5Z" />
-            </svg>
-          </span>
-        </button>
+    <aside class="app-sidebar" aria-label="Main navigation">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand-row">
+          <img
+            class="sidebar-brand-logo"
+            src="assets/amdocs-logo.png"
+            alt=""
+            width="44"
+            height="44"
+          />
+          <span class="sidebar-brand-wordmark">amdocs</span>
+        </div>
+        <div class="sidebar-brand-sub">DEPLOYMENT / HOTFIX REQUEST</div>
       </div>
-      <p class="subtitle">Capture environment, tracking IDs, artifacts, and dependencies before deployment.</p>
-      <p id="networkShareBanner" class="network-share-banner" hidden></p>
       <div class="header-saved-link">
-        <div class="header-nav-links">
-          <a href="#new-entry" class="nav-active">New Entry</a>
-          <a href="#saved-entries">All Saved Entries</a>
-          <a href="#archive">Archive</a>
-          <a href="#deleted">Deleted Hotfixes</a>
-          <a href="#summary">Summary / Deployed</a>
-          <a href="#weekly-trend">Weekly Trend</a>
-          <a href="#monthly-trend">Monthly Trend</a>
-          <a href="#calendar">Calendar</a>
-          <a href="#count-of-fixes">Count of Fixes</a>
-        </div>
-        <div id="syncStatusBar" class="sync-status-bar" hidden>
-          <span id="syncIndicator" class="sync-indicator"></span>
-          <span id="syncStatusText">Last synced: --</span>
-          <button type="button" id="syncRefreshBtn" class="sync-refresh-btn">Refresh Now</button>
-        </div>
+        <nav class="header-nav-links" aria-label="Sections">
+          <div class="sidebar-section-label">Work</div>
+          <a href="#new-entry" class="nav-active">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+            New Entry
+          </a>
+          <a href="#saved-entries">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></span>
+            Release Entries
+          </a>
+          <div id="sidebarSavedFilters" class="sidebar-saved-filters" hidden>
+            <div class="sidebar-saved-filters-title">Filters</div>
+            <div class="saved-filters-row">
+              <label for="savedFilterPpt">PPT status</label>
+              <select id="savedFilterPpt">
+                <option value="">All</option>
+                <option value="Pending">Pending</option>
+                <option value="To be Planned">To be Planned</option>
+                <option value="Planned">Planned</option>
+                <option value="In progress">In progress</option>
+                <option value="Deployed">Deployed</option>
+                <option value="N/A">N/A</option>
+              </select>
+              <label for="savedFilterProd">PROD status</label>
+              <select id="savedFilterProd">
+                <option value="">All</option>
+                <option value="Pending">Pending</option>
+                <option value="To be Planned">To be Planned</option>
+                <option value="Planned">Planned</option>
+                <option value="In progress">In progress</option>
+                <option value="Deployed">Deployed</option>
+                <option value="N/A">N/A</option>
+              </select>
+              <label for="savedApplicationFilterBtn">Application</label>
+              <div class="saved-app-filter-wrap" id="savedApplicationFilterWrap">
+                <button
+                  type="button"
+                  class="saved-app-filter-btn"
+                  id="savedApplicationFilterBtn"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  aria-controls="savedApplicationFilterList"
+                >
+                  <span class="saved-app-filter-label" id="savedApplicationFilterLabel">All applications</span>
+                  <span class="saved-app-filter-caret" aria-hidden="true">▾</span>
+                </button>
+                <div class="saved-app-filter-dropdown" id="savedApplicationFilterDropdown" hidden>
+                  <div class="saved-app-filter-header">
+                    <div class="saved-app-filter-header-text">
+                      <span>Select applications</span>
+                      <span class="saved-app-filter-count" id="savedApplicationFilterCount"></span>
+                    </div>
+                    <button type="button" class="saved-app-filter-clear" id="savedApplicationFilterClear">Clear</button>
+                  </div>
+                  <div class="saved-app-filter-search-wrap">
+                    <input
+                      type="search"
+                      id="savedApplicationFilterSearch"
+                      class="saved-app-filter-search"
+                      placeholder="Search applications…"
+                      autocomplete="off"
+                      spellcheck="false"
+                    />
+                  </div>
+                  <div class="saved-app-filter-list" id="savedApplicationFilterList" role="listbox" aria-multiselectable="true"></div>
+                </div>
+              </div>
+              <label for="savedFilterParked">Show</label>
+              <select id="savedFilterParked">
+                <option value="active">Active Only</option>
+                <option value="parked">Parked Only</option>
+                <option value="tobeplanned">To be Planned</option>
+                <option value="all">All Entries</option>
+              </select>
+              <label for="savedColumnSettingsBtn">Columns</label>
+              <div class="column-settings-wrap">
+                <button type="button" class="btn-column-settings" id="savedColumnSettingsBtn" title="Show/Hide Columns">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                  </svg>
+                  Columns
+                </button>
+                <div class="column-settings-dropdown" id="savedColumnSettingsDropdown">
+                  <div class="column-settings-header">
+                    <span>Show/Hide Columns</span>
+                    <button type="button" id="savedColResetBtn">Reset</button>
+                  </div>
+                  <div class="column-settings-list" id="savedColumnSettingsList"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="#calendar">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span>
+            Deployments
+          </a>
+          <div class="sidebar-section-label">Insights</div>
+          <a href="#archive">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/></svg></span>
+            Archive
+          </a>
+          <div id="sidebarArchiveFilters" class="sidebar-saved-filters" hidden>
+            <div class="sidebar-saved-filters-title">Filters</div>
+            <div class="saved-filters-row">
+              <label for="archiveFilterMonth">PROD deployment month</label>
+              <select id="archiveFilterMonth">
+                <option value="">All months</option>
+              </select>
+              <label for="archiveApplicationFilterBtn">Application</label>
+              <div class="saved-app-filter-wrap" id="archiveApplicationFilterWrap">
+                <button
+                  type="button"
+                  class="saved-app-filter-btn"
+                  id="archiveApplicationFilterBtn"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  aria-controls="archiveApplicationFilterList"
+                >
+                  <span class="saved-app-filter-label" id="archiveApplicationFilterLabel">All applications</span>
+                  <span class="saved-app-filter-caret" aria-hidden="true">▾</span>
+                </button>
+                <div class="saved-app-filter-dropdown" id="archiveApplicationFilterDropdown" hidden>
+                  <div class="saved-app-filter-header">
+                    <div class="saved-app-filter-header-text">
+                      <span>Select applications</span>
+                      <span class="saved-app-filter-count" id="archiveApplicationFilterCount"></span>
+                    </div>
+                    <button type="button" class="saved-app-filter-clear" id="archiveApplicationFilterClear">Clear</button>
+                  </div>
+                  <div class="saved-app-filter-search-wrap">
+                    <input
+                      type="search"
+                      id="archiveApplicationFilterSearch"
+                      class="saved-app-filter-search"
+                      placeholder="Search applications…"
+                      autocomplete="off"
+                      spellcheck="false"
+                    />
+                  </div>
+                  <div class="saved-app-filter-list" id="archiveApplicationFilterList" role="listbox" aria-multiselectable="true"></div>
+                </div>
+              </div>
+              <label for="archiveColumnSettingsBtn">Columns</label>
+              <div class="column-settings-wrap">
+                <button type="button" class="column-settings-btn btn-column-settings" id="archiveColumnSettingsBtn" title="Column Settings">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><circle cx="4" cy="12" r="2"></circle><circle cx="12" cy="10" r="2"></circle><circle cx="20" cy="14" r="2"></circle></svg>
+                  Columns
+                </button>
+                <div class="column-settings-dropdown" id="archiveColumnSettingsDropdown">
+                  <div class="column-settings-header">
+                    <span>Show/Hide Columns</span>
+                    <button type="button" id="archiveColResetBtn">Reset</button>
+                  </div>
+                  <div class="column-settings-list" id="archiveColumnSettingsList"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="#deleted">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></span>
+            Deleted Hotfixes
+          </a>
+          <a href="#summary">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+            Summary / Deployed
+          </a>
+          <div id="sidebarSummaryFilters" class="sidebar-saved-filters" hidden>
+            <div class="sidebar-saved-filters-title">Filters</div>
+            <div class="saved-filters-row">
+              <label for="summaryFilterMonth">PROD deployment month</label>
+              <select id="summaryFilterMonth">
+                <option value="">All months</option>
+              </select>
+              <label for="summaryApplicationFilterBtn">Application</label>
+              <div class="saved-app-filter-wrap" id="summaryApplicationFilterWrap">
+                <button
+                  type="button"
+                  class="saved-app-filter-btn"
+                  id="summaryApplicationFilterBtn"
+                  aria-haspopup="listbox"
+                  aria-expanded="false"
+                  aria-controls="summaryApplicationFilterList"
+                >
+                  <span class="saved-app-filter-label" id="summaryApplicationFilterLabel">All applications</span>
+                  <span class="saved-app-filter-caret" aria-hidden="true">▾</span>
+                </button>
+                <div class="saved-app-filter-dropdown" id="summaryApplicationFilterDropdown" hidden>
+                  <div class="saved-app-filter-header">
+                    <div class="saved-app-filter-header-text">
+                      <span>Select applications</span>
+                      <span class="saved-app-filter-count" id="summaryApplicationFilterCount"></span>
+                    </div>
+                    <button type="button" class="saved-app-filter-clear" id="summaryApplicationFilterClear">Clear</button>
+                  </div>
+                  <div class="saved-app-filter-search-wrap">
+                    <input
+                      type="search"
+                      id="summaryApplicationFilterSearch"
+                      class="saved-app-filter-search"
+                      placeholder="Search applications…"
+                      autocomplete="off"
+                      spellcheck="false"
+                    />
+                  </div>
+                  <div class="saved-app-filter-list" id="summaryApplicationFilterList" role="listbox" aria-multiselectable="true"></div>
+                </div>
+              </div>
+              <label for="summaryColumnSettingsBtn">Columns</label>
+              <div class="column-settings-wrap">
+                <button type="button" class="column-settings-btn btn-column-settings" id="summaryColumnSettingsBtn" title="Column Settings">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><circle cx="4" cy="12" r="2"></circle><circle cx="12" cy="10" r="2"></circle><circle cx="20" cy="14" r="2"></circle></svg>
+                  Columns
+                </button>
+                <div class="column-settings-dropdown" id="summaryColumnSettingsDropdown">
+                  <div class="column-settings-header">
+                    <span>Show/Hide Columns</span>
+                    <button type="button" id="summaryColResetBtn">Reset</button>
+                  </div>
+                  <div class="column-settings-list" id="summaryColumnSettingsList"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="#weekly-trend">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>
+            Weekly Trend
+          </a>
+          <a href="#monthly-trend">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-6M22 20H2"/></svg></span>
+            Monthly Trend
+          </a>
+          <a href="#count-of-fixes">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 20V4M12 20v-8M17 20V9"/></svg></span>
+            Count of Fixes
+          </a>
+          <div class="sidebar-section-label">Admin</div>
+          <button type="button" class="sidebar-nav-action" id="navQuickBackupBtn" title="Download a quick backup file">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></span>
+            Quick Backup
+          </button>
+          <button type="button" class="sidebar-nav-action" id="navActivityLogBtn" title="Open activity log">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span>
+            Activity Log
+          </button>
+        </nav>
       </div>
+    </aside>
+    <div class="app-main">
+    <header class="app-main-toolbar">
+      <div id="syncStatusBar" class="sync-status-bar" hidden>
+        <span id="syncIndicator" class="sync-indicator"></span>
+        <span id="syncStatusText">Last synced: --</span>
+        <button type="button" id="syncRefreshBtn" class="sync-refresh-btn">Refresh Now</button>
+      </div>
+      <button
+        type="button"
+        class="theme-toggle-btn"
+        id="themeToggleBtn"
+        aria-label="Switch to light theme"
+        title="Switch to light theme"
+      >
+        <span class="theme-icon theme-icon-sun" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0-16h1.5v3H12V2Zm0 19h1.5v3H12v-3ZM2 11h3v1.5H2V11Zm19 0h3v1.5h-3V11ZM4.22 4.22l2.12 2.12-1.06 1.06-2.12-2.12 1.06-1.06Zm14.14 14.14 2.12 2.12-1.06 1.06-2.12-2.12 1.06-1.06ZM4.22 19.78l1.06-1.06 2.12 2.12-1.06 1.06-2.12-2.12ZM19.78 4.22l1.06 1.06-2.12 2.12-1.06-1.06 2.12-2.12Z" />
+          </svg>
+        </span>
+        <span class="theme-icon theme-icon-moon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 14.5A7.5 7.5 0 0 1 9.5 3 9 9 0 1 0 21 14.5Z" />
+          </svg>
+        </span>
+      </button>
+      <p id="networkShareBanner" class="network-share-banner" hidden></p>
     </header>
 
     <div class="tab-content-container">
@@ -5816,7 +6840,7 @@
 
     <section class="saved-panel tab-panel" id="saved-entries" hidden aria-labelledby="savedHeading">
       <div class="saved-panel-head">
-        <h2 id="savedHeading">Saved entries <span id="savedCount" style="color: var(--muted); font-weight: 500">(0)</span></h2>
+        <h2 id="savedHeading">Saved entries <span id="savedCount" style="color: var(--muted); font-weight: 400">(0)</span></h2>
         <div class="saved-actions">
           <button type="button" class="btn-export btn-tiny" id="exportAllSavedBtn" title="One row per active saved entry; archived rows are not included">Export all to Excel</button>
           <button type="button" class="btn-import btn-tiny" id="importFromExcelBtn" title="Import entries from Excel file">Import from Excel</button>
@@ -5829,93 +6853,20 @@
       <p id="savedEmpty" class="saved-empty">No entries saved yet. Fill the form, then click Save (entries are stored in the SQLite database when the server is running).</p>
       <div id="savedSearchWrap" class="saved-search-wrap" hidden>
         <label for="savedSearchInput">Search saved entries</label>
-        <input
-          type="search"
-          id="savedSearchInput"
-          placeholder="Incident ID, hotfix #, RFC, application, requester, rollback HF, files…"
-          autocomplete="off"
-          spellcheck="false"
-        />
-        <div class="saved-filters-row">
-          <label for="savedFilterPpt">PPT status</label>
-          <select id="savedFilterPpt">
-            <option value="">All</option>
-            <option value="Pending">Pending</option>
-            <option value="To be Planned">To be Planned</option>
-            <option value="Planned">Planned</option>
-            <option value="In progress">In progress</option>
-            <option value="Deployed">Deployed</option>
-            <option value="N/A">N/A</option>
-          </select>
-          <label for="savedFilterProd">PROD status</label>
-          <select id="savedFilterProd">
-            <option value="">All</option>
-            <option value="Pending">Pending</option>
-            <option value="To be Planned">To be Planned</option>
-            <option value="Planned">Planned</option>
-            <option value="In progress">In progress</option>
-            <option value="Deployed">Deployed</option>
-            <option value="N/A">N/A</option>
-          </select>
-          <label for="savedApplicationFilterBtn">Application</label>
-          <div class="saved-app-filter-wrap" id="savedApplicationFilterWrap">
-            <button
-              type="button"
-              class="saved-app-filter-btn"
-              id="savedApplicationFilterBtn"
-              aria-haspopup="listbox"
-              aria-expanded="false"
-              aria-controls="savedApplicationFilterList"
-            >
-              <span class="saved-app-filter-label" id="savedApplicationFilterLabel">All applications</span>
-              <span class="saved-app-filter-caret" aria-hidden="true">▾</span>
+        <div class="pill-search-row">
+          <div class="pill-search">
+            <input
+              type="search"
+              id="savedSearchInput"
+              placeholder="Type to search.."
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button type="button" class="pill-search-btn" aria-label="Search" tabindex="-1">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
             </button>
-            <div class="saved-app-filter-dropdown" id="savedApplicationFilterDropdown" hidden>
-              <div class="saved-app-filter-header">
-                <div class="saved-app-filter-header-text">
-                  <span>Select applications</span>
-                  <span class="saved-app-filter-count" id="savedApplicationFilterCount"></span>
-                </div>
-                <button type="button" class="saved-app-filter-clear" id="savedApplicationFilterClear">Clear</button>
-              </div>
-              <div class="saved-app-filter-search-wrap">
-                <input
-                  type="search"
-                  id="savedApplicationFilterSearch"
-                  class="saved-app-filter-search"
-                  placeholder="Search applications…"
-                  autocomplete="off"
-                  spellcheck="false"
-                />
-              </div>
-              <div class="saved-app-filter-list" id="savedApplicationFilterList" role="listbox" aria-multiselectable="true"></div>
-            </div>
           </div>
-          <label for="savedFilterParked">Show</label>
-          <select id="savedFilterParked">
-            <option value="active">Active Only</option>
-            <option value="parked">Parked Only</option>
-            <option value="tobeplanned">To be Planned</option>
-            <option value="all">All Entries</option>
-          </select>
-          <div class="column-settings-wrap">
-            <button type="button" class="btn-column-settings" id="savedColumnSettingsBtn" title="Show/Hide Columns">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;">
-                <rect x="3" y="3" width="7" height="7"/>
-                <rect x="14" y="3" width="7" height="7"/>
-                <rect x="14" y="14" width="7" height="7"/>
-                <rect x="3" y="14" width="7" height="7"/>
-              </svg>
-              Columns
-            </button>
-            <div class="column-settings-dropdown" id="savedColumnSettingsDropdown">
-              <div class="column-settings-header">
-                <span>Show/Hide Columns</span>
-                <button type="button" id="savedColResetBtn">Reset</button>
-              </div>
-              <div class="column-settings-list" id="savedColumnSettingsList"></div>
-            </div>
-          </div>
+          <button type="button" class="pill-search-clear" data-clear-for="savedSearchInput" aria-label="Clear search" hidden>×</button>
         </div>
       </div>
       <p id="savedSearchNoMatch" class="saved-search-no-match" hidden>No saved entries match your search.</p>
@@ -6006,7 +6957,7 @@
 
     <section class="saved-panel archive-panel" id="archive-screen" hidden aria-labelledby="archiveHeading">
       <div class="saved-panel-head">
-        <h2 id="archiveHeading">Archive <span id="archiveCount" style="color: var(--muted); font-weight: 500">(0)</span></h2>
+        <h2 id="archiveHeading">Archive <span id="archiveCount" style="color: var(--muted); font-weight: 400">(0)</span></h2>
         <div class="saved-actions">
         </div>
       </div>
@@ -6016,67 +6967,20 @@
       <p id="archiveEmpty" class="saved-empty">Nothing archived yet. Rows appear here when <strong>PPT</strong> and <strong>PROD</strong> are each <strong>Deployed</strong> with <strong>RFC and date</strong>, or when one is <strong>N/A</strong> and the other is <strong>Deployed</strong> with RFC and date.</p>
       <div id="archiveSearchWrap" class="saved-search-wrap" hidden>
         <label for="archiveSearchInput">Search archive</label>
-        <input
-          type="search"
-          id="archiveSearchInput"
-          placeholder="Incident ID, hotfix #, RFC, application, requester…"
-          autocomplete="off"
-          spellcheck="false"
-        />
-        <div class="archive-filter-wrap" style="margin-top: 0.5rem;">
-          <label for="archiveFilterMonth">Filter by PROD deployment month:</label>
-          <div class="archive-filter-controls">
-            <select id="archiveFilterMonth">
-              <option value="">All months</option>
-            </select>
-            <label for="archiveApplicationFilterBtn">Application</label>
-            <div class="saved-app-filter-wrap" id="archiveApplicationFilterWrap">
-              <button
-                type="button"
-                class="saved-app-filter-btn"
-                id="archiveApplicationFilterBtn"
-                aria-haspopup="listbox"
-                aria-expanded="false"
-                aria-controls="archiveApplicationFilterList"
-              >
-                <span class="saved-app-filter-label" id="archiveApplicationFilterLabel">All applications</span>
-                <span class="saved-app-filter-caret" aria-hidden="true">▾</span>
-              </button>
-              <div class="saved-app-filter-dropdown" id="archiveApplicationFilterDropdown" hidden>
-                <div class="saved-app-filter-header">
-                  <div class="saved-app-filter-header-text">
-                    <span>Select applications</span>
-                    <span class="saved-app-filter-count" id="archiveApplicationFilterCount"></span>
-                  </div>
-                  <button type="button" class="saved-app-filter-clear" id="archiveApplicationFilterClear">Clear</button>
-                </div>
-                <div class="saved-app-filter-search-wrap">
-                  <input
-                    type="search"
-                    id="archiveApplicationFilterSearch"
-                    class="saved-app-filter-search"
-                    placeholder="Search applications…"
-                    autocomplete="off"
-                    spellcheck="false"
-                  />
-                </div>
-                <div class="saved-app-filter-list" id="archiveApplicationFilterList" role="listbox" aria-multiselectable="true"></div>
-              </div>
-            </div>
-            <div class="column-settings-wrap">
-              <button type="button" class="column-settings-btn" id="archiveColumnSettingsBtn" title="Column Settings">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><circle cx="4" cy="12" r="2"></circle><circle cx="12" cy="10" r="2"></circle><circle cx="20" cy="14" r="2"></circle></svg>
-                Columns
-              </button>
-              <div class="column-settings-dropdown" id="archiveColumnSettingsDropdown">
-                <div class="column-settings-header">
-                  <span>Show/Hide Columns</span>
-                  <button type="button" id="archiveColResetBtn">Reset</button>
-                </div>
-                <div class="column-settings-list" id="archiveColumnSettingsList"></div>
-              </div>
-            </div>
+        <div class="pill-search-row">
+          <div class="pill-search">
+            <input
+              type="search"
+              id="archiveSearchInput"
+              placeholder="Type to search.."
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button type="button" class="pill-search-btn" aria-label="Search" tabindex="-1">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            </button>
           </div>
+          <button type="button" class="pill-search-clear" data-clear-for="archiveSearchInput" aria-label="Clear search" hidden>×</button>
         </div>
       </div>
       <p id="archiveSearchNoMatch" class="saved-search-no-match" hidden>No archived entries match your search.</p>
@@ -6113,7 +7017,7 @@
 
     <section class="saved-panel deleted-panel" id="deleted-screen" hidden aria-labelledby="deletedHeading">
       <div class="saved-panel-head">
-        <h2 id="deletedHeading">Deleted Hotfixes <span id="deletedCount" style="color: var(--muted); font-weight: 500">(0)</span></h2>
+        <h2 id="deletedHeading">Deleted Hotfixes <span id="deletedCount" style="color: var(--muted); font-weight: 400">(0)</span></h2>
         <div class="saved-actions">
           <button type="button" class="btn-danger btn-tiny" id="clearAllDeletedBtn" title="Permanently remove all deleted entries">Clear all</button>
         </div>
@@ -6141,7 +7045,7 @@
 
     <section class="saved-panel tab-panel" id="summary-screen" hidden aria-labelledby="summaryHeading">
       <div class="saved-panel-head">
-        <h2 id="summaryHeading">Summary <span id="summaryCount" style="color: var(--muted); font-weight: 500">(0)</span></h2>
+        <h2 id="summaryHeading">Summary <span id="summaryCount" style="color: var(--muted); font-weight: 400">(0)</span></h2>
         <div class="saved-actions">
           <button type="button" class="btn-export btn-tiny" id="exportAllSummaryBtn" title="One row per archived entry shown in Summary">Export all to Excel</button>
         </div>
@@ -6151,67 +7055,20 @@
       </p>
       <div id="summarySearchWrap" class="saved-search-wrap" hidden>
         <label for="summarySearchInput">Search summary</label>
-        <input
-          type="search"
-          id="summarySearchInput"
-          placeholder="Incident ID, hotfix #, RFC, application, requester…"
-          autocomplete="off"
-          spellcheck="false"
-        />
-      </div>
-      <div id="summaryFilterWrap" class="archive-filter-wrap" hidden>
-        <label for="summaryFilterMonth">Filter by PROD deployment month:</label>
-        <div class="archive-filter-controls">
-          <select id="summaryFilterMonth">
-            <option value="">All months</option>
-          </select>
-          <label for="summaryApplicationFilterBtn">Application</label>
-          <div class="saved-app-filter-wrap" id="summaryApplicationFilterWrap">
-            <button
-              type="button"
-              class="saved-app-filter-btn"
-              id="summaryApplicationFilterBtn"
-              aria-haspopup="listbox"
-              aria-expanded="false"
-              aria-controls="summaryApplicationFilterList"
-            >
-              <span class="saved-app-filter-label" id="summaryApplicationFilterLabel">All applications</span>
-              <span class="saved-app-filter-caret" aria-hidden="true">▾</span>
+        <div class="pill-search-row">
+          <div class="pill-search">
+            <input
+              type="search"
+              id="summarySearchInput"
+              placeholder="Type to search.."
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button type="button" class="pill-search-btn" aria-label="Search" tabindex="-1">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
             </button>
-            <div class="saved-app-filter-dropdown" id="summaryApplicationFilterDropdown" hidden>
-              <div class="saved-app-filter-header">
-                <div class="saved-app-filter-header-text">
-                  <span>Select applications</span>
-                  <span class="saved-app-filter-count" id="summaryApplicationFilterCount"></span>
-                </div>
-                <button type="button" class="saved-app-filter-clear" id="summaryApplicationFilterClear">Clear</button>
-              </div>
-              <div class="saved-app-filter-search-wrap">
-                <input
-                  type="search"
-                  id="summaryApplicationFilterSearch"
-                  class="saved-app-filter-search"
-                  placeholder="Search applications…"
-                  autocomplete="off"
-                  spellcheck="false"
-                />
-              </div>
-              <div class="saved-app-filter-list" id="summaryApplicationFilterList" role="listbox" aria-multiselectable="true"></div>
-            </div>
           </div>
-          <div class="column-settings-wrap">
-            <button type="button" class="column-settings-btn" id="summaryColumnSettingsBtn" title="Column Settings">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><circle cx="4" cy="12" r="2"></circle><circle cx="12" cy="10" r="2"></circle><circle cx="20" cy="14" r="2"></circle></svg>
-              Columns
-            </button>
-            <div class="column-settings-dropdown" id="summaryColumnSettingsDropdown">
-              <div class="column-settings-header">
-                <span>Show/Hide Columns</span>
-                <button type="button" id="summaryColResetBtn">Reset</button>
-              </div>
-              <div class="column-settings-list" id="summaryColumnSettingsList"></div>
-            </div>
-          </div>
+          <button type="button" class="pill-search-clear" data-clear-for="summarySearchInput" aria-label="Clear search" hidden>×</button>
         </div>
       </div>
       <div id="summaryTableWrap" class="saved-table-wrap" hidden>
@@ -6410,6 +7267,24 @@
       <div class="saved-panel-head">
         <h2 id="calendarHeading">Deployment Calendar</h2>
         <div class="saved-actions">
+          <div class="calendar-legend calendar-legend-keys">
+            <div class="calendar-legend-item">
+              <span class="calendar-legend-color today-color"></span>
+              <span>Today</span>
+            </div>
+            <div class="calendar-legend-item">
+              <span class="calendar-legend-color has-note-color"></span>
+              <span>Has Deployment</span>
+            </div>
+            <div class="calendar-legend-item">
+              <span class="calendar-legend-color cancelled-color"></span>
+              <span>Cancelled</span>
+            </div>
+            <div class="calendar-legend-item">
+              <span class="calendar-legend-color holiday-color"></span>
+              <span>Holiday</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="calendar-container">
@@ -6430,24 +7305,6 @@
             <div class="calendar-weekday">Sat</div>
           </div>
           <div id="calendarDays" class="calendar-days"></div>
-        </div>
-      </div>
-      <div class="calendar-legend">
-        <div class="calendar-legend-item">
-          <span class="calendar-legend-color today-color"></span>
-          <span>Today</span>
-        </div>
-        <div class="calendar-legend-item">
-          <span class="calendar-legend-color has-note-color"></span>
-          <span>Has Deployment</span>
-        </div>
-        <div class="calendar-legend-item">
-          <span class="calendar-legend-color cancelled-color"></span>
-          <span>Cancelled</span>
-        </div>
-        <div class="calendar-legend-item">
-          <span class="calendar-legend-color holiday-color"></span>
-          <span>Holiday</span>
         </div>
       </div>
       <div class="calendar-legend" style="margin-top: 0.75rem;">
@@ -6561,8 +7418,26 @@
           <tbody id="countOfFixesBody"></tbody>
         </table>
       </div>
+      <div class="count-of-fixes-details-section">
+        <h3 class="count-of-fixes-details-title">Details of Fixes</h3>
+        <div id="countOfFixesDetailsWrap" class="count-of-fixes-details-wrap">
+          <table class="count-of-fixes-details-table">
+            <thead>
+              <tr>
+                <th>Application</th>
+                <th>Requester</th>
+                <th>Incident / Defect ID</th>
+                <th>Hotfix Number</th>
+                <th>Complete Description of Fixes</th>
+              </tr>
+            </thead>
+            <tbody id="countOfFixesDetailsBody"></tbody>
+          </table>
+        </div>
+      </div>
     </section>
 
+  </div>
   </div>
 
   <button type="button" id="backToTopBtn" class="back-to-top" hidden aria-label="Back to top">
@@ -6781,6 +7656,7 @@
       var countOfFixesScreen = document.getElementById("count-of-fixes-screen");
       var countOfFixesNavLink = document.querySelector('.header-saved-link a[href="#count-of-fixes"]');
       var countOfFixesBody = document.getElementById("countOfFixesBody");
+      var countOfFixesDetailsBody = document.getElementById("countOfFixesDetailsBody");
       var exportCountOfFixesBtn = document.getElementById("exportCountOfFixesBtn");
       var emailCountOfFixesBtn = document.getElementById("emailCountOfFixesBtn");
       var emailModalOverlay = document.getElementById("emailModalOverlay");
@@ -6805,6 +7681,18 @@
         if (activeLink) {
           activeLink.classList.add('nav-active');
         }
+        var href = activeLink ? activeLink.getAttribute("href") : "";
+        var filterMap = {
+          "#saved-entries": "sidebarSavedFilters",
+          "#archive": "sidebarArchiveFilters",
+          "#summary": "sidebarSummaryFilters"
+        };
+        ["sidebarSavedFilters", "sidebarArchiveFilters", "sidebarSummaryFilters"].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (!el) return;
+          if (filterMap[href] === id) el.removeAttribute("hidden");
+          else el.setAttribute("hidden", "");
+        });
       }
 
       function switchToPanel(targetPanel) {
@@ -6928,6 +7816,9 @@
                 ? "light"
                 : "dark";
             applyTheme(active === "light" ? "dark" : "light");
+            if (typeof window.refreshTrendChartsForTheme === "function") {
+              window.refreshTrendChartsForTheme();
+            }
           });
         }
       }
@@ -9311,26 +10202,42 @@
       
       // Initialize Monitoring Features
       document.addEventListener("DOMContentLoaded", function() {
-        // Status bar buttons
+        // Status bar / Admin nav actions
         var viewLogBtn = document.getElementById("statusViewLogBtn");
         var quickBackupBtn = document.getElementById("statusQuickBackup");
+        var navViewLogBtn = document.getElementById("navActivityLogBtn");
+        var navQuickBackupBtn = document.getElementById("navQuickBackupBtn");
         var logOverlay = document.getElementById("activityLogOverlay");
         var logClose = document.getElementById("activityLogClose");
         var logClear = document.getElementById("activityLogClear");
         var logExport = document.getElementById("activityLogExport");
+
+        function openActivityLogPanel() {
+          renderActivityLog();
+          if (logOverlay) logOverlay.classList.add("show");
+        }
+
+        function runQuickBackup(sourceLabel) {
+          downloadBackupFile();
+          showToast("Backup file downloaded!", "success");
+          logActivity("backup", "Manual Backup", sourceLabel || "Quick backup");
+        }
         
         if (viewLogBtn) {
-          viewLogBtn.addEventListener("click", function() {
-            renderActivityLog();
-            logOverlay.classList.add("show");
-          });
+          viewLogBtn.addEventListener("click", openActivityLogPanel);
+        }
+        if (navViewLogBtn) {
+          navViewLogBtn.addEventListener("click", openActivityLogPanel);
         }
         
         if (quickBackupBtn) {
           quickBackupBtn.addEventListener("click", function() {
-            downloadBackupFile();
-            showToast("Backup file downloaded!", "success");
-            logActivity("backup", "Manual Backup", "Quick backup from status bar");
+            runQuickBackup("Quick backup from status bar");
+          });
+        }
+        if (navQuickBackupBtn) {
+          navQuickBackupBtn.addEventListener("click", function() {
+            runQuickBackup("Quick backup from Admin nav");
           });
         }
 
@@ -11304,107 +12211,183 @@
         });
       }
 
-      function renderCountOfFixes() {
-        if (!countOfFixesBody) return;
-        
+      function collectCountOfFixesData() {
         var list = readSavedEntries();
         var pending = list.filter(function (e) {
           if (!e || e.deletedAt || e.archivedAt || e.parked) return false;
           var prodStatus = (e.prodDeploymentStatus || "").trim().toLowerCase();
           return prodStatus === "pending";
         });
-        
+
+        var groupOrder = ["FE", "BE", "ODS", "Digital", "Infra"];
         var appGroups = {
-          "FE": { apps: ["ASOM", "CRM", "MCO", "OMS", "SDP", "WSF"], defects: {} },
-          "BE": { apps: [], defects: {}, isABP: true },
-          "ODS": { apps: ["ODS"], defects: {} },
-          "Digital": { apps: ["OMNI"], defects: {} },
-          "Infra": { apps: ["ABP - Infra"], defects: {} }
+          FE: { apps: ["ASOM", "CRM", "MCO", "OMS", "SDP", "WSF"], defects: {} },
+          BE: { apps: [], defects: {}, isABP: true },
+          ODS: { apps: ["ODS"], defects: {} },
+          Digital: { apps: ["OMNI"], defects: {} },
+          Infra: { apps: ["ABP - Infra"], defects: {} }
         };
-        
+        var detailByDefect = {};
+
         pending.forEach(function (entry) {
           var appName = (entry.application || "").trim();
           var defectId = (entry.incidentId || "").trim();
           var hotfixNum = (entry.hotfixNumber || "").trim();
           if (!defectId) return;
-          
+
+          if (!detailByDefect[defectId]) {
+            detailByDefect[defectId] = {
+              application: appName || "—",
+              requester: String(entry.requester || "").trim() || "—",
+              incidentId: defectId,
+              hotfixNumber: hotfixNum || "—",
+              description: String(entry.description == null ? "" : entry.description).trim() || "—",
+              deploymentType: String(entry.deploymentType || "").trim() || "—"
+            };
+          }
+
           if (appName === "ABP - Infra") {
-            if (!appGroups["Infra"].defects[defectId]) {
-              appGroups["Infra"].defects[defectId] = hotfixNum;
+            if (!appGroups.Infra.defects[defectId]) {
+              appGroups.Infra.defects[defectId] = hotfixNum;
             }
           } else if (appName.toUpperCase().startsWith("ABP")) {
-            if (!appGroups["BE"].defects[defectId]) {
-              appGroups["BE"].defects[defectId] = hotfixNum;
+            if (!appGroups.BE.defects[defectId]) {
+              appGroups.BE.defects[defectId] = hotfixNum;
             }
           } else {
-            var matched = false;
             Object.keys(appGroups).forEach(function (groupKey) {
               if (groupKey === "BE" || groupKey === "Infra") return;
               var group = appGroups[groupKey];
               group.apps.forEach(function (app) {
-                if (appName.toUpperCase() === app.toUpperCase() || 
-                    appName.toUpperCase().indexOf(app.toUpperCase()) === 0) {
+                if (
+                  appName.toUpperCase() === app.toUpperCase() ||
+                  appName.toUpperCase().indexOf(app.toUpperCase()) === 0
+                ) {
                   if (!group.defects[defectId]) {
                     group.defects[defectId] = hotfixNum;
                   }
-                  matched = true;
                 }
               });
             });
           }
         });
-        
-        var rows = ["FE", "BE", "ODS", "Digital", "Infra"];
-        var grandTotal = 0;
+
         var allDefectIds = new Set();
-        
-        countOfFixesBody.innerHTML = "";
-        rows.forEach(function (groupName) {
-          var group = appGroups[groupName];
-          var defectKeys = Object.keys(group.defects);
-          var count = defectKeys.length;
-          defectKeys.forEach(function (id) {
+        var summary = groupOrder.map(function (groupName) {
+          var defects = appGroups[groupName].defects;
+          Object.keys(defects).forEach(function (id) {
             allDefectIds.add(id);
           });
-          
+          return {
+            group: groupName,
+            count: Object.keys(defects).length,
+            defects: defects
+          };
+        });
+
+        var details = Object.keys(detailByDefect)
+          .sort(function (a, b) {
+            return a.localeCompare(b, undefined, { sensitivity: "base" });
+          })
+          .map(function (id) {
+            return detailByDefect[id];
+          });
+
+        return {
+          groupOrder: groupOrder,
+          appGroups: appGroups,
+          summary: summary,
+          total: allDefectIds.size,
+          details: details
+        };
+      }
+
+      function renderCountOfFixes() {
+        if (!countOfFixesBody) return;
+
+        var data = collectCountOfFixesData();
+        countOfFixesBody.innerHTML = "";
+
+        data.summary.forEach(function (item) {
+          var defectKeys = Object.keys(item.defects);
           var tr = document.createElement("tr");
           tr.className = "expandable-row";
           tr.innerHTML =
-            "<td>" + escapeHtml(groupName) + "</td>" +
-            "<td>" + count + "</td>";
+            "<td>" + escapeHtml(item.group) + "</td>" +
+            "<td>" + item.count + "</td>";
           countOfFixesBody.appendChild(tr);
-          
+
           var detailsTr = document.createElement("tr");
           detailsTr.className = "details-row";
           var detailsContent = "";
           if (defectKeys.length > 0) {
             var sortedKeys = defectKeys.sort();
-            detailsContent = '<table class="defect-details-table">' +
-              '<thead><tr><th>Incident/Defect ID</th><th>Hotfix Number</th></tr></thead>' +
-              '<tbody>' + 
-              sortedKeys.map(function(id) {
-                var hotfix = group.defects[id] || "—";
-                return '<tr><td>' + escapeHtml(id) + '</td><td>' + escapeHtml(hotfix) + '</td></tr>';
-              }).join('') + '</tbody></table>';
+            detailsContent =
+              '<table class="defect-details-table">' +
+              "<thead><tr><th>Incident/Defect ID</th><th>Hotfix Number</th></tr></thead>" +
+              "<tbody>" +
+              sortedKeys
+                .map(function (id) {
+                  var hotfix = item.defects[id] || "—";
+                  return (
+                    "<tr><td>" +
+                    escapeHtml(id) +
+                    "</td><td>" +
+                    escapeHtml(hotfix) +
+                    "</td></tr>"
+                  );
+                })
+                .join("") +
+              "</tbody></table>";
           } else {
             detailsContent = '<span class="defect-ids-empty">No defect IDs</span>';
           }
-          detailsTr.innerHTML = '<td colspan="2">' + detailsContent + '</td>';
+          detailsTr.innerHTML = '<td colspan="2">' + detailsContent + "</td>";
           countOfFixesBody.appendChild(detailsTr);
-          
-          tr.addEventListener("click", function() {
+
+          tr.addEventListener("click", function () {
             tr.classList.toggle("expanded");
             detailsTr.classList.toggle("visible");
           });
         });
-        
-        grandTotal = allDefectIds.size;
+
         var totalTr = document.createElement("tr");
         totalTr.className = "total-row";
         totalTr.innerHTML =
           "<td>Total</td>" +
-          "<td>" + grandTotal + "</td>";
+          "<td>" + data.total + "</td>";
         countOfFixesBody.appendChild(totalTr);
+
+        if (countOfFixesDetailsBody) {
+          countOfFixesDetailsBody.innerHTML = "";
+          if (!data.details.length) {
+            var emptyTr = document.createElement("tr");
+            emptyTr.innerHTML =
+              '<td colspan="5" class="count-of-fixes-details-empty">No pending PROD fixes to show.</td>';
+            countOfFixesDetailsBody.appendChild(emptyTr);
+          } else {
+            data.details.forEach(function (row) {
+              var tr = document.createElement("tr");
+              tr.innerHTML =
+                '<td class="cell-clip" title="' + escapeAttr(row.application) + '">' +
+                escapeHtml(row.application) +
+                "</td>" +
+                '<td class="cell-clip" title="' + escapeAttr(row.requester) + '">' +
+                escapeHtml(row.requester) +
+                "</td>" +
+                '<td class="cell-clip" title="' + escapeAttr(row.incidentId) + '">' +
+                escapeHtml(row.incidentId) +
+                "</td>" +
+                '<td class="cell-clip" title="' + escapeAttr(row.hotfixNumber) + '">' +
+                escapeHtml(row.hotfixNumber) +
+                "</td>" +
+                '<td class="cell-desc" title="' + escapeAttr(row.description) + '">' +
+                escapeHtml(row.description) +
+                "</td>";
+              countOfFixesDetailsBody.appendChild(tr);
+            });
+          }
+        }
       }
 
       function getWeekRange(dateStr) {
@@ -13044,6 +14027,25 @@
       });
       
       var monthlyTrendChartInstance = null;
+
+      function getTrendChartThemeColors() {
+        var isDark = document.documentElement.getAttribute("data-theme") === "dark";
+        return {
+          isDark: isDark,
+          gridColor: isDark ? "rgba(148,163,184,0.22)" : "rgba(0,0,0,0.1)",
+          textColor: isDark ? "#e2e8f0" : "#334155",
+          titleColor: isDark ? "#f8fafc" : "#1f2937",
+          mutedLine: isDark ? "#e2e8f0" : "#6b7280"
+        };
+      }
+
+      function applyTrendChartDefaults(textColor) {
+        if (typeof Chart === "undefined") return;
+        Chart.defaults.color = textColor;
+        if (Chart.defaults.plugins && Chart.defaults.plugins.datalabels) {
+          Chart.defaults.plugins.datalabels.color = textColor;
+        }
+      }
       
       function renderMonthlyTrendChart(data) {
         var canvas = document.getElementById("monthlyTrendChart");
@@ -13057,9 +14059,10 @@
         if (!data || !data.length) return;
         
         var labels = data.map(function (m) { return m.label; });
-        var isDark = document.documentElement.getAttribute("data-theme") === "dark";
-        var gridColor = isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.1)";
-        var textColor = isDark ? "#ffffff" : "#333333";
+        var theme = getTrendChartThemeColors();
+        var gridColor = theme.gridColor;
+        var textColor = theme.textColor;
+        applyTrendChartDefaults(textColor);
         
         monthlyTrendChartInstance = new Chart(canvas, {
           type: "line",
@@ -13089,8 +14092,8 @@
               {
                 label: "HF Deployed",
                 data: data.map(function (m) { return m.hfDeployed; }),
-                borderColor: isDark ? "#e5e5e5" : "#6b7280",
-                backgroundColor: isDark ? "#e5e5e5" : "#6b7280",
+                borderColor: theme.mutedLine,
+                backgroundColor: theme.mutedLine,
                 tension: 0.3,
                 pointRadius: 5,
                 pointHoverRadius: 7,
@@ -13112,6 +14115,7 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            color: textColor,
             animation: trendChartAnimationOptions(),
             transitions: trendChartTransitionOptions(),
             interaction: {
@@ -13129,7 +14133,7 @@
                 }
               },
               datalabels: {
-                color: textColor,
+                color: function () { return textColor; },
                 font: {
                   size: 10,
                   weight: "bold"
@@ -13447,10 +14451,11 @@
         }
         
         var labels = data.map(function (w) { return w.label; });
-        var isDark = document.documentElement.getAttribute("data-theme") === "dark";
-        var gridColor = isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.1)";
-        var textColor = isDark ? "#ffffff" : "#333333";
-        var titleColor = isDark ? "#ffffff" : "#1f2937";
+        var theme = getTrendChartThemeColors();
+        var gridColor = theme.gridColor;
+        var textColor = theme.textColor;
+        var titleColor = theme.titleColor;
+        applyTrendChartDefaults(textColor);
         
         weeklyTrendChartInstance = new Chart(canvas, {
           type: "bar",
@@ -13465,7 +14470,7 @@
               {
                 label: "PROD RFC",
                 data: data.map(function (w) { return w.prodRfc; }),
-                backgroundColor: isDark ? "#d1d5db" : "#9ca3af"
+                backgroundColor: theme.isDark ? "#d1d5db" : "#9ca3af"
               },
               {
                 label: "Total HF - PROD",
@@ -13483,6 +14488,7 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            color: textColor,
             animation: trendChartAnimationOptions(),
             transitions: trendChartTransitionOptions(),
             plugins: {
@@ -13501,7 +14507,7 @@
                 font: { size: 14, weight: "bold" }
               },
               datalabels: {
-                color: textColor,
+                color: function () { return textColor; },
                 font: {
                   size: 10,
                   weight: "bold"
@@ -13536,6 +14542,19 @@
         });
         pulseTrendChartWrap(canvas);
       }
+
+      window.refreshTrendChartsForTheme = function () {
+        if (window.monthlyTrendData && window.monthlyTrendData.length) {
+          renderMonthlyTrendChart(window.monthlyTrendData);
+          renderMonthlyTrendAreaChart(window.monthlyTrendData);
+        }
+        if (typeof getFilteredWeeksByMonth === "function") {
+          try {
+            var weeks = getFilteredWeeksByMonth();
+            if (weeks && weeks.length) renderWeeklyTrendChart(weeks);
+          } catch (eRefreshCharts) {}
+        }
+      };
 
       function escapeHtml(s) {
         return String(s == null ? "" : s)
@@ -13759,6 +14778,37 @@
           renderSummaryList();
         });
       }
+      (function wirePillSearchClears() {
+        function syncClearBtn(input) {
+          if (!input) return;
+          var btn = document.querySelector('.pill-search-clear[data-clear-for="' + input.id + '"]');
+          if (!btn) return;
+          if (input.value && input.value.trim()) btn.removeAttribute("hidden");
+          else btn.setAttribute("hidden", "");
+        }
+        ["savedSearchInput", "archiveSearchInput", "summarySearchInput"].forEach(function (id) {
+          var input = document.getElementById(id);
+          if (!input) return;
+          syncClearBtn(input);
+          input.addEventListener("input", function () { syncClearBtn(input); });
+        });
+        document.querySelectorAll(".pill-search-clear[data-clear-for]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var input = document.getElementById(btn.getAttribute("data-clear-for"));
+            if (!input) return;
+            input.value = "";
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            input.focus();
+            syncClearBtn(input);
+          });
+        });
+        document.querySelectorAll(".pill-search-btn").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var input = btn.parentElement && btn.parentElement.querySelector('input[type="search"]');
+            if (input) input.focus();
+          });
+        });
+      })();
       if (summaryFilterMonth) {
         summaryFilterMonth.addEventListener("change", function () {
           summaryCurrentPage = 1;
@@ -15002,14 +16052,25 @@
         xlsxPromise = new Promise(function (resolve) {
           var s = document.createElement("script");
           s.async = true;
-          s.src = "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";
+          /* xlsx-js-style: SheetJS-compatible API + cell styling for formatted exports */
+          s.src = "https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js";
           s.onload = function () {
             resolve(true);
           };
           s.onerror = function () {
-            xlsxLoadFailed = true;
-            xlsxPromise = null;
-            resolve(false);
+            /* Fallback to community SheetJS (no cell styles) */
+            var fallback = document.createElement("script");
+            fallback.async = true;
+            fallback.src = "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";
+            fallback.onload = function () {
+              resolve(true);
+            };
+            fallback.onerror = function () {
+              xlsxLoadFailed = true;
+              xlsxPromise = null;
+              resolve(false);
+            };
+            document.head.appendChild(fallback);
           };
           document.head.appendChild(s);
         });
@@ -15344,164 +16405,108 @@
       }
 
       function generateHtmlEmailPreview() {
-        var list = readSavedEntries();
-        var pending = list.filter(function (e) {
-          if (!e || e.deletedAt || e.archivedAt || e.parked) return false;
-          var prodStatus = (e.prodDeploymentStatus || "").trim().toLowerCase();
-          return prodStatus === "pending";
-        });
-        
-        var appGroups = {
-          "FE": { apps: ["ASOM", "CRM", "MCO", "OMS", "SDP", "WSF"], defects: {} },
-          "BE": { apps: [], defects: {}, isABP: true },
-          "ODS": { apps: ["ODS"], defects: {} },
-          "Digital": { apps: ["OMNI"], defects: {} },
-          "Infra": { apps: ["ABP - Infra"], defects: {} }
-        };
-        
-        pending.forEach(function (entry) {
-          var appName = (entry.application || "").trim();
-          var defectId = (entry.incidentId || "").trim();
-          var hotfixNum = (entry.hotfixNumber || "").trim();
-          if (!defectId) return;
-          
-          if (appName === "ABP - Infra") {
-            if (!appGroups["Infra"].defects[defectId]) {
-              appGroups["Infra"].defects[defectId] = hotfixNum;
-            }
-          } else if (appName.toUpperCase().startsWith("ABP")) {
-            if (!appGroups["BE"].defects[defectId]) {
-              appGroups["BE"].defects[defectId] = hotfixNum;
-            }
-          } else {
-            for (var group in appGroups) {
-              if (group === "BE") continue;
-              if (appGroups[group].apps.indexOf(appName) !== -1) {
-                if (!appGroups[group].defects[defectId]) {
-                  appGroups[group].defects[defectId] = hotfixNum;
-                }
-                break;
-              }
-            }
-          }
-        });
-        
-        var total = 0;
-        var groupOrder = ["FE", "BE", "ODS", "Digital", "Infra"];
-        
-        var html = '<p>Hi All,</p>';
+        var data = collectCountOfFixesData();
+        var html = "<p>Hi All,</p>";
         html += '<p>Below are the fixes planned for SmartOps PROD release on <strong>_________</strong>.</p>';
-        html += '<p>Have consolidated the list per FE, BE, and ODS application teams.</p>';
-        html += '<p>Complete details are in the attached Excel.</p>';
-        html += '<br>';
-        html += '<table>';
+        html += "<p>Have consolidated the list per FE, BE, and ODS application teams.</p>";
+        html += "<p>Complete details are in the attached Excel.</p>";
+        html += "<br>";
+        html += "<table>";
         html += '<thead><tr><th>APPLICATION</th><th style="text-align:center;">COUNT OF FIXES</th></tr></thead>';
-        html += '<tbody>';
-        
-        groupOrder.forEach(function (group) {
-          var count = Object.keys(appGroups[group].defects).length;
-          total += count;
-          html += '<tr><td>► ' + group + '</td><td style="text-align:center;">' + count + '</td></tr>';
+        html += "<tbody>";
+
+        data.summary.forEach(function (item) {
+          html +=
+            "<tr><td>► " +
+            escapeHtml(item.group) +
+            '</td><td style="text-align:center;">' +
+            item.count +
+            "</td></tr>";
         });
-        
-        html += '<tr class="total-row"><td><strong>Total</strong></td><td style="text-align:center;"><strong>' + total + '</strong></td></tr>';
-        html += '</tbody></table>';
-        
+
+        html +=
+          '<tr class="total-row"><td><strong>Total</strong></td><td style="text-align:center;"><strong>' +
+          data.total +
+          "</strong></td></tr>";
+        html += "</tbody></table>";
+
+        html += "<br>";
+        html += "<p><strong>Details of Fixes</strong></p>";
+        html += "<table>";
+        html +=
+          "<thead><tr>" +
+          "<th>Application</th>" +
+          "<th>Requester</th>" +
+          "<th>Incident / Defect ID</th>" +
+          "<th>Hotfix Number</th>" +
+          "<th>Complete Description of Fixes</th>" +
+          "</tr></thead><tbody>";
+
+        if (!data.details.length) {
+          html +=
+            '<tr><td colspan="5" style="text-align:center;font-style:italic;">No pending PROD fixes to show.</td></tr>';
+        } else {
+          data.details.forEach(function (row) {
+            html +=
+              "<tr>" +
+              "<td>" + escapeHtml(row.application) + "</td>" +
+              "<td>" + escapeHtml(row.requester) + "</td>" +
+              "<td>" + escapeHtml(row.incidentId) + "</td>" +
+              "<td>" + escapeHtml(row.hotfixNumber) + "</td>" +
+              "<td>" + escapeHtml(row.description) + "</td>" +
+              "</tr>";
+          });
+        }
+        html += "</tbody></table>";
+
         return html;
       }
 
       function generateEmailContent() {
-        var list = readSavedEntries();
-        var pending = list.filter(function (e) {
-          if (!e || e.deletedAt || e.archivedAt || e.parked) return false;
-          var prodStatus = (e.prodDeploymentStatus || "").trim().toLowerCase();
-          return prodStatus === "pending";
-        });
-        
-        var appGroups = {
-          "FE": { apps: ["ASOM", "CRM", "MCO", "OMS", "SDP", "WSF"], defects: {} },
-          "BE": { apps: [], defects: {}, isABP: true },
-          "ODS": { apps: ["ODS"], defects: {} },
-          "Digital": { apps: ["OMNI"], defects: {} },
-          "Infra": { apps: ["ABP - Infra"], defects: {} }
-        };
-        
-        pending.forEach(function (entry) {
-          var appName = (entry.application || "").trim();
-          var defectId = (entry.incidentId || "").trim();
-          var hotfixNum = (entry.hotfixNumber || "").trim();
-          if (!defectId) return;
-          
-          if (appName === "ABP - Infra") {
-            if (!appGroups["Infra"].defects[defectId]) {
-              appGroups["Infra"].defects[defectId] = hotfixNum;
-            }
-          } else if (appName.toUpperCase().startsWith("ABP")) {
-            if (!appGroups["BE"].defects[defectId]) {
-              appGroups["BE"].defects[defectId] = hotfixNum;
-            }
-          } else {
-            Object.keys(appGroups).forEach(function (groupKey) {
-              if (groupKey === "BE" || groupKey === "Infra") return;
-              var group = appGroups[groupKey];
-              group.apps.forEach(function (app) {
-                if (appName.toUpperCase() === app.toUpperCase() || 
-                    appName.toUpperCase().indexOf(app.toUpperCase()) === 0) {
-                  if (!group.defects[defectId]) {
-                    group.defects[defectId] = hotfixNum;
-                  }
-                }
-              });
-            });
-          }
-        });
-        
-        var rows = ["FE", "BE", "ODS", "Digital", "Infra"];
-        var allDefectIds = new Set();
-        var today = new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+        var data = collectCountOfFixesData();
         var todayShort = new Date().toISOString().slice(0, 10);
-        
+
         var body = "Hi All,\n\n";
         body += "Below are the fixes planned for SmartOps PROD release on _____________.\n";
         body += "Have consolidated the list per FE, BE, and ODS application teams.\n\n";
         body += "Complete details are in the attached Excel.\n\n\n";
-        
+
         body += "┌─────────────┬────────────────┐\n";
         body += "│ Application │ Count of Fixes │\n";
         body += "├─────────────┼────────────────┤\n";
-        
-        rows.forEach(function (groupName) {
-          var group = appGroups[groupName];
-          var defectKeys = Object.keys(group.defects);
-          var count = defectKeys.length;
-          defectKeys.forEach(function (id) {
-            allDefectIds.add(id);
-          });
-          var appPadded = groupName.padEnd(11, " ");
-          var countPadded = String(count).padStart(14, " ");
+
+        data.summary.forEach(function (item) {
+          var appPadded = item.group.padEnd(11, " ");
+          var countPadded = String(item.count).padStart(14, " ");
           body += "│ " + appPadded + " │" + countPadded + " │\n";
         });
-        
+
         body += "├─────────────┼────────────────┤\n";
-        body += "│ Total       │" + String(allDefectIds.size).padStart(14, " ") + " │\n";
+        body += "│ Total       │" + String(data.total).padStart(14, " ") + " │\n";
         body += "└─────────────┴────────────────┘\n\n\n";
-        
-        body += "DETAILS:\n\n";
-        rows.forEach(function (groupName) {
-          var group = appGroups[groupName];
-          var defectKeys = Object.keys(group.defects).sort();
-          if (defectKeys.length > 0) {
-            body += groupName + ":\n";
-            defectKeys.forEach(function (id) {
-              var hotfix = group.defects[id] || "—";
-              body += "  • " + id + " - " + hotfix + "\n";
-            });
-            body += "\n";
-          }
-        });
+
+        body += "DETAILS OF FIXES:\n\n";
+        if (!data.details.length) {
+          body += "No pending PROD fixes to show.\n\n";
+        } else {
+          data.details.forEach(function (row) {
+            body +=
+              "• " +
+              row.application +
+              " | " +
+              row.requester +
+              " | " +
+              row.incidentId +
+              " | " +
+              row.hotfixNumber +
+              "\n  " +
+              row.description +
+              "\n\n";
+          });
+        }
 
         body += "\nThanks and Best Regards";
-        
+
         return {
           subject: "Count of Fixes Report - " + todayShort,
           body: body
@@ -15576,103 +16581,96 @@
       }
 
       function generateHtmlEmailContent() {
-        var list = readSavedEntries();
-        var pending = list.filter(function (e) {
-          if (!e || e.deletedAt || e.archivedAt || e.parked) return false;
-          var prodStatus = (e.prodDeploymentStatus || "").trim().toLowerCase();
-          return prodStatus === "pending";
-        });
-        
-        var appGroups = {
-          "FE": { apps: ["ASOM", "CRM", "MCO", "OMS", "SDP", "WSF"], defects: {} },
-          "BE": { apps: [], defects: {}, isABP: true },
-          "ODS": { apps: ["ODS"], defects: {} },
-          "Digital": { apps: ["OMNI"], defects: {} },
-          "Infra": { apps: ["ABP - Infra"], defects: {} }
-        };
-        
-        pending.forEach(function (entry) {
-          var appName = (entry.application || "").trim();
-          var defectId = (entry.incidentId || "").trim();
-          var hotfixNum = (entry.hotfixNumber || "").trim();
-          if (!defectId) return;
-          
-          if (appName === "ABP - Infra") {
-            if (!appGroups["Infra"].defects[defectId]) {
-              appGroups["Infra"].defects[defectId] = hotfixNum;
-            }
-          } else if (appName.toUpperCase().startsWith("ABP")) {
-            if (!appGroups["BE"].defects[defectId]) {
-              appGroups["BE"].defects[defectId] = hotfixNum;
-            }
-          } else {
-            Object.keys(appGroups).forEach(function (groupKey) {
-              if (groupKey === "BE" || groupKey === "Infra") return;
-              var group = appGroups[groupKey];
-              group.apps.forEach(function (app) {
-                if (appName.toUpperCase() === app.toUpperCase() || 
-                    appName.toUpperCase().indexOf(app.toUpperCase()) === 0) {
-                  if (!group.defects[defectId]) {
-                    group.defects[defectId] = hotfixNum;
-                  }
-                }
-              });
-            });
-          }
-        });
-        
-        var rows = ["FE", "BE", "ODS", "Digital", "Infra"];
-        var allDefectIds = new Set();
-        
+        var data = collectCountOfFixesData();
+
         var html = '<div style="font-family: Calibri, Arial, sans-serif; font-size: 11pt;">';
-        html += '<p>Hi All,</p>';
-        html += '<p>Below are the fixes planned for SmartOps PROD release on _____________.<br>';
-        html += 'Have consolidated the list per FE, BE, and ODS application teams.</p>';
-        html += '<p>Complete details are in the attached Excel.</p><br>';
-        
-        html += '<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-family: Calibri, Arial, sans-serif; font-size: 10pt;">';
-        html += '<tr>';
-        html += '<th style="border: 1px solid #000; padding: 6px 12px; background-color: #1e3a5f; color: #ffffff; font-weight: bold; text-align: left;">Application</th>';
-        html += '<th style="border: 1px solid #000; padding: 6px 12px; background-color: #1e3a5f; color: #ffffff; font-weight: bold; text-align: center;">Count of Fixes</th>';
-        html += '</tr>';
-        
-        rows.forEach(function (groupName) {
-          var group = appGroups[groupName];
-          var defectKeys = Object.keys(group.defects);
-          var count = defectKeys.length;
-          defectKeys.forEach(function (id) {
-            allDefectIds.add(id);
+        html += "<p>Hi All,</p>";
+        html += "<p>Below are the fixes planned for SmartOps PROD release on _____________.<br>";
+        html += "Have consolidated the list per FE, BE, and ODS application teams.</p>";
+        html += "<p>Complete details are in the attached Excel.</p><br>";
+
+        html +=
+          '<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-family: Calibri, Arial, sans-serif; font-size: 10pt;">';
+        html += "<tr>";
+        html +=
+          '<th style="border: 1px solid #000; padding: 6px 12px; background-color: #1e3a5f; color: #ffffff; font-weight: bold; text-align: left;">Application</th>';
+        html +=
+          '<th style="border: 1px solid #000; padding: 6px 12px; background-color: #1e3a5f; color: #ffffff; font-weight: bold; text-align: center;">Count of Fixes</th>';
+        html += "</tr>";
+
+        data.summary.forEach(function (item) {
+          html += "<tr>";
+          html +=
+            '<td style="border: 1px solid #cccccc; padding: 4px 12px;">&#9658; ' +
+            escapeHtml(item.group) +
+            "</td>";
+          html +=
+            '<td style="border: 1px solid #cccccc; padding: 4px 12px; text-align: center;">' +
+            item.count +
+            "</td>";
+          html += "</tr>";
+        });
+
+        html += "<tr>";
+        html +=
+          '<td style="border: 1px solid #000000; padding: 4px 12px; background-color: #fef08a; font-weight: bold;">Total</td>';
+        html +=
+          '<td style="border: 1px solid #000000; padding: 4px 12px; background-color: #fef08a; font-weight: bold; text-align: center;">' +
+          data.total +
+          "</td>";
+        html += "</tr>";
+        html += "</table><br>";
+
+        html += "<p><strong>DETAILS OF FIXES:</strong></p>";
+        html +=
+          '<table border="1" cellpadding="6" cellspacing="0" style="border-collapse: collapse; font-family: Calibri, Arial, sans-serif; font-size: 10pt; width: 100%;">';
+        html += "<tr>";
+        html +=
+          '<th style="border: 1px solid #000; padding: 6px 10px; background-color: #1e3a5f; color: #ffffff; font-weight: bold; text-align: left;">Application</th>';
+        html +=
+          '<th style="border: 1px solid #000; padding: 6px 10px; background-color: #1e3a5f; color: #ffffff; font-weight: bold; text-align: left;">Requester</th>';
+        html +=
+          '<th style="border: 1px solid #000; padding: 6px 10px; background-color: #1e3a5f; color: #ffffff; font-weight: bold; text-align: left;">Incident / Defect ID</th>';
+        html +=
+          '<th style="border: 1px solid #000; padding: 6px 10px; background-color: #1e3a5f; color: #ffffff; font-weight: bold; text-align: left;">Hotfix Number</th>';
+        html +=
+          '<th style="border: 1px solid #000; padding: 6px 10px; background-color: #1e3a5f; color: #ffffff; font-weight: bold; text-align: left;">Complete Description of Fixes</th>';
+        html += "</tr>";
+
+        if (!data.details.length) {
+          html +=
+            '<tr><td colspan="5" style="border: 1px solid #cccccc; padding: 8px 10px; text-align: center; font-style: italic;">No pending PROD fixes to show.</td></tr>';
+        } else {
+          data.details.forEach(function (row) {
+            html += "<tr>";
+            html +=
+              '<td style="border: 1px solid #cccccc; padding: 4px 10px;">' +
+              escapeHtml(row.application) +
+              "</td>";
+            html +=
+              '<td style="border: 1px solid #cccccc; padding: 4px 10px;">' +
+              escapeHtml(row.requester) +
+              "</td>";
+            html +=
+              '<td style="border: 1px solid #cccccc; padding: 4px 10px;">' +
+              escapeHtml(row.incidentId) +
+              "</td>";
+            html +=
+              '<td style="border: 1px solid #cccccc; padding: 4px 10px;">' +
+              escapeHtml(row.hotfixNumber) +
+              "</td>";
+            html +=
+              '<td style="border: 1px solid #cccccc; padding: 4px 10px;">' +
+              escapeHtml(row.description) +
+              "</td>";
+            html += "</tr>";
           });
-          html += '<tr>';
-          html += '<td style="border: 1px solid #cccccc; padding: 4px 12px;">&#9658; ' + groupName + '</td>';
-          html += '<td style="border: 1px solid #cccccc; padding: 4px 12px; text-align: center;">' + count + '</td>';
-          html += '</tr>';
-        });
-        
-        html += '<tr>';
-        html += '<td style="border: 1px solid #000000; padding: 4px 12px; background-color: #fef08a; font-weight: bold;">Total</td>';
-        html += '<td style="border: 1px solid #000000; padding: 4px 12px; background-color: #fef08a; font-weight: bold; text-align: center;">' + allDefectIds.size + '</td>';
-        html += '</tr>';
-        html += '</table><br>';
-        
-        html += '<p><strong>DETAILS:</strong></p>';
-        rows.forEach(function (groupName) {
-          var group = appGroups[groupName];
-          var defectKeys = Object.keys(group.defects).sort();
-          if (defectKeys.length > 0) {
-            html += '<p style="margin-bottom: 2px;"><strong>' + groupName + ':</strong></p>';
-            html += '<ul style="margin-top: 2px; margin-bottom: 12px;">';
-            defectKeys.forEach(function (id) {
-              var hotfix = group.defects[id] || "—";
-              html += '<li>' + id + ' - ' + hotfix + '</li>';
-            });
-            html += '</ul>';
-          }
-        });
-        
-        html += '<br><p>Thanks and Best Regards</p>';
-        html += '</div>';
-        
+        }
+
+        html += "</table>";
+        html += "<br><p>Thanks and Best Regards</p>";
+        html += "</div>";
+
         return html;
       }
 
@@ -15703,74 +16701,214 @@
       }
 
       function doExportCountOfFixes(hasXlsx) {
-        var list = readSavedEntries();
-        var pending = list.filter(function (e) {
-          if (!e || e.deletedAt || e.archivedAt || e.parked) return false;
-          var prodStatus = (e.prodDeploymentStatus || "").trim().toLowerCase();
-          return prodStatus === "pending";
+        var data = collectCountOfFixesData();
+        var summaryRows = [["Application", "Count of Fixes"]];
+        data.summary.forEach(function (item) {
+          summaryRows.push([item.group, item.count]);
         });
-        
-        var appGroups = {
-          "FE": { apps: ["ASOM", "CRM", "MCO", "OMS", "SDP", "WSF"], defectIds: new Set() },
-          "BE": { apps: [], defectIds: new Set(), isABP: true },
-          "ODS": { apps: ["ODS"], defectIds: new Set() },
-          "Digital": { apps: ["OMNI"], defectIds: new Set() },
-          "Infra": { apps: ["ABP - Infra"], defectIds: new Set() }
-        };
-        
-        pending.forEach(function (entry) {
-          var appName = (entry.application || "").trim();
-          var defectId = (entry.incidentId || "").trim();
-          if (!defectId) return;
-          
-          if (appName === "ABP - Infra") {
-            appGroups["Infra"].defectIds.add(defectId);
-          } else if (appName.toUpperCase().startsWith("ABP")) {
-            appGroups["BE"].defectIds.add(defectId);
-          } else {
-            Object.keys(appGroups).forEach(function (groupKey) {
-              if (groupKey === "BE" || groupKey === "Infra") return;
-              var group = appGroups[groupKey];
-              group.apps.forEach(function (app) {
-                if (appName.toUpperCase() === app.toUpperCase() || 
-                    appName.toUpperCase().indexOf(app.toUpperCase()) === 0) {
-                  group.defectIds.add(defectId);
-                }
-              });
-            });
-          }
-        });
-        
-        var rows = ["FE", "BE", "ODS", "Digital", "Infra"];
-        var allDefectIds = new Set();
-        var data = [["Application", "Count of Fixes"]];
-        
-        rows.forEach(function (groupName) {
-          var group = appGroups[groupName];
-          var count = group.defectIds.size;
-          group.defectIds.forEach(function (id) {
-            allDefectIds.add(id);
-          });
-          data.push([groupName, count]);
-        });
-        
-        data.push(["Total", allDefectIds.size]);
-        
-        if (hasXlsx && window.XLSX) {
-          var ws = XLSX.utils.aoa_to_sheet(data);
-          var wb = XLSX.utils.book_new();
-          XLSX.utils.book_append_sheet(wb, ws, "Count of Fixes");
-          XLSX.writeFile(wb, "count_of_fixes_" + new Date().toISOString().slice(0, 10) + ".xlsx");
+        summaryRows.push(["Total", data.total]);
+
+        var DETAILS_CHECKLIST_HEADERS = [
+          "Test Results",
+          "BUS Sign Off already obtained . Required for RFC approval (If applicable)",
+          "Amdocs Lead sign off , Reviewed the changes and impacts",
+          "Will change possible affect MSC / My account",
+          "If change has manual steps DB or UNIX , meeting with TI team",
+          "Will it be touching core Tables",
+          "what needs to be added considered added testing/checking for after release outside of regression standards",
+          "OPTUS PM Approval"
+        ];
+        var DETAILS_TRAILING_HEADERS = [
+          "If change has manual steps DB or UNIX , meeting with TI team(Implementer)",
+          "Amdocs person who reviewed the HF deployment after fix (please add the screen shots of what was checked to other tabs)"
+        ];
+        var detailHeader = [
+          "Application",
+          "Requester",
+          "Incident / Defect ID",
+          "Hotfix Number",
+          "Complete Description of Fixes"
+        ]
+          .concat(DETAILS_CHECKLIST_HEADERS)
+          .concat(DETAILS_TRAILING_HEADERS);
+
+        var detailRows = [detailHeader];
+        function buildDetailExtraCells(row) {
+          return [
+            "", /* Test Results */
+            "", /* BUS Sign Off */
+            "", /* Amdocs Lead sign off */
+            "NO", /* Will change possible affect MSC / My account */
+            row && row.deploymentType ? row.deploymentType : "", /* TI team meeting = deployment type */
+            "NO", /* Will it be touching core Tables */
+            "Application team will do the validation after the deployment", /* extra testing */
+            "", /* OPTUS PM Approval */
+            "", /* Implementer (trailing) */
+            "" /* Amdocs reviewer (trailing) */
+          ];
+        }
+        if (!data.details.length) {
+          detailRows.push(
+            ["No pending PROD fixes to show.", "", "", "", ""].concat(
+              buildDetailExtraCells(null)
+            )
+          );
         } else {
-          var csv = data.map(function (r) {
-            return r.map(function (c) {
-              return '"' + String(c).replace(/"/g, '""') + '"';
-            }).join(",");
-          }).join("\n");
+          data.details.forEach(function (row) {
+            detailRows.push(
+              [
+                row.application,
+                row.requester,
+                row.incidentId,
+                row.hotfixNumber,
+                row.description
+              ].concat(buildDetailExtraCells(row))
+            );
+          });
+        }
+
+        var fileStamp = new Date().toISOString().slice(0, 10);
+        if (hasXlsx && window.XLSX) {
+          var wb = XLSX.utils.book_new();
+          var wsSummary = XLSX.utils.aoa_to_sheet(summaryRows);
+          var wsDetails = XLSX.utils.aoa_to_sheet(detailRows);
+
+          function excelHeaderStyle(rgb) {
+            return {
+              fill: { patternType: "solid", fgColor: { rgb: rgb } },
+              font: { bold: true, name: "Calibri", sz: 11, color: { rgb: "000000" } },
+              alignment: {
+                wrapText: true,
+                vertical: "center",
+                horizontal: "left"
+              },
+              border: {
+                top: { style: "thin", color: { rgb: "000000" } },
+                bottom: { style: "thin", color: { rgb: "000000" } },
+                left: { style: "thin", color: { rgb: "000000" } },
+                right: { style: "thin", color: { rgb: "000000" } }
+              }
+            };
+          }
+
+          function excelBodyStyle() {
+            return {
+              font: { name: "Calibri", sz: 10, color: { rgb: "000000" } },
+              alignment: { wrapText: true, vertical: "top", horizontal: "left" },
+              border: {
+                top: { style: "thin", color: { rgb: "000000" } },
+                bottom: { style: "thin", color: { rgb: "000000" } },
+                left: { style: "thin", color: { rgb: "000000" } },
+                right: { style: "thin", color: { rgb: "000000" } }
+              }
+            };
+          }
+
+          function applySheetStyles(ws, rowCount, colCount, headerColors) {
+            if (!ws || !ws["!ref"]) return;
+            var r;
+            var c;
+            for (c = 0; c < colCount; c++) {
+              var headerAddr = XLSX.utils.encode_cell({ r: 0, c: c });
+              if (!ws[headerAddr]) {
+                ws[headerAddr] = { t: "s", v: "" };
+              }
+              ws[headerAddr].s = excelHeaderStyle(headerColors[c] || "D9E2F3");
+            }
+            for (r = 1; r < rowCount; r++) {
+              for (c = 0; c < colCount; c++) {
+                var addr = XLSX.utils.encode_cell({ r: r, c: c });
+                if (!ws[addr]) {
+                  ws[addr] = { t: "s", v: "" };
+                }
+                ws[addr].s = excelBodyStyle();
+              }
+            }
+            ws["!rows"] = [{ hpt: 60 }];
+            for (r = 1; r < rowCount; r++) {
+              ws["!rows"].push({ hpt: 65 });
+            }
+          }
+
+          /* Summary sheet header */
+          applySheetStyles(wsSummary, summaryRows.length, 2, ["475569", "475569"]);
+          if (wsSummary["A1"] && wsSummary["A1"].s) {
+            wsSummary["A1"].s.font.color = { rgb: "FFFFFF" };
+            wsSummary["B1"].s.font.color = { rgb: "FFFFFF" };
+          }
+          wsSummary["!cols"] = [{ wch: 14 }, { wch: 16 }];
+
+          /* Details sheet: blue (data) | peach (checklist) | green (trailing) */
+          var detailHeaderColors = [
+            "BDD7EE",
+            "BDD7EE",
+            "BDD7EE",
+            "BDD7EE",
+            "BDD7EE",
+            "F4B084",
+            "F4B084",
+            "F4B084",
+            "F4B084",
+            "F4B084",
+            "F4B084",
+            "F4B084",
+            "F4B084",
+            "C6E0B4",
+            "C6E0B4"
+          ];
+          applySheetStyles(
+            wsDetails,
+            detailRows.length,
+            detailHeader.length,
+            detailHeaderColors
+          );
+          wsDetails["!cols"] = [
+            { wch: 14 },
+            { wch: 16 },
+            { wch: 18 },
+            { wch: 14 },
+            { wch: 36 },
+            { wch: 14 },
+            { wch: 22 },
+            { wch: 22 },
+            { wch: 18 },
+            { wch: 22 },
+            { wch: 16 },
+            { wch: 26 },
+            { wch: 16 },
+            { wch: 24 },
+            { wch: 28 }
+          ];
+
+          XLSX.utils.book_append_sheet(wb, wsSummary, "Count of Fixes");
+          XLSX.utils.book_append_sheet(wb, wsDetails, "Details of Fixes");
+          XLSX.writeFile(wb, "count_of_fixes_" + fileStamp + ".xlsx");
+        } else {
+          var csv =
+            "Count of Fixes\n" +
+            summaryRows
+              .map(function (r) {
+                return r
+                  .map(function (c) {
+                    return '"' + String(c).replace(/"/g, '""') + '"';
+                  })
+                  .join(",");
+              })
+              .join("\n") +
+            "\n\nDetails of Fixes\n" +
+            detailRows
+              .map(function (r) {
+                return r
+                  .map(function (c) {
+                    return '"' + String(c).replace(/"/g, '""') + '"';
+                  })
+                  .join(",");
+              })
+              .join("\n");
           var blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
           var link = document.createElement("a");
           link.href = URL.createObjectURL(blob);
-          link.download = "count_of_fixes_" + new Date().toISOString().slice(0, 10) + ".csv";
+          link.download = "count_of_fixes_" + fileStamp + ".csv";
           link.click();
         }
       }
@@ -16329,12 +17467,7 @@
         window.addEventListener("scroll", updateBackToTopVisibility, { passive: true });
         updateBackToTopVisibility();
         backToTopBtn.addEventListener("click", function () {
-          var mainHeading = document.getElementById("mainHeading");
-          if (mainHeading) {
-            mainHeading.scrollIntoView({ behavior: "smooth", block: "start" });
-          } else {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }
+          window.scrollTo({ top: 0, behavior: "smooth" });
         });
       }
 
@@ -17136,8 +18269,6 @@
     <div class="status-bar-right">
       <span id="statusUserName" title="">Local Dev</span>
       <button type="button" id="statusSignOutBtn" hidden title="Sign out">Sign Out</button>
-      <button type="button" id="statusViewLogBtn">📋 Activity Log</button>
-      <button type="button" id="statusQuickBackup">💾 Quick Backup</button>
       <button type="button" id="statusVerifyEntries">✓ Verify Entries</button>
     </div>
   </div>
