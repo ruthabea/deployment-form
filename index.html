@@ -6775,10 +6775,6 @@
               </div>
             </div>
           </div>
-          <a href="#deleted">
-            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></span>
-            Deleted Hotfixes
-          </a>
           <a href="#summary">
             <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
             Summary / Deployed
@@ -6850,21 +6846,25 @@
               </div>
             </div>
           </div>
-          <a href="#weekly-trend">
-            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>
-            Weekly Trend
+          <a href="#deleted">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></span>
+            Deleted Hotfixes
+          </a>
+          <a href="#stats">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span>
+            Stats
           </a>
           <a href="#monthly-trend">
             <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-6M22 20H2"/></svg></span>
             Monthly Trend
           </a>
+          <a href="#weekly-trend">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>
+            Weekly Trend
+          </a>
           <a href="#count-of-fixes">
             <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 20V4M12 20v-8M17 20V9"/></svg></span>
             Count of Fixes
-          </a>
-          <a href="#stats">
-            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span>
-            Stats
           </a>
           <div class="sidebar-section-label">Admin</div>
           <button type="button" class="sidebar-nav-action" id="navQuickBackupBtn" title="Download a quick backup file">
@@ -14630,6 +14630,20 @@
           var mondayParts = key.split("-");
           var monday = new Date(parseInt(mondayParts[0]), parseInt(mondayParts[1]) - 1, parseInt(mondayParts[2]));
           if (monday > today) return false;
+          /* 2026 onwards: include week if Mon or Fri falls in/after TREND_MIN_MONTH_KEY */
+          var friday = new Date(monday);
+          friday.setDate(monday.getDate() + 4);
+          var mondayKey =
+            monday.getFullYear() +
+            "-" +
+            String(monday.getMonth() + 1).padStart(2, "0");
+          var fridayKey =
+            friday.getFullYear() +
+            "-" +
+            String(friday.getMonth() + 1).padStart(2, "0");
+          if (mondayKey < TREND_MIN_MONTH_KEY && fridayKey < TREND_MIN_MONTH_KEY) {
+            return false;
+          }
           return true;
         });
         var weeklyTrendContent = document.getElementById("weeklyTrendContent");
@@ -15781,9 +15795,9 @@
         var currentMonth = today.getMonth();
         var currentMonthKey = currentYear + "-" + String(currentMonth + 1).padStart(2, "0");
         
-        // Only show previous months (exclude current month)
+        // Only show previous months from 2026 onwards (exclude current month)
         var monthKeys = allMonthKeys.filter(function (key) {
-          return key < currentMonthKey;
+          return key >= TREND_MIN_MONTH_KEY && key < currentMonthKey;
         });
         
         if (!monthKeys.length) {
