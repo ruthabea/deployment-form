@@ -100,10 +100,11 @@
       --radius: 10px;
       --font: system-ui, "Segoe UI", Roboto, sans-serif;
     }
-    * { box-sizing: border-box; }
     html {
+      --status-bar-clearance: 2.85rem;
       height: 100%;
     }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       min-height: 100vh;
@@ -130,7 +131,7 @@
       display: flex;
       flex-direction: column;
       gap: 1.25rem;
-      padding: 1.15rem 0.85rem 1.25rem;
+      padding: 1.15rem 0.85rem calc(0.85rem + var(--status-bar-clearance));
       background: var(--sidebar-bg);
       border-right: 1px solid var(--sidebar-border);
       color: var(--sidebar-text);
@@ -138,8 +139,100 @@
       top: 0;
       height: 100vh;
       overflow-y: auto;
+      overflow-x: hidden;
       z-index: 40;
-      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+      transition: width 0.2s ease, padding 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+    .sidebar-collapse-bar {
+      margin-top: auto;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--sidebar-border);
+      flex-shrink: 0;
+    }
+    .sidebar-collapse-btn {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0.55rem;
+      width: 100%;
+      padding: 0.55rem 0.7rem;
+      border: none;
+      border-radius: 0.55rem;
+      background: transparent;
+      color: var(--sidebar-link);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: var(--ui-size);
+      font-weight: var(--ui-weight);
+      line-height: 1.2;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .sidebar-collapse-btn:hover {
+      color: var(--sidebar-hover-text);
+      background: var(--sidebar-hover-bg);
+    }
+    .sidebar-collapse-btn .nav-ico {
+      width: 1.05rem;
+      height: 1.05rem;
+      flex-shrink: 0;
+      opacity: 0.9;
+    }
+    .sidebar-collapse-btn .nav-ico svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .sidebar-collapse-btn .sidebar-collapse-expand-ico {
+      display: none;
+    }
+    .wrap.sidebar-collapsed .app-sidebar {
+      width: 4.35rem;
+      padding-left: 0.55rem;
+      padding-right: 0.55rem;
+      gap: 0.85rem;
+    }
+    .wrap.sidebar-collapsed .sidebar-brand {
+      align-items: center;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .wrap.sidebar-collapsed .sidebar-brand-row {
+      justify-content: center;
+    }
+    .wrap.sidebar-collapsed .sidebar-brand-logo {
+      width: 2.15rem;
+      height: 2.15rem;
+    }
+    .wrap.sidebar-collapsed .sidebar-brand-wordmark,
+    .wrap.sidebar-collapsed .sidebar-brand-sub,
+    .wrap.sidebar-collapsed .sidebar-section-label,
+    .wrap.sidebar-collapsed .sidebar-saved-filters,
+    .wrap.sidebar-collapsed .sidebar-collapse-label {
+      display: none !important;
+    }
+    .wrap.sidebar-collapsed .header-saved-link a,
+    .wrap.sidebar-collapsed .header-nav-links .sidebar-nav-action,
+    .wrap.sidebar-collapsed .sidebar-collapse-btn {
+      justify-content: center;
+      gap: 0;
+      padding: 0.55rem;
+      font-size: 0;
+    }
+    .wrap.sidebar-collapsed .header-saved-link a .nav-ico,
+    .wrap.sidebar-collapsed .header-nav-links .sidebar-nav-action .nav-ico,
+    .wrap.sidebar-collapsed .sidebar-collapse-btn .nav-ico {
+      margin: 0;
+    }
+    .wrap.sidebar-collapsed .sidebar-collapse-btn .sidebar-collapse-collapse-ico {
+      display: none;
+    }
+    .wrap.sidebar-collapsed .sidebar-collapse-btn .sidebar-collapse-expand-ico {
+      display: block;
     }
     .sidebar-brand {
       display: flex;
@@ -496,6 +589,24 @@
       .sidebar-section-label {
         flex: 0 0 100%;
         margin-top: 0.5rem;
+      }
+      .sidebar-collapse-bar {
+        display: none;
+      }
+      .wrap.sidebar-collapsed .app-sidebar {
+        width: 100%;
+        padding: 1.15rem 0.85rem 1.25rem;
+      }
+      .wrap.sidebar-collapsed .sidebar-brand-wordmark,
+      .wrap.sidebar-collapsed .sidebar-brand-sub,
+      .wrap.sidebar-collapsed .sidebar-section-label,
+      .wrap.sidebar-collapsed .header-saved-link a,
+      .wrap.sidebar-collapsed .header-nav-links .sidebar-nav-action {
+        display: revert;
+        font-size: var(--ui-size);
+        justify-content: flex-start;
+        gap: 0.65rem;
+        padding: 0.55rem 0.7rem;
       }
     }
     .network-share-banner {
@@ -1834,221 +1945,267 @@
     .bulk-actions-panel {
       display: none;
       flex-direction: column;
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 1rem;
+      padding: 0.65rem 0.85rem 0.75rem;
+      margin-bottom: 0.75rem;
       background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-      border: 1px solid #3b82f6;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
-      gap: 1rem;
+      border: 1px solid #93c5fd;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(59, 130, 246, 0.1);
+      gap: 0.55rem;
     }
     .bulk-actions-panel.visible {
       display: flex;
     }
     [data-theme="dark"] .bulk-actions-panel {
-      background: linear-gradient(135deg, #1e3a5f 0%, #172554 100%);
-      border-color: #3b82f6;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35);
+      background: #1a2332;
+      border-color: #334155;
+      box-shadow: none;
     }
     .bulk-panel-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-bottom: 0.85rem;
-      border-bottom: 1px solid rgba(59, 130, 246, 0.25);
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid rgba(59, 130, 246, 0.22);
+    }
+    [data-theme="dark"] .bulk-panel-header {
+      border-bottom-color: rgba(148, 163, 184, 0.18);
     }
     .bulk-panel-title {
-      font-size: 0.95rem;
-      font-weight: 400;
+      font-size: 0.72rem;
+      font-weight: 600;
       color: #1e40af;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.35rem;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.04em;
     }
     .bulk-panel-title svg {
-      width: 20px;
-      height: 20px;
+      width: 14px;
+      height: 14px;
     }
     [data-theme="dark"] .bulk-panel-title {
-      color: #93c5fd;
+      color: #94a3b8;
     }
     .bulk-actions-panel .bulk-selected-count {
-      font-weight: 400;
-      font-size: 1rem;
+      font-weight: 500;
+      font-size: 0.7rem;
       color: #1d4ed8;
       background: rgba(59, 130, 246, 0.15);
-      padding: 0.4rem 0.9rem;
-      border-radius: 20px;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.25rem;
+      line-height: 1.3;
     }
     [data-theme="dark"] .bulk-actions-panel .bulk-selected-count {
-      color: #60a5fa;
-      background: rgba(96, 165, 250, 0.2);
+      color: #94a3b8;
+      background: rgba(148, 163, 184, 0.12);
     }
     .bulk-panel-body {
       display: flex;
-      gap: 1.5rem;
+      gap: 0.85rem;
       flex-wrap: wrap;
-      align-items: flex-start;
+      align-items: flex-end;
     }
     .bulk-actions-panel select {
-      padding: 0.55rem 0.85rem;
-      border-radius: 8px;
+      padding: 0.3rem 0.55rem;
+      border-radius: 5px;
       border: 1px solid rgba(59, 130, 246, 0.4);
       background: var(--input-bg);
       color: var(--text);
-      font-size: 0.85rem;
-      min-width: 170px;
+      font-size: 0.75rem;
+      min-width: 140px;
+      line-height: 1.3;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
     .bulk-actions-panel select:focus {
       outline: none;
       border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.18);
     }
     .bulk-panel-actions {
       display: flex;
-      gap: 0.65rem;
+      flex-wrap: wrap;
+      gap: 0.35rem;
       align-items: center;
       margin-left: auto;
-      padding-top: 0.5rem;
+      padding-top: 0;
+    }
+    .bulk-actions-panel .btn-bulk-apply,
+    .bulk-actions-panel .btn-bulk-park,
+    .bulk-actions-panel .btn-bulk-unpark,
+    .bulk-actions-panel .btn-bulk-clear {
+      padding: 0.28rem 0.65rem;
+      border-radius: 5px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      line-height: 1.3;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+      box-shadow: none;
+      white-space: nowrap;
+    }
+    .bulk-actions-panel .btn-bulk-apply:hover,
+    .bulk-actions-panel .btn-bulk-park:hover,
+    .bulk-actions-panel .btn-bulk-unpark:hover {
+      transform: none;
     }
     .bulk-actions-panel .btn-bulk-apply {
-      padding: 0.7rem 1.5rem;
-      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-      color: white;
+      background: #2563eb;
+      color: #fff;
       border: none;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 400;
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.35);
     }
     .bulk-actions-panel .btn-bulk-apply:hover {
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 12px rgba(37, 99, 235, 0.45);
+      background: #1d4ed8;
     }
     .bulk-actions-panel .btn-bulk-clear {
-      padding: 0.7rem 1.25rem;
       background: transparent;
       color: #6b7280;
       border: 1px solid rgba(107, 114, 128, 0.4);
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 400;
-      cursor: pointer;
-      transition: background 0.15s, border-color 0.15s;
     }
     .bulk-actions-panel .btn-bulk-clear:hover {
       background: rgba(107, 114, 128, 0.1);
       border-color: #6b7280;
     }
     [data-theme="dark"] .bulk-actions-panel .btn-bulk-clear {
-      color: #9ca3af;
-      border-color: rgba(156, 163, 175, 0.4);
+      color: #94a3b8;
+      border-color: rgba(148, 163, 184, 0.28);
     }
     [data-theme="dark"] .bulk-actions-panel .btn-bulk-clear:hover {
-      background: rgba(156, 163, 175, 0.15);
+      background: rgba(148, 163, 184, 0.1);
+      color: #e2e8f0;
     }
     .bulk-actions-panel .btn-bulk-park {
-      padding: 0.7rem 1.25rem;
-      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
-      color: white;
+      background: #4b5563;
+      color: #fff;
       border: none;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 400;
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 3px 8px rgba(75, 85, 99, 0.35);
     }
     .bulk-actions-panel .btn-bulk-park:hover {
-      background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 12px rgba(75, 85, 99, 0.45);
+      background: #374151;
     }
     .bulk-actions-panel .btn-bulk-unpark {
-      padding: 0.7rem 1.25rem;
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
+      background: #059669;
+      color: #fff;
       border: none;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 400;
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 3px 8px rgba(16, 185, 129, 0.35);
     }
     .bulk-actions-panel .btn-bulk-unpark:hover {
-      background: linear-gradient(135deg, #059669 0%, #047857 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 5px 12px rgba(16, 185, 129, 0.45);
+      background: #047857;
+    }
+    [data-theme="dark"] .bulk-actions-panel .btn-bulk-apply {
+      background: #334155;
+      color: #e2e8f0;
+    }
+    [data-theme="dark"] .bulk-actions-panel .btn-bulk-apply:hover {
+      background: #475569;
+    }
+    [data-theme="dark"] .bulk-actions-panel .btn-bulk-park {
+      background: #1e293b;
+      color: #cbd5e1;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+    }
+    [data-theme="dark"] .bulk-actions-panel .btn-bulk-park:hover {
+      background: #273449;
+      color: #e2e8f0;
+    }
+    [data-theme="dark"] .bulk-actions-panel .btn-bulk-unpark {
+      background: #1e3a34;
+      color: #a7f3d0;
+      border: 1px solid rgba(52, 211, 153, 0.22);
+    }
+    [data-theme="dark"] .bulk-actions-panel .btn-bulk-unpark:hover {
+      background: #234840;
+      color: #d1fae5;
     }
     .saved-table tr.bulk-selected {
       background: rgba(59, 130, 246, 0.1);
     }
     [data-theme="dark"] .saved-table tr.bulk-selected {
-      background: rgba(59, 130, 246, 0.15);
+      background: rgba(148, 163, 184, 0.08);
     }
     .bulk-field-group {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.25rem;
     }
     .bulk-field-group > label {
-      font-size: 0.8rem;
-      font-weight: 400;
+      font-size: 0.7rem;
+      font-weight: 500;
       color: #374151;
-      margin-bottom: 0.1rem;
+      margin-bottom: 0;
+      line-height: 1.2;
     }
     [data-theme="dark"] .bulk-field-group > label {
-      color: #d1d5db;
+      color: #94a3b8;
     }
     .bulk-extras {
       display: flex;
-      gap: 0.85rem;
-      margin-top: 0.5rem;
-      padding: 0.85rem;
+      gap: 0.55rem;
+      margin-top: 0.25rem;
+      padding: 0.45rem 0.55rem;
       background: rgba(255, 255, 255, 0.75);
-      border-radius: 10px;
+      border-radius: 6px;
       border: 1px solid rgba(59, 130, 246, 0.3);
-      box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
+      box-shadow: none;
+      align-items: flex-end;
     }
     [data-theme="dark"] .bulk-extras {
-      background: rgba(0, 0, 0, 0.3);
-      border-color: rgba(59, 130, 246, 0.4);
+      background: rgba(15, 23, 42, 0.55);
+      border-color: rgba(148, 163, 184, 0.2);
     }
     .bulk-extras label {
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
-      font-size: 0.75rem;
-      font-weight: 400;
+      gap: 0.2rem;
+      font-size: 0.68rem;
+      font-weight: 500;
       color: #4b5563;
     }
     [data-theme="dark"] .bulk-extras label {
-      color: #9ca3af;
+      color: #94a3b8;
     }
-    .bulk-input {
-      padding: 0.5rem 0.7rem;
+    .bulk-actions-panel input.bulk-input,
+    .bulk-actions-panel input.bulk-input[type="text"],
+    .bulk-actions-panel input.bulk-input[type="date"] {
+      box-sizing: border-box;
+      height: 1.85rem;
+      min-height: 1.85rem;
+      max-height: 1.85rem;
+      padding: 0.2rem 0.45rem;
       border: 1px solid rgba(59, 130, 246, 0.4);
-      border-radius: 6px;
-      font-size: 0.85rem;
+      border-radius: 5px;
+      font: inherit;
+      font-size: 0.75rem;
+      font-weight: 400;
+      line-height: 1.2;
       background: var(--input-bg);
       color: var(--text);
-      width: 130px;
+      width: 118px;
+      margin: 0;
+      vertical-align: middle;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .bulk-input:focus {
+    [data-theme="dark"] .bulk-actions-panel select,
+    [data-theme="dark"] .bulk-actions-panel input.bulk-input,
+    [data-theme="dark"] .bulk-actions-panel input.bulk-input[type="text"],
+    [data-theme="dark"] .bulk-actions-panel input.bulk-input[type="date"] {
+      border-color: rgba(148, 163, 184, 0.28);
+    }
+    [data-theme="dark"] .bulk-actions-panel select:focus,
+    [data-theme="dark"] .bulk-actions-panel input.bulk-input:focus {
+      border-color: #64748b;
+      box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.12);
+    }
+    .bulk-actions-panel input.bulk-input[type="date"] {
+      width: 128px;
+      padding-right: 0.3rem;
+    }
+    .bulk-actions-panel input.bulk-input:focus {
       outline: none;
       border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.18);
     }
     .saved-table tr:last-child td {
       border-bottom: none;
@@ -2585,24 +2742,43 @@
     }
     .monthly-trend-content {
       display: flex;
-      gap: 2rem;
+      flex-direction: column;
+      gap: 1.15rem;
+      align-items: stretch;
+    }
+    .monthly-trend-main {
+      display: flex;
       flex-wrap: wrap;
+      gap: 1.25rem;
       align-items: flex-start;
     }
     .monthly-trend-left {
-      flex: 0 0 auto;
-    }
-    .monthly-trend-right {
-      flex: 1 1 500px;
-      min-width: 400px;
-      max-width: 800px;
+      flex: 0 1 auto;
+      min-width: 0;
     }
     .monthly-trend-table-wrap {
-      max-width: 580px;
+      width: max-content;
+      max-width: 100%;
       overflow-x: auto;
       border: none;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    .monthly-trend-right {
+      flex: 1 1 420px;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    @media (max-width: 980px) {
+      .monthly-trend-main {
+        flex-direction: column;
+      }
+      .monthly-trend-right {
+        min-width: 0;
+        width: 100%;
+      }
     }
     .monthly-trend-table {
       width: 100%;
@@ -2972,38 +3148,62 @@
       color: var(--accent);
     }
     .monthly-trend-chart-wrap {
+      width: 100%;
+      min-width: 0;
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      padding: 0.65rem 0.85rem 0.4rem;
+      box-sizing: border-box;
+    }
+    html[data-theme="dark"] .monthly-trend-chart-wrap {
       background: var(--card-bg);
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      padding: 1rem;
+      border-color: var(--border);
     }
     .monthly-trend-chart-title {
-      margin: 0 0 0.75rem 0;
-      font-size: 0.95rem;
-      color: var(--fg);
+      margin: 0 0 0.25rem 0;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #111827;
       text-align: center;
+    }
+    html[data-theme="light"] .monthly-trend-chart-title {
+      color: #111827;
+    }
+    html[data-theme="dark"] .monthly-trend-chart-title {
+      color: #f8fafc;
     }
     #monthlyTrendChart {
       width: 100% !important;
-      max-height: 350px;
+      height: 280px !important;
+      max-height: 280px;
     }
     .monthly-trend-area-chart-wrap {
-      background: #1a1a2e;
-      border: 2px solid #333;
-      border-radius: 6px;
-      padding: 1rem;
-      margin-top: 1.5rem;
+      width: 100%;
+      min-width: 0;
+      /* Always dark (Live) — even when page is in light mode */
+      background: #0a0a12;
+      border: 1px solid #1f1f1f;
+      border-radius: 12px;
+      padding: 0.65rem 0.85rem 0.4rem;
+      box-sizing: border-box;
+      display: block;
+    }
+    html[data-theme="dark"] .monthly-trend-area-chart-wrap,
+    html[data-theme="light"] .monthly-trend-area-chart-wrap {
+      background: #0a0a12;
+      border-color: #1f1f1f;
     }
     #monthlyTrendAreaChart {
       width: 100% !important;
-      max-height: 320px;
+      height: 280px !important;
+      max-height: 280px;
     }
     .weekly-deployment-status-wrap {
-      flex: 0 0 100%;
       width: 100%;
-      margin-top: 1.5rem;
-      padding-top: 1.25rem;
-      border-top: 2px solid var(--border);
+      margin-top: 0.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
     }
     .weekly-deployment-status-title {
       font-size: 0.9rem;
@@ -3345,6 +3545,287 @@
       text-align: center;
       padding: 0.85rem 0.65rem !important;
     }
+    .stats-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 0.75rem 1.25rem;
+      margin: 0 0 1.1rem;
+      padding: 0.85rem 1rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 1px 4px var(--shadow-medium);
+    }
+    .stats-toolbar-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      min-width: 12rem;
+    }
+    .stats-toolbar-field label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin: 0;
+    }
+    .stats-toolbar-field select {
+      width: auto;
+      min-width: 22rem;
+      max-width: min(40rem, 100%);
+      padding: 0.45rem 0.65rem;
+      font-size: 0.84rem;
+      border-radius: 8px;
+    }
+    .stats-toolbar-field.stats-month-field {
+      min-width: 9.5rem;
+    }
+    .stats-toolbar-field.stats-month-field select {
+      min-width: 9.5rem;
+      max-width: 12rem;
+    }
+    .stats-toolbar-hint {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin: 0;
+      max-width: 28rem;
+      line-height: 1.4;
+    }
+    .stats-empty {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin: 0.25rem 0 0;
+    }
+    .stats-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: minmax(10rem, 12rem) minmax(16rem, 1fr) minmax(16rem, 1fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+    @media (max-width: 980px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .stats-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px var(--shadow-medium);
+      display: flex;
+      flex-direction: column;
+    }
+    .stats-card-wide {
+      width: 100%;
+      overflow: visible;
+    }
+    .stats-card-wide .stats-card-head {
+      overflow: visible;
+    }
+    .stats-card-head-with-filter {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      overflow: visible;
+    }
+    .stats-card-head-with-filter > span {
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      color: var(--text);
+    }
+    .stats-app-month-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      margin-left: auto;
+    }
+    .stats-view-toggle {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.15rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--input-bg, var(--card-bg));
+      gap: 0.1rem;
+    }
+    .stats-view-toggle-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 0.32rem 0.65rem;
+      border-radius: 999px;
+      cursor: pointer;
+      text-transform: none;
+    }
+    .stats-view-toggle-btn:hover {
+      color: var(--text);
+    }
+    .stats-view-toggle-btn.active {
+      background: var(--accent, #3b82f6);
+      color: #ffffff;
+      box-shadow: 0 1px 3px rgba(37, 99, 235, 0.35);
+    }
+    .stats-multi-month {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .stats-multi-month-btn {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: none;
+      letter-spacing: 0;
+      padding: 0.35rem 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--input-bg, var(--card-bg));
+      color: var(--text);
+      cursor: pointer;
+      min-width: 9.5rem;
+      text-align: center;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+    .stats-multi-month-btn:hover {
+      border-color: var(--accent, #3b82f6);
+      color: var(--accent, #3b82f6);
+    }
+    .stats-multi-month-panel {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 0;
+      z-index: 40;
+      min-width: 12.5rem;
+      max-width: 16rem;
+      max-height: 16rem;
+      overflow: auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+      padding: 0.45rem;
+    }
+    .stats-multi-month-actions {
+      display: flex;
+      gap: 0.4rem;
+      padding: 0.2rem 0.25rem 0.45rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.35rem;
+    }
+    .stats-multi-month-actions button {
+      font-size: 0.7rem;
+      padding: 0.25rem 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--input-bg, var(--bg));
+      color: var(--text);
+      cursor: pointer;
+    }
+    .stats-multi-month-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      min-height: 2rem;
+    }
+    .stats-multi-month-list .stats-multi-month-empty {
+      font-size: 0.74rem;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--muted);
+      padding: 0.45rem 0.35rem;
+      font-style: italic;
+    }
+    .stats-multi-month-list label {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.78rem;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--text) !important;
+      padding: 0.3rem 0.4rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .stats-multi-month-list label:hover {
+      background: rgba(59, 130, 246, 0.08);
+    }
+    .stats-multi-month-list input[type="checkbox"] {
+      cursor: pointer;
+      margin: 0;
+    }
+    .stats-chart-wrap.stats-chart-wrap-tall {
+      min-height: 26rem;
+      height: 26rem;
+      padding: 0.85rem 1rem 1.1rem;
+    }
+    .stats-chart-empty.stats-chart-empty-tall {
+      min-height: 26rem;
+    }
+    .stats-card-head {
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text);
+      flex-shrink: 0;
+      background: linear-gradient(180deg, rgba(148, 163, 184, 0.08) 0%, transparent 100%);
+    }
+    .stats-total-value {
+      padding: 0.75rem 0.75rem;
+      font-size: 6.75rem;
+      font-weight: 700;
+      line-height: 0.9;
+      color: var(--text);
+      text-align: center;
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 18rem;
+      letter-spacing: -0.03em;
+    }
+    .stats-chart-wrap {
+      position: relative;
+      flex: 1 1 auto;
+      min-height: 18rem;
+      height: 18rem;
+      padding: 0.85rem 0.85rem 1rem;
+    }
+    .stats-chart-empty {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      min-height: 18rem;
+      padding: 1rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-style: italic;
+      text-align: center;
+    }
+    .stats-chart-empty.visible {
+      display: flex;
+    }
+    .stats-chart-wrap canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
     .week-selector {
       display: flex;
       gap: 0.75rem;
@@ -3447,6 +3928,14 @@
       animation: trendSectionSlide 0.65s ease-out both;
       animation-delay: 0.14s;
     }
+    .trend-panel-reveal .monthly-trend-chart-wrap {
+      animation: trendSectionSlide 0.65s ease-out both;
+      animation-delay: 0.16s;
+    }
+    .trend-panel-reveal .monthly-trend-area-chart-wrap {
+      animation: trendSectionFade 0.65s ease-out both;
+      animation-delay: 0.22s;
+    }
     .trend-section-reveal {
       animation: trendSectionFade 0.55s ease-out both;
     }
@@ -3465,6 +3954,8 @@
       .trend-panel-reveal .weekly-trend-right,
       .trend-panel-reveal .monthly-trend-left,
       .trend-panel-reveal .monthly-trend-right,
+      .trend-panel-reveal .monthly-trend-chart-wrap,
+      .trend-panel-reveal .monthly-trend-area-chart-wrap,
       .trend-section-reveal,
       .trend-row-animate,
       .trend-chart-animate {
@@ -6103,7 +6594,7 @@
         <div class="sidebar-brand-sub">DEPLOYMENT / HOTFIX REQUEST</div>
       </div>
       <div class="header-saved-link">
-        <nav class="header-nav-links" aria-label="Sections">
+        <nav class="header-nav-links" id="appSidebarNav" aria-label="Sections">
           <div class="sidebar-section-label">Work</div>
           <a href="#new-entry" class="nav-active">
             <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
@@ -6170,6 +6661,16 @@
                   <div class="saved-app-filter-list" id="savedApplicationFilterList" role="listbox" aria-multiselectable="true"></div>
                 </div>
               </div>
+              <label for="savedFilterDeploymentType">Deployment type</label>
+              <select id="savedFilterDeploymentType">
+                <option value="">All types</option>
+                <option value="Amdocs">Amdocs</option>
+                <option value="Auto">Auto</option>
+                <option value="Control-M">Control-M</option>
+                <option value="Manual-DB">Manual-DB</option>
+                <option value="Manual-Unix">Manual-Unix</option>
+                <option value="Middleware">Middleware</option>
+              </select>
               <label for="savedFilterParked">Show</label>
               <select id="savedFilterParked">
                 <option value="active">Active Only</option>
@@ -6248,6 +6749,16 @@
                   <div class="saved-app-filter-list" id="archiveApplicationFilterList" role="listbox" aria-multiselectable="true"></div>
                 </div>
               </div>
+              <label for="archiveFilterDeploymentType">Deployment type</label>
+              <select id="archiveFilterDeploymentType">
+                <option value="">All types</option>
+                <option value="Amdocs">Amdocs</option>
+                <option value="Auto">Auto</option>
+                <option value="Control-M">Control-M</option>
+                <option value="Manual-DB">Manual-DB</option>
+                <option value="Manual-Unix">Manual-Unix</option>
+                <option value="Middleware">Middleware</option>
+              </select>
               <label for="archiveColumnSettingsBtn">Columns</label>
               <div class="column-settings-wrap">
                 <button type="button" class="column-settings-btn btn-column-settings" id="archiveColumnSettingsBtn" title="Column Settings">
@@ -6313,6 +6824,16 @@
                   <div class="saved-app-filter-list" id="summaryApplicationFilterList" role="listbox" aria-multiselectable="true"></div>
                 </div>
               </div>
+              <label for="summaryFilterDeploymentType">Deployment type</label>
+              <select id="summaryFilterDeploymentType">
+                <option value="">All types</option>
+                <option value="Amdocs">Amdocs</option>
+                <option value="Auto">Auto</option>
+                <option value="Control-M">Control-M</option>
+                <option value="Manual-DB">Manual-DB</option>
+                <option value="Manual-Unix">Manual-Unix</option>
+                <option value="Middleware">Middleware</option>
+              </select>
               <label for="summaryColumnSettingsBtn">Columns</label>
               <div class="column-settings-wrap">
                 <button type="button" class="column-settings-btn btn-column-settings" id="summaryColumnSettingsBtn" title="Column Settings">
@@ -6341,6 +6862,10 @@
             <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 20V4M12 20v-8M17 20V9"/></svg></span>
             Count of Fixes
           </a>
+          <a href="#stats">
+            <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></span>
+            Stats
+          </a>
           <div class="sidebar-section-label">Admin</div>
           <button type="button" class="sidebar-nav-action" id="navQuickBackupBtn" title="Download a quick backup file">
             <span class="nav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></span>
@@ -6351,6 +6876,25 @@
             Activity Log
           </button>
         </nav>
+      </div>
+      <div class="sidebar-collapse-bar">
+        <button
+          type="button"
+          class="sidebar-collapse-btn"
+          id="sidebarCollapseBtn"
+          aria-expanded="true"
+          aria-controls="appSidebarNav"
+          title="Collapse sidebar"
+          aria-label="Collapse sidebar"
+        >
+          <span class="nav-ico sidebar-collapse-collapse-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/><path d="M21 4v16"/><path d="M3 4h10v16H3z"/></svg>
+          </span>
+          <span class="nav-ico sidebar-collapse-expand-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/><path d="M3 4v16"/><path d="M11 4h10v16H11z"/></svg>
+          </span>
+          <span class="sidebar-collapse-label">Collapse</span>
+        </button>
       </div>
     </aside>
     <div class="app-main">
@@ -7215,29 +7759,31 @@
       </div>
       <p id="monthlyTrendEmpty" class="saved-empty">No deployment data available. Monthly trends will appear here based on archived entries with deployment dates.</p>
       <div id="monthlyTrendContent" class="monthly-trend-content" hidden>
-        <div class="monthly-trend-left">
-          <div class="monthly-trend-table-wrap">
-            <table class="saved-table monthly-trend-table">
-              <thead>
-                <tr>
-                  <th>Month</th>
-                  <th>PPT Release</th>
-                  <th>PROD RFC</th>
-                  <th>HF Deployed</th>
-                  <th>Defects Deployed</th>
-                </tr>
-              </thead>
-              <tbody id="monthlyTrendBody"></tbody>
-            </table>
+        <div class="monthly-trend-main">
+          <div class="monthly-trend-left">
+            <div class="monthly-trend-table-wrap">
+              <table class="saved-table monthly-trend-table">
+                <thead>
+                  <tr>
+                    <th>Month</th>
+                    <th>PPT Release</th>
+                    <th>PROD RFC</th>
+                    <th>HF Deployed</th>
+                    <th>Defects Deployed</th>
+                  </tr>
+                </thead>
+                <tbody id="monthlyTrendBody"></tbody>
+              </table>
+            </div>
           </div>
-        </div>
-        <div class="monthly-trend-right">
-          <div class="monthly-trend-chart-wrap">
-            <h3 class="monthly-trend-chart-title">Change Management Trend</h3>
-            <canvas id="monthlyTrendChart"></canvas>
-          </div>
-          <div class="monthly-trend-area-chart-wrap">
-            <canvas id="monthlyTrendAreaChart"></canvas>
+          <div class="monthly-trend-right">
+            <div class="monthly-trend-chart-wrap">
+              <h3 class="monthly-trend-chart-title">Change Management Trend</h3>
+              <canvas id="monthlyTrendChart"></canvas>
+            </div>
+            <div class="monthly-trend-area-chart-wrap">
+              <canvas id="monthlyTrendAreaChart"></canvas>
+            </div>
           </div>
         </div>
         <div id="weeklyDeploymentStatusWrap" class="weekly-deployment-status-wrap">
@@ -7434,6 +7980,81 @@
             </thead>
             <tbody id="countOfFixesDetailsBody"></tbody>
           </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="saved-panel tab-panel" id="stats-screen" hidden aria-labelledby="statsHeading">
+      <div class="saved-panel-head">
+        <h2 id="statsHeading">Stats</h2>
+      </div>
+      <div class="stats-toolbar">
+        <div class="stats-toolbar-field stats-month-field">
+          <label for="statsFilterMonth">Month</label>
+          <select id="statsFilterMonth">
+            <option value="">All months</option>
+          </select>
+        </div>
+        <div class="stats-toolbar-field">
+          <label for="statsDeploymentSelect">Deployment</label>
+          <select id="statsDeploymentSelect">
+            <option value="">Select a deployment…</option>
+          </select>
+        </div>
+        <p class="stats-toolbar-hint">
+          Month + Deployment filters apply to Total Entries / Application / Fix Type.
+          Applications by Month loads on its own — use its Months control.
+        </p>
+      </div>
+      <p id="statsEmpty" class="stats-empty">Select a deployment to view deployment stats.</p>
+      <div id="statsContent" class="stats-layout" hidden>
+        <div id="statsDeploymentSection" class="stats-grid" hidden>
+          <div class="stats-card">
+            <div class="stats-card-head">Total Entries</div>
+            <div class="stats-total-value" id="statsTotalValue">0</div>
+          </div>
+          <div class="stats-card">
+            <div class="stats-card-head">Entries per Application</div>
+            <div class="stats-chart-wrap">
+              <canvas id="statsAppChart" aria-label="Entries per application chart"></canvas>
+            </div>
+            <div id="statsAppChartEmpty" class="stats-chart-empty">No applications for this deployment.</div>
+          </div>
+          <div class="stats-card">
+            <div class="stats-card-head">Fix Type</div>
+            <div class="stats-chart-wrap">
+              <canvas id="statsFixTypeChart" aria-label="Fix type chart"></canvas>
+            </div>
+            <div id="statsFixTypeChartEmpty" class="stats-chart-empty">No fix types for this deployment.</div>
+          </div>
+        </div>
+        <div class="stats-card stats-card-wide">
+          <div class="stats-card-head stats-card-head-with-filter">
+            <span>Applications by Month</span>
+            <div class="stats-app-month-controls">
+              <div class="stats-view-toggle" id="statsAppByMonthViewToggle" role="group" aria-label="Chart view mode">
+                <button type="button" class="stats-view-toggle-btn active" data-view-mode="stacked">Stacked</button>
+                <button type="button" class="stats-view-toggle-btn" data-view-mode="grouped">Grouped</button>
+                <button type="button" class="stats-view-toggle-btn" data-view-mode="trend">Trend</button>
+              </div>
+              <div class="stats-multi-month" id="statsAppByMonthFilterWrap">
+                <button type="button" class="stats-multi-month-btn" id="statsAppByMonthFilterBtn" aria-haspopup="listbox" aria-expanded="false">
+                  Months: All
+                </button>
+                <div class="stats-multi-month-panel" id="statsAppByMonthFilterPanel" hidden>
+                  <div class="stats-multi-month-actions">
+                    <button type="button" id="statsAppByMonthSelectAll">Select all</button>
+                    <button type="button" id="statsAppByMonthClear">Clear</button>
+                  </div>
+                  <div class="stats-multi-month-list" id="statsAppByMonthFilterList" role="listbox" aria-multiselectable="true"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="stats-chart-wrap stats-chart-wrap-tall">
+            <canvas id="statsAppByMonthChart" aria-label="Applications by month chart"></canvas>
+          </div>
+          <div id="statsAppByMonthChartEmpty" class="stats-chart-empty stats-chart-empty-tall">No monthly application data.</div>
         </div>
       </div>
     </section>
@@ -7660,6 +8281,40 @@
       var countOfFixesDetailsBody = document.getElementById("countOfFixesDetailsBody");
       var exportCountOfFixesBtn = document.getElementById("exportCountOfFixesBtn");
       var emailCountOfFixesBtn = document.getElementById("emailCountOfFixesBtn");
+      var statsScreen = document.getElementById("stats-screen");
+      var statsNavLink = document.querySelector('.header-saved-link a[href="#stats"]');
+      var statsDeploymentSelect = document.getElementById("statsDeploymentSelect");
+      var statsFilterMonth = document.getElementById("statsFilterMonth");
+      var statsEmpty = document.getElementById("statsEmpty");
+      var statsContent = document.getElementById("statsContent");
+      var statsDeploymentSection = document.getElementById("statsDeploymentSection");
+      var statsTotalValue = document.getElementById("statsTotalValue");
+      var statsAppChartEmpty = document.getElementById("statsAppChartEmpty");
+      var statsFixTypeChartEmpty = document.getElementById("statsFixTypeChartEmpty");
+      var statsAppByMonthChartEmpty = document.getElementById("statsAppByMonthChartEmpty");
+      var statsAppByMonthFilterBtn = document.getElementById("statsAppByMonthFilterBtn");
+      var statsAppByMonthFilterPanel = document.getElementById("statsAppByMonthFilterPanel");
+      var statsAppByMonthFilterList = document.getElementById("statsAppByMonthFilterList");
+      var statsAppByMonthSelectAllBtn = document.getElementById("statsAppByMonthSelectAll");
+      var statsAppByMonthClearBtn = document.getElementById("statsAppByMonthClear");
+      var statsAppByMonthViewToggle = document.getElementById("statsAppByMonthViewToggle");
+      var statsAppChartInstance = null;
+      var statsFixTypeChartInstance = null;
+      var statsAppByMonthChartInstance = null;
+      var statsMatchedEntriesCache = [];
+      var statsAppByMonthMeta = null;
+      var statsAppByMonthSelectedKeys = null;
+      var statsAppByMonthLastEnv = "ALL";
+      var statsAppByMonthViewMode = "stacked";
+      var STATS_APP_BY_MONTH_VIEW_KEY = "statsAppByMonthViewMode_v1";
+      var STATS_APP_BY_MONTH_MIN_KEY = "2026-01";
+      var TREND_MIN_MONTH_KEY = "2026-01"; /* Weekly + Monthly Trend: 2026 onwards */
+      try {
+        var savedViewMode = localStorage.getItem(STATS_APP_BY_MONTH_VIEW_KEY);
+        if (savedViewMode === "stacked" || savedViewMode === "grouped" || savedViewMode === "trend") {
+          statsAppByMonthViewMode = savedViewMode;
+        }
+      } catch (eViewMode) {}
       var emailModalOverlay = document.getElementById("emailModalOverlay");
       var emailModalCloseBtn = document.getElementById("emailModalCloseBtn");
       var emailTo = document.getElementById("emailTo");
@@ -7672,7 +8327,7 @@
       var newEntryPanel = document.getElementById("new-entry-panel");
       var newEntryNavLink = document.querySelector('.header-saved-link a[href="#new-entry"]');
       var allNavLinks = document.querySelectorAll('.header-nav-links a');
-      var allPanels = [newEntryPanel, savedEntriesPanel, archiveScreen, deletedScreen, summaryScreen, weeklyTrendScreen, monthlyTrendScreen, calendarScreen, countOfFixesScreen];
+      var allPanels = [newEntryPanel, savedEntriesPanel, archiveScreen, deletedScreen, summaryScreen, weeklyTrendScreen, monthlyTrendScreen, calendarScreen, countOfFixesScreen, statsScreen];
       var THEME_STORAGE_KEY = "deploymentFormTheme_v1";
 
       function updateActiveNavLink(activeLink) {
@@ -7825,6 +8480,42 @@
       }
       initThemeToggle();
 
+      function initSidebarCollapse() {
+        var wrap = document.querySelector(".wrap");
+        var btn = document.getElementById("sidebarCollapseBtn");
+        var key = "deploymentSidebarCollapsed_v1";
+        if (!wrap || !btn) return;
+
+        function applyCollapsed(collapsed) {
+          wrap.classList.toggle("sidebar-collapsed", !!collapsed);
+          btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+          btn.setAttribute(
+            "title",
+            collapsed ? "Expand sidebar" : "Collapse sidebar"
+          );
+          btn.setAttribute(
+            "aria-label",
+            collapsed ? "Expand sidebar" : "Collapse sidebar"
+          );
+          var label = btn.querySelector(".sidebar-collapse-label");
+          if (label) label.textContent = collapsed ? "Expand" : "Collapse";
+          try {
+            localStorage.setItem(key, collapsed ? "1" : "0");
+          } catch (eSidebar) {}
+        }
+
+        var saved = false;
+        try {
+          saved = localStorage.getItem(key) === "1";
+        } catch (eSidebarRead) {}
+        applyCollapsed(saved);
+
+        btn.addEventListener("click", function () {
+          applyCollapsed(!wrap.classList.contains("sidebar-collapsed"));
+        });
+      }
+      initSidebarCollapse();
+
       function stripHashIf(fragment) {
         try {
           if (window.location.hash === fragment) {
@@ -7864,6 +8555,7 @@
         concealMonthlyTrendPanel();
         concealCalendarPanel();
         concealCountOfFixesPanel();
+        concealStatsPanel();
         savedEntriesPanel.removeAttribute("hidden");
       }
 
@@ -7882,6 +8574,7 @@
         concealMonthlyTrendPanel();
         concealCalendarPanel();
         concealCountOfFixesPanel();
+        concealStatsPanel();
         archiveScreen.removeAttribute("hidden");
       }
 
@@ -7900,6 +8593,7 @@
         concealMonthlyTrendPanel();
         concealCalendarPanel();
         concealCountOfFixesPanel();
+        concealStatsPanel();
         deletedScreen.removeAttribute("hidden");
       }
 
@@ -7926,6 +8620,7 @@
         concealMonthlyTrendPanel();
         concealCalendarPanel();
         concealCountOfFixesPanel();
+        concealStatsPanel();
         summaryScreen.removeAttribute("hidden");
       }
 
@@ -7952,6 +8647,7 @@
         concealCalendarPanel();
         concealMonthlyTrendPanel();
         concealCountOfFixesPanel();
+        concealStatsPanel();
         weeklyTrendScreen.removeAttribute("hidden");
       }
       
@@ -7978,6 +8674,7 @@
         concealWeeklyTrendPanel();
         concealCalendarPanel();
         concealCountOfFixesPanel();
+        concealStatsPanel();
         monthlyTrendScreen.removeAttribute("hidden");
       }
 
@@ -8004,6 +8701,7 @@
         concealWeeklyTrendPanel();
         concealMonthlyTrendPanel();
         concealCountOfFixesPanel();
+        concealStatsPanel();
         calendarScreen.removeAttribute("hidden");
         renderCalendar();
       }
@@ -8031,14 +8729,43 @@
         concealWeeklyTrendPanel();
         concealMonthlyTrendPanel();
         concealCalendarPanel();
+        concealStatsPanel();
         countOfFixesScreen.removeAttribute("hidden");
         renderCountOfFixes();
+      }
+
+      function stripStatsHash() {
+        if (window.location.hash === "#stats") {
+          try {
+            history.replaceState(null, "", window.location.pathname + window.location.search);
+          } catch (e) {}
+        }
+      }
+
+      function concealStatsPanel() {
+        if (!statsScreen) return;
+        statsScreen.setAttribute("hidden", "");
+        stripStatsHash();
+      }
+
+      function revealStatsPanel() {
+        if (!statsScreen) return;
+        concealSavedEntriesPanel();
+        concealArchivePanel();
+        concealDeletedPanel();
+        concealSummaryPanel();
+        concealWeeklyTrendPanel();
+        concealMonthlyTrendPanel();
+        concealCalendarPanel();
+        concealCountOfFixesPanel();
+        statsScreen.removeAttribute("hidden");
+        refreshStatsPanel();
       }
 
       function initSavedEntryPanels() {
         try {
           var h = window.location.hash;
-          if (h === "#saved-entries" || h === "#archive" || h === "#deleted" || h === "#summary" || h === "#weekly-trend" || h === "#monthly-trend" || h === "#calendar" || h === "#count-of-fixes") {
+          if (h === "#saved-entries" || h === "#archive" || h === "#deleted" || h === "#summary" || h === "#weekly-trend" || h === "#monthly-trend" || h === "#calendar" || h === "#count-of-fixes" || h === "#stats") {
             history.replaceState(
               null,
               "",
@@ -8053,6 +8780,7 @@
         if (weeklyTrendScreen) weeklyTrendScreen.setAttribute("hidden", "");
         if (calendarScreen) calendarScreen.setAttribute("hidden", "");
         if (countOfFixesScreen) countOfFixesScreen.setAttribute("hidden", "");
+        if (statsScreen) statsScreen.setAttribute("hidden", "");
       }
 
       if (newEntryNavLink) {
@@ -8145,6 +8873,17 @@
           } catch (eCof) {}
         });
       }
+      if (statsNavLink) {
+        statsNavLink.addEventListener("click", function (e) {
+          e.preventDefault();
+          updateActiveNavLink(statsNavLink);
+          switchToPanel(statsScreen);
+          refreshStatsPanel();
+          try {
+            history.replaceState(null, "", "#stats");
+          } catch (eStats) {}
+        });
+      }
       if (monthlyTrendNavLink) {
         monthlyTrendNavLink.addEventListener("click", function (e) {
           e.preventDefault();
@@ -8188,6 +8927,12 @@
         }
         if (calendarScreen && h !== "#calendar" && !calendarScreen.hasAttribute("hidden")) {
           concealCalendarPanel();
+        }
+        if (countOfFixesScreen && h !== "#count-of-fixes" && !countOfFixesScreen.hasAttribute("hidden")) {
+          concealCountOfFixesPanel();
+        }
+        if (statsScreen && h !== "#stats" && !statsScreen.hasAttribute("hidden")) {
+          concealStatsPanel();
         }
       });
       initSavedEntryPanels();
@@ -9167,6 +9912,7 @@
       var savedSearchInput = document.getElementById("savedSearchInput");
       var savedFilterPpt = document.getElementById("savedFilterPpt");
       var savedFilterProd = document.getElementById("savedFilterProd");
+      var savedFilterDeploymentType = document.getElementById("savedFilterDeploymentType");
       var savedFilterParked = document.getElementById("savedFilterParked");
       var savedSearchNoMatch = document.getElementById("savedSearchNoMatch");
       var savedEmpty = document.getElementById("savedEmpty");
@@ -9182,6 +9928,7 @@
       var archiveSearchInput = document.getElementById("archiveSearchInput");
       var archiveSearchNoMatch = document.getElementById("archiveSearchNoMatch");
       var archiveFilterMonth = document.getElementById("archiveFilterMonth");
+      var archiveFilterDeploymentType = document.getElementById("archiveFilterDeploymentType");
       var summaryTableWrap = document.getElementById("summaryTableWrap");
       var summaryEntriesBody = document.getElementById("summaryEntriesBody");
       var summaryEmpty = document.getElementById("summaryEmpty");
@@ -9190,6 +9937,7 @@
       var summarySearchInput = document.getElementById("summarySearchInput");
       var summaryFilterWrap = document.getElementById("summaryFilterWrap");
       var summaryFilterMonth = document.getElementById("summaryFilterMonth");
+      var summaryFilterDeploymentType = document.getElementById("summaryFilterDeploymentType");
       
       var archivePagination = document.getElementById("archivePagination");
       var archivePrevBtn = document.getElementById("archivePrevBtn");
@@ -10765,6 +11513,22 @@
         entry.pptDeploymentDate = String(entry.pptDeploymentDate == null ? "" : entry.pptDeploymentDate);
         entry.prodRfc = String(entry.prodRfc == null ? "" : entry.prodRfc);
         entry.prodDeploymentDate = String(entry.prodDeploymentDate == null ? "" : entry.prodDeploymentDate);
+        /* Fix mistyped PPT year: PPT Dec 2026 with PROD Jan–Jun 2026 → PPT Dec 2025 */
+        (function correctPptYearTypo() {
+          var ppt = String(entry.pptDeploymentDate || "").trim();
+          var prod = String(entry.prodDeploymentDate || "").trim();
+          if (!/^\d{4}-\d{2}-\d{2}/.test(ppt) || !/^\d{4}-\d{2}-\d{2}/.test(prod)) return;
+          var pptKey = ppt.slice(0, 10);
+          var prodKey = prod.slice(0, 10);
+          if (pptKey <= prodKey) return;
+          var pptY = parseInt(pptKey.slice(0, 4), 10);
+          var prodY = parseInt(prodKey.slice(0, 4), 10);
+          var pptM = parseInt(pptKey.slice(5, 7), 10);
+          var prodM = parseInt(prodKey.slice(5, 7), 10);
+          if (pptY === prodY && pptM === 12 && prodM >= 1 && prodM <= 6) {
+            entry.pptDeploymentDate = String(pptY - 1) + ppt.slice(4);
+          }
+        })();
         var pptStatus = normalizeDeploymentStatus(entry.pptDeploymentStatus);
         if (pptStatus !== "Deployed" && pptStatus !== "To be Planned" && pptStatus !== "Planned") {
           entry.pptRfc = "";
@@ -11625,11 +12389,17 @@
         });
       }
 
+      function entryMatchesDeploymentTypeFilter(entry, selectedType) {
+        if (!selectedType) return true;
+        return String(entry.deploymentType || "").trim() === selectedType;
+      }
+
       function getSavedEntriesFilterState() {
         return {
           searchQ: savedSearchInput ? savedSearchInput.value.trim() : "",
           pptFilter: savedFilterPpt ? savedFilterPpt.value : "",
           prodFilter: savedFilterProd ? savedFilterProd.value : "",
+          deploymentTypeFilter: savedFilterDeploymentType ? savedFilterDeploymentType.value : "",
           parkedFilter: savedFilterParked ? savedFilterParked.value : "active",
           appTokens: getAppFilterSelectedTokens(savedAppFilter)
         };
@@ -11640,6 +12410,7 @@
           state.searchQ ||
           state.pptFilter ||
           state.prodFilter ||
+          state.deploymentTypeFilter ||
           state.parkedFilter !== "active" ||
           state.appTokens.length
         );
@@ -11649,6 +12420,7 @@
         return active.filter(function (e) {
           if (!entryMatchesSavedSearch(e, state.searchQ)) return false;
           if (!entryMatchesApplicationFilter(e, state.appTokens)) return false;
+          if (!entryMatchesDeploymentTypeFilter(e, state.deploymentTypeFilter)) return false;
           if (state.pptFilter && normalizeDeploymentStatus(e.pptDeploymentStatus) !== state.pptFilter) {
             return false;
           }
@@ -11876,10 +12648,12 @@
         var selectedMonth = archiveFilterMonth ? archiveFilterMonth.value : "";
         var archiveSearchQ = archiveSearchInput ? archiveSearchInput.value.trim() : "";
         var archiveAppTokens = getAppFilterSelectedTokens(archiveAppFilter);
-        var hasArchiveFilters = !!(archiveSearchQ || selectedMonth || archiveAppTokens.length);
+        var archiveDeployType = archiveFilterDeploymentType ? archiveFilterDeploymentType.value : "";
+        var hasArchiveFilters = !!(archiveSearchQ || selectedMonth || archiveAppTokens.length || archiveDeployType);
         var filtered = archived.filter(function (e) {
           if (!entryMatchesSavedSearch(e, archiveSearchQ)) return false;
           if (!entryMatchesApplicationFilter(e, archiveAppTokens)) return false;
+          if (!entryMatchesDeploymentTypeFilter(e, archiveDeployType)) return false;
           return true;
         });
         filtered = filterByMonth(filtered, selectedMonth);
@@ -12044,10 +12818,12 @@
         var selectedMonth = summaryFilterMonth ? summaryFilterMonth.value : "";
         var summarySearchQ = summarySearchInput ? summarySearchInput.value.trim() : "";
         var summaryAppTokens = getAppFilterSelectedTokens(summaryAppFilter);
-        var hasSummaryFilters = !!(summarySearchQ || selectedMonth || summaryAppTokens.length);
+        var summaryDeployType = summaryFilterDeploymentType ? summaryFilterDeploymentType.value : "";
+        var hasSummaryFilters = !!(summarySearchQ || selectedMonth || summaryAppTokens.length || summaryDeployType);
         var filtered = archived.filter(function (e) {
           if (!entryMatchesSavedSearch(e, summarySearchQ)) return false;
           if (!entryMatchesApplicationFilter(e, summaryAppTokens)) return false;
+          if (!entryMatchesDeploymentTypeFilter(e, summaryDeployType)) return false;
           return true;
         });
         filtered = filterByMonth(filtered, selectedMonth);
@@ -12389,6 +13165,1219 @@
             });
           }
         }
+      }
+
+      function normalizeStatsDateValue(value) {
+        var raw = String(value == null ? "" : value).trim();
+        if (!raw) return "";
+        if (/^\d{4}-\d{2}-\d{2}/.test(raw)) return raw.slice(0, 10);
+        try {
+          var d = new Date(raw);
+          if (!isNaN(d.getTime())) {
+            var y = d.getFullYear();
+            var m = String(d.getMonth() + 1).padStart(2, "0");
+            var day = String(d.getDate()).padStart(2, "0");
+            return y + "-" + m + "-" + day;
+          }
+        } catch (eNormDate) {}
+        return "";
+      }
+
+      function formatStatsDateLabel(dateKey) {
+        if (!dateKey) return "—";
+        try {
+          return new Date(dateKey + "T12:00:00").toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+          });
+        } catch (eFmt) {
+          return dateKey;
+        }
+      }
+
+      function parseStatsDeploymentValue(value) {
+        var raw = String(value || "").trim();
+        if (!raw) return null;
+        var parts = raw.split("|");
+        if (parts.length < 2) return null;
+        return {
+          env: parts[0] === "PROD" ? "PROD" : "PPT",
+          dateKey: parts[1] || "",
+          rfc: parts[2] || ""
+        };
+      }
+
+      function buildStatsDeploymentOptions() {
+        var monthKey = statsFilterMonth ? String(statsFilterMonth.value || "").trim() : "";
+        var seen = {};
+        var options = [];
+        readSavedEntries().forEach(function (entry) {
+          if (!entry || entry.deletedAt) return;
+          [
+            {
+              env: "PPT",
+              dateKey: normalizeStatsDateValue(entry.pptDeploymentDate),
+              rfc: String(entry.pptRfc || "").trim()
+            },
+            {
+              env: "PROD",
+              dateKey: normalizeStatsDateValue(entry.prodDeploymentDate),
+              rfc: String(entry.prodRfc || "").trim()
+            }
+          ].forEach(function (row) {
+            if (!row.dateKey) return;
+            if (monthKey && row.dateKey.slice(0, 7) !== monthKey) return;
+            var rfcLabel = row.rfc || "—";
+            var value = row.env + "|" + row.dateKey + "|" + rfcLabel;
+            if (seen[value]) return;
+            seen[value] = true;
+            options.push({
+              value: value,
+              env: row.env,
+              dateKey: row.dateKey,
+              rfc: rfcLabel,
+              label: row.env + " - " + rfcLabel + " - " + formatStatsDateLabel(row.dateKey)
+            });
+          });
+        });
+        options.sort(function (a, b) {
+          if (a.dateKey !== b.dateKey) return a.dateKey < b.dateKey ? 1 : -1;
+          if (a.env !== b.env) return a.env === "PPT" ? -1 : 1;
+          return String(a.rfc).localeCompare(String(b.rfc), undefined, { sensitivity: "base" });
+        });
+        return options;
+      }
+
+      function populateStatsMonthFilter() {
+        if (!statsFilterMonth) return;
+        var currentVal = statsFilterMonth.value;
+        var months = {};
+        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        readSavedEntries().forEach(function (entry) {
+          if (!entry || entry.deletedAt) return;
+          [entry.pptDeploymentDate, entry.prodDeploymentDate].forEach(function (raw) {
+            var dateKey = normalizeStatsDateValue(raw);
+            if (!dateKey || dateKey.length < 7) return;
+            var key = dateKey.slice(0, 7);
+            var parts = key.split("-");
+            if (parts.length < 2) return;
+            var label = monthNames[parseInt(parts[1], 10) - 1] + " " + parts[0];
+            months[key] = label;
+          });
+        });
+        statsFilterMonth.innerHTML = '<option value="">All months</option>';
+        Object.keys(months)
+          .sort()
+          .reverse()
+          .forEach(function (key) {
+            var opt = document.createElement("option");
+            opt.value = key;
+            opt.textContent = months[key];
+            statsFilterMonth.appendChild(opt);
+          });
+        if (currentVal && months[currentVal]) statsFilterMonth.value = currentVal;
+        else statsFilterMonth.value = "";
+      }
+
+      function populateStatsDeploymentSelect() {
+        if (!statsDeploymentSelect) return;
+        var previous = statsDeploymentSelect.value;
+        var options = buildStatsDeploymentOptions();
+        statsDeploymentSelect.innerHTML = "";
+        var placeholder = document.createElement("option");
+        placeholder.value = "";
+        var monthKey = statsFilterMonth ? String(statsFilterMonth.value || "").trim() : "";
+        if (!options.length) {
+          placeholder.textContent = monthKey
+            ? "No deployments in this month"
+            : "No PPT/PROD deployments with dates";
+        } else {
+          placeholder.textContent = "Select a deployment…";
+        }
+        statsDeploymentSelect.appendChild(placeholder);
+        options.forEach(function (opt) {
+          var el = document.createElement("option");
+          el.value = opt.value;
+          el.textContent = opt.label;
+          statsDeploymentSelect.appendChild(el);
+        });
+        if (previous && seenOptionValue(statsDeploymentSelect, previous)) {
+          statsDeploymentSelect.value = previous;
+        } else {
+          statsDeploymentSelect.value = "";
+        }
+      }
+
+      function seenOptionValue(selectEl, value) {
+        for (var i = 0; i < selectEl.options.length; i++) {
+          if (selectEl.options[i].value === value) return true;
+        }
+        return false;
+      }
+
+      function entryMatchesStatsDeployment(entry, selection) {
+        if (!entry || !selection || !selection.dateKey) return false;
+        if (selection.env === "PROD") {
+          return normalizeStatsDateValue(entry.prodDeploymentDate) === selection.dateKey;
+        }
+        return normalizeStatsDateValue(entry.pptDeploymentDate) === selection.dateKey;
+      }
+
+      function countByKey(entries, getKey) {
+        var map = {};
+        entries.forEach(function (entry) {
+          var key = String(getKey(entry) || "").trim() || "—";
+          map[key] = (map[key] || 0) + 1;
+        });
+        return Object.keys(map)
+          .sort(function (a, b) {
+            if (a === "—") return 1;
+            if (b === "—") return -1;
+            var diff = map[b] - map[a];
+            if (diff) return diff;
+            return a.localeCompare(b, undefined, { sensitivity: "base" });
+          })
+          .map(function (key) {
+            return { label: key, count: map[key] };
+          });
+      }
+
+      var STATS_CHART_COLORS = [
+        "#3b82f6",
+        "#f59e0b",
+        "#10b981",
+        "#8b5cf6",
+        "#ef4444",
+        "#06b6d4",
+        "#84cc16",
+        "#f97316",
+        "#64748b",
+        "#ec4899"
+      ];
+
+      function destroyStatsChart(instanceRef) {
+        if (instanceRef) {
+          try {
+            instanceRef.destroy();
+          } catch (eDestroy) {}
+        }
+        return null;
+      }
+
+      function setStatsChartEmpty(emptyEl, chartWrap, isEmpty) {
+        if (emptyEl) emptyEl.classList.toggle("visible", !!isEmpty);
+        if (chartWrap) chartWrap.style.display = isEmpty ? "none" : "";
+      }
+
+      function mapEntryToStatsDetailItem(entry) {
+        var selection = parseStatsDeploymentValue(
+          statsDeploymentSelect ? statsDeploymentSelect.value : ""
+        );
+        var dateVal = "";
+        if (selection && selection.env === "PROD") {
+          dateVal = String(entry.prodDeploymentDate || "").trim();
+        } else {
+          dateVal =
+            String(entry.pptDeploymentDate || "").trim() ||
+            String(entry.prodDeploymentDate || "").trim();
+        }
+        return {
+          application: String(entry.application || "").trim() || "—",
+          requester: String(entry.requester || "").trim() || "—",
+          incidentId: String(entry.incidentId || "").trim() || "—",
+          defectId: String(entry.incidentId || "").trim() || "—",
+          hotfix: String(entry.hotfixNumber || "").trim() || "—",
+          deploymentType: String(entry.deploymentType || "").trim() || "—",
+          date: dateVal || "—",
+          description: String(entry.description || "").trim() || "—",
+          entryId: entry.id
+        };
+      }
+
+      function showStatsEntriesDetailsModal(title, entries) {
+        var overlay = document.getElementById("monthlyTrendDetailsOverlay");
+        var titleEl = document.getElementById("monthlyTrendDetailsTitle");
+        var bodyEl = document.getElementById("monthlyTrendDetailsBody");
+        if (!overlay || !titleEl || !bodyEl) return;
+
+        var list = (entries || []).filter(function (e) {
+          return e && !e.deletedAt;
+        });
+        if (!list.length) {
+          showInfoModal("No entries found for this selection.", true);
+          return;
+        }
+
+        list.sort(function (a, b) {
+          var aVal = String(a.hotfixNumber || "");
+          var bVal = String(b.hotfixNumber || "");
+          return aVal.localeCompare(bVal, undefined, { numeric: true, sensitivity: "base" });
+        });
+
+        var items = list.map(mapEntryToStatsDetailItem);
+        var config = getMonthlyTrendMetricConfig("hfDeployed");
+        if (!config) return;
+
+        titleEl.textContent = title + " (" + items.length + ")";
+        var dialog = overlay.querySelector(".verify-modal-dialog");
+        if (dialog) dialog.classList.add("monthly-trend-details-wide");
+
+        bodyEl.innerHTML = buildMonthlyTrendDetailsTable(config, items, null);
+        window.trendModalBack = null;
+        setMonthlyTrendBackButton(false);
+        wireMonthlyTrendModalLinks(bodyEl, null, null, null);
+        overlay.classList.add("show");
+      }
+
+      function getStatsMatchedEntriesForApp(appLabel) {
+        var target = normalizeStatsAppName(appLabel);
+        return (statsMatchedEntriesCache || []).filter(function (entry) {
+          return normalizeStatsAppName(entry.application) === target;
+        });
+      }
+
+      function getStatsMatchedEntriesForFixType(fixTypeLabel) {
+        var target = String(fixTypeLabel || "").trim() || "—";
+        return (statsMatchedEntriesCache || []).filter(function (entry) {
+          var ft = String(entry.fixType || "").trim() || "—";
+          return ft === target;
+        });
+      }
+
+      function getStatsAppByMonthEntries(appLabel, monthKey) {
+        var meta = statsAppByMonthMeta || {};
+        var env = meta.env || "ALL";
+        var topApps = (meta.apps || []).filter(function (a) {
+          return a !== "Other";
+        });
+        var isOther = appLabel === "Other";
+        var target = normalizeStatsAppName(appLabel);
+
+        return readSavedEntries().filter(function (entry) {
+          if (!entry || entry.deletedAt) return false;
+          var mk = entryMonthKeyForEnv(entry, env);
+          if (!mk || mk !== monthKey) return false;
+          var app = normalizeStatsAppName(entry.application);
+          if (isOther) return topApps.indexOf(app) === -1;
+          return app === target;
+        });
+      }
+
+      function renderStatsColumnChart(canvasId, emptyId, rows, emptyLabel, drilldownType) {
+        var canvas = document.getElementById(canvasId);
+        var emptyEl = document.getElementById(emptyId);
+        var chartWrap = canvas ? canvas.parentElement : null;
+        if (!canvas || typeof Chart === "undefined") return null;
+
+        if (!rows.length) {
+          setStatsChartEmpty(emptyEl, chartWrap, true);
+          if (emptyEl) emptyEl.textContent = emptyLabel;
+          return null;
+        }
+        setStatsChartEmpty(emptyEl, chartWrap, false);
+
+        var theme =
+          typeof getTrendChartThemeColors === "function"
+            ? getTrendChartThemeColors()
+            : {
+                textColor: "#e2e8f0",
+                titleColor: "#e2e8f0",
+                gridColor: "rgba(148, 163, 184, 0.2)",
+                isDark: true
+              };
+        var textColor = theme.textColor || "#e2e8f0";
+        var softGrid = theme.gridColor || "rgba(148, 163, 184, 0.18)";
+        if (typeof applyTrendChartDefaults === "function") {
+          applyTrendChartDefaults(textColor);
+        }
+
+        var labels = rows.map(function (r) { return r.label; });
+        var values = rows.map(function (r) { return r.count; });
+        var maxValue = 0;
+        values.forEach(function (v) {
+          if (v > maxValue) maxValue = v;
+        });
+        var yStep = maxValue <= 8 ? 1 : maxValue <= 20 ? 2 : maxValue <= 40 ? 5 : 10;
+        var yMax = Math.max(yStep, Math.ceil((maxValue * 1.18) / yStep) * yStep);
+        var colors = rows.map(function (_r, i) {
+          return STATS_CHART_COLORS[i % STATS_CHART_COLORS.length];
+        });
+
+        return new Chart(canvas, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Count",
+                data: values,
+                backgroundColor: colors,
+                borderColor: "rgba(255,255,255,0.85)",
+                borderWidth: 1,
+                borderSkipped: false,
+                borderRadius: 6,
+                maxBarThickness: 46,
+                categoryPercentage: 0.7,
+                barPercentage: 0.85
+              }
+            ]
+          },
+          plugins: typeof ChartDataLabels !== "undefined" ? [ChartDataLabels] : [],
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            color: textColor,
+            layout: {
+              padding: { top: 16, right: 8, bottom: 8, left: 4 }
+            },
+            onClick: function (_evt, elements) {
+              if (!drilldownType || !elements || !elements.length) return;
+              var idx = elements[0].index;
+              var label = labels[idx];
+              if (!label) return;
+              if (drilldownType === "application") {
+                showStatsEntriesDetailsModal(
+                  "Application — " + label,
+                  getStatsMatchedEntriesForApp(label)
+                );
+              } else if (drilldownType === "fixType") {
+                showStatsEntriesDetailsModal(
+                  "Fix Type — " + label,
+                  getStatsMatchedEntriesForFixType(label)
+                );
+              }
+            },
+            onHover: function (evt, elements) {
+              var target = evt && (evt.native ? evt.native.target : evt.target);
+              if (target && target.style) {
+                target.style.cursor = elements && elements.length ? "pointer" : "default";
+              }
+            },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: "rgba(15, 23, 42, 0.92)",
+                titleFont: { size: 12, weight: "600" },
+                bodyFont: { size: 12 },
+                padding: 10,
+                cornerRadius: 8,
+                callbacks: {
+                  label: function (ctx) {
+                    var value =
+                      ctx.parsed && typeof ctx.parsed.y === "number"
+                        ? ctx.parsed.y
+                        : ctx.parsed;
+                    return " Count: " + value;
+                  },
+                  afterBody: function () {
+                    return drilldownType ? ["", "Click to view details"] : [];
+                  }
+                }
+              },
+              datalabels: {
+                color: textColor,
+                font: { size: 12, weight: "700" },
+                anchor: "end",
+                align: "top",
+                offset: 4,
+                clamp: false,
+                clip: false,
+                formatter: function (value) {
+                  return value > 0 ? value : "";
+                }
+              }
+            },
+            scales: {
+              x: {
+                ticks: {
+                  color: textColor,
+                  font: { size: 11, weight: "500" },
+                  maxRotation: 35,
+                  minRotation: 0,
+                  autoSkip: false,
+                  padding: 6
+                },
+                grid: { display: false },
+                border: { display: false }
+              },
+              y: {
+                beginAtZero: true,
+                max: yMax,
+                ticks: {
+                  color: textColor,
+                  font: { size: 11 },
+                  precision: 0,
+                  stepSize: yStep,
+                  padding: 6
+                },
+                grid: {
+                  color: softGrid,
+                  drawBorder: false,
+                  lineWidth: 1
+                },
+                border: { display: false }
+              }
+            }
+          }
+        });
+      }
+
+      function getStatsAppByMonthFilterListEl() {
+        return (
+          statsAppByMonthFilterList ||
+          document.getElementById("statsAppByMonthFilterList")
+        );
+      }
+
+      function formatStatsMonthLabel(monthKey) {
+        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var parts = String(monthKey || "").split("-");
+        if (parts.length < 2) return String(monthKey || "");
+        var monthIdx = parseInt(parts[1], 10) - 1;
+        if (monthIdx < 0 || monthIdx > 11) return String(monthKey || "");
+        return monthNames[monthIdx] + " " + parts[0];
+      }
+
+      function isStatsAppByMonthAllowed(monthKey) {
+        var key = String(monthKey || "").trim();
+        if (!/^\d{4}-\d{2}$/.test(key)) return false;
+        return key >= STATS_APP_BY_MONTH_MIN_KEY;
+      }
+
+      function collectEntryMonthKeys(entry) {
+        var keys = [];
+        if (!entry || entry.deletedAt) return keys;
+        [entry.pptDeploymentDate, entry.prodDeploymentDate].forEach(function (raw) {
+          var dateKey = normalizeStatsDateValue(raw);
+          if (!dateKey || dateKey.length < 7) return;
+          var monthKey = dateKey.slice(0, 7);
+          if (!isStatsAppByMonthAllowed(monthKey)) return;
+          if (keys.indexOf(monthKey) === -1) keys.push(monthKey);
+        });
+        return keys;
+      }
+
+      function entryMonthKeyForEnv(entry, env) {
+        if (!entry || entry.deletedAt) return "";
+        function allowedOrEmpty(dateKey) {
+          if (!dateKey || dateKey.length < 7) return "";
+          var monthKey = dateKey.slice(0, 7);
+          return isStatsAppByMonthAllowed(monthKey) ? monthKey : "";
+        }
+        /* No deployment selected: use any available deployment date (PPT first, then PROD) */
+        if (!env || env === "ALL") {
+          var anyPpt = allowedOrEmpty(normalizeStatsDateValue(entry.pptDeploymentDate));
+          if (anyPpt) return anyPpt;
+          return allowedOrEmpty(normalizeStatsDateValue(entry.prodDeploymentDate));
+        }
+        var preferred = allowedOrEmpty(
+          normalizeStatsDateValue(
+            env === "PROD" ? entry.prodDeploymentDate : entry.pptDeploymentDate
+          )
+        );
+        if (preferred) return preferred;
+        return allowedOrEmpty(
+          normalizeStatsDateValue(
+            env === "PROD" ? entry.pptDeploymentDate : entry.prodDeploymentDate
+          )
+        );
+      }
+
+      function resolveStatsAppByMonthEnv(selection) {
+        if (selection && selection.env) return selection.env;
+        return "ALL";
+      }
+
+      function listStatsAppByMonthOptions(env) {
+        var months = {};
+        readSavedEntries().forEach(function (entry) {
+          collectEntryMonthKeys(entry).forEach(function (monthKey) {
+            months[monthKey] = formatStatsMonthLabel(monthKey);
+          });
+        });
+        /* Fallback: months from known deployments for the selected env */
+        if (typeof buildStatsDeploymentOptions === "function") {
+          var savedMonth = statsFilterMonth ? String(statsFilterMonth.value || "") : "";
+          if (statsFilterMonth) statsFilterMonth.value = "";
+          try {
+            buildStatsDeploymentOptions().forEach(function (opt) {
+              if (!opt || !opt.dateKey || opt.dateKey.length < 7) return;
+              if (env && env !== "ALL" && opt.env && opt.env !== env) return;
+              var monthKey = opt.dateKey.slice(0, 7);
+              if (!isStatsAppByMonthAllowed(monthKey)) return;
+              months[monthKey] = formatStatsMonthLabel(monthKey);
+            });
+          } finally {
+            if (statsFilterMonth) statsFilterMonth.value = savedMonth;
+          }
+        }
+        return Object.keys(months)
+          .sort()
+          .reverse()
+          .map(function (key) {
+            return { key: key, label: months[key] };
+          });
+      }
+
+      function getSelectedStatsAppByMonthKeys() {
+        var listEl = getStatsAppByMonthFilterListEl();
+        if (!listEl) return [];
+        var checked = [];
+        var boxes = listEl.querySelectorAll('input[type="checkbox"]');
+        for (var i = 0; i < boxes.length; i++) {
+          if (boxes[i].checked && isStatsAppByMonthAllowed(boxes[i].value)) {
+            checked.push(boxes[i].value);
+          }
+        }
+        return checked;
+      }
+
+      function updateStatsAppByMonthFilterButtonLabel() {
+        var btn = statsAppByMonthFilterBtn || document.getElementById("statsAppByMonthFilterBtn");
+        var listEl = getStatsAppByMonthFilterListEl();
+        if (!btn || !listEl) return;
+        var boxes = listEl.querySelectorAll('input[type="checkbox"]');
+        var total = boxes.length;
+        var selected = getSelectedStatsAppByMonthKeys();
+        if (!total) {
+          btn.textContent = "Months: —";
+        } else if (selected.length === total) {
+          btn.textContent = "Months: All";
+        } else if (!selected.length) {
+          btn.textContent = "Months: None";
+        } else if (selected.length === 1) {
+          btn.textContent = "Months: " + formatStatsMonthLabel(selected[0]);
+        } else {
+          btn.textContent = "Months: " + selected.length + " selected";
+        }
+      }
+
+      function setStatsAppByMonthCheckboxes(selectedKeys, selectAllIfEmpty) {
+        var listEl = getStatsAppByMonthFilterListEl();
+        if (!listEl) return;
+        var selectedSet = {};
+        (selectedKeys || []).forEach(function (k) {
+          selectedSet[k] = true;
+        });
+        var boxes = listEl.querySelectorAll('input[type="checkbox"]');
+        var anyKnown = false;
+        for (var i = 0; i < boxes.length; i++) {
+          if (selectedSet[boxes[i].value]) anyKnown = true;
+        }
+        for (var j = 0; j < boxes.length; j++) {
+          if (selectAllIfEmpty && (!selectedKeys || !selectedKeys.length || !anyKnown)) {
+            boxes[j].checked = true;
+          } else {
+            boxes[j].checked = !!selectedSet[boxes[j].value];
+          }
+        }
+        statsAppByMonthSelectedKeys = getSelectedStatsAppByMonthKeys();
+        updateStatsAppByMonthFilterButtonLabel();
+      }
+
+      function populateStatsAppByMonthFilter(env) {
+        var listEl = getStatsAppByMonthFilterListEl();
+        if (!listEl) return;
+        statsAppByMonthFilterList = listEl;
+        var forceSelectAll = statsAppByMonthSelectedKeys === null;
+        var prevSelected = forceSelectAll
+          ? []
+          : (statsAppByMonthSelectedKeys || []).filter(isStatsAppByMonthAllowed);
+        var options = listStatsAppByMonthOptions(env);
+        listEl.innerHTML = "";
+        if (!options.length) {
+          var empty = document.createElement("div");
+          empty.className = "stats-multi-month-empty";
+          empty.textContent = "No months available from 2026 onwards.";
+          listEl.appendChild(empty);
+          statsAppByMonthSelectedKeys = [];
+          updateStatsAppByMonthFilterButtonLabel();
+          return;
+        }
+        options.forEach(function (opt) {
+          var label = document.createElement("label");
+          var cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.value = opt.key;
+          cb.setAttribute("data-month-key", opt.key);
+          label.appendChild(cb);
+          label.appendChild(document.createTextNode(" " + opt.label));
+          listEl.appendChild(label);
+        });
+        setStatsAppByMonthCheckboxes(prevSelected, forceSelectAll);
+      }
+
+      function normalizeStatsAppName(raw) {
+        var s = String(raw == null ? "" : raw).trim();
+        if (!s) return "—";
+        s = s.replace(/\s*-\s*/g, " - ");
+        s = s.replace(/\s+/g, " ").trim();
+        return s;
+      }
+
+      function syncStatsAppByMonthViewToggle() {
+        var toggle =
+          statsAppByMonthViewToggle || document.getElementById("statsAppByMonthViewToggle");
+        if (!toggle) return;
+        var buttons = toggle.querySelectorAll(".stats-view-toggle-btn");
+        for (var i = 0; i < buttons.length; i++) {
+          var mode = buttons[i].getAttribute("data-view-mode");
+          buttons[i].classList.toggle("active", mode === statsAppByMonthViewMode);
+        }
+      }
+
+      function setStatsAppByMonthViewMode(mode) {
+        if (mode !== "stacked" && mode !== "grouped" && mode !== "trend") return;
+        statsAppByMonthViewMode = mode;
+        try {
+          localStorage.setItem(STATS_APP_BY_MONTH_VIEW_KEY, mode);
+        } catch (eSaveView) {}
+        syncStatsAppByMonthViewToggle();
+        refreshStatsAppByMonthChartOnly();
+      }
+
+      function buildStatsAppByMonthSeries(env, selectedMonthKeys, viewMode) {
+        var monthMap = {};
+        var appTotals = {};
+        var selectedSet = null;
+        viewMode = viewMode || statsAppByMonthViewMode || "stacked";
+        if (selectedMonthKeys && selectedMonthKeys.length) {
+          selectedSet = {};
+          selectedMonthKeys.forEach(function (k) {
+            if (isStatsAppByMonthAllowed(k)) selectedSet[k] = true;
+          });
+        }
+
+        readSavedEntries().forEach(function (entry) {
+          if (!entry || entry.deletedAt) return;
+          var monthKey = entryMonthKeyForEnv(entry, env);
+          if (!monthKey || !isStatsAppByMonthAllowed(monthKey)) return;
+          if (selectedSet && !selectedSet[monthKey]) return;
+          var app = normalizeStatsAppName(entry.application);
+          if (!monthMap[monthKey]) {
+            monthMap[monthKey] = { label: formatStatsMonthLabel(monthKey), apps: {} };
+          }
+          monthMap[monthKey].apps[app] = (monthMap[monthKey].apps[app] || 0) + 1;
+          appTotals[app] = (appTotals[app] || 0) + 1;
+        });
+
+        var monthKeys = Object.keys(monthMap).sort();
+        var appNames = Object.keys(appTotals).sort(function (a, b) {
+          if (a === "—") return 1;
+          if (b === "—") return -1;
+          var diff = appTotals[b] - appTotals[a];
+          if (diff) return diff;
+          return a.localeCompare(b, undefined, { sensitivity: "base" });
+        });
+
+        var maxApps = 8;
+        var topApps = appNames.slice(0, maxApps);
+        var hasOther = appNames.length > maxApps;
+        if (hasOther) topApps.push("Other");
+
+        var isTrend = viewMode === "trend";
+        var isStacked = viewMode === "stacked";
+
+        return {
+          labels: monthKeys.map(function (k) { return monthMap[k].label; }),
+          monthKeys: monthKeys,
+          apps: topApps,
+          viewMode: viewMode,
+          datasets: topApps.map(function (appName, idx) {
+            var color = STATS_CHART_COLORS[idx % STATS_CHART_COLORS.length];
+            var data = monthKeys.map(function (monthKey) {
+              var apps = monthMap[monthKey].apps;
+              if (appName === "Other") {
+                var sum = 0;
+                Object.keys(apps).forEach(function (name) {
+                  if (topApps.indexOf(name) === -1) sum += apps[name] || 0;
+                });
+                return sum;
+              }
+              return apps[appName] || 0;
+            });
+            if (isTrend) {
+              return {
+                label: appName,
+                data: data,
+                borderColor: color,
+                backgroundColor: color,
+                tension: 0.35,
+                cubicInterpolationMode: "monotone",
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointBackgroundColor: color,
+                pointBorderColor: "#ffffff",
+                pointBorderWidth: 2,
+                borderWidth: 2.5,
+                fill: false
+              };
+            }
+            return {
+              label: appName,
+              data: data,
+              backgroundColor: color,
+              borderColor: isStacked ? "rgba(255,255,255,0.85)" : color,
+              borderWidth: isStacked ? 1 : 0,
+              borderSkipped: false,
+              borderRadius: isStacked ? 3 : 5,
+              maxBarThickness: isStacked ? 48 : 28,
+              categoryPercentage: isStacked ? 0.7 : 0.8,
+              barPercentage: isStacked ? 0.85 : 0.9
+            };
+          })
+        };
+      }
+
+      function renderStatsAppByMonthChart(selection, options) {
+        options = options || {};
+        var env = resolveStatsAppByMonthEnv(selection);
+        statsAppByMonthLastEnv = env;
+        syncStatsAppByMonthViewToggle();
+
+        /* Always populate months first — even if Chart.js is unavailable */
+        if (options.repopulateFilter !== false) {
+          populateStatsAppByMonthFilter(env);
+        }
+
+        var canvas = document.getElementById("statsAppByMonthChart");
+        var emptyEl = statsAppByMonthChartEmpty || document.getElementById("statsAppByMonthChartEmpty");
+        var chartWrap = canvas ? canvas.parentElement : null;
+        if (!canvas || typeof Chart === "undefined") return null;
+
+        var selectedMonths = getSelectedStatsAppByMonthKeys();
+        statsAppByMonthSelectedKeys = selectedMonths.slice();
+        updateStatsAppByMonthFilterButtonLabel();
+        if (!selectedMonths.length) {
+          setStatsChartEmpty(emptyEl, chartWrap, true);
+          if (emptyEl) emptyEl.textContent = "Select one or more months to view the chart.";
+          return null;
+        }
+
+        var viewMode = statsAppByMonthViewMode || "stacked";
+        var series = buildStatsAppByMonthSeries(env, selectedMonths, viewMode);
+
+        if (!series.labels.length || !series.datasets.length) {
+          setStatsChartEmpty(emptyEl, chartWrap, true);
+          if (emptyEl) emptyEl.textContent = "No monthly application data.";
+          return null;
+        }
+        setStatsChartEmpty(emptyEl, chartWrap, false);
+
+        var theme =
+          typeof getTrendChartThemeColors === "function"
+            ? getTrendChartThemeColors()
+            : {
+                textColor: "#e2e8f0",
+                gridColor: "rgba(148, 163, 184, 0.2)"
+              };
+        var textColor = theme.textColor || "#e2e8f0";
+        if (typeof applyTrendChartDefaults === "function") {
+          applyTrendChartDefaults(textColor);
+        }
+
+        var isTrend = viewMode === "trend";
+        var isStacked = viewMode === "stacked";
+        var maxVal = 0;
+        series.labels.forEach(function (_label, monthIdx) {
+          if (isStacked) {
+            var sum = 0;
+            series.datasets.forEach(function (ds) {
+              sum += Number(ds.data[monthIdx]) || 0;
+            });
+            if (sum > maxVal) maxVal = sum;
+          } else {
+            series.datasets.forEach(function (ds) {
+              var v = Number(ds.data[monthIdx]) || 0;
+              if (v > maxVal) maxVal = v;
+            });
+          }
+        });
+        var yStep = maxVal <= 20 ? 2 : maxVal <= 40 ? 5 : 10;
+        var yMax = Math.max(yStep, Math.ceil((maxVal * 1.15) / yStep) * yStep);
+        var softGrid = theme.gridColor || "rgba(148, 163, 184, 0.2)";
+
+        statsAppByMonthMeta = {
+          env: env,
+          monthKeys: series.monthKeys.slice(),
+          apps: series.apps.slice(),
+          labels: series.labels.slice()
+        };
+
+        var datalabelOpts;
+        if (isTrend) {
+          datalabelOpts = {
+            color: textColor,
+            font: { size: 10, weight: "700" },
+            anchor: "end",
+            align: "top",
+            offset: 2,
+            clamp: false,
+            clip: false,
+            display: function (ctx) {
+              var v = Number(ctx.dataset.data[ctx.dataIndex]) || 0;
+              return v > 0;
+            },
+            formatter: function (value) {
+              return value;
+            }
+          };
+        } else if (isStacked) {
+          datalabelOpts = {
+            color: "#ffffff",
+            font: { size: 11, weight: "700" },
+            anchor: "center",
+            align: "center",
+            clamp: true,
+            clip: false,
+            textStrokeColor: "rgba(15, 23, 42, 0.35)",
+            textStrokeWidth: 2,
+            display: function (ctx) {
+              var v = Number(ctx.dataset.data[ctx.dataIndex]) || 0;
+              return v >= 2;
+            },
+            formatter: function (value) {
+              return value;
+            }
+          };
+        } else {
+          datalabelOpts = {
+            color: textColor,
+            font: { size: 10, weight: "700" },
+            anchor: "end",
+            align: "top",
+            offset: 2,
+            clamp: false,
+            clip: false,
+            display: function (ctx) {
+              var v = Number(ctx.dataset.data[ctx.dataIndex]) || 0;
+              return v > 0;
+            },
+            formatter: function (value) {
+              return value;
+            }
+          };
+        }
+
+        return new Chart(canvas, {
+          type: isTrend ? "line" : "bar",
+          data: {
+            labels: series.labels,
+            datasets: series.datasets
+          },
+          plugins: typeof ChartDataLabels !== "undefined" ? [ChartDataLabels] : [],
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            color: textColor,
+            layout: {
+              padding: { top: 14, right: 12, bottom: 10, left: 4 }
+            },
+            interaction: {
+              mode: isTrend ? "nearest" : "index",
+              intersect: isTrend ? false : true
+            },
+            onClick: function (_evt, elements) {
+              if (!elements || !elements.length) return;
+              var el = elements[0];
+              var monthKey =
+                statsAppByMonthMeta && statsAppByMonthMeta.monthKeys
+                  ? statsAppByMonthMeta.monthKeys[el.index]
+                  : null;
+              var appLabel =
+                series.datasets[el.datasetIndex] && series.datasets[el.datasetIndex].label
+                  ? series.datasets[el.datasetIndex].label
+                  : "";
+              if (!monthKey || !appLabel) return;
+              var value = Number(series.datasets[el.datasetIndex].data[el.index]) || 0;
+              if (value <= 0) return;
+              var monthLabel =
+                (statsAppByMonthMeta && statsAppByMonthMeta.labels
+                  ? statsAppByMonthMeta.labels[el.index]
+                  : null) || formatStatsMonthLabel(monthKey);
+              showStatsEntriesDetailsModal(
+                appLabel + " — " + monthLabel,
+                getStatsAppByMonthEntries(appLabel, monthKey)
+              );
+            },
+            onHover: function (evt, elements) {
+              var target = evt && (evt.native ? evt.native.target : evt.target);
+              if (target && target.style) {
+                target.style.cursor = elements && elements.length ? "pointer" : "default";
+              }
+            },
+            plugins: {
+              legend: {
+                position: "top",
+                align: "center",
+                labels: {
+                  color: textColor,
+                  font: { size: 12, weight: "500" },
+                  boxWidth: isTrend ? 28 : 12,
+                  boxHeight: isTrend ? 3 : 12,
+                  padding: 14,
+                  usePointStyle: true,
+                  pointStyle: isTrend ? "line" : "rectRounded",
+                  generateLabels: function (chart) {
+                    var datasets = chart.data.datasets || [];
+                    return datasets.map(function (ds, i) {
+                      /* Prefer fill color for bars; border can be white separators */
+                      var color = isTrend
+                        ? ds.borderColor || ds.backgroundColor || textColor
+                        : ds.backgroundColor || ds.borderColor || textColor;
+                      if (Array.isArray(color)) color = color[0] || textColor;
+                      return {
+                        text: ds.label || "",
+                        fillStyle: color,
+                        strokeStyle: color,
+                        fontColor: textColor,
+                        lineWidth: isTrend ? 3 : 1,
+                        hidden: !chart.isDatasetVisible(i),
+                        datasetIndex: i,
+                        pointStyle: isTrend ? "line" : "rect"
+                      };
+                    });
+                  }
+                }
+              },
+              tooltip: {
+                backgroundColor: "rgba(15, 23, 42, 0.92)",
+                titleFont: { size: 12, weight: "600" },
+                bodyFont: { size: 12 },
+                padding: 10,
+                cornerRadius: 8,
+                callbacks: {
+                  label: function (ctx) {
+                    var value =
+                      ctx.parsed && typeof ctx.parsed.y === "number"
+                        ? ctx.parsed.y
+                        : ctx.parsed;
+                    return " " + (ctx.dataset.label || "") + ": " + value;
+                  },
+                  afterBody: function () {
+                    return ["", "Click to view details"];
+                  }
+                }
+              },
+              datalabels: datalabelOpts
+            },
+            scales: {
+              x: {
+                stacked: isStacked,
+                ticks: {
+                  color: textColor,
+                  font: { size: 12, weight: "500" },
+                  maxRotation: 0,
+                  minRotation: 0,
+                  autoSkip: false,
+                  padding: 6
+                },
+                grid: { display: false },
+                border: { display: false }
+              },
+              y: {
+                stacked: isStacked,
+                beginAtZero: true,
+                max: yMax,
+                ticks: {
+                  color: textColor,
+                  font: { size: 11 },
+                  precision: 0,
+                  stepSize: yStep,
+                  padding: 6
+                },
+                grid: {
+                  color: softGrid,
+                  drawBorder: false,
+                  lineWidth: 1
+                },
+                border: { display: false }
+              }
+            }
+          }
+        });
+      }
+
+      function refreshStatsAppByMonthChartOnly() {
+        var selection = parseStatsDeploymentValue(
+          statsDeploymentSelect ? statsDeploymentSelect.value : ""
+        );
+        statsAppByMonthSelectedKeys = getSelectedStatsAppByMonthKeys();
+        updateStatsAppByMonthFilterButtonLabel();
+        statsAppByMonthChartInstance = destroyStatsChart(statsAppByMonthChartInstance);
+        statsAppByMonthChartInstance = renderStatsAppByMonthChart(selection, {
+          repopulateFilter: false
+        });
+      }
+
+      function clearStatsDeploymentCharts() {
+        statsAppChartInstance = destroyStatsChart(statsAppChartInstance);
+        statsFixTypeChartInstance = destroyStatsChart(statsFixTypeChartInstance);
+        var appCanvas = document.getElementById("statsAppChart");
+        var fixCanvas = document.getElementById("statsFixTypeChart");
+        setStatsChartEmpty(statsAppChartEmpty, appCanvas && appCanvas.parentElement, false);
+        setStatsChartEmpty(statsFixTypeChartEmpty, fixCanvas && fixCanvas.parentElement, false);
+      }
+
+      function clearStatsCharts() {
+        clearStatsDeploymentCharts();
+        statsAppByMonthChartInstance = destroyStatsChart(statsAppByMonthChartInstance);
+        var appByMonthCanvas = document.getElementById("statsAppByMonthChart");
+        setStatsChartEmpty(statsAppByMonthChartEmpty, appByMonthCanvas && appByMonthCanvas.parentElement, false);
+      }
+
+      function renderStatsDeploymentCharts(matched) {
+        clearStatsDeploymentCharts();
+        statsMatchedEntriesCache = matched || [];
+        var appRows = countByKey(matched, function (e) {
+          return normalizeStatsAppName(e.application);
+        });
+        var fixRows = countByKey(matched, function (e) { return e.fixType; });
+        statsAppChartInstance = renderStatsColumnChart(
+          "statsAppChart",
+          "statsAppChartEmpty",
+          appRows,
+          "No applications for this deployment.",
+          "application"
+        );
+        statsFixTypeChartInstance = renderStatsColumnChart(
+          "statsFixTypeChart",
+          "statsFixTypeChartEmpty",
+          fixRows,
+          "No fix types for this deployment.",
+          "fixType"
+        );
+      }
+
+      function renderStats() {
+        var selection = parseStatsDeploymentValue(
+          statsDeploymentSelect ? statsDeploymentSelect.value : ""
+        );
+
+        /* Applications by Month always loads with the Stats panel */
+        if (statsContent) statsContent.hidden = false;
+        statsAppByMonthChartInstance = destroyStatsChart(statsAppByMonthChartInstance);
+        statsAppByMonthChartInstance = renderStatsAppByMonthChart(selection);
+
+        if (!selection) {
+          if (statsEmpty) {
+            statsEmpty.hidden = false;
+            statsEmpty.textContent = "Select a deployment to view Total Entries, Application, and Fix Type.";
+          }
+          if (statsDeploymentSection) statsDeploymentSection.hidden = true;
+          if (statsTotalValue) statsTotalValue.textContent = "0";
+          statsMatchedEntriesCache = [];
+          clearStatsDeploymentCharts();
+          return;
+        }
+
+        var matched = readSavedEntries().filter(function (entry) {
+          return entry && !entry.deletedAt && entryMatchesStatsDeployment(entry, selection);
+        });
+
+        if (statsEmpty) {
+          if (!matched.length) {
+            statsEmpty.hidden = false;
+            statsEmpty.textContent = "No entries found for the selected deployment.";
+          } else {
+            statsEmpty.hidden = true;
+          }
+        }
+        if (statsDeploymentSection) statsDeploymentSection.hidden = false;
+        if (statsTotalValue) statsTotalValue.textContent = String(matched.length);
+        renderStatsDeploymentCharts(matched);
+      }
+
+      function closeStatsAppByMonthFilterPanel() {
+        if (!statsAppByMonthFilterPanel || !statsAppByMonthFilterBtn) return;
+        statsAppByMonthFilterPanel.hidden = true;
+        statsAppByMonthFilterBtn.setAttribute("aria-expanded", "false");
+      }
+
+      function toggleStatsAppByMonthFilterPanel() {
+        var panel =
+          statsAppByMonthFilterPanel || document.getElementById("statsAppByMonthFilterPanel");
+        var btn = statsAppByMonthFilterBtn || document.getElementById("statsAppByMonthFilterBtn");
+        if (!panel || !btn) return;
+        var open = panel.hidden;
+        if (open) {
+          populateStatsAppByMonthFilter(statsAppByMonthLastEnv || "ALL");
+        }
+        panel.hidden = !open;
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+
+      if (statsAppByMonthFilterBtn) {
+        statsAppByMonthFilterBtn.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleStatsAppByMonthFilterPanel();
+        });
+      }
+      if (statsAppByMonthViewToggle) {
+        syncStatsAppByMonthViewToggle();
+        statsAppByMonthViewToggle.addEventListener("click", function (e) {
+          var btn = e.target && e.target.closest ? e.target.closest(".stats-view-toggle-btn") : null;
+          if (!btn) return;
+          var mode = btn.getAttribute("data-view-mode");
+          if (!mode || mode === statsAppByMonthViewMode) return;
+          setStatsAppByMonthViewMode(mode);
+        });
+      }
+      if (statsAppByMonthFilterPanel) {
+        statsAppByMonthFilterPanel.addEventListener("click", function (e) {
+          e.stopPropagation();
+        });
+      }
+      if (statsAppByMonthFilterList) {
+        statsAppByMonthFilterList.addEventListener("change", function (e) {
+          if (!e.target || e.target.type !== "checkbox") return;
+          refreshStatsAppByMonthChartOnly();
+        });
+      }
+      if (statsAppByMonthSelectAllBtn) {
+        statsAppByMonthSelectAllBtn.addEventListener("click", function () {
+          setStatsAppByMonthCheckboxes(
+            Array.prototype.map.call(
+              statsAppByMonthFilterList
+                ? statsAppByMonthFilterList.querySelectorAll('input[type="checkbox"]')
+                : [],
+              function (cb) {
+                return cb.value;
+              }
+            ),
+            false
+          );
+          refreshStatsAppByMonthChartOnly();
+        });
+      }
+      if (statsAppByMonthClearBtn) {
+        statsAppByMonthClearBtn.addEventListener("click", function () {
+          setStatsAppByMonthCheckboxes([], false);
+          refreshStatsAppByMonthChartOnly();
+        });
+      }
+      document.addEventListener("click", function () {
+        closeStatsAppByMonthFilterPanel();
+      });
+
+      function refreshStatsPanel() {
+        populateStatsMonthFilter();
+        populateStatsDeploymentSelect();
+        renderStats();
+      }
+
+      if (statsFilterMonth) {
+        statsFilterMonth.addEventListener("change", function () {
+          populateStatsDeploymentSelect();
+          renderStats();
+        });
+      }
+      if (statsDeploymentSelect) {
+        statsDeploymentSelect.addEventListener("change", function () {
+          renderStats();
+        });
       }
 
       function getWeekRange(dateStr) {
@@ -13825,6 +15814,8 @@
           var prodRfcCount = prodRfcItems.length;
           var prodHfCount = hfItems.length;
           var defectsCount = defectItems.length;
+          /* Live URL: hide months with no trend activity (e.g. empty Dec-25) */
+          if (!pptCount && !prodRfcCount && !prodHfCount && !defectsCount) return;
           
           window.monthlyTrendDetailData[monthKey] = {
             label: m.label,
@@ -13854,9 +15845,19 @@
         });
         animateTrendTableRows(monthlyTrendBody);
         
+        if (!window.monthlyTrendData.length) {
+          monthlyTrendBody.innerHTML = "";
+          monthlyTrendContent.hidden = true;
+          monthlyTrendEmpty.hidden = false;
+          var weeklyStatusWrapEmpty = document.getElementById("weeklyDeploymentStatusWrap");
+          if (weeklyStatusWrapEmpty) weeklyStatusWrapEmpty.hidden = true;
+          return;
+        }
+        
+        var activeMonthKeys = window.monthlyTrendData.map(function (m) { return m.key; });
         renderMonthlyTrendChart(window.monthlyTrendData);
         renderMonthlyTrendAreaChart(window.monthlyTrendData);
-        renderWeeklyDeploymentStatus(monthKeys);
+        renderWeeklyDeploymentStatus(activeMonthKeys);
       }
       
       var weeklyDeploymentStatusData = [];
@@ -14061,8 +16062,13 @@
         
         var labels = data.map(function (m) { return m.label; });
         var theme = getTrendChartThemeColors();
-        var gridColor = theme.gridColor;
-        var textColor = theme.textColor;
+        var textColor = theme.isDark ? theme.textColor : "#334155";
+        var gridColor = theme.isDark ? theme.gridColor : "rgba(0,0,0,0.08)";
+        /* Live light: PPT blue, Prod red, HF charcoal, Defects amber; dark: HF white */
+        var hfColor = theme.isDark ? "#ffffff" : "#4b5563";
+        var hfPointBorder = theme.isDark ? "#cbd5e1" : "#ffffff";
+        var labelColor = theme.isDark ? "#ffffff" : "#111827";
+        var defectsColor = theme.isDark ? "#f97316" : "#f59e0b";
         applyTrendChartDefaults(textColor);
         
         monthlyTrendChartInstance = new Chart(canvas, {
@@ -14072,51 +16078,70 @@
             datasets: [
               {
                 label: "PPT Release",
-                data: data.map(function (m) { return m.pptRelease; }),
+                data: data.map(function (m) { return Number(m.pptRelease) || 0; }),
                 borderColor: "#3b82f6",
                 backgroundColor: "#3b82f6",
-                tension: 0.3,
+                tension: 0.4,
+                cubicInterpolationMode: "monotone",
                 pointRadius: 5,
                 pointHoverRadius: 7,
-                borderWidth: 2
+                pointBackgroundColor: "#3b82f6",
+                pointBorderColor: "#ffffff",
+                pointBorderWidth: 2,
+                borderWidth: 2.5
               },
               {
                 label: "Prod RFC",
-                data: data.map(function (m) { return m.prodRfc; }),
+                data: data.map(function (m) { return Number(m.prodRfc) || 0; }),
                 borderColor: "#ef4444",
                 backgroundColor: "#ef4444",
-                tension: 0.3,
+                tension: 0.4,
+                cubicInterpolationMode: "monotone",
                 pointRadius: 5,
                 pointHoverRadius: 7,
-                borderWidth: 2
+                pointBackgroundColor: "#ef4444",
+                pointBorderColor: "#ffffff",
+                pointBorderWidth: 2,
+                borderWidth: 2.5
               },
               {
                 label: "HF Deployed",
-                data: data.map(function (m) { return m.hfDeployed; }),
-                borderColor: theme.mutedLine,
-                backgroundColor: theme.mutedLine,
-                tension: 0.3,
+                data: data.map(function (m) { return Number(m.hfDeployed) || 0; }),
+                borderColor: hfColor,
+                backgroundColor: hfColor,
+                tension: 0.4,
+                cubicInterpolationMode: "monotone",
                 pointRadius: 5,
                 pointHoverRadius: 7,
-                borderWidth: 2
+                pointBackgroundColor: hfColor,
+                pointBorderColor: hfPointBorder,
+                pointBorderWidth: 2,
+                borderWidth: 2.5
               },
               {
                 label: "Defects Deployed",
-                data: data.map(function (m) { return m.defectsDeployed; }),
-                borderColor: "#f59e0b",
-                backgroundColor: "#f59e0b",
-                tension: 0.3,
+                data: data.map(function (m) { return Number(m.defectsDeployed) || 0; }),
+                borderColor: defectsColor,
+                backgroundColor: defectsColor,
+                tension: 0.4,
+                cubicInterpolationMode: "monotone",
                 pointRadius: 5,
                 pointHoverRadius: 7,
-                borderWidth: 2
+                pointBackgroundColor: defectsColor,
+                pointBorderColor: "#ffffff",
+                pointBorderWidth: 2,
+                borderWidth: 2.5
               }
             ]
           },
-          plugins: [ChartDataLabels],
+          plugins: typeof ChartDataLabels !== "undefined" ? [ChartDataLabels] : [],
           options: {
             responsive: true,
             maintainAspectRatio: false,
             color: textColor,
+            layout: {
+              padding: { top: 12, right: 4, bottom: 0, left: 0 }
+            },
             animation: trendChartAnimationOptions(),
             transitions: trendChartTransitionOptions(),
             interaction: {
@@ -14126,22 +16151,41 @@
             plugins: {
               legend: {
                 position: "top",
-                labels: { 
-                  color: textColor, 
-                  font: { size: 11 },
+                align: "center",
+                labels: {
+                  color: textColor,
+                  font: { size: 11, weight: "500" },
+                  /* Live: short color lines */
                   usePointStyle: true,
-                  pointStyle: "line"
+                  pointStyle: "line",
+                  boxWidth: 28,
+                  boxHeight: 6,
+                  padding: 14,
+                  generateLabels: function (chart) {
+                    var datasets = chart.data.datasets || [];
+                    return datasets.map(function (ds, i) {
+                      var color = ds.borderColor || ds.backgroundColor || textColor;
+                      return {
+                        text: ds.label || "",
+                        fillStyle: color,
+                        strokeStyle: color,
+                        fontColor: textColor,
+                        lineWidth: 3,
+                        hidden: !chart.isDatasetVisible(i),
+                        datasetIndex: i,
+                        pointStyle: "line"
+                      };
+                    });
+                  }
                 }
               },
               datalabels: {
-                color: function () { return textColor; },
-                font: {
-                  size: 10,
-                  weight: "bold"
-                },
+                color: labelColor,
+                font: { size: 10, weight: "700" },
                 anchor: "end",
                 align: "top",
-                offset: 2,
+                offset: 3,
+                clamp: true,
                 formatter: function (value) {
                   return value > 0 ? value : "";
                 }
@@ -14149,9 +16193,9 @@
             },
             scales: {
               x: {
-                grid: { color: gridColor },
-                ticks: { 
-                  color: textColor, 
+                grid: { color: gridColor, drawBorder: false, drawOnChartArea: true },
+                ticks: {
+                  color: textColor,
                   font: { size: 10 },
                   maxRotation: 45,
                   minRotation: 45
@@ -14159,11 +16203,13 @@
               },
               y: {
                 beginAtZero: true,
-                grid: { color: gridColor },
-                ticks: { 
-                  color: textColor, 
+                suggestedMax: 40,
+                grid: { color: gridColor, drawBorder: false },
+                ticks: {
+                  color: textColor,
                   font: { size: 11 },
-                  stepSize: 10
+                  stepSize: 10,
+                  precision: 0
                 }
               }
             }
@@ -14185,8 +16231,25 @@
         
         if (!data || !data.length) return;
         
-        var labels = data.map(function (m) { return m.label.toUpperCase(); });
-        
+        var labels = data.map(function (m) {
+          return String(m.label || "").toUpperCase();
+        });
+        var stackMax = 0;
+        data.forEach(function (m) {
+          var sum =
+            (Number(m.defectsDeployed) || 0) +
+            (Number(m.hfDeployed) || 0) +
+            (Number(m.prodRfc) || 0) +
+            (Number(m.pptRelease) || 0);
+          if (sum > stackMax) stackMax = sum;
+        });
+        var yMax = Math.max(100, Math.ceil((stackMax + 5) / 10) * 10);
+        /* Always dark labels/grid — independent of page theme */
+        var textColor = "#ffffff";
+        var gridColor = "rgba(255,255,255,0.18)";
+        applyTrendChartDefaults(textColor);
+
+        /* Stack bottom→top: Defects orange, HF gold, Prod grey, PPT blue */
         monthlyTrendAreaChartInstance = new Chart(canvas, {
           type: "line",
           data: {
@@ -14194,50 +16257,61 @@
             datasets: [
               {
                 label: "Defects Deployed",
-                data: data.map(function (m) { return m.defectsDeployed; }),
+                data: data.map(function (m) { return Number(m.defectsDeployed) || 0; }),
                 borderColor: "#ea580c",
                 backgroundColor: "#ea580c",
-                fill: "origin",
-                tension: 0.4,
+                fill: true,
+                tension: 0.45,
+                cubicInterpolationMode: "monotone",
                 pointRadius: 0,
+                pointHoverRadius: 4,
                 borderWidth: 0
               },
               {
                 label: "HF Deployed",
-                data: data.map(function (m) { return m.hfDeployed; }),
+                data: data.map(function (m) { return Number(m.hfDeployed) || 0; }),
                 borderColor: "#ca8a04",
                 backgroundColor: "#ca8a04",
-                fill: "origin",
-                tension: 0.4,
+                fill: true,
+                tension: 0.45,
+                cubicInterpolationMode: "monotone",
                 pointRadius: 0,
+                pointHoverRadius: 4,
                 borderWidth: 0
               },
               {
                 label: "Prod RFC",
-                data: data.map(function (m) { return m.prodRfc; }),
-                borderColor: "#6b7280",
-                backgroundColor: "#6b7280",
-                fill: "origin",
-                tension: 0.4,
+                data: data.map(function (m) { return Number(m.prodRfc) || 0; }),
+                borderColor: "#9ca3af",
+                backgroundColor: "#9ca3af",
+                fill: true,
+                tension: 0.45,
+                cubicInterpolationMode: "monotone",
                 pointRadius: 0,
+                pointHoverRadius: 4,
                 borderWidth: 0
               },
               {
                 label: "PPT Release",
-                data: data.map(function (m) { return m.pptRelease; }),
+                data: data.map(function (m) { return Number(m.pptRelease) || 0; }),
                 borderColor: "#2563eb",
                 backgroundColor: "#2563eb",
-                fill: "origin",
-                tension: 0.4,
+                fill: true,
+                tension: 0.45,
+                cubicInterpolationMode: "monotone",
                 pointRadius: 0,
+                pointHoverRadius: 4,
                 borderWidth: 0
               }
             ]
           },
-          plugins: [ChartDataLabels],
+          plugins: typeof ChartDataLabels !== "undefined" ? [ChartDataLabels] : [],
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            layout: {
+              padding: { top: 4, right: 8, bottom: 0, left: 4 }
+            },
             animation: trendChartAnimationOptions(),
             transitions: trendChartTransitionOptions(),
             interaction: {
@@ -14247,50 +16321,69 @@
             plugins: {
               legend: {
                 position: "top",
-                labels: { 
-                  color: "#ffffff", 
-                  font: { size: 11 },
+                align: "center",
+                labels: {
+                  color: textColor,
+                  font: { size: 11, weight: "500" },
                   usePointStyle: true,
                   pointStyle: "rect",
                   boxWidth: 12,
-                  padding: 15
+                  boxHeight: 12,
+                  padding: 14
                 }
               },
               datalabels: {
-                color: "#ffeb3b",
-                font: {
-                  size: 11,
-                  weight: "bold"
-                },
+                color: "#ffffff",
+                font: { size: 12, weight: "700" },
                 anchor: "center",
                 align: "center",
+                clamp: true,
+                display: function (ctx) {
+                  var v = ctx.dataset.data[ctx.dataIndex];
+                  return Number(v) > 0;
+                },
                 formatter: function (value) {
-                  return value > 0 ? value : "";
+                  return value;
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (ctx) {
+                    var label = ctx.dataset.label || "";
+                    var value =
+                      ctx.parsed && typeof ctx.parsed.y === "number"
+                        ? ctx.parsed.y
+                        : ctx.raw;
+                    return " " + label + ": " + value;
+                  }
                 }
               }
             },
             scales: {
               x: {
                 stacked: true,
-                grid: { 
-                  display: false
+                grid: { display: false },
+                ticks: {
+                  color: textColor,
+                  font: { size: 11, weight: "600" }
                 },
-                ticks: { 
-                  color: "#ffffff", 
-                  font: { size: 11, weight: "bold" }
-                }
+                border: { display: false }
               },
               y: {
                 stacked: true,
                 beginAtZero: true,
-                grid: { 
-                  color: "rgba(255,255,255,0.1)"
+                max: yMax,
+                grid: {
+                  color: gridColor,
+                  drawBorder: false
                 },
-                ticks: { 
-                  color: "#ffffff", 
+                ticks: {
+                  color: textColor,
                   font: { size: 11 },
-                  stepSize: 10
-                }
+                  stepSize: 10,
+                  precision: 0
+                },
+                border: { display: false }
               }
             }
           }
@@ -14555,6 +16648,15 @@
             if (weeks && weeks.length) renderWeeklyTrendChart(weeks);
           } catch (eRefreshCharts) {}
         }
+        if (
+          statsScreen &&
+          !statsScreen.hasAttribute("hidden") &&
+          typeof renderStats === "function"
+        ) {
+          try {
+            renderStats();
+          } catch (eStatsTheme) {}
+        }
       };
 
       function escapeHtml(s) {
@@ -14756,6 +16858,9 @@
       if (savedFilterProd) {
         savedFilterProd.addEventListener("change", function() { renderSavedList(); });
       }
+      if (savedFilterDeploymentType) {
+        savedFilterDeploymentType.addEventListener("change", function () { renderSavedList(); });
+      }
       appFilters.forEach(wireAppFilterEvents);
       if (savedFilterParked) {
         savedFilterParked.addEventListener("change", function() { renderSavedList(); });
@@ -14769,6 +16874,12 @@
       }
       if (archiveFilterMonth) {
         archiveFilterMonth.addEventListener("change", function () {
+          archiveCurrentPage = 1;
+          renderArchiveList();
+        });
+      }
+      if (archiveFilterDeploymentType) {
+        archiveFilterDeploymentType.addEventListener("change", function () {
           archiveCurrentPage = 1;
           renderArchiveList();
         });
@@ -14812,6 +16923,12 @@
       })();
       if (summaryFilterMonth) {
         summaryFilterMonth.addEventListener("change", function () {
+          summaryCurrentPage = 1;
+          renderSummaryList();
+        });
+      }
+      if (summaryFilterDeploymentType) {
+        summaryFilterDeploymentType.addEventListener("change", function () {
           summaryCurrentPage = 1;
           renderSummaryList();
         });
@@ -16261,13 +18378,15 @@
         });
         var selectedMonth = summaryFilterMonth ? summaryFilterMonth.value : "";
         var summaryAppTokens = getAppFilterSelectedTokens(summaryAppFilter);
+        var summaryDeployType = summaryFilterDeploymentType ? summaryFilterDeploymentType.value : "";
         var list = archived.filter(function (e) {
           if (!entryMatchesApplicationFilter(e, summaryAppTokens)) return false;
+          if (!entryMatchesDeploymentTypeFilter(e, summaryDeployType)) return false;
           return true;
         });
         list = filterByMonth(list, selectedMonth);
         if (!list.length) {
-          if (archived.length && (selectedMonth || summaryAppTokens.length)) {
+          if (archived.length && (selectedMonth || summaryAppTokens.length || summaryDeployType)) {
             showInfoModal("No entries match the current summary filters.");
           } else if (allSaved.length) {
             showInfoModal("No summary entries to export. Summary includes only archived (fully deployed) entries.");
